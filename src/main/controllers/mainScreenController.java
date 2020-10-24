@@ -200,6 +200,7 @@ public class mainScreenController
      */
 
     String resPath = "D:/UWE/Year_3/DSP/FinalProject/SchoolManagement/src/";
+
     @FXML
     protected void haarSelected(Event event)
     {
@@ -221,7 +222,7 @@ public class mainScreenController
         if (this.haarClassifier.isSelected())
             this.haarClassifier.setSelected(false);
 
-        this.checkboxSelection("D:/UWE/Year_3/DSP/FinalProject/SchoolManagement/src/resources/lbpcascades/lbpcascade_frontalface.xml");
+        this.checkboxSelection(resPath+"resources/lbpcascades/lbpcascade_frontalface.xml");
     }
 
     /**
