@@ -1,10 +1,14 @@
 package main.controllers;
 
+import java.net.URL;
+import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import main.Utils.Utils;
+import javafx.event.ActionEvent;
+import javafx.fxml.Initializable;
+import main.utils.Utils;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfRect;
 import org.opencv.core.Rect;
@@ -22,13 +26,21 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class mainScreenController
+public class MainScreenController implements Initializable
 {
     @FXML
     private Button btnCam;
 
     @FXML
     private ImageView currentFrame;
+
+    @FXML
+    private Button btnImg;
+
+    @FXML
+    void detectImage(ActionEvent event) {
+
+    }
 
     @FXML
     private CheckBox haarClassifier;
@@ -288,4 +300,9 @@ public class mainScreenController
         this.stopAcquisition();
     }
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        // init the controller
+        init();
+    }
 }
