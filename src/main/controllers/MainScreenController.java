@@ -29,16 +29,24 @@ import javafx.scene.image.ImageView;
 public class MainScreenController implements Initializable
 {
     @FXML
-    private Button btnCam;
-
-    @FXML
     private ImageView currentFrame;
 
     @FXML
-    private Button btnImg;
+    private Button btnStart;
 
     @FXML
-    void detectImage(ActionEvent event) {
+    private Button btnShot;
+
+    @FXML
+    private Button btnInsert;
+
+    @FXML
+    void takeShot(ActionEvent event) {
+
+    }
+
+    @FXML
+    void insertImage(ActionEvent event) {
 
     }
 
@@ -67,10 +75,7 @@ public class MainScreenController implements Initializable
         this.faceCascade = new CascadeClassifier();
         this.absoluteFaceSize = 0;
 
-        // set a fixed width for the frame
-        currentFrame.setFitWidth(600);
-        // preserve image ratio
-        currentFrame.setPreserveRatio(true);
+
     }
 
     /**
@@ -79,12 +84,18 @@ public class MainScreenController implements Initializable
     @FXML
     protected void startCamera()
     {
+        // set a fixed width for the frame
+        currentFrame.setFitWidth(600);
+        // preserve image ratio
+        currentFrame.setPreserveRatio(true);
+
+
         if (!this.cameraActive)
         {
             // disable setting checkboxes
             this.haarClassifier.setDisable(true);
             this.lbpClassifier.setDisable(true);
-
+            this.btnInsert.setDisable(true);
             // start the video capture
             this.capture.open(0);
 
@@ -111,7 +122,7 @@ public class MainScreenController implements Initializable
                 this.timer.scheduleAtFixedRate(frameGrabber, 0, 33, TimeUnit.MILLISECONDS);
 
                 // update the button content
-                this.btnCam.setText("Stop Camera");
+                this.btnStart.setText("Stop Camera");
             }
             else
             {
@@ -124,11 +135,11 @@ public class MainScreenController implements Initializable
             // the camera is not active at this point
             this.cameraActive = false;
             // update again the button content
-            this.btnCam.setText("Start Camera");
+            this.btnStart.setText("Start Camera");
             // enable classifiers checkboxes
             this.haarClassifier.setDisable(false);
             this.lbpClassifier.setDisable(false);
-
+            this.btnInsert.setDisable(false);
             // stop the timer
             this.stopAcquisition();
         }
@@ -249,7 +260,7 @@ public class MainScreenController implements Initializable
         this.faceCascade.load(classifierPath);
 
         // now the video capture can start
-        this.btnCam.setDisable(false);
+        this.btnStart.setDisable(false);
     }
 
     /**
