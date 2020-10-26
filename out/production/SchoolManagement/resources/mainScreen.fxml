@@ -32,7 +32,7 @@
             <HBox alignment="CENTER" prefHeight="50.0" spacing="50.0">
                <children>
                   <Button fx:id="btnStart" disable="true" mnemonicParsing="false" onAction="#startCamera" text="Start Camera" />
-                  <Button fx:id="btnShot" contentDisplay="CENTER" graphicTextGap="0.0" mnemonicParsing="false" onAction="#takeShot" text="Shot" />
+                  <Button fx:id="btnShot" contentDisplay="CENTER" disable="true" graphicTextGap="0.0" mnemonicParsing="false" onAction="#takeShot" text="Shot" />
                   <Button fx:id="btnInsert" contentDisplay="CENTER" mnemonicParsing="false" onAction="#insertImage" text="Insert Image" />
                </children>
             </HBox>

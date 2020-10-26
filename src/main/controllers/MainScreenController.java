@@ -1,5 +1,7 @@
 package main.controllers;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
@@ -7,13 +9,18 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import main.utils.Utils;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfRect;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
+import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
 import org.opencv.objdetect.Objdetect;
@@ -25,6 +32,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
+import javax.imageio.ImageIO;
 
 public class MainScreenController implements Initializable
 {
@@ -39,16 +48,6 @@ public class MainScreenController implements Initializable
 
     @FXML
     private Button btnInsert;
-
-    @FXML
-    void takeShot(ActionEvent event) {
-
-    }
-
-    @FXML
-    void insertImage(ActionEvent event) {
-
-    }
 
     @FXML
     private CheckBox haarClassifier;
@@ -78,6 +77,36 @@ public class MainScreenController implements Initializable
 
     }
 
+    @FXML
+    void takeShot(ActionEvent event) throws IOException {
+        this.stopAcquisition();
+        // update the button content
+        this.btnStart.setDisable(false);
+        this.btnStart.setText("Continue");
+
+        Parent Root = FXMLLoader.load(getClass().getResource("/resources/CapturedScreen.fxml"));
+        Stage Stage = new Stage();
+        Scene Scene = new Scene(Root);
+        Stage.setScene(Scene);
+        Stage.show();
+    }
+
+    public static String basePath=System.getProperty("user.dir").concat("\\src\\resources\\");
+    public static String haar=basePath+"haarcascades/haarcascade_frontalface_alt2.xml";
+    public static String inpImgFilename = basePath+"images/input/111.jpg";
+    @FXML
+    void insertImage(ActionEvent event) throws IOException {
+//        Mat frame= Imgcodecs.imread(inpImgFilename, 1);
+//        if (!frame.empty())
+//        {
+//            // face detection
+//            detectAndDisplay(frame);
+//            File outputfile = new File(opImgFilename);
+//            ImageIO.write(Utils.matToBufferedImage(frame), "jpg", outputfile);
+//            System.out.println("Done!!");
+//        }
+    }
+
     /**
      * The action triggered by pushing the button on the GUI
      */
@@ -95,6 +124,7 @@ public class MainScreenController implements Initializable
             // disable setting checkboxes
             this.haarClassifier.setDisable(true);
             this.lbpClassifier.setDisable(true);
+            this.btnShot.setDisable(false);
             this.btnInsert.setDisable(true);
             // start the video capture
             this.capture.open(0);
@@ -122,7 +152,8 @@ public class MainScreenController implements Initializable
                 this.timer.scheduleAtFixedRate(frameGrabber, 0, 33, TimeUnit.MILLISECONDS);
 
                 // update the button content
-                this.btnStart.setText("Stop Camera");
+                this.btnStart.setDisable(true);
+                this.btnStart.setText("Opening...");
             }
             else
             {
@@ -140,6 +171,7 @@ public class MainScreenController implements Initializable
             this.haarClassifier.setDisable(false);
             this.lbpClassifier.setDisable(false);
             this.btnInsert.setDisable(false);
+            this.btnShot.setDisable(true);
             // stop the timer
             this.stopAcquisition();
         }
@@ -222,7 +254,6 @@ public class MainScreenController implements Initializable
      * the trained set to be used for frontal face detection.
      */
 
-    String resPath = "D:/UWE/Year_3/DSP/FinalProject/SchoolManagement/src/";
 
     @FXML
     protected void haarSelected(Event event)
@@ -231,7 +262,7 @@ public class MainScreenController implements Initializable
         if (this.lbpClassifier.isSelected())
             this.lbpClassifier.setSelected(false);
 
-        this.checkboxSelection(resPath + "resources/haarcascades/haarcascade_frontalface_alt2.xml");
+        this.checkboxSelection(basePath + "haarcascades/haarcascade_frontalface_alt2.xml");
     }
 
     /**
@@ -245,7 +276,7 @@ public class MainScreenController implements Initializable
         if (this.haarClassifier.isSelected())
             this.haarClassifier.setSelected(false);
 
-        this.checkboxSelection(resPath+"resources/lbpcascades/lbpcascade_frontalface.xml");
+        this.checkboxSelection(basePath+ "lbpcascades/lbpcascade_frontalface.xml");
     }
 
     /**
@@ -261,6 +292,7 @@ public class MainScreenController implements Initializable
 
         // now the video capture can start
         this.btnStart.setDisable(false);
+        this.btnInsert.setDisable(true);
     }
 
     /**
@@ -315,5 +347,6 @@ public class MainScreenController implements Initializable
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // init the controller
         init();
+        System.out.println(basePath);
     }
 }
