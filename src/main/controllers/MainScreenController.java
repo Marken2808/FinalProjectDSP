@@ -8,6 +8,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,11 +17,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import main.utils.Utils;
-import org.opencv.core.Mat;
-import org.opencv.core.MatOfRect;
-import org.opencv.core.Rect;
-import org.opencv.core.Scalar;
-import org.opencv.core.Size;
+import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
@@ -34,6 +32,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 
 public class MainScreenController implements Initializable
 {
@@ -41,18 +40,19 @@ public class MainScreenController implements Initializable
     private ImageView currentFrame;
 
     @FXML
-    private Button btnStart;
+    private JFXButton btnStart;
 
     @FXML
-    private Button btnShot;
+    private JFXButton btnShot;
 
     @FXML
-    private Button btnInsert;
+    private JFXButton btnInsert;
 
     @FXML
-    private CheckBox haarClassifier;
+    private JFXCheckBox haarClassifier;
+
     @FXML
-    private CheckBox lbpClassifier;
+    private JFXCheckBox lbpClassifier;
 
     // a timer for acquiring the video stream
     private ScheduledExecutorService timer;
@@ -92,19 +92,33 @@ public class MainScreenController implements Initializable
     }
 
     public static String basePath=System.getProperty("user.dir").concat("\\src\\resources\\");
-    public static String haar=basePath+"haarcascades/haarcascade_frontalface_alt2.xml";
-    public static String inpImgFilename = basePath+"images/input/111.jpg";
+    public static String haar = basePath+"haarcascades/haarcascade_frontalface_alt.xml";
+    public static String inputImg = basePath+"images/input/";
+    public static String outputImg = basePath+"images/output/";
+
     @FXML
     void insertImage(ActionEvent event) throws IOException {
-//        Mat frame= Imgcodecs.imread(inpImgFilename, 1);
-//        if (!frame.empty())
-//        {
-//            // face detection
-//            detectAndDisplay(frame);
-//            File outputfile = new File(opImgFilename);
-//            ImageIO.write(Utils.matToBufferedImage(frame), "jpg", outputfile);
-//            System.out.println("Done!!");
-//        }
+        Mat src = Imgcodecs.imread(inputImg+"111.jpg");
+        faceCascade = new CascadeClassifier(haar);
+        MatOfRect faceDetections = new MatOfRect();
+        faceCascade.detectMultiScale(src, faceDetections);
+        System.out.println(String.format("Detected %s faces",
+                faceDetections.toArray().length));
+        for (Rect rect : faceDetections.toArray()) {
+            Imgproc.rectangle(
+                    src,                                               // where to draw the box
+                    new Point(rect.x, rect.y),                            // bottom left
+                    new Point(rect.x + rect.width, rect.y + rect.height), // top right
+                    new Scalar(0, 255, 0),
+                    3                                                     // RGB colour
+            );
+        }
+
+        // Writing the image
+        Imgcodecs.imwrite(outputImg + "111_add.jpg", src);
+
+        System.out.println("Image Processed");
+
     }
 
     /**
@@ -114,7 +128,7 @@ public class MainScreenController implements Initializable
     protected void startCamera()
     {
         // set a fixed width for the frame
-        currentFrame.setFitWidth(600);
+//        currentFrame.setFitWidth(600);
         // preserve image ratio
         currentFrame.setPreserveRatio(true);
 
