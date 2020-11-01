@@ -15,6 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import main.utils.Utils;
 import org.opencv.core.*;
@@ -93,37 +94,45 @@ public class MainScreenController implements Initializable
 
     public static String basePath=System.getProperty("user.dir").concat("\\src\\resources\\");
     public static String haar = basePath+"haarcascades/haarcascade_frontalface_alt.xml";
-    public static String inputImg = basePath+"images/input/";
-    public static String outputImg = basePath+"images/output/";
+    public static String inputSrc = basePath+"images/input/";
+    public static String outputSrc = basePath+"images/output/";
 
     @FXML
     void insertImage(ActionEvent event) throws IOException {
-        Mat src = Imgcodecs.imread(inputImg+"111.jpg");
-        faceCascade = new CascadeClassifier(haar);
-        MatOfRect faceDetections = new MatOfRect();
-        faceCascade.detectMultiScale(src, faceDetections);
-        System.out.println(String.format("Detected %s faces",
-                faceDetections.toArray().length));
-        for (Rect rect : faceDetections.toArray()) {
-            Imgproc.rectangle(
-                    src,                                               // where to draw the box
-                    new Point(rect.x, rect.y),                            // bottom left
-                    new Point(rect.x + rect.width, rect.y + rect.height), // top right
-                    new Scalar(0, 255, 0),
-                    3                                                     // RGB colour
-            );
+
+        FileChooser fileChooser = new FileChooser();
+        File selectedFile  = fileChooser.showOpenDialog(null);
+
+        if (selectedFile != null) {
+            String inputImg = inputSrc+selectedFile.getName();
+            Mat src = Imgcodecs.imread(inputImg);
+
+            this.faceCascade = new CascadeClassifier(haar);
+//            this.detectAndDisplay(src);   //only for near face
+
+            MatOfRect faceDetections = new MatOfRect();     //better with far face
+            this.faceCascade.detectMultiScale(src, faceDetections);
+            System.out.println(String.format("Detected %s faces", faceDetections.toArray().length));
+            Rect[] facesArray = faceDetections.toArray();
+            for (int i = 0; i < facesArray.length; i++) {
+                Imgproc.rectangle(src, facesArray[i].tl(), facesArray[i].br(), new Scalar(0, 255, 0), 2);
+            }
+
+            String outputImg = outputSrc + selectedFile.getName().replace(".jpg","_add.jpg");
+            Imgcodecs.imwrite( outputImg, src);
+
+            updateImageView(currentFrame, Utils.mat2Image(Imgcodecs.imread(outputImg)) );
+            System.out.println("Image Processed");
+
+
+        }
+        else {
+            System.out.println("File selection cancelled.");
         }
 
-        // Writing the image
-        Imgcodecs.imwrite(outputImg + "111_add.jpg", src);
-
-        System.out.println("Image Processed");
 
     }
 
-    /**
-     * The action triggered by pushing the button on the GUI
-     */
     @FXML
     protected void startCamera()
     {
@@ -253,13 +262,16 @@ public class MainScreenController implements Initializable
         }
 
         // detect faces
+
         this.faceCascade.detectMultiScale(grayFrame, faces, 1.1, 2, Objdetect.CASCADE_SCALE_IMAGE,
                 new Size(this.absoluteFaceSize, this.absoluteFaceSize), new Size());
 
+        //this.faceCascade.detectMultiScale(grayFrame, faces);
         // each rectangle in faces is a face: draw them!
         Rect[] facesArray = faces.toArray();
-        for (int i = 0; i < facesArray.length; i++)
-            Imgproc.rectangle(frame, facesArray[i].tl(), facesArray[i].br(), new Scalar(0, 255, 0), 3);
+        for (int i = 0; i < facesArray.length; i++) {
+            Imgproc.rectangle(frame, facesArray[i].tl(), facesArray[i].br(), new Scalar(0, 255, 0), 2);
+        }
 
     }
 
