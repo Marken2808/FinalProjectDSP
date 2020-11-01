@@ -1,8 +1,13 @@
 package main.controllers;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -15,6 +20,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.TransferMode;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import main.utils.Utils;
@@ -98,39 +105,56 @@ public class MainScreenController implements Initializable
     public static String outputSrc = basePath+"images/output/";
 
     @FXML
+    void dragImage(DragEvent event) {
+        if (event.getDragboard().hasFiles()) {
+            event.acceptTransferModes(TransferMode.ANY);
+        }
+        event.consume();
+        this.btnInsert.setText("Dragging...");
+    }
+
+    @FXML
+    void dropImage(DragEvent event) throws FileNotFoundException {
+        File selectedFile = event.getDragboard().getFiles().get(0);
+        currentFrame.setImage(new Image(new FileInputStream(selectedFile)));
+        event.consume();
+        detectImage(selectedFile);
+        this.btnInsert.setText("Insert Image");
+    }
+
+
+    void detectImage (File file){
+
+        String inputImg = inputSrc + file.getName();
+        String outputImg = outputSrc + file.getName().replace(".jpg","_add.jpg");
+
+        Mat src = Imgcodecs.imread(inputImg);
+        Image imageToShow = Utils.mat2Image(src);
+        updateImageView(currentFrame, imageToShow);
+
+        this.faceCascade = new CascadeClassifier(haar);
+        //            this.detectAndDisplay(src);   //only for near face
+
+        MatOfRect faceDetections = new MatOfRect();     //better with far face
+        this.faceCascade.detectMultiScale(src, faceDetections);
+        System.out.println(String.format("Detected %s faces", faceDetections.toArray().length));
+        Rect[] facesArray = faceDetections.toArray();
+        for (int i = 0; i < facesArray.length; i++) {
+            Imgproc.rectangle(src, facesArray[i].tl(), facesArray[i].br(), new Scalar(0, 255, 0), 2);
+        }
+
+        Imgcodecs.imwrite( outputImg, src);
+        updateImageView(currentFrame, Utils.mat2Image(Imgcodecs.imread(outputImg)) );
+        System.out.println("Image Processed");
+    }
+
+    @FXML
     void insertImage(ActionEvent event) throws IOException {
-
+        this.btnInsert.setText("Inserting...");
         FileChooser fileChooser = new FileChooser();
-        File selectedFile  = fileChooser.showOpenDialog(null);
-
-        if (selectedFile != null) {
-            String inputImg = inputSrc+selectedFile.getName();
-            Mat src = Imgcodecs.imread(inputImg);
-
-            this.faceCascade = new CascadeClassifier(haar);
-//            this.detectAndDisplay(src);   //only for near face
-
-            MatOfRect faceDetections = new MatOfRect();     //better with far face
-            this.faceCascade.detectMultiScale(src, faceDetections);
-            System.out.println(String.format("Detected %s faces", faceDetections.toArray().length));
-            Rect[] facesArray = faceDetections.toArray();
-            for (int i = 0; i < facesArray.length; i++) {
-                Imgproc.rectangle(src, facesArray[i].tl(), facesArray[i].br(), new Scalar(0, 255, 0), 2);
-            }
-
-            String outputImg = outputSrc + selectedFile.getName().replace(".jpg","_add.jpg");
-            Imgcodecs.imwrite( outputImg, src);
-
-            updateImageView(currentFrame, Utils.mat2Image(Imgcodecs.imread(outputImg)) );
-            System.out.println("Image Processed");
-
-
-        }
-        else {
-            System.out.println("File selection cancelled.");
-        }
-
-
+        File selectedFile = fileChooser.showOpenDialog(null);
+        detectImage(selectedFile);
+        this.btnInsert.setText("Insert Image");
     }
 
     @FXML
