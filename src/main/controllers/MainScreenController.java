@@ -26,6 +26,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import main.utils.Utils;
 import org.opencv.core.*;
+import org.opencv.highgui.HighGui;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
@@ -71,6 +72,13 @@ public class MainScreenController implements Initializable
 
     // face cascade classifier
     private CascadeClassifier faceCascade;
+
+    // eyes cascade classifier
+    private CascadeClassifier eyesCascade;
+
+    //mouth
+    private CascadeClassifier mouthCascade;
+
     private int absoluteFaceSize;
 
     /**
@@ -80,6 +88,8 @@ public class MainScreenController implements Initializable
     {
         this.capture = new VideoCapture();
         this.faceCascade = new CascadeClassifier();
+        this.eyesCascade = new CascadeClassifier();
+        this.mouthCascade = new CascadeClassifier();
         this.absoluteFaceSize = 0;
 
 
@@ -100,9 +110,11 @@ public class MainScreenController implements Initializable
     }
 
     public static String basePath=System.getProperty("user.dir").concat("\\src\\resources\\");
-    public static String haar = basePath+"haarcascades/haarcascade_frontalface_alt.xml";
     public static String inputSrc = basePath+"images/input/";
     public static String outputSrc = basePath+"images/output/";
+    public static String haarFace = basePath+"haarcascades/haarcascade_frontalface_alt2.xml";
+    public static String haarMouth = basePath+"haarcascades/haarcascade_mcs_mouth.xml";
+    public static String haarEyes = basePath+"haarcascades/haarcascade_eye_tree_eyeglasses.xml";
 
     @FXML
     void dragImage(DragEvent event) {
@@ -131,21 +143,15 @@ public class MainScreenController implements Initializable
         Mat src = Imgcodecs.imread(inputImg);
         Image imageToShow = Utils.mat2Image(src);
         updateImageView(currentFrame, imageToShow);
+        this.faceCascade = new CascadeClassifier(haarFace);
+        this.eyesCascade = new CascadeClassifier(haarEyes);
+        this.mouthCascade = new CascadeClassifier(haarMouth);
 
-        this.faceCascade = new CascadeClassifier(haar);
-        //            this.detectAndDisplay(src);   //only for near face
-
-        MatOfRect faceDetections = new MatOfRect();     //better with far face
-        this.faceCascade.detectMultiScale(src, faceDetections);
-        System.out.println(String.format("Detected %s faces", faceDetections.toArray().length));
-        Rect[] facesArray = faceDetections.toArray();
-        for (int i = 0; i < facesArray.length; i++) {
-            Imgproc.rectangle(src, facesArray[i].tl(), facesArray[i].br(), new Scalar(0, 255, 0), 2);
-        }
+        this.detectAndDisplay(src);
 
         Imgcodecs.imwrite( outputImg, src);
         updateImageView(currentFrame, Utils.mat2Image(Imgcodecs.imread(outputImg)) );
-        System.out.println("Image Processed");
+//        System.out.println("Image Processed");
     }
 
     @FXML
@@ -284,18 +290,63 @@ public class MainScreenController implements Initializable
                 this.absoluteFaceSize = Math.round(height * 0.2f);
             }
         }
+        //detect eyes
 
         // detect faces
-
-        this.faceCascade.detectMultiScale(grayFrame, faces, 1.1, 2, Objdetect.CASCADE_SCALE_IMAGE,
+        this.faceCascade.detectMultiScale(grayFrame, faces, 1.3, 3, Objdetect.CASCADE_SCALE_IMAGE,
                 new Size(this.absoluteFaceSize, this.absoluteFaceSize), new Size());
 
         //this.faceCascade.detectMultiScale(grayFrame, faces);
         // each rectangle in faces is a face: draw them!
-        Rect[] facesArray = faces.toArray();
-        for (int i = 0; i < facesArray.length; i++) {
-            Imgproc.rectangle(frame, facesArray[i].tl(), facesArray[i].br(), new Scalar(0, 255, 0), 2);
+
+        List<Rect> listOfFaces = faces.toList();
+        for (Rect face : listOfFaces) {
+            //Point center = new Point(face.x + face.width / 2, face.y + face.height / 2);
+            Imgproc.rectangle(frame, face.tl(), face.br(), new Scalar(0, 255, 0), 2);
+            Mat faceROI = grayFrame.submat(face);
+            // -- In each face, detect eyes
+            MatOfRect eyes = new MatOfRect();
+            this.eyesCascade.detectMultiScale(faceROI, eyes);
+            List<Rect> listOfEyes = eyes.toList();
+            for (Rect eye : listOfEyes) {
+                Point eyeCenter = new Point(face.x + eye.x + eye.width / 2, face.y + eye.y + eye.height / 2);
+                int radius = (int) Math.round((eye.width + eye.height) * 0.25);
+                Imgproc.circle(frame, eyeCenter, radius, new Scalar(255, 0, 0), 2);
+            }
+            // mouth
+            MatOfRect mouthes = new MatOfRect();
+            this.mouthCascade.detectMultiScale(faceROI, mouthes);
+            List<Rect> listOfMouth = mouthes.toList();
+            for (Rect mouth : listOfMouth) {
+                Point mouthCenter = new Point(face.x + mouth.x + mouth.width/2, face.y + mouth.y + mouth.height/2);
+                int radius = (int) Math.round((mouth.width + mouth.height) * 0.2);
+                Imgproc.circle(frame, mouthCenter, radius, new Scalar(255, 0, 255), 1);
+
+//                Point pt1 = new Point(mouth.x+face.x , mouth.y+face.y);
+//                Point pt2 = new Point(pt1.x+ mouth.width, pt1.y+mouth.height);
+//                Imgproc.rectangle(frame, pt1,pt2, new Scalar(255,0, 255),1,8,0);
+            }
+
+
+
         }
+        //HighGui.imshow("Capture - Face detection", frame );
+//        Rect[] facesArray = faces.toArray();
+//        for (int i = 0; i < facesArray.length; i++) {
+//            Imgproc.rectangle(frame, facesArray[i].tl(), facesArray[i].br(), new Scalar(0, 255, 0), 2);
+//
+////            Mat faceROI = grayFrame.submat(facesArray[i]);
+////            this.eyesCascade = new CascadeClassifier(haarEyes);
+////            MatOfRect eyes = new MatOfRect();
+////            eyesCascade.detectMultiScale(faceROI,eyes);
+////
+////            List<Rect> listOfEyes = eyes.toList();
+////            for (Rect eye : listOfEyes) {
+////                Point eyeCenter = new Point(facesArray[i].x + eye.x + eye.width / 2, facesArray[i].y + eye.y + eye.height / 2);
+////                int radius = (int) Math.round((eye.width + eye.height) * 0.25);
+////                Imgproc.circle(frame, eyeCenter, radius, new Scalar(255, 0, 0), 2);
+////            }
+//        }
 
     }
 
@@ -339,6 +390,8 @@ public class MainScreenController implements Initializable
     {
         // load the classifier(s)
         this.faceCascade.load(classifierPath);
+        this.eyesCascade.load(haarEyes);
+        this.mouthCascade.load(haarMouth);
 
         // now the video capture can start
         this.btnStart.setDisable(false);
