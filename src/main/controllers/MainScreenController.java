@@ -301,8 +301,11 @@ public class MainScreenController implements Initializable
 
         List<Rect> listOfFaces = faces.toList();
         for (Rect face : listOfFaces) {
-            //Point center = new Point(face.x + face.width / 2, face.y + face.height / 2);
+            Point center = new Point(face.x + face.width / 2, face.y + face.height / 2);
             Imgproc.rectangle(frame, face.tl(), face.br(), new Scalar(0, 255, 0), 2);
+//            Imgproc.putText(frame, "label", new Point(face.x, face.y), Imgproc.FONT_HERSHEY_SIMPLEX, 1, new Scalar(0, 0, 0), 4);
+            Imgproc.putText(frame,"name", new Point(face.x-10, face.y-10) ,Imgproc.FONT_HERSHEY_SIMPLEX, 2.0, new Scalar(0, 255, 0), 2, Imgproc.FILLED, false);
+
             Mat faceROI = grayFrame.submat(face);
             // -- In each face, detect eyes
             MatOfRect eyes = new MatOfRect();
