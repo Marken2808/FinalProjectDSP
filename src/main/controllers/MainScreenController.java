@@ -26,7 +26,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import main.utils.Utils;
 import org.opencv.core.*;
-import org.opencv.highgui.HighGui;
+import org.opencv.face.Face;
+import org.opencv.face.FaceRecognizer;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
@@ -89,7 +90,7 @@ public class MainScreenController implements Initializable
         this.capture = new VideoCapture();
         this.faceCascade = new CascadeClassifier();
         this.eyesCascade = new CascadeClassifier();
-        this.mouthCascade = new CascadeClassifier();
+//        this.mouthCascade = new CascadeClassifier();
         this.absoluteFaceSize = 0;
 
 
@@ -145,7 +146,7 @@ public class MainScreenController implements Initializable
         updateImageView(currentFrame, imageToShow);
         this.faceCascade = new CascadeClassifier(haarFace);
         this.eyesCascade = new CascadeClassifier(haarEyes);
-        this.mouthCascade = new CascadeClassifier(haarMouth);
+//        this.mouthCascade = new CascadeClassifier(haarMouth);
 
         this.detectAndDisplay(src);
 
@@ -265,6 +266,23 @@ public class MainScreenController implements Initializable
         return frame;
     }
 
+    private double[] faceRecognition(Mat currentFace) {
+
+        // predict the label
+
+        int[] predLabel = new int[1];
+        double[] confidence = new double[1];
+        int result = -1;
+
+        FaceRecognizer faceRecognizer = Face.createLBPHFaceRecognizer();
+        faceRecognizer.load("traineddata");
+        faceRecognizer.predict(currentFace,predLabel,confidence);
+//        	result = faceRecognizer.predict_label(currentFace);
+        result = predLabel[0];
+
+        return new double[] {result,confidence[0]};
+    }
+
     /**
      * Method for face detection and tracking
      *
@@ -290,24 +308,40 @@ public class MainScreenController implements Initializable
                 this.absoluteFaceSize = Math.round(height * 0.2f);
             }
         }
-        //detect eyes
-
         // detect faces
-        this.faceCascade.detectMultiScale(grayFrame, faces, 1.3, 3, Objdetect.CASCADE_SCALE_IMAGE,
+        this.faceCascade.detectMultiScale(grayFrame, faces, 1.3, 2, 0 | Objdetect.CASCADE_SCALE_IMAGE,
                 new Size(this.absoluteFaceSize, this.absoluteFaceSize), new Size());
 
-        //this.faceCascade.detectMultiScale(grayFrame, faces);
-        // each rectangle in faces is a face: draw them!
+//        Mat binary = frame.clone();
+//        List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
+//        Mat hierarchey = new Mat();
+//        Imgproc.findContours(frame, contours, hierarchey, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
+//        //Drawing the Contours
+//        Scalar color = new Scalar(0, 0, 255);
+//        Imgproc.drawContours(binary, contours, -1, color, 2) ;
 
-        List<Rect> listOfFaces = faces.toList();
-        for (Rect face : listOfFaces) {
-            Point center = new Point(face.x + face.width / 2, face.y + face.height / 2);
+//        List<Rect> listOfFaces = faces.toList();
+
+        Rect[] facesArray = faces.toArray();
+        for (Rect face : facesArray) {
+//            Point center = new Point(face.x + face.width / 2, face.y + face.height / 2);
             Imgproc.rectangle(frame, face.tl(), face.br(), new Scalar(0, 255, 0), 2);
-//            Imgproc.putText(frame, "label", new Point(face.x, face.y), Imgproc.FONT_HERSHEY_SIMPLEX, 1, new Scalar(0, 0, 0), 4);
-            Imgproc.putText(frame,"name", new Point(face.x-10, face.y-10) ,Imgproc.FONT_HERSHEY_SIMPLEX, 2.0, new Scalar(0, 255, 0), 2, Imgproc.FILLED, false);
-
+            Imgproc.putText(frame,"name", new Point(face.x-10, face.y-10) ,Core.FONT_HERSHEY_PLAIN, 1.5, new Scalar(0, 255, 0, 2.0), 2);
             Mat faceROI = grayFrame.submat(face);
-            // -- In each face, detect eyes
+
+            // Crop the detected faces
+            Rect rectCrop = new Rect(face.tl(), face.br());
+            Mat croppedImage = new Mat(frame, rectCrop);
+            // Change to gray scale
+            Imgproc.cvtColor(croppedImage, croppedImage, Imgproc.COLOR_BGR2GRAY);
+            // Equalize histogram
+            Imgproc.equalizeHist(croppedImage, croppedImage);
+            // Resize the image to a default size
+            Mat resizeImage = new Mat();
+            Size size = new Size(250,250);
+            Imgproc.resize(croppedImage, resizeImage, size);
+
+            // ------In each face, detect eyes--------------------
             MatOfRect eyes = new MatOfRect();
             this.eyesCascade.detectMultiScale(faceROI, eyes);
             List<Rect> listOfEyes = eyes.toList();
@@ -316,40 +350,22 @@ public class MainScreenController implements Initializable
                 int radius = (int) Math.round((eye.width + eye.height) * 0.25);
                 Imgproc.circle(frame, eyeCenter, radius, new Scalar(255, 0, 0), 2);
             }
+            //----------------------------------------------------
             // mouth
-            MatOfRect mouthes = new MatOfRect();
-            this.mouthCascade.detectMultiScale(faceROI, mouthes);
-            List<Rect> listOfMouth = mouthes.toList();
-            for (Rect mouth : listOfMouth) {
-                Point mouthCenter = new Point(face.x + mouth.x + mouth.width/2, face.y + mouth.y + mouth.height/2);
-                int radius = (int) Math.round((mouth.width + mouth.height) * 0.2);
-                Imgproc.circle(frame, mouthCenter, radius, new Scalar(255, 0, 255), 1);
-
-//                Point pt1 = new Point(mouth.x+face.x , mouth.y+face.y);
-//                Point pt2 = new Point(pt1.x+ mouth.width, pt1.y+mouth.height);
-//                Imgproc.rectangle(frame, pt1,pt2, new Scalar(255,0, 255),1,8,0);
-            }
+//            MatOfRect mouthes = new MatOfRect();
+//            this.mouthCascade.detectMultiScale(faceROI, mouthes);
+//            List<Rect> listOfMouth = mouthes.toList();
+//            for (Rect mouth : listOfMouth) {
+//                Point mouthCenter = new Point(face.x + mouth.x + mouth.width/2, face.y + mouth.y + mouth.height/2);
+//                int radius = (int) Math.round((mouth.width + mouth.height) * 0.2);
+//                Imgproc.circle(frame, mouthCenter, radius, new Scalar(255, 0, 255), 1);
+//
+//            }
 
 
 
         }
-        //HighGui.imshow("Capture - Face detection", frame );
-//        Rect[] facesArray = faces.toArray();
-//        for (int i = 0; i < facesArray.length; i++) {
-//            Imgproc.rectangle(frame, facesArray[i].tl(), facesArray[i].br(), new Scalar(0, 255, 0), 2);
-//
-////            Mat faceROI = grayFrame.submat(facesArray[i]);
-////            this.eyesCascade = new CascadeClassifier(haarEyes);
-////            MatOfRect eyes = new MatOfRect();
-////            eyesCascade.detectMultiScale(faceROI,eyes);
-////
-////            List<Rect> listOfEyes = eyes.toList();
-////            for (Rect eye : listOfEyes) {
-////                Point eyeCenter = new Point(facesArray[i].x + eye.x + eye.width / 2, facesArray[i].y + eye.y + eye.height / 2);
-////                int radius = (int) Math.round((eye.width + eye.height) * 0.25);
-////                Imgproc.circle(frame, eyeCenter, radius, new Scalar(255, 0, 0), 2);
-////            }
-//        }
+//        HighGui.imshow("Capture - Face detection", frame );
 
     }
 
@@ -394,7 +410,7 @@ public class MainScreenController implements Initializable
         // load the classifier(s)
         this.faceCascade.load(classifierPath);
         this.eyesCascade.load(haarEyes);
-        this.mouthCascade.load(haarMouth);
+//        this.mouthCascade.load(haarMouth);
 
         // now the video capture can start
         this.btnStart.setDisable(false);
