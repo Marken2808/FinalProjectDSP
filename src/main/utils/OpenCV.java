@@ -4,11 +4,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import main.controllers.MainScreenController;
 import org.opencv.core.*;
+import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
 import org.opencv.objdetect.Objdetect;
 import org.opencv.videoio.VideoCapture;
 
+import java.io.File;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -30,6 +32,15 @@ public class OpenCV {
     //   eyes cascade classifier
     public CascadeClassifier eyesCascade;
 
+    public Mat resizeImage ;
+
+    public static String basePath=System.getProperty("user.dir").concat("\\src\\resources\\");
+    public static String outputSrc = basePath+"images/output/";
+    public static String inputSrc = basePath+"images/input/";
+    public static String outputCapt = basePath+"images/dataset/";
+
+    public static String haarFace = basePath+"haarcascades/haarcascade_frontalface_alt2.xml";
+    public static String haarEyes = basePath+"haarcascades/haarcascade_eye_tree_eyeglasses.xml";
 
     public static OpenCV instance;
 
@@ -53,6 +64,8 @@ public class OpenCV {
         this.capture = new VideoCapture();
         this.faceCascade = new CascadeClassifier();
         this.eyesCascade = new CascadeClassifier();
+        this.faceCascade.load(haarFace);
+        this.eyesCascade.load(haarEyes);
         this.absoluteFaceSize = 0;
     }
 
@@ -89,6 +102,25 @@ public class OpenCV {
         }
 
         return frame;
+    }
+
+    public void detectImage (File file, ImageView currentFrame){
+
+        String inputImg = inputSrc + file.getName();
+        String outputImg = outputSrc + file.getName().replace(".jpg","_add.jpg");
+
+        Mat src = Imgcodecs.imread(inputImg);
+        Image imageToShow = Utils.mat2Image(src);
+        this.updateImageView(currentFrame, imageToShow);
+//        this.faceCascade = new CascadeClassifier(haarFace);
+//        this.eyesCascade = new CascadeClassifier(haarEyes);
+//        this.mouthCascade = new CascadeClassifier(haarMouth);
+
+        this.detectAndDisplay(src);
+
+        Imgcodecs.imwrite( outputImg, src);
+        this.updateImageView(currentFrame, Utils.mat2Image(Imgcodecs.imread(outputImg)) );
+//        System.out.println("Image Processed");
     }
 
     /**
@@ -140,13 +172,14 @@ public class OpenCV {
 
             }
 
-//            Mat croppedImage = new Mat(org_frame, face);
-//            this.resizeImage = new Mat();
-//            Imgproc.resize(croppedImage, this.resizeImage, new Size(400,400));
+            Mat croppedImage = new Mat(org_frame, face);
+            this.resizeImage = new Mat();
+            Imgproc.resize(croppedImage, this.resizeImage, new Size(400,400));
+
+            Imgcodecs.imwrite( outputCapt+"new.jpg", this.resizeImage);
+//            this.updateImageView(currentFrame, Utils.mat2Image(Imgcodecs.imread(outputImg)) );
 
 
-
-//            System.out.println("View: " + this.resizeImage);
 //            double[] returnedResults = faceRecognition(faceROI);
 
         }
@@ -154,21 +187,12 @@ public class OpenCV {
 
     }
 
-    /**
-     * Method for loading a classifier trained set from disk
-     *
-     * @param classifierPath
-     *            the path on disk where a classifier trained set is located
-     */
-    public void checkboxSelection(String classifierPath)
-    {
-        // load the classifier(s)
-        this.faceCascade.load(classifierPath);
-//        this.eyesCascade.load(haarEyes);
+    public Mat getResizeImage() {
+        return resizeImage;
+    }
 
-//        // now the video capture can start
-//        this.btnStart.setDisable(false);
-//        this.btnInsert.setDisable(true);
+    public void setResizeImage(Mat resizeImage) {
+        this.resizeImage = resizeImage;
     }
 
     /**

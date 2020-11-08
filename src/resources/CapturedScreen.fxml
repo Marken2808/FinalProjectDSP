@@ -14,10 +14,10 @@
             <ImageView fx:id="captImg" fitHeight="350.0" fitWidth="350.0" pickOnBounds="true" preserveRatio="true" />
             <HBox alignment="CENTER" prefHeight="50.0" spacing="10.0">
                <children>
-                  <JFXTextField alignment="CENTER" labelFloat="true" promptText="Enter name" />
+                  <JFXTextField fx:id="fieldName" alignment="CENTER" labelFloat="true" promptText="Enter name" />
                </children>
             </HBox>
-            <JFXButton buttonType="RAISED" text="Submit" />
+            <JFXButton fx:id="btnSubmit" buttonType="RAISED" onAction="#saveNew" text="Submit" />
          </children>
       </VBox>
    </children>

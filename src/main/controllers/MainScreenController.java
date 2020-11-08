@@ -69,7 +69,6 @@ public class MainScreenController implements Initializable
     // a flag to change the button behavior
     private boolean cameraActive;
 
-    public static Mat resizeImage ;
 
 
     private OpenCV callCV = OpenCV.getInstance();
@@ -82,15 +81,15 @@ public class MainScreenController implements Initializable
         // update the button content
         this.btnStart.setDisable(false);
         this.btnStart.setText("Continue");
-        System.out.println("SHOT: " +Utils.mat2Image(this.resizeImage));
 
-        callCV.updateImageView(currentFrame, Utils.mat2Image(this.resizeImage) );
-
+//
+//        callCV.updateImageView(currentFrame, Utils.mat2Image(this.resizeImage) );
+//
 //        CapturedScreenController toNext = new CapturedScreenController();
-//        toNext.getImg();
-//        toNext.setImg(Utils.mat2Image(this.resizeImage));
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/CapturedScreen.fxml"));
+//        toNext.setMat(callCV.getResizeImage());
 
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/CapturedScreen.fxml"));
+//        loader.setController(toNext);
         Parent Root = loader.load();
         Stage Stage = new Stage();
         Scene Scene = new Scene(Root);
@@ -98,11 +97,7 @@ public class MainScreenController implements Initializable
         Stage.show();
     }
 
-    public static String basePath=System.getProperty("user.dir").concat("\\src\\resources\\");
-    public static String inputSrc = basePath+"images/input/";
-    public static String outputSrc = basePath+"images/output/";
-    public static String haarFace = basePath+"haarcascades/haarcascade_frontalface_alt2.xml";
-    public static String haarEyes = basePath+"haarcascades/haarcascade_eye_tree_eyeglasses.xml";
+
 
     @FXML
     void dragImage(DragEvent event) {
@@ -119,29 +114,12 @@ public class MainScreenController implements Initializable
         File selectedFile = event.getDragboard().getFiles().get(0);
         currentFrame.setImage(new Image(new FileInputStream(selectedFile)));
         event.consume();
-        detectImage(selectedFile);
+        callCV.detectImage(selectedFile, currentFrame);
         this.btnInsert.setText("Insert Image");
     }
 
 
-    void detectImage (File file){
 
-        String inputImg = inputSrc + file.getName();
-        String outputImg = outputSrc + file.getName().replace(".jpg","_add.jpg");
-
-        Mat src = Imgcodecs.imread(inputImg);
-        Image imageToShow = Utils.mat2Image(src);
-        callCV.updateImageView(currentFrame, imageToShow);
-        callCV.faceCascade = new CascadeClassifier(haarFace);
-        callCV.eyesCascade = new CascadeClassifier(haarEyes);
-//        this.mouthCascade = new CascadeClassifier(haarMouth);
-
-        callCV.detectAndDisplay(src);
-
-        Imgcodecs.imwrite( outputImg, src);
-        callCV.updateImageView(currentFrame, Utils.mat2Image(Imgcodecs.imread(outputImg)) );
-//        System.out.println("Image Processed");
-    }
 
     @FXML
     void insertImage(ActionEvent event) throws IOException {
@@ -149,7 +127,7 @@ public class MainScreenController implements Initializable
         FileChooser fileChooser = new FileChooser();
         File selectedFile = fileChooser.showOpenDialog(null);
         if (selectedFile != null){
-            detectImage(selectedFile);
+            callCV.detectImage(selectedFile, currentFrame);
         }
         this.btnInsert.setText("Insert Image");
 
@@ -161,8 +139,8 @@ public class MainScreenController implements Initializable
         // set a fixed width for the frame
 //        currentFrame.setFitWidth(600);
         // preserve image ratio
-        currentFrame.fitWidthProperty().bind(anchorPane.widthProperty());
-        currentFrame.fitHeightProperty().bind(anchorPane.heightProperty());
+        currentFrame.fitWidthProperty().bind(stackPane.widthProperty());
+        currentFrame.fitHeightProperty().bind(stackPane.heightProperty());
         if (!this.cameraActive)
         {
             this.btnShot.setDisable(false);
@@ -184,6 +162,7 @@ public class MainScreenController implements Initializable
                         // convert and show the frame
                         Image imageToShow = Utils.mat2Image(frame);
                         callCV.updateImageView(currentFrame, imageToShow);
+
                     }
                 };
 
@@ -241,7 +220,6 @@ public class MainScreenController implements Initializable
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         callCV.init();
-        callCV.faceCascade.load(haarFace);
-        callCV.eyesCascade.load(haarEyes);
+
     }
 }
