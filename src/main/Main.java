@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import main.controllers.MainScreenController;
+import main.utils.OpenCV;
 import org.opencv.core.Core;
 
 public class Main extends Application {
@@ -24,11 +25,12 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
         //         set the proper behavior on closing the application
-        MainScreenController controller = loader.getController();
+//        MainScreenController controller = loader.getController();
+//        controller.init();
         primaryStage.setOnCloseRequest((new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we)
             {
-                controller.setClosed();
+                OpenCV.getInstance().setClosed();
             }
         }));
 
