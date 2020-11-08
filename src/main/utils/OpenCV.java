@@ -2,7 +2,6 @@ package main.utils;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import main.controllers.MainScreenController;
 import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
@@ -11,6 +10,7 @@ import org.opencv.objdetect.Objdetect;
 import org.opencv.videoio.VideoCapture;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -33,14 +33,16 @@ public class OpenCV {
     public CascadeClassifier eyesCascade;
 
     public Mat resizeImage ;
+    public ArrayList<Mat> listRez;
+    public ArrayList<Mat> listCrop;
+    public Mat croppedImage;
+    public String basePath=System.getProperty("user.dir").concat("\\src\\resources\\");
+    public String outputSrc = basePath+"images/output/";
+    public String inputSrc = basePath+"images/input/";
+    public String outputCapt = basePath+"images/dataset/";
 
-    public static String basePath=System.getProperty("user.dir").concat("\\src\\resources\\");
-    public static String outputSrc = basePath+"images/output/";
-    public static String inputSrc = basePath+"images/input/";
-    public static String outputCapt = basePath+"images/dataset/";
-
-    public static String haarFace = basePath+"haarcascades/haarcascade_frontalface_alt2.xml";
-    public static String haarEyes = basePath+"haarcascades/haarcascade_eye_tree_eyeglasses.xml";
+    public String haarFace = basePath+"haarcascades/haarcascade_frontalface_alt2.xml";
+    public String haarEyes = basePath+"haarcascades/haarcascade_eye_tree_eyeglasses.xml";
 
     public static OpenCV instance;
 
@@ -104,7 +106,7 @@ public class OpenCV {
         return frame;
     }
 
-    public void detectImage (File file, ImageView currentFrame){
+    public ArrayList<Mat> detectImage (File file, ImageView currentFrame){
 
         String inputImg = inputSrc + file.getName();
         String outputImg = outputSrc + file.getName().replace(".jpg","_add.jpg");
@@ -112,15 +114,16 @@ public class OpenCV {
         Mat src = Imgcodecs.imread(inputImg);
         Image imageToShow = Utils.mat2Image(src);
         this.updateImageView(currentFrame, imageToShow);
-//        this.faceCascade = new CascadeClassifier(haarFace);
-//        this.eyesCascade = new CascadeClassifier(haarEyes);
+        this.faceCascade = new CascadeClassifier(haarFace);
+        this.eyesCascade = new CascadeClassifier(haarEyes);
 //        this.mouthCascade = new CascadeClassifier(haarMouth);
 
         this.detectAndDisplay(src);
 
         Imgcodecs.imwrite( outputImg, src);
         this.updateImageView(currentFrame, Utils.mat2Image(Imgcodecs.imread(outputImg)) );
-//        System.out.println("Image Processed");
+
+        return this.listRez;
     }
 
     /**
@@ -152,6 +155,8 @@ public class OpenCV {
         this.faceCascade.detectMultiScale(grayFrame, faces, 1.3, 2, 0 | Objdetect.CASCADE_SCALE_IMAGE,
                 new Size(this.absoluteFaceSize, this.absoluteFaceSize), new Size());
 
+        this.listCrop = new ArrayList<>();
+        this.listRez = new ArrayList<>();
         Rect[] facesArray = faces.toArray();
         for (Rect face : facesArray) {
             Mat org_frame = frame.clone();
@@ -172,28 +177,21 @@ public class OpenCV {
 
             }
 
-            Mat croppedImage = new Mat(org_frame, face);
+
+            this.croppedImage = new Mat(org_frame, face);
             this.resizeImage = new Mat();
-            Imgproc.resize(croppedImage, this.resizeImage, new Size(400,400));
+            this.listCrop.add(this.croppedImage);         //for multi pics
+            this.listRez.add(this.resizeImage);
 
-            Imgcodecs.imwrite( outputCapt+"new.jpg", this.resizeImage);
-//            this.updateImageView(currentFrame, Utils.mat2Image(Imgcodecs.imread(outputImg)) );
-
-
-//            double[] returnedResults = faceRecognition(faceROI);
 
         }
+        for(int i=0; i<this.listCrop.size();i++){
+            Imgproc.resize(this.listCrop.get(i), this.listRez.get(i), new Size(1000,1000));
+            Imgcodecs.imwrite( outputCapt+"new"+i+".jpg", this.listRez.get(i));
+        }
 //        HighGui.imshow("Capture - Face detection", frame );
-
     }
 
-    public Mat getResizeImage() {
-        return resizeImage;
-    }
-
-    public void setResizeImage(Mat resizeImage) {
-        this.resizeImage = resizeImage;
-    }
 
     /**
      * Stop the acquisition from the camera and release all the resources

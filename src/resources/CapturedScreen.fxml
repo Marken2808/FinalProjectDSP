@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -14,6 +15,7 @@
             <ImageView fx:id="captImg" fitHeight="350.0" fitWidth="350.0" pickOnBounds="true" preserveRatio="true" />
             <HBox alignment="CENTER" prefHeight="50.0" spacing="10.0">
                <children>
+                  <JFXComboBox fx:id="comboPic" labelFloat="true" promptText="Pic" />
                   <JFXTextField fx:id="fieldName" alignment="CENTER" labelFloat="true" promptText="Enter name" />
                </children>
             </HBox>

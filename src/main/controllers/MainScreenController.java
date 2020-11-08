@@ -77,24 +77,21 @@ public class MainScreenController implements Initializable
 
     @FXML
     void takeShot(ActionEvent event) throws IOException {
+
         callCV.stopAcquisition();
         // update the button content
         this.btnStart.setDisable(false);
         this.btnStart.setText("Continue");
 
-//
-//        callCV.updateImageView(currentFrame, Utils.mat2Image(this.resizeImage) );
-//
-//        CapturedScreenController toNext = new CapturedScreenController();
-//        toNext.setMat(callCV.getResizeImage());
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/CapturedScreen.fxml"));
-//        loader.setController(toNext);
+
         Parent Root = loader.load();
         Stage Stage = new Stage();
         Scene Scene = new Scene(Root);
         Stage.setScene(Scene);
         Stage.show();
+
+
     }
 
 
@@ -114,8 +111,11 @@ public class MainScreenController implements Initializable
         File selectedFile = event.getDragboard().getFiles().get(0);
         currentFrame.setImage(new Image(new FileInputStream(selectedFile)));
         event.consume();
-        callCV.detectImage(selectedFile, currentFrame);
+        ArrayList<Mat> test = callCV.detectImage(selectedFile, currentFrame);
+//        System.out.println(test);
         this.btnInsert.setText("Insert Image");
+        this.btnShot.setDisable(false);
+        this.btnShot.setText("Save new");
     }
 
 
