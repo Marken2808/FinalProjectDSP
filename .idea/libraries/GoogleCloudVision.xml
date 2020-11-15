@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="GoogleCloudVision">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../../../../../HOME/Software/coding/GoogleCloudVision" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/../../../../../HOME/Software/coding/GoogleCloudVision" />
+    </SOURCES>
+    <jarDirectory url="file://$PROJECT_DIR$/../../../../../HOME/Software/coding/GoogleCloudVision" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/../../../../../HOME/Software/coding/GoogleCloudVision" recursive="false" type="SOURCES" />
+  </library>
+</component>
