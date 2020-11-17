@@ -24,7 +24,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 
-public class OpenCV {
+public final class OpenCV {
 
 
     // a timer for acquiring the video stream
@@ -287,7 +287,7 @@ public class OpenCV {
             int height = grayFrame.rows();
             if (Math.round(height * 0.2f) > 0)
             {
-                this.absoluteFaceSize = Math.round(height * 0.2f);
+                this.absoluteFaceSize = Math.round(height * 0.01f);
             }
         }
         // detect faces

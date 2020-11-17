@@ -63,17 +63,10 @@ public class MainScreenController implements Initializable
     @FXML
     private JFXButton btnInsert;
 
-
-
-
     // a flag to change the button behavior
     private boolean cameraActive;
 
-
-
     private OpenCV callCV = OpenCV.getInstance();
-
-
 
     @FXML
     void takeShot(ActionEvent event) throws IOException {
@@ -134,7 +127,7 @@ public class MainScreenController implements Initializable
     }
 
     @FXML
-    protected void startCamera()
+    protected void startCamera(ActionEvent event)
     {
         // set a fixed width for the frame
 //        currentFrame.setFitWidth(600);

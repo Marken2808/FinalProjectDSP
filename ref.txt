@@ -1,1 +1,2 @@
 https://www.tutorialspoint.com/opencv/opencv_face_detection_in_picture.htm
+https://docs.opencv.org/2.4/modules/contrib/doc/facerec/facerec_tutorial.html#fisherfaces-in-opencv

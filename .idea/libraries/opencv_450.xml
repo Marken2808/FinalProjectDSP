@@ -1,14 +1,14 @@
 <component name="libraryTable">
   <library name="opencv-450">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../../../../HOME/Software/coding/OpenCV/opencv/build/java/opencv-450.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../../HOME/Software/coding/OpenCV/testJar/opencv-450.jar!/" />
     </CLASSES>
     <JAVADOC />
     <NATIVE>
       <root url="file://$PROJECT_DIR$/../../../../../HOME/Software/coding/OpenCV/opencv/build/java/x64" />
     </NATIVE>
     <SOURCES>
-      <root url="jar://$PROJECT_DIR$/../../../../../HOME/Software/coding/OpenCV/opencv/build/java/opencv-450.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../../HOME/Software/coding/OpenCV/testJar/opencv-450.jar!/" />
     </SOURCES>
   </library>
 </component>
