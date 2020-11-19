@@ -1,14 +1,13 @@
 package main.utils;
 
-import com.google.cloud.vision.v1.*;
-import com.google.protobuf.ByteString;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
 import org.opencv.core.*;
-//import org.opencv.face.Face;
-//import org.opencv.face.FaceRecognizer;
-//import org.opencv.face.FisherFaceRecognizer;
-//import org.opencv.face.LBPHFaceRecognizer;
+import org.opencv.face.Face;
+import org.opencv.face.FaceRecognizer;
+import org.opencv.face.FisherFaceRecognizer;
+import org.opencv.face.LBPHFaceRecognizer;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
@@ -16,8 +15,8 @@ import org.opencv.objdetect.Objdetect;
 import org.opencv.videoio.VideoCapture;
 
 import java.io.*;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
@@ -51,16 +50,12 @@ public final class OpenCV {
     public String haarFace = basePath+"haarcascades/haarcascade_frontalface_alt2.xml";
     public String haarEyes = basePath+"haarcascades/haarcascade_eye_tree_eyeglasses.xml";
 
+    // Names of the people from the training set
+    public HashMap<Integer, String> names = new HashMap<Integer, String>();
+
+
     public static OpenCV instance;
 
-//    ----------------------------------------
-
-//    private FisherFaceRecognizer faceRecognizer=FisherFaceRecognizer.create(0,10000);
-//    public HashMap<Integer, String> names = new HashMap<Integer, String>();
-//    private int label;//label is to identify student id
-//    private String name_1;// name_1 is to identify student name
-
-// -----------------------------------------------
 
     public OpenCV(){
         instance = this;
@@ -85,6 +80,8 @@ public final class OpenCV {
         this.faceCascade.load(haarFace);
         this.eyesCascade.load(haarEyes);
         this.absoluteFaceSize = 0;
+
+        trainModel();
     }
 
     /**
@@ -109,6 +106,10 @@ public final class OpenCV {
                 {
                     // face detection
                     this.detectAndDisplay(frame);
+
+
+//                    test.detectAndDisplay(frame,faceCascade,faceRecognizer);
+
                 }
 
             }
@@ -132,138 +133,17 @@ public final class OpenCV {
         this.updateImageView(currentFrame, imageToShow);
         this.faceCascade = new CascadeClassifier(haarFace);
         this.eyesCascade = new CascadeClassifier(haarEyes);
-//        this.mouthCascade = new CascadeClassifier(haarMouth);
+
+
+//        test.detectAndDisplay(src,faceCascade,faceRecognizer);
 
         this.detectAndDisplay(src);
-
+//        detectAndDisplay();
         Imgcodecs.imwrite( outputImg, src);
         this.updateImageView(currentFrame, Utils.mat2Image(Imgcodecs.imread(outputImg)) );
 
         return this.listRez;
     }
-
-//     -------------------------------------------------------------------------------
-
-//    private String[] faceRecognition(Mat currentFace,String outfile) {
-//        // predict the label
-//        int[] predLabel = new int[1];
-//        double[] confidence = new double[1];
-//        int result = -1;
-//        //Read XML file for face detection in OpenCV
-//        faceRecognizer.read("./resources/haarcascade_frontalface_alt.xml");
-//        faceRecognizer.predict(currentFace,predLabel,confidence);
-//        result = faceRecognizer.predict_label(currentFace);
-//
-//        ArrayList<String> emotions=new ArrayList<>();
-//        //save image into base64 format
-//        //so that Google Cloud API will be faster
-//        outfile=GetImageStr();
-//        outfile=GenerateImage(outfile);
-//
-//        Imgcodecs.imwrite(outfile,currentFace);
-//        try {
-//            //get emotions
-//            emotions = detectFaces(new String[] {outfile});
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return new String[] {String.valueOf(result),String.valueOf(confidence[0]),emotions.get(0),emotions.get(1),emotions.get(2)};
-//    }
-//
-//    public static ArrayList<String> detectFaces(String[] filePath) throws Exception, IOException {
-//        List<AnnotateImageRequest> requests = new ArrayList<>();
-//        ArrayList<String> result = new ArrayList<>();
-//        for(String file:filePath) {
-//            ByteString imgBytes = ByteString.readFrom(new FileInputStream(file));
-//
-//            com.google.cloud.vision.v1.Image img = com.google.cloud.vision.v1.Image.newBuilder().setContent(imgBytes).build();
-//            Feature feat = Feature.newBuilder().setType(Feature.Type.FACE_DETECTION).build();
-//            AnnotateImageRequest request =
-//                    AnnotateImageRequest.newBuilder().addFeatures(feat).setImage(img).build();
-//            requests.add(request);
-//        }
-//
-//        try (ImageAnnotatorClient client = ImageAnnotatorClient.create()) {
-//            BatchAnnotateImagesResponse response = client.batchAnnotateImages(requests);
-//            List<AnnotateImageResponse> responses = response.getResponsesList();
-//
-//            for (AnnotateImageResponse res : responses) {
-//                if (res.hasError()) {
-//                    return null;
-//                }
-//
-//                // For full list of available annotations, see http://g.co/cloud/vision/docs
-//                for (FaceAnnotation annotation : res.getFaceAnnotationsList()) {
-//                    result.add(" joy: " + annotation.getJoyLikelihood());
-//                    result.add(" anger: " + annotation.getAngerLikelihood());
-//                    result.add(" surprise: " + annotation.getSurpriseLikelihood());
-//                }
-//            }
-//        }
-//        return result;
-//    }
-//
-//    public static String GetImageStr()
-//    {//Transfer image file into byte array string and use base64 to encode it
-//        String imgFile="resources/current.jpg";
-//        InputStream in=null;
-//        byte[] data=null;
-//        try {
-//            in=new FileInputStream(imgFile);
-//            data=new byte[in.available()];
-//            in.read(data);
-//            in.close();
-//        }
-//        catch(IOException e) {
-//            e.printStackTrace();
-//        }
-//        return Base64.getEncoder().encodeToString(data);
-//    }
-//    /**
-//     *
-//     * @param imgStr is the path that stores all the file. These file need to be decoded from Base64 to images.
-//     * @return
-//     */
-//    public static String GenerateImage(String imgStr)
-//    {
-//        if(imgStr==null)
-//            return "error";
-//        try
-//        {
-//            byte[]b = Base64.getDecoder().decode(imgStr);
-//            for(int i=0;i<b.length;++i) {
-//                if(b[i]<0) {
-//                    b[i]+=256;
-//                }
-//            }
-//            String imgFilePath="resources/current2.jpg";
-//            OutputStream out=new FileOutputStream(imgFilePath);
-//            out.write(b);
-//            out.flush();
-//            out.close();
-//            return imgFilePath;
-//
-//        }catch(Exception e)
-//        {
-//            return "error";
-//        }
-//
-//    }
-//
-//    /**
-//     *
-//     * @param img is the mat that need to be saved as jpg image
-//     * @param rect is the size of the mat
-//     * @return a path of images
-//     */
-//    private static String save(Mat img,Rect rect) {
-//        String outFile="resources/current.jpg";
-//        Imgcodecs.imwrite(outFile, img);
-//        return outFile;
-//    }
-
-
-//    ---------------------------------------------------------------------
 
     /**
      * Method for face detection and tracking
@@ -296,18 +176,28 @@ public final class OpenCV {
 
         this.listCrop = new ArrayList<>();
         this.listRez = new ArrayList<>();
+
         Rect[] facesArray = faces.toArray();
         for (Rect face : facesArray) {
+
             Mat org_frame = frame.clone();
 //            Point center = new Point(face.x + face.width / 2, face.y + face.height / 2);
             Imgproc.rectangle(frame, face.tl(), face.br(), new Scalar(0, 255, 0), 2);
-//            Imgproc.putText(frame,"name", new Point(face.x-10, face.y-10) ,Imgproc.FONT_HERSHEY_PLAIN, 1.5, new Scalar(0, 255, 0, 2.0), 2);
+//            Imgproc.putText(frame,box_text, new Point(face.x-10, face.y-10) ,Imgproc.FONT_HERSHEY_PLAIN, 1.5, new Scalar(0, 255, 0, 2.0), 2);
+
+            this.croppedImage = new Mat(org_frame, face);
+            this.resizeImage = new Mat();
+            this.listCrop.add(this.croppedImage);         //for multi pics
+            this.listRez.add(this.resizeImage);
+
 
             Mat faceROI = grayFrame.submat(face);
 
             // ------In each face, detect eyes--------------------
             MatOfRect eyes = new MatOfRect();
-            this.eyesCascade.detectMultiScale(faceROI, eyes, 1.2, 2);
+            this.eyesCascade.detectMultiScale(faceROI, eyes, 1.2, 2, 0 | Objdetect.CASCADE_SCALE_IMAGE,
+                    new Size(this.absoluteFaceSize, this.absoluteFaceSize), new Size());
+
 //            this.eyesCascade.detectMultiScale(faceROI, eyes);
             List<Rect> listOfEyes = eyes.toList();
             for (Rect eye : listOfEyes) {
@@ -317,74 +207,109 @@ public final class OpenCV {
 
             }
 
-//            ------------------------------------------------------
-//            Rect rectCrop=new Rect(face.tl(),face.br());
-//            Mat croppedImage=new Mat(frame,rectCrop);
-//            Mat resizeImage = new Mat();
-//            Size size = new Size(150,150);
-//            Imgproc.resize(croppedImage, resizeImage, size);
+
+
+
+            // ---------------------------------------------
+//            int prediction = faceRecognition(resizeImage);
+//            double[] returnedResults = faceRecognition(resizeImage);
+//            double prediction = returnedResults[0];
+//            double confidence = returnedResults[1];
 //
-//            String[] returnedResults = faceRecognition(resizeImage,save(resizeImage,face));
-//            double prediction = Double.parseDouble(returnedResults[0]);
-//            double confidence = Double.parseDouble(returnedResults[1]);
-//            confidence=Math.round(confidence);
-//            String emotion1=returnedResults[2];
-////            String emotion2=returnedResults[3];
-////            String emotion3=returnedResults[4];
-//            System.out.println(emotion1);
-//            System.out.println(confidence);
-//
-//            label = (int) prediction;
-//            if (names.containsKey(label) && confidence<1500) {// if confidence below 2000, then mark the person as a new user
-//                name_1 = names.get(label);
+//            System.out.println("PREDICTED LABEL IS: " + prediction);
+//            int label = (int) prediction;
+//            String name = "";
+//            if (names.containsKey(label)) {
+//                name = names.get(label);
 //            } else {
-//                name_1 = "Unknown";
-//                label = 0;
+//                name = "Unknown";
 //            }
-//            // Create the text we will annotate the box with:
-////            String box_text = "Prediction = " + name_1 + " Confidence = " + confidence;
-////            String box_text2="Emotion= "+emotion1;
-////            String box_text3="Emotion= "+emotion2;
-////            String box_text4="Emotion= "+emotion3;
-//            // Calculate the position for annotated text (make sure we don't
-//            // put illegal values in there):
-////            double pos_x = Math.max(face.tl().x - 10, 0);
-////            double pos_y = Math.max(face.tl().y - 10, 0);
-////            double pos_x_1 = Math.max(face.tl().x - 35, 0);
-////            double pos_y_1 = Math.max(face.tl().y - 35, 0);
-////            double pos_x_2 = Math.max(face.tl().x - 55, 0);
-////            double pos_y_2 = Math.max(face.tl().y - 55, 0);
-////            double pos_x_3 = Math.max(face.tl().x - 75, 0);
-////            double pos_y_3 = Math.max(face.tl().y - 75, 0);
-//            // And now put it into the image:
-////            Imgproc.putText(frame, box_text, new Point(pos_x, pos_y),
-////                    Imgproc.FONT_HERSHEY_PLAIN, 2.0, new Scalar(71, 99, 255, 2.0));
-////            Imgproc.putText(frame, box_text2, new Point(pos_x_1, pos_y_1),
-////                    Imgproc.FONT_HERSHEY_PLAIN, 2.0, new Scalar(71, 99, 255, 2.0));
-////            Imgproc.putText(frame, box_text3, new Point(pos_x_2, pos_y_2),
-////                    Imgproc.FONT_HERSHEY_PLAIN, 2.0, new Scalar(71, 99, 255, 2.0));
-////            Imgproc.putText(frame, box_text4, new Point(pos_x_3, pos_y_3),
-////                    Imgproc.FONT_HERSHEY_PLAIN, 2.0, new Scalar(71, 99, 255, 2.0));
 //
-//            System.out.println(name_1+" Welcome!");
-//            System.out.println(label);
+            String box_text = "Prediction = " + "name" + " Confidence = " + "confidence";
+            double pos_x = face.x - 10;
+            double pos_y = face.y - 10;
+//            // And now put it into the image:
+            Imgproc.putText(frame, box_text, new Point(pos_x, pos_y),
+                    Imgproc.FONT_HERSHEY_PLAIN, 1.5, new Scalar(0, 255, 0, 2.0));
 
-//            ------------------------------------------------
-
-            this.croppedImage = new Mat(org_frame, face);
-            this.resizeImage = new Mat();
-            this.listCrop.add(this.croppedImage);         //for multi pics
-            this.listRez.add(this.resizeImage);
+            // ---------------------------------------------
 
 
         }
         for(int i=0; i<this.listCrop.size();i++){
+
             Imgproc.resize(this.listCrop.get(i), this.listRez.get(i), new Size(1000,1000));
-            Imgcodecs.imwrite( outputCapt+"new"+i+".jpg", this.listRez.get(i));
+            Imgcodecs.imwrite( outputCapt+"0-new_"+i+".jpg", this.listRez.get(i));
         }
 //        HighGui.imshow("Capture - Face detection", frame );
     }
 
+    //    -----------------------------------------
+    public void trainModel () {
+        // Read the data from the training set
+        File root = new File(outputCapt);
+
+        System.out.println(root);
+        File[] imageFiles = root.listFiles( new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                return name.endsWith(".jpg");
+            }
+        });
+
+        List<Mat> images = new ArrayList<Mat>();
+
+        System.out.println("THE NUMBER OF IMAGES READ IS: " + imageFiles.length);
+
+        List<Integer> trainingLabels = new ArrayList<>();
+
+        Mat labels = new Mat(imageFiles.length,1,CvType.CV_32SC1);
+
+        int counter = 0;
+
+        for (File image : imageFiles) {
+            // Parse the training set folder files
+            Mat img = Imgcodecs.imread(image.getAbsolutePath());
+            // Change to Grayscale and equalize the histogram
+            Imgproc.cvtColor(img, img, Imgproc.COLOR_BGR2GRAY);
+            Imgproc.equalizeHist(img, img);
+            // Extract label from the file name
+            int label = Integer.parseInt(image.getName().split("\\-")[0]);
+            // Extract name from the file name and add it to names HashMap
+            String labnname = image.getName().split("\\_")[0];
+            String name = labnname.split("\\-")[1];
+            names.put(label, name);
+            // Add training set images to images Mat
+            images.add(img);
+
+            labels.put(counter, 0, label);
+            counter++;
+        }
+//        FaceRecognizer faceRecognizer = FisherFaceRecognizer.create();
+//        FaceRecognizer faceRecognizer = LBPHFaceRecognizer.create(0,1000);
+
+        FaceRecognizer faceRecognizer = LBPHFaceRecognizer.create();
+        faceRecognizer.train(images, labels);
+        faceRecognizer.save("traineddata");
+    }
+
+    public double[] faceRecognition(Mat currentFace) {
+
+        // predict the label
+
+        int[] predLabel = new int[1];
+        double[] confidence = new double[1];
+        int result = -1;
+
+        FaceRecognizer faceRecognizer = LBPHFaceRecognizer.create();
+        faceRecognizer.read("traineddata");
+        faceRecognizer.predict(currentFace,predLabel,confidence);
+//        	result = faceRecognizer.predict_label(currentFace);
+        result = predLabel[0];
+
+        return new double[] {result,confidence[0]};
+    }
+//    -----------------------------------------
 
     /**
      * Stop the acquisition from the camera and release all the resources
@@ -402,7 +327,7 @@ public final class OpenCV {
             catch (InterruptedException e)
             {
                 // log any exception
-                System.err.println("Exception in stopping the frame capture, trying to release the camera now... " + e);
+//                System.err.println("Exception in stopping the frame capture, trying to release the camera now... " + e);
             }
         }
 

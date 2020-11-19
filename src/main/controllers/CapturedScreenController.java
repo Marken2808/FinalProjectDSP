@@ -40,7 +40,7 @@ public class CapturedScreenController implements Initializable {
 
     @FXML
     void saveNew(ActionEvent event) throws IOException {
-        ImageIO.write(SwingFXUtils.fromFXImage(this.captImg.getImage(), null), "jpg", new FileOutputStream(callCV.basePath +"images/dataset/"+fieldName.getText()+".jpg"));
+        ImageIO.write(SwingFXUtils.fromFXImage(this.captImg.getImage(), null), "jpg", new FileOutputStream(callCV.basePath +"images/dataset/0-"+fieldName.getText()+"_0.jpg"));
         btnSubmit.getScene().getWindow().hide();
 
     }
@@ -53,13 +53,13 @@ public class CapturedScreenController implements Initializable {
         if(callCV.listRez.size()==1){
             this.comboPic.setPromptText("This Pic");
             comboPic.setDisable(true);
-            this.imgs = new File(callCV.basePath +"images/dataset/new0.jpg");
+            this.imgs = new File(callCV.basePath +"images/dataset/0-new_0.jpg");
         } else if(callCV.listRez.size()==0){
             this.imgs = null;
         } else{
             for(int i=0; i<callCV.listRez.size(); i++){
                 System.out.println(i);
-                this.imgs = new File(callCV.basePath +"images/dataset/new"+i+".jpg");
+                this.imgs = new File(callCV.basePath +"images/dataset/0-new_"+i+".jpg");
             }
         }
         try {

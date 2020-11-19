@@ -24,14 +24,6 @@ import javafx.stage.Stage;
 import main.utils.OpenCV;
 import main.utils.Utils;
 import org.opencv.core.*;
-//import org.opencv.face.Face;
-//import org.opencv.face.FaceRecognizer;
-//import org.opencv.face.FisherFaceRecognizer;
-import org.opencv.imgcodecs.Imgcodecs;
-import org.opencv.imgproc.Imgproc;
-import org.opencv.objdetect.CascadeClassifier;
-import org.opencv.objdetect.Objdetect;
-import org.opencv.videoio.VideoCapture;
 
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -181,22 +173,6 @@ public class MainScreenController implements Initializable
         }
     }
 
-
-//    private double[] faceRecognition(Mat currentFace) {
-//
-//        // predict the label
-//
-//        int[] predLabel = new int[1];
-//        double[] confidence = new double[1];
-//        int result = -1;
-//
-//        FaceRecognizer faceRecognizer = FisherFaceRecognizer.create();
-//        faceRecognizer.predict(currentFace,predLabel,confidence);
-////        	result = faceRecognizer.predict_label(currentFace);
-//        result = predLabel[0];
-//
-//        return new double[] {result,confidence[0]};
-//    }
 
 
 
