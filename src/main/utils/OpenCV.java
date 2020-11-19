@@ -170,7 +170,7 @@ public final class OpenCV {
             }
         }
         // detect faces
-        this.faceCascade.detectMultiScale(grayFrame, faces, 1.3, 2, 0 | Objdetect.CASCADE_SCALE_IMAGE,
+        this.faceCascade.detectMultiScale(grayFrame, faces, 1.3, 3, 0 | Objdetect.CASCADE_SCALE_IMAGE,
                 new Size(this.absoluteFaceSize, this.absoluteFaceSize), new Size());
 
         this.listCrop = new ArrayList<>();
@@ -225,7 +225,7 @@ public final class OpenCV {
             // ---------------------------------------------
 //            int prediction = faceRecognition(resizeImage);
             double[] returnedResults = faceRecognition(resizeImage);
-            double prediction = returnedResults[0];
+            int prediction = ((int) returnedResults[0]);
             double confidence = returnedResults[1];
 
             System.out.println("PREDICTED LABEL IS: " + prediction);
@@ -243,22 +243,14 @@ public final class OpenCV {
 //            // And now put it into the image:
             Imgproc.putText(frame, box_text, new Point(pos_x, pos_y),
                     Imgproc.FONT_HERSHEY_PLAIN, 1.5, new Scalar(0, 255, 0, 2.0));
-
-            // ---------------------------------------------
-
-
         }
-
-
-//        HighGui.imshow("Capture - Face detection", frame );
     }
-
-    //    -----------------------------------------
+    
     public void trainModel () {
         // Read the data from the training set
         File root = new File(outputCapt);
 
-        System.out.println(root);
+//        System.out.println(root);
         File[] imageFiles = root.listFiles( new FilenameFilter() {
             @Override
             public boolean accept(File dir, String name) {
@@ -283,16 +275,19 @@ public final class OpenCV {
             Imgproc.cvtColor(img, img, Imgproc.COLOR_BGR2GRAY);
             Imgproc.equalizeHist(img, img);
             // Extract label from the file name
-            int label = Integer.parseInt(image.getName().split("\\-")[0]);
+            int id = Integer.parseInt(image.getName().split("\\-")[0]);
             // Extract name from the file name and add it to names HashMap
-            String labnname = image.getName().split("\\_")[0];
-            String name = labnname.split("\\-")[1];
-            names.put(label, name);
+            String name = image.getName().split("\\-")[1].split("\\_")[0];
+            names.put(id, name);
             // Add training set images to images Mat
             images.add(img);
 
-            labels.put(counter, 0, label);
+            labels.put(counter, 0, id);
             counter++;
+            System.out.println(id);
+            System.out.println(name);
+//            System.out.println(count);
+            System.out.println("-----------------------------------------");
         }
 //        FaceRecognizer faceRecognizer = FisherFaceRecognizer.create();
 //        FaceRecognizer faceRecognizer = LBPHFaceRecognizer.create(0,1000);
