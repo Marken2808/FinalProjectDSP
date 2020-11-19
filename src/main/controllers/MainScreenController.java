@@ -93,10 +93,12 @@ public class MainScreenController implements Initializable
 
     @FXML
     void dropImage(DragEvent event) throws FileNotFoundException {
+//        System.out.println("Dropping.............");
+        this.btnInsert.setText("Dropping...");
         File selectedFile = event.getDragboard().getFiles().get(0);
         currentFrame.setImage(new Image(new FileInputStream(selectedFile)));
         event.consume();
-        ArrayList<Mat> test = callCV.detectImage(selectedFile, currentFrame);
+        callCV.detectImage(selectedFile, currentFrame);
 //        System.out.println(test);
         this.btnInsert.setText("Insert Image");
         this.btnShot.setDisable(false);
@@ -115,6 +117,8 @@ public class MainScreenController implements Initializable
             callCV.detectImage(selectedFile, currentFrame);
         }
         this.btnInsert.setText("Insert Image");
+        this.btnShot.setDisable(false);
+        this.btnShot.setText("Save new");
 
     }
 

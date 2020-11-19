@@ -39,10 +39,9 @@ public final class OpenCV {
     //   eyes cascade classifier
     public CascadeClassifier eyesCascade;
 
-    public Mat resizeImage ;
     public ArrayList<Mat> listRez;
     public ArrayList<Mat> listCrop;
-    public Mat croppedImage;
+
     public String basePath=System.getProperty("user.dir").concat("\\src\\resources\\");
     public String outputSrc = basePath+"images/output/";
     public String inputSrc = basePath+"images/input/";
@@ -176,7 +175,8 @@ public final class OpenCV {
 
         this.listCrop = new ArrayList<>();
         this.listRez = new ArrayList<>();
-
+        Mat resizeImage ;
+        Mat croppedImage;
         Rect[] facesArray = faces.toArray();
         for (Rect face : facesArray) {
 
@@ -185,18 +185,11 @@ public final class OpenCV {
             Imgproc.rectangle(frame, face.tl(), face.br(), new Scalar(0, 255, 0), 2);
 //            Imgproc.putText(frame,box_text, new Point(face.x-10, face.y-10) ,Imgproc.FONT_HERSHEY_PLAIN, 1.5, new Scalar(0, 255, 0, 2.0), 2);
 
-            this.croppedImage = new Mat(org_frame, face);
-            this.resizeImage = new Mat();
-            this.listCrop.add(this.croppedImage);         //for multi pics
-            this.listRez.add(this.resizeImage);
-
-
             Mat faceROI = grayFrame.submat(face);
 
             // ------In each face, detect eyes--------------------
             MatOfRect eyes = new MatOfRect();
-            this.eyesCascade.detectMultiScale(faceROI, eyes, 1.2, 2, 0 | Objdetect.CASCADE_SCALE_IMAGE,
-                    new Size(this.absoluteFaceSize, this.absoluteFaceSize), new Size());
+            this.eyesCascade.detectMultiScale(faceROI, eyes, 1.2, 2);
 
 //            this.eyesCascade.detectMultiScale(faceROI, eyes);
             List<Rect> listOfEyes = eyes.toList();
@@ -208,24 +201,43 @@ public final class OpenCV {
             }
 
 
+            Rect rectCrop = new Rect(face.tl(), face.br());
+            croppedImage = new Mat(org_frame, rectCrop);
+            resizeImage = new Mat();
+            this.listCrop.add(croppedImage);         //for multi pics
+            this.listRez.add(resizeImage);
+
+            for(int i=0; i<this.listCrop.size();i++){
+//            Imgproc.resize(.get(i), this.listRez.get(i), new Size(1000,1000));
+                Imgcodecs.imwrite( outputCapt+"0-new_"+i+".jpg", this.listCrop.get(i));
+
+//                Imgcodecs.imwrite( outputCapt+"0-new_.jpg", listCrop.get(0));
+            }
+
+            Imgproc.cvtColor(croppedImage, croppedImage, Imgproc.COLOR_BGR2GRAY);
+            Imgproc.equalizeHist(croppedImage, croppedImage);
+            Size size = new Size(250,250);
+            Imgproc.resize(croppedImage, resizeImage, size);
+//
+
 
 
             // ---------------------------------------------
 //            int prediction = faceRecognition(resizeImage);
-//            double[] returnedResults = faceRecognition(resizeImage);
-//            double prediction = returnedResults[0];
-//            double confidence = returnedResults[1];
+            double[] returnedResults = faceRecognition(resizeImage);
+            double prediction = returnedResults[0];
+            double confidence = returnedResults[1];
+
+            System.out.println("PREDICTED LABEL IS: " + prediction);
+            int label = (int) prediction;
+            String name = "";
+            if (names.containsKey(label)) {
+                name = names.get(label);
+            } else {
+                name = "Unknown";
+            }
 //
-//            System.out.println("PREDICTED LABEL IS: " + prediction);
-//            int label = (int) prediction;
-//            String name = "";
-//            if (names.containsKey(label)) {
-//                name = names.get(label);
-//            } else {
-//                name = "Unknown";
-//            }
-//
-            String box_text = "Prediction = " + "name" + " Confidence = " + "confidence";
+            String box_text = name + " : " + confidence + "%";
             double pos_x = face.x - 10;
             double pos_y = face.y - 10;
 //            // And now put it into the image:
@@ -236,11 +248,8 @@ public final class OpenCV {
 
 
         }
-        for(int i=0; i<this.listCrop.size();i++){
 
-            Imgproc.resize(this.listCrop.get(i), this.listRez.get(i), new Size(1000,1000));
-            Imgcodecs.imwrite( outputCapt+"0-new_"+i+".jpg", this.listRez.get(i));
-        }
+
 //        HighGui.imshow("Capture - Face detection", frame );
     }
 
@@ -299,15 +308,14 @@ public final class OpenCV {
 
         int[] predLabel = new int[1];
         double[] confidence = new double[1];
-        int result = -1;
 
         FaceRecognizer faceRecognizer = LBPHFaceRecognizer.create();
         faceRecognizer.read("traineddata");
         faceRecognizer.predict(currentFace,predLabel,confidence);
-//        	result = faceRecognizer.predict_label(currentFace);
-        result = predLabel[0];
+//        result = faceRecognizer.predict_label(currentFace);
+//        result = predLabel[0];
 
-        return new double[] {result,confidence[0]};
+        return new double[] {predLabel[0],Math.round(confidence[0])};
     }
 //    -----------------------------------------
 
