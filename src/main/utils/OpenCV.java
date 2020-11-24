@@ -13,6 +13,7 @@ import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
 import org.opencv.objdetect.Objdetect;
 import org.opencv.videoio.VideoCapture;
+import org.opencv.videoio.Videoio;
 
 import java.io.*;
 import java.text.DecimalFormat;
@@ -74,6 +75,7 @@ public final class OpenCV {
     {
 
         this.capture = new VideoCapture();
+
         this.faceCascade = new CascadeClassifier();
         this.eyesCascade = new CascadeClassifier();
         this.faceCascade.load(haarFace);
@@ -81,6 +83,7 @@ public final class OpenCV {
         this.absoluteFaceSize = 0;
 
         trainModel();
+
     }
 
     /**

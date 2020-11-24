@@ -31,9 +31,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import org.opencv.videoio.Videoio;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import static org.bytedeco.opencv.global.opencv_videoio.CAP_PROP_FPS;
 
 public class MainScreenController implements Initializable
 {
@@ -156,7 +159,7 @@ public class MainScreenController implements Initializable
                 };
 
                 callCV.timer = Executors.newSingleThreadScheduledExecutor();
-                callCV.timer.scheduleAtFixedRate(frameGrabber, 0, 33, TimeUnit.MILLISECONDS);
+                callCV.timer.scheduleAtFixedRate(frameGrabber, 0, 60, TimeUnit.MILLISECONDS);
 
                 // update the button content
                 this.btnStart.setDisable(true);
