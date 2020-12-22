@@ -53,13 +53,13 @@ public class CapturedScreenController implements Initializable {
         if(callCV.listRez.size()==1){
             this.comboPic.setPromptText("This Pic");
             comboPic.setDisable(true);
-            this.imgs = new File(callCV.basePath +"images/dataset/0-new_0.jpg");
+            this.imgs = new File(callCV.basePath +"images/test/0-new_0.jpg");
         } else if(callCV.listRez.size()==0){
             this.imgs = null;
         } else{
             for(int i=0; i<callCV.listRez.size(); i++){
                 System.out.println(i);
-                this.imgs = new File(callCV.basePath +"images/dataset/0-new_"+i+".jpg");
+                this.imgs = new File(callCV.basePath +"images/test/0-new_"+i+".jpg");
             }
         }
         try {

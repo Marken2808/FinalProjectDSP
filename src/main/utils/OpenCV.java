@@ -43,12 +43,13 @@ public final class OpenCV {
     public ArrayList<Mat> listRez;
     public ArrayList<Mat> listCrop;
 
-    public String basePath=System.getProperty("user.dir").concat("\\src\\resources\\");
-    public String outputSrc = basePath+"images/output/";
-    public String inputSrc = basePath+"images/input/";
-    public String outputCapt = basePath+"images/dataset/";
-    public String haarFace = basePath+"haarcascades/haarcascade_frontalface_alt2.xml";
-    public String haarEyes = basePath+"haarcascades/haarcascade_eye_tree_eyeglasses.xml";
+    public String basePath      = System.getProperty("user.dir").concat("\\src\\resources\\");
+    public String outputSrc     = basePath+"images/output/";
+    public String inputSrc      = basePath+"images/input/";
+    public String outputCapt    = basePath+"images/test/";
+    public String outputData    = basePath+"images/dataset/";
+    public String haarFace      = basePath+"haarcascades/haarcascade_frontalface_alt2.xml";
+    public String haarEyes      = basePath+"haarcascades/haarcascade_eye_tree_eyeglasses.xml";
 
     // Names of the people from the training set
     public HashMap<Integer, String> names = new HashMap<Integer, String>();
@@ -88,7 +89,6 @@ public final class OpenCV {
 
     /**
      * Get a frame from the opened video stream (if any)
-     *
      * @return the {@link Image} to show
      */
     public Mat grabFrame()
@@ -136,11 +136,7 @@ public final class OpenCV {
         this.faceCascade = new CascadeClassifier(haarFace);
         this.eyesCascade = new CascadeClassifier(haarEyes);
 
-
-//        test.detectAndDisplay(src,faceCascade,faceRecognizer);
-
         this.detectAndDisplay(src);
-//        detectAndDisplay();
         Imgcodecs.imwrite( outputImg, src);
         this.updateImageView(currentFrame, Utils.mat2Image(Imgcodecs.imread(outputImg)) );
 
@@ -149,9 +145,8 @@ public final class OpenCV {
 
     /**
      * Method for face detection and tracking
-     *
      * @param frame
-     *            it looks for faces in this frame
+     * it looks for faces in this frame
      */
     public void detectAndDisplay(Mat frame)
     {
@@ -179,27 +174,24 @@ public final class OpenCV {
         this.listCrop = new ArrayList<>();
         this.listRez = new ArrayList<>();
         Mat resizeImage ;
-        Mat croppedImage;
+        Mat croppedImage ;
         Rect[] facesArray = faces.toArray();
         for (Rect face : facesArray) {
 
             Mat org_frame = frame.clone();
 //            Point center = new Point(face.x + face.width / 2, face.y + face.height / 2);
-            Imgproc.rectangle(frame, face.tl(), face.br(), new Scalar(0, 255, 0), 2);
-//            Imgproc.putText(frame,box_text, new Point(face.x-10, face.y-10) ,Imgproc.FONT_HERSHEY_PLAIN, 1.5, new Scalar(0, 255, 0, 2.0), 2);
-
+            Imgproc.rectangle(frame, face.tl(), face.br(), new Scalar(0, 255, 0), 1);
             Mat faceROI = grayFrame.submat(face);
 
             // ------In each face, detect eyes--------------------
             MatOfRect eyes = new MatOfRect();
             this.eyesCascade.detectMultiScale(faceROI, eyes, 1.2, 2);
 
-//            this.eyesCascade.detectMultiScale(faceROI, eyes);
             List<Rect> listOfEyes = eyes.toList();
             for (Rect eye : listOfEyes) {
                 Point eyeCenter = new Point(face.x + eye.x + eye.width / 2, face.y + eye.y + eye.height / 2);
                 int radius = (int) Math.round((eye.width + eye.height) * 0.25);
-                Imgproc.circle(frame, eyeCenter, radius, new Scalar(255, 0, 0), 2);
+                Imgproc.circle(frame, eyeCenter, radius, new Scalar(255, 0, 0), 1);
 
             }
 
@@ -211,10 +203,7 @@ public final class OpenCV {
             this.listRez.add(resizeImage);
 
             for(int i=0; i<this.listCrop.size();i++){
-//            Imgproc.resize(.get(i), this.listRez.get(i), new Size(1000,1000));
                 Imgcodecs.imwrite( outputCapt+"0-new_"+i+".jpg", this.listCrop.get(i));
-
-//                Imgcodecs.imwrite( outputCapt+"0-new_.jpg", listCrop.get(0));
             }
 
             Imgproc.cvtColor(croppedImage, croppedImage, Imgproc.COLOR_BGR2GRAY);
@@ -251,7 +240,7 @@ public final class OpenCV {
     
     public void trainModel () {
         // Read the data from the training set
-        File root = new File(outputCapt);
+        File root = new File(outputData);
 
 //        System.out.println(root);
         File[] imageFiles = root.listFiles( new FilenameFilter() {

@@ -24,9 +24,6 @@ public class Main extends Application {
         primaryStage.setTitle("Face Detection and Tracking");
         primaryStage.setScene(scene);
         primaryStage.show();
-        //         set the proper behavior on closing the application
-//        MainScreenController controller = loader.getController();
-//        controller.init();
         primaryStage.setOnCloseRequest((new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we)
             {
