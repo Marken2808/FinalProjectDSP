@@ -18,30 +18,29 @@ import org.opencv.videoio.Videoio;
 import java.io.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 
-public final class OpenCV {
+public class OpenCV {
 
 
     // a timer for acquiring the video stream
     public ScheduledExecutorService timer;
     // the OpenCV object that performs the video capture
     public VideoCapture capture;
-
     public int absoluteFaceSize;
-
     //   face cascade classifier
     public CascadeClassifier faceCascade;
-
     //   eyes cascade classifier
     public CascadeClassifier eyesCascade;
 
     public ArrayList<Mat> listRez;
     public ArrayList<Mat> listCrop;
+
 
     public String basePath      = System.getProperty("user.dir").concat("\\src\\resources\\");
     public String outputSrc     = basePath+"images/output/";
@@ -52,7 +51,11 @@ public final class OpenCV {
     public String haarEyes      = basePath+"haarcascades/haarcascade_eye_tree_eyeglasses.xml";
 
     // Names of the people from the training set
-    public HashMap<Integer, String> names = new HashMap<Integer, String>();
+    public HashMap<Integer, String> namesMap = new HashMap<>();
+    public Object[][] namesList = new Object[ImageFile().length][3];;
+    public int predictionID = 0;
+
+
 
 
     public static OpenCV instance;
@@ -62,7 +65,7 @@ public final class OpenCV {
         instance = this;
     }
 
-    public static OpenCV getInstance(){
+    public static OpenCV getInstance() {
         if(instance == null){
             instance = new OpenCV();
         }
@@ -72,11 +75,9 @@ public final class OpenCV {
     /**
      * Init the controller, at start time
      */
-    public void init()
-    {
+    public void init() {
 
         this.capture = new VideoCapture();
-
         this.faceCascade = new CascadeClassifier();
         this.eyesCascade = new CascadeClassifier();
         this.faceCascade.load(haarFace);
@@ -91,37 +92,24 @@ public final class OpenCV {
      * Get a frame from the opened video stream (if any)
      * @return the {@link Image} to show
      */
-    public Mat grabFrame()
-    {
+    public Mat grabFrame() {
         Mat frame = new Mat();
-
         // check if the capture is open
-        if (this.capture.isOpened())
-        {
-            try
-            {
+        if (this.capture.isOpened()) {
+            try {
                 // read the current frame
                 this.capture.read(frame);
-
                 // if the frame is not empty, process it
-                if (!frame.empty())
-                {
+                if (!frame.empty()) {
                     // face detection
                     this.detectAndDisplay(frame);
-
-
-//                    test.detectAndDisplay(frame,faceCascade,faceRecognizer);
-
                 }
-
             }
-            catch (Exception e)
-            {
+            catch (Exception e) {
                 // log the (full) error
                 System.err.println("Exception during the image elaboration: " + e);
             }
         }
-
         return frame;
     }
 
@@ -142,6 +130,28 @@ public final class OpenCV {
 
         return this.listRez;
     }
+
+    public ArrayList<Integer> getListSet(){
+        ArrayList<Integer> listSet = new ArrayList<>();
+        for (int i = 0; i < ImageFile().length; i++) {
+            if(namesList[i][0].equals(predictionID)) {
+                listSet.add((Integer) namesList[i][2]);
+            }
+        }
+        return listSet;
+    }
+
+    public File[] ImageFile(){
+        File root = new File(outputData);
+        File[] imageFiles = root.listFiles( new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                return name.endsWith(".jpg");
+            }
+        });
+        return imageFiles;
+    }
+
 
     /**
      * Method for face detection and tracking
@@ -210,29 +220,26 @@ public final class OpenCV {
             Imgproc.equalizeHist(croppedImage, croppedImage);
             Size size = new Size(250,250);
             Imgproc.resize(croppedImage, resizeImage, size);
-//
 
-
-
-            // ---------------------------------------------
-//            int prediction = faceRecognition(resizeImage);
             double[] returnedResults = faceRecognition(resizeImage);
-            int prediction = ((int) returnedResults[0]);
+            predictionID = ((int) returnedResults[0]);
             double confidence = returnedResults[1];
+            String name = null;
+            System.out.println("PREDICTED LABEL IS: " + predictionID);
 
-            System.out.println("PREDICTED LABEL IS: " + prediction);
-            int label = (int) prediction;
-            String name = "";
-            if (names.containsKey(label)) {
-                name = names.get(label);
+
+
+            if (namesMap.containsKey(predictionID)) {
+                name = namesMap.get(predictionID);
             } else {
                 name = "Unknown";
             }
-//
+
+
             String box_text = name + " : " + confidence + "%";
             double pos_x = face.x - 10;
             double pos_y = face.y - 10;
-//            // And now put it into the image:
+            // And now put it into the image:
             Imgproc.putText(frame, box_text, new Point(pos_x, pos_y),
                     Imgproc.FONT_HERSHEY_PLAIN, 1.5, new Scalar(0, 255, 0, 2.0));
         }
@@ -240,49 +247,49 @@ public final class OpenCV {
     
     public void trainModel () {
         // Read the data from the training set
-        File root = new File(outputData);
 
-//        System.out.println(root);
-        File[] imageFiles = root.listFiles( new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return name.endsWith(".jpg");
-            }
-        });
 
         List<Mat> images = new ArrayList<Mat>();
 
-        System.out.println("THE NUMBER OF IMAGES READ IS: " + imageFiles.length);
+        System.out.println("THE NUMBER OF IMAGES READ IS: " + ImageFile().length);
 
-        List<Integer> trainingLabels = new ArrayList<>();
-
-        Mat labels = new Mat(imageFiles.length,1,CvType.CV_32SC1);
+        Mat labels = new Mat(ImageFile().length,1,CvType.CV_32SC1);
 
         int counter = 0;
+        int id = 0;
+        int set = 0;
+        String name = null;
 
-        for (File image : imageFiles) {
+        for (File image : ImageFile()) {
             // Parse the training set folder files
             Mat img = Imgcodecs.imread(image.getAbsolutePath());
             // Change to Grayscale and equalize the histogram
             Imgproc.cvtColor(img, img, Imgproc.COLOR_BGR2GRAY);
             Imgproc.equalizeHist(img, img);
             // Extract label from the file name
-            int id = Integer.parseInt(image.getName().split("\\-")[0]);
+            id = Integer.parseInt(image.getName().split("\\-")[0]);
+
+            set = Integer.parseInt(image.getName().split("\\-")[1].split("\\_")[1].split("\\.jpg")[0]);
+
             // Extract name from the file name and add it to names HashMap
-            String name = image.getName().split("\\-")[1].split("\\_")[0];
-            names.put(id, name);
+            name = image.getName().split("\\-")[1].split("\\_")[0];
+
+
+            namesList[counter][0] = id;
+            namesList[counter][1] = name;
+            namesList[counter][2] = set;
+
+            namesMap.put(id,name);
+
             // Add training set images to images Mat
             images.add(img);
 
             labels.put(counter, 0, id);
             counter++;
-            System.out.println(id);
-            System.out.println(name);
-//            System.out.println(count);
-            System.out.println("-----------------------------------------");
+
+//        System.out.println("-----------------------------------------");
+
         }
-//        FaceRecognizer faceRecognizer = FisherFaceRecognizer.create();
-//        FaceRecognizer faceRecognizer = LBPHFaceRecognizer.create(0,1000);
 
         FaceRecognizer faceRecognizer = LBPHFaceRecognizer.create();
         faceRecognizer.train(images, labels);

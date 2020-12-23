@@ -4,6 +4,8 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,6 +23,7 @@ import javax.imageio.ImageIO;
 import java.io.*;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
 public class CapturedScreenController implements Initializable {
 
@@ -36,34 +39,54 @@ public class CapturedScreenController implements Initializable {
     @FXML
     private JFXComboBox<?> comboPic;
 
+    @FXML
+    private JFXComboBox<Integer> boxID;
+
+    @FXML
+    private JFXComboBox<Integer> boxSet;
+
     File imgs;
 
     @FXML
     void saveNew(ActionEvent event) throws IOException {
-        ImageIO.write(SwingFXUtils.fromFXImage(this.captImg.getImage(), null), "jpg", new FileOutputStream(callCV.basePath +"images/dataset/0-"+fieldName.getText()+"_0.jpg"));
+        ImageIO.write(
+            SwingFXUtils.fromFXImage(this.captImg.getImage(), null),
+            "jpg",
+            new FileOutputStream(
+                    callCV.basePath +"images/dataset/"+ boxID.getValue() +"-"+fieldName.getText()+"_"+boxSet.getValue()+".jpg"
+            )
+        );
         btnSubmit.getScene().getWindow().hide();
+
 
     }
 
-    private OpenCV callCV = OpenCV.getInstance();
+    OpenCV callCV = OpenCV.getInstance();
+    ObservableList<Integer> observableList = FXCollections.observableList(callCV.getListSet());
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+
         if(callCV.listRez.size()==1){
-            this.comboPic.setPromptText("This Pic");
+            comboPic.setPromptText("This Image");
             comboPic.setDisable(true);
-            this.imgs = new File(callCV.basePath +"images/test/0-new_0.jpg");
+            boxID.setValue(callCV.predictionID);
+            fieldName.setText(String.valueOf(callCV.namesMap.get(callCV.predictionID)));
+
+            boxSet.setItems(observableList);
+            boxSet.setValue(0);
+            imgs = new File(callCV.basePath +"images/test/0-new_0.jpg");
         } else if(callCV.listRez.size()==0){
-            this.imgs = null;
+            imgs = null;
         } else{
             for(int i=0; i<callCV.listRez.size(); i++){
                 System.out.println(i);
-                this.imgs = new File(callCV.basePath +"images/test/0-new_"+i+".jpg");
+                imgs = new File(callCV.basePath +"images/test/0-new_"+i+".jpg");
             }
         }
         try {
-            this.captImg.setImage(new Image(new FileInputStream(this.imgs)));
+            captImg.setImage(new Image(new FileInputStream(imgs)));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
