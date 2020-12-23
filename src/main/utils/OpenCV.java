@@ -131,15 +131,7 @@ public class OpenCV {
         return this.listRez;
     }
 
-    public ArrayList<Integer> getListSet(){
-        ArrayList<Integer> listSet = new ArrayList<>();
-        for (int i = 0; i < ImageFile().length; i++) {
-            if(namesList[i][0].equals(predictionID)) {
-                listSet.add((Integer) namesList[i][2]);
-            }
-        }
-        return listSet;
-    }
+
 
     public File[] ImageFile(){
         File root = new File(outputData);
