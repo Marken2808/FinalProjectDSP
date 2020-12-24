@@ -3,11 +3,14 @@ package main.controllers;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -21,6 +24,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import main.utils.OpenCV;
 import main.utils.Utils;
 import org.opencv.core.Mat;
@@ -28,9 +32,8 @@ import org.opencv.core.Mat;
 import javax.imageio.ImageIO;
 import java.io.*;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class CapturedScreenController implements Initializable {
 
@@ -69,7 +72,7 @@ public class CapturedScreenController implements Initializable {
     StringBuilder sb = new StringBuilder();
 
     @FXML
-    void submitNew() throws IOException {
+    void submitNew(ActionEvent event) throws IOException, InterruptedException {
 //        ImageIO.write(
 //            SwingFXUtils.fromFXImage(this.captImg.getImage(), null),
 //            "jpg",
@@ -77,16 +80,12 @@ public class CapturedScreenController implements Initializable {
 //                callCV.basePath +"images/dataset/"+ boxID.getValue() +"-"+fieldName.getText()+"_"+boxSet.getValue()+".jpg"
 //            )
 //        );
-//        btnSubmit.getScene().getWindow().hide();
         isFulfill();
-    }
+        Timeline timeline = new Timeline(
+                new KeyFrame( Duration.millis(200),
+                ae -> {if (isFulfill()) btnSubmit.getScene().getWindow().hide();}));
+        timeline.play();
 
-
-    @FXML
-    void isAllDone(MouseEvent event) {
-        if(isFulfill()){
-            btnSubmit.setVisible(true);
-        }
     }
 
     public boolean isEmpty(Object obj){
@@ -100,23 +99,27 @@ public class CapturedScreenController implements Initializable {
         return true;
     }
 
-    public boolean isFulfill(){
+    public void lineInfor(Label text, ImageView pic, String type){
         hboxInfor.setVisible(true);
+        if (type.equals("Success")){
+            text.setText("Perfect, done");
+            text.setStyle("-fx-text-fill: #06dd06");
+            pic.setImage(new Image("/resources/images/icon/check-circle_green.png"));
+        } else if (type.equals("Fail")){
+            text.setText("Please, provide all variable above");
+            text.setStyle("-fx-text-fill: #f90606");
+            pic.setImage(new Image("/resources/images/icon/alert-circle_red.png"));
+        }
+    }
+    public boolean isFulfill(){
+
         if((!isEmpty(fieldName) && !isEmpty(boxID) && !isEmpty(boxSet))){    // true: not empty
 //            System.out.println("all filled: " + !isEmpty(boxID)+!isEmpty(fieldName) + !isEmpty(boxSet));
-
-            textInfor.setStyle("-fx-text-fill: #06dd06");
-            picInfor.setImage(new Image("/resources/images/icon/check-circle_green.png"));
-
-            btnSubmit.setDisable(false);
+            lineInfor(textInfor,picInfor,"Success");
             return true;
         } else {
-
 //            System.out.println("empty: " + !isEmpty(boxID)+!isEmpty(fieldName) + !isEmpty(boxSet));
-
-            textInfor.setStyle("-fx-text-fill:#f90606");
-            picInfor.setImage(new Image("/resources/images/icon/alert-circle_red.png"));
-            btnSubmit.setDisable(true);
+            lineInfor(textInfor,picInfor,"Fail");
             return false;
         }
     }
@@ -153,15 +156,9 @@ public class CapturedScreenController implements Initializable {
         sb.deleteCharAt(0);
     }
 
-
-
-
-
-
-
     public ArrayList<Integer> getListSet(int id){
         ArrayList<Integer> listSet = new ArrayList<>();
-        System.out.println("check: "+callCV.ImageFile().length);
+//        System.out.println("check: "+callCV.ImageFile().length);
         for (int i = 0; i < callCV.ImageFile().length; i++) {
             if(callCV.namesList[i][0].equals(id)) {
                 listSet.add((Integer) callCV.namesList[i][2]);
