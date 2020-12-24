@@ -63,20 +63,27 @@ public class CapturedScreenController implements Initializable {
     File imgs;
     OpenCV callCV = OpenCV.getInstance();
     StringBuilder sb = new StringBuilder();
+
     @FXML
-    void submitNew(ActionEvent event) throws IOException {
-        if(isFulfill()){
-            ImageIO.write(
-                    SwingFXUtils.fromFXImage(this.captImg.getImage(), null),
-                    "jpg",
-                    new FileOutputStream(
-                            callCV.basePath +"images/dataset/"+ boxID.getValue() +"-"+fieldName.getText()+"_"+boxSet.getValue()+".jpg"
-                    )
-            );
-            btnSubmit.getScene().getWindow().hide();
-        }
+    void submitNew() throws IOException {
+//        ImageIO.write(
+//            SwingFXUtils.fromFXImage(this.captImg.getImage(), null),
+//            "jpg",
+//            new FileOutputStream(
+//                callCV.basePath +"images/dataset/"+ boxID.getValue() +"-"+fieldName.getText()+"_"+boxSet.getValue()+".jpg"
+//            )
+//        );
+//        btnSubmit.getScene().getWindow().hide();
+        isFulfill();
     }
 
+
+    @FXML
+    void isAllDone(MouseEvent event) {
+        if(isFulfill()){
+            btnSubmit.setVisible(true);
+        }
+    }
 
     public boolean isEmpty(Object obj){
 
@@ -85,20 +92,22 @@ public class CapturedScreenController implements Initializable {
             return (((JFXComboBox) obj).getValue().equals("")? true: false);
         } else if( obj instanceof JFXTextField){
             return (((JFXTextField) obj).getText().equals("")? true: false);
-
         }
         return true;
     }
 
     public boolean isFulfill(){
         if((!isEmpty(fieldName) && !isEmpty(boxID) && !isEmpty(boxSet))){    // true: not empty
-            System.out.println("all filled: " + !isEmpty(boxID)+!isEmpty(fieldName) + !isEmpty(boxSet));
-            textInfor.setVisible(false);
-            picInfor.setVisible(false);
+//            System.out.println("all filled: " + !isEmpty(boxID)+!isEmpty(fieldName) + !isEmpty(boxSet));
+            textInfor.setVisible(true);
+            picInfor.setVisible(true);
+            textInfor.setStyle("-fx-text-fill: #06dd06");
+            picInfor.setImage(new Image("/resources/images/icon/check-circle_green.png"));
+
             btnSubmit.setDisable(false);
             return true;
         } else {
-            System.out.println("empty: " + !isEmpty(boxID)+!isEmpty(fieldName) + !isEmpty(boxSet));
+//            System.out.println("empty: " + !isEmpty(boxID)+!isEmpty(fieldName) + !isEmpty(boxSet));
             textInfor.setVisible(true);
             picInfor.setVisible(true);
             btnSubmit.setDisable(true);
@@ -108,10 +117,10 @@ public class CapturedScreenController implements Initializable {
 
     @FXML
     void clearDataset(ActionEvent event) {
+        sb.setLength(0);
         clear(boxID);
         clear(fieldName);
         clear(boxSet);
-        System.out.println(fieldName.getText());
         isFulfill();
     }
 
@@ -125,16 +134,17 @@ public class CapturedScreenController implements Initializable {
 
     @FXML
     void chooseID(KeyEvent keyEvent) {
+
         sb.append(keyEvent.getText());
         sb.insert(0,0);
 
         if(keyEvent.getCode().equals(KeyCode.BACK_SPACE) || keyEvent.getCode().equals(KeyCode.DELETE)){
             sb.deleteCharAt(sb.length()-1);
         }
-//        System.out.println(builder);
+//        System.out.println(sb);
+        fieldName.setText(getListName(Integer.parseInt(String.valueOf(sb))));
         boxSet.setItems(FXCollections.observableList(getListSet(Integer.parseInt(String.valueOf(sb)))));
         sb.deleteCharAt(0);
-
     }
 
 
@@ -145,12 +155,22 @@ public class CapturedScreenController implements Initializable {
 
     public ArrayList<Integer> getListSet(int id){
         ArrayList<Integer> listSet = new ArrayList<>();
+        System.out.println("check: "+callCV.ImageFile().length);
         for (int i = 0; i < callCV.ImageFile().length; i++) {
             if(callCV.namesList[i][0].equals(id)) {
                 listSet.add((Integer) callCV.namesList[i][2]);
             }
         }
         return listSet;
+    }
+
+    public String getListName(int id){
+        for (int i = 0; i < callCV.ImageFile().length; i++) {
+            if(callCV.namesList[i][0].equals(id)) {
+                return (String) callCV.namesList[i][1];
+            }
+        }
+        return null;
     }
 
 
@@ -180,5 +200,6 @@ public class CapturedScreenController implements Initializable {
             e.printStackTrace();
         }
         isFulfill();
+
     }
 }

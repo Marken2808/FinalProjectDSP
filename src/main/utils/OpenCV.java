@@ -16,6 +16,9 @@ import org.opencv.videoio.VideoCapture;
 import org.opencv.videoio.Videoio;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 
 
 public class OpenCV {
@@ -131,8 +135,6 @@ public class OpenCV {
         return this.listRez;
     }
 
-
-
     public File[] ImageFile(){
         File root = new File(outputData);
         File[] imageFiles = root.listFiles( new FilenameFilter() {
@@ -216,11 +218,8 @@ public class OpenCV {
             double[] returnedResults = faceRecognition(resizeImage);
             predictionID = ((int) returnedResults[0]);
             double confidence = returnedResults[1];
-            String name = null;
-            System.out.println("PREDICTED LABEL IS: " + predictionID);
-
-
-
+            String name;
+//            System.out.println("PREDICTED LABEL IS: " + predictionID);
             if (namesMap.containsKey(predictionID)) {
                 name = namesMap.get(predictionID);
             } else {
@@ -233,25 +232,19 @@ public class OpenCV {
             double pos_y = face.y - 10;
             // And now put it into the image:
             Imgproc.putText(frame, box_text, new Point(pos_x, pos_y),
-                    Imgproc.FONT_HERSHEY_PLAIN, 1.5, new Scalar(0, 255, 0, 2.0));
+                    Imgproc.FONT_HERSHEY_COMPLEX_SMALL, 1, new Scalar(0, 255, 0, 2.0));
         }
     }
     
     public void trainModel () {
-        // Read the data from the training set
-
-
-        List<Mat> images = new ArrayList<Mat>();
-
-        System.out.println("THE NUMBER OF IMAGES READ IS: " + ImageFile().length);
-
-        Mat labels = new Mat(ImageFile().length,1,CvType.CV_32SC1);
-
         int counter = 0;
         int id = 0;
         int set = 0;
         String name = null;
-
+        // Read the data from the training set
+        List<Mat> images = new ArrayList<Mat>();
+//        System.out.println("THE NUMBER OF IMAGES READ IS: " + ImageFile().length);
+        Mat labels = new Mat(ImageFile().length,1,CvType.CV_32SC1);
         for (File image : ImageFile()) {
             // Parse the training set folder files
             Mat img = Imgcodecs.imread(image.getAbsolutePath());
@@ -260,17 +253,17 @@ public class OpenCV {
             Imgproc.equalizeHist(img, img);
             // Extract label from the file name
             id = Integer.parseInt(image.getName().split("\\-")[0]);
-
-            set = Integer.parseInt(image.getName().split("\\-")[1].split("\\_")[1].split("\\.jpg")[0]);
-
             // Extract name from the file name and add it to names HashMap
             name = image.getName().split("\\-")[1].split("\\_")[0];
+            // Extract set from the file name
+            set = Integer.parseInt(image.getName().split("\\-")[1].split("\\_")[1].split("\\.jpg")[0]);
 
-
+            // add id,name,set into array[][] nameList
             namesList[counter][0] = id;
             namesList[counter][1] = name;
             namesList[counter][2] = set;
 
+            // add id,name into Hashmap nameNap
             namesMap.put(id,name);
 
             // Add training set images to images Mat
@@ -278,8 +271,6 @@ public class OpenCV {
 
             labels.put(counter, 0, id);
             counter++;
-
-//        System.out.println("-----------------------------------------");
 
         }
 

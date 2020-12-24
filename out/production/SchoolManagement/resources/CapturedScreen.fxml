@@ -37,7 +37,7 @@
                      </cursor></JFXComboBox>
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="45.0" spacing="10.0" style="-fx-background-color: #eeeeee;">
+            <HBox alignment="CENTER" onMouseClicked="#isAllDone" onMouseEntered="#isAllDone" onMouseExited="#isAllDone" onMouseMoved="#isAllDone" onMousePressed="#isAllDone" onMouseReleased="#isAllDone" prefHeight="45.0" spacing="10.0" style="-fx-background-color: #eeeeee;">
                <children>
                   <JFXComboBox fx:id="boxID" editable="true" labelFloat="true" onKeyReleased="#chooseID" prefWidth="50.0" promptText="ID">
                      <cursor>
