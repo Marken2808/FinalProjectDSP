@@ -71,10 +71,10 @@
                   <Insets top="10.0" />
                </padding>
             </HBox>
-            <HBox alignment="CENTER" spacing="5.0" style="-fx-background-color: #eeeeee;">
+            <HBox fx:id="hboxInfor" alignment="CENTER" spacing="5.0" style="-fx-background-color: #eeeeee;">
                <children>
-                  <Label fx:id="textInfor" text="Please, provide all variable above" textFill="#f90606" visible="false" />
-                  <ImageView fx:id="picInfor" fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <Label fx:id="textInfor" text="Please, provide all variable above" textFill="#f90606" />
+                  <ImageView fx:id="picInfor" fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/icon/alert-circle_red.png" />
                      </image>

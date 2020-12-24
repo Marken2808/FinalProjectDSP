@@ -19,6 +19,7 @@ import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import main.utils.OpenCV;
 import main.utils.Utils;
@@ -53,6 +54,9 @@ public class CapturedScreenController implements Initializable {
 
     @FXML
     private JFXComboBox<Integer> boxSet;
+
+    @FXML
+    private HBox hboxInfor;
 
     @FXML
     private Label textInfor;
@@ -97,19 +101,21 @@ public class CapturedScreenController implements Initializable {
     }
 
     public boolean isFulfill(){
+        hboxInfor.setVisible(true);
         if((!isEmpty(fieldName) && !isEmpty(boxID) && !isEmpty(boxSet))){    // true: not empty
 //            System.out.println("all filled: " + !isEmpty(boxID)+!isEmpty(fieldName) + !isEmpty(boxSet));
-            textInfor.setVisible(true);
-            picInfor.setVisible(true);
+
             textInfor.setStyle("-fx-text-fill: #06dd06");
             picInfor.setImage(new Image("/resources/images/icon/check-circle_green.png"));
 
             btnSubmit.setDisable(false);
             return true;
         } else {
+
 //            System.out.println("empty: " + !isEmpty(boxID)+!isEmpty(fieldName) + !isEmpty(boxSet));
-            textInfor.setVisible(true);
-            picInfor.setVisible(true);
+
+            textInfor.setStyle("-fx-text-fill:#f90606");
+            picInfor.setImage(new Image("/resources/images/icon/alert-circle_red.png"));
             btnSubmit.setDisable(true);
             return false;
         }
@@ -190,7 +196,7 @@ public class CapturedScreenController implements Initializable {
             imgs = null;
         } else{
             for(int i=0; i<callCV.listRez.size(); i++){
-                System.out.println(i);
+//                System.out.println(i);
                 imgs = new File(callCV.basePath +"images/test/0-new_"+i+".jpg");
             }
         }
@@ -200,6 +206,7 @@ public class CapturedScreenController implements Initializable {
             e.printStackTrace();
         }
         isFulfill();
+        hboxInfor.setVisible(false);
 
     }
 }
