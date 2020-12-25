@@ -15,12 +15,11 @@
             <JFXButton fx:id="btnStart" buttonType="RAISED" onAction="#startCamera" style="-fx-background-color: #eeeeee;" text="Start Camera" />
             <JFXButton fx:id="btnShot" buttonType="RAISED" disable="true" onAction="#takeShot" style="-fx-background-color: #eeeeee;" text="Shot" />
             <JFXButton fx:id="btnInsert" buttonType="RAISED" onAction="#insertImage" style="-fx-background-color: #eeeeee;" text="Insert Image" />
-            <JFXButton fx:id="btnTest" onAction="#test" ripplerFill="BLACK" style="-fx-background-color: #eeeeee;" text="TEST" />
          </children>
       </HBox>
       <StackPane fx:id="stackPane" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="40.0">
          <children>
-            <ImageView fx:id="currentFrame" fitHeight="650.0" fitWidth="800.0" onDragDropped="#dropImage" onDragOver="#dragImage" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="currentFrame" fitHeight="600.0" fitWidth="800.0" onDragDropped="#dropImage" onDragOver="#dragImage" pickOnBounds="true" preserveRatio="true">
                <StackPane.margin>
                   <Insets />
                </StackPane.margin></ImageView>

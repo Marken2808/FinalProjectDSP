@@ -14,6 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+
 <AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.CapturedScreenController">
    <children>
       <VBox alignment="CENTER" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
@@ -34,7 +35,8 @@
                   <JFXComboBox fx:id="comboPic" labelFloat="true" promptText="Pic">
                      <cursor>
                         <Cursor fx:constant="CLOSED_HAND" />
-                     </cursor></JFXComboBox>
+                     </cursor>
+                  </JFXComboBox>
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="45.0" spacing="10.0" style="-fx-background-color: #eeeeee;">
@@ -45,12 +47,14 @@
                      </cursor>
                      <HBox.margin>
                         <Insets left="20.0" />
-                     </HBox.margin></JFXComboBox>
+                     </HBox.margin>
+                  </JFXComboBox>
                   <JFXTextField fx:id="fieldName" alignment="CENTER" labelFloat="true" promptText="Student Name" />
                   <JFXComboBox fx:id="boxSet" editable="true" labelFloat="true" prefWidth="50.0" promptText="Data">
                      <cursor>
                         <Cursor fx:constant="HAND" />
-                     </cursor></JFXComboBox>
+                     </cursor>
+                  </JFXComboBox>
                   <JFXButton fx:id="btnClear" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" onAction="#clearDataset">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
@@ -90,7 +94,8 @@
                </VBox.margin>
                <padding>
                   <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
-               </padding></JFXButton>
+               </padding>
+            </JFXButton>
          </children>
       </VBox>
    </children>

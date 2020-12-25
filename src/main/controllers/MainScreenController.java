@@ -49,7 +49,7 @@ public class MainScreenController implements Initializable
     private ImageView currentFrame;
 
     @FXML
-    private StackPane stackPane;
+    public StackPane stackPane;
 
     @FXML
     private AnchorPane anchorPane;
@@ -68,27 +68,7 @@ public class MainScreenController implements Initializable
 
     private OpenCV callCV = OpenCV.getInstance();
 
-    @FXML
-    void test(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/CapturedScreen.fxml"));
-
-        Parent Root = loader.load();
-
-        JFXDialogLayout content= new JFXDialogLayout();
-        content.setHeading(new Text("Error, No selection"));
-        content.setBody(Root);
-        JFXDialog dialog = new JFXDialog(stackPane, content , JFXDialog.DialogTransition.CENTER);
-        JFXButton button=new JFXButton("Okay");
-        button.setOnAction(new EventHandler<ActionEvent>(){
-            @Override
-            public void handle(ActionEvent event){
-                dialog.close();
-            }
-        });
-        content.setActions(button);
-        dialog.setOverlayClose(false);
-        dialog.show();
-    }
+    public static JFXDialog dialog;
 
     @FXML
     void takeShot(ActionEvent event) throws IOException {
@@ -97,39 +77,17 @@ public class MainScreenController implements Initializable
         // update the button content
         this.btnStart.setDisable(false);
         this.btnStart.setText("Continue");
-//
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/CapturedScreen.fxml"));
-//
-//        Parent Root = loader.load();
-//        Stage Stage = new Stage();
-//        Scene Scene = new Scene(Root);
-//        Stage.setScene(Scene);
-//        Stage.show();
 
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/CapturedScreen.fxml"));
+        FXMLLoader loader = new FXMLLoader(MainScreenController.class.getResource("/resources/CapturedScreen.fxml"));
         Parent Root = loader.load();
 
         JFXDialogLayout content= new JFXDialogLayout();
         content.setHeading(new Text("Error, No selection"));
         content.setBody(Root);
-        JFXDialog dialog = new JFXDialog(stackPane, content , JFXDialog.DialogTransition.CENTER);
-        JFXButton button=new JFXButton("Okay");
-        button.setOnAction(new EventHandler<ActionEvent>(){
-            @Override
-            public void handle(ActionEvent e){
-                dialog.close();
-
-            }
-        });
-        content.setActions(button);
-        dialog.setOverlayClose(false);
+        dialog = new JFXDialog(stackPane, content , JFXDialog.DialogTransition.CENTER);
+        dialog.setOverlayClose(true);
         dialog.show();
-
-
     }
-
-
 
     @FXML
     void dragImage(DragEvent event) {

@@ -30,6 +30,7 @@ import main.utils.Utils;
 import org.opencv.core.Mat;
 
 import javax.imageio.ImageIO;
+import javax.imageio.stream.FileImageOutputStream;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
@@ -72,19 +73,30 @@ public class CapturedScreenController implements Initializable {
     StringBuilder sb = new StringBuilder();
 
     @FXML
-    public void submitNew(ActionEvent event) throws IOException, InterruptedException {
-//        ImageIO.write(
-//            SwingFXUtils.fromFXImage(this.captImg.getImage(), null),
-//            "jpg",
-//            new FileOutputStream(
-//                callCV.basePath +"images/dataset/"+ boxID.getValue() +"-"+fieldName.getText()+"_"+boxSet.getValue()+".jpg"
-//            )
-//        );
-//        isFulfill();
+    public void submitNew(ActionEvent event) {
+        isFulfill();
 //        Timeline timeline = new Timeline(
 //                new KeyFrame( Duration.millis(200),
 //                ae -> {if (isFulfill()) btnSubmit.getScene().getWindow().hide();}));
-//        timeline.play();
+        Timeline timeline = new Timeline( new KeyFrame( Duration.millis(200), ae -> {
+            if (isFulfill()) {
+                try {
+//                    write image on file
+                    ImageIO.write(
+                            SwingFXUtils.fromFXImage( this.captImg.getImage(), null),
+                            "jpg",
+                            new FileImageOutputStream( new File(
+                                    callCV.basePath + "images/dataset/" + boxID.getValue() + "-" + fieldName.getText() + "_" + boxSet.getValue() + ".jpg")
+                        )
+                    );
+//                    close dialog from main
+                    MainScreenController.dialog.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }));
+        timeline.play();
 
     }
 
