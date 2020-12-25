@@ -59,7 +59,7 @@ public class CapturedScreenController implements Initializable {
     private JFXComboBox<Integer> boxSet;
 
     @FXML
-    private HBox hboxInfor;
+    public HBox hboxInfor;
 
     @FXML
     private Label textInfor;
@@ -72,7 +72,7 @@ public class CapturedScreenController implements Initializable {
     StringBuilder sb = new StringBuilder();
 
     @FXML
-    void submitNew(ActionEvent event) throws IOException, InterruptedException {
+    public void submitNew(ActionEvent event) throws IOException, InterruptedException {
 //        ImageIO.write(
 //            SwingFXUtils.fromFXImage(this.captImg.getImage(), null),
 //            "jpg",
@@ -80,11 +80,11 @@ public class CapturedScreenController implements Initializable {
 //                callCV.basePath +"images/dataset/"+ boxID.getValue() +"-"+fieldName.getText()+"_"+boxSet.getValue()+".jpg"
 //            )
 //        );
-        isFulfill();
-        Timeline timeline = new Timeline(
-                new KeyFrame( Duration.millis(200),
-                ae -> {if (isFulfill()) btnSubmit.getScene().getWindow().hide();}));
-        timeline.play();
+//        isFulfill();
+//        Timeline timeline = new Timeline(
+//                new KeyFrame( Duration.millis(200),
+//                ae -> {if (isFulfill()) btnSubmit.getScene().getWindow().hide();}));
+//        timeline.play();
 
     }
 
