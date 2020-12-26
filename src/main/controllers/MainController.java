@@ -4,55 +4,36 @@ import java.io.*;
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
-import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import javafx.util.Duration;
 import main.utils.OpenCV;
 import main.utils.Utils;
 import org.opencv.core.*;
 
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import org.opencv.videoio.Videoio;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
+//import static org.bytedeco.opencv.global.opencv_videoio.CAP_PROP_FPS;
 
-import static org.bytedeco.opencv.global.opencv_videoio.CAP_PROP_FPS;
-
-public class MainScreenController implements Initializable
+public class MainController implements Initializable
 {
     @FXML
     private ImageView currentFrame;
 
     @FXML
-    public StackPane stackPane;
-
-    @FXML
-    private AnchorPane anchorPane;
+    private StackPane stackPane;
 
     @FXML
     private JFXButton btnStart;
@@ -70,23 +51,63 @@ public class MainScreenController implements Initializable
 
     public static JFXDialog dialog;
 
+    private String CaptureScreen = "/resources/CapturedScreen.fxml";
+    private String SignInScreen  = "/resources/SignInScreen.fxml";
+    private String SignUpScreen  = "/resources/SignUpScreen.fxml";
+
+//----------------------------instance--------------------
+    public static MainController instance;
+    public MainController(){
+        instance = this;
+    }
+    public static MainController getInstance() {
+        if(instance == null){
+            instance = new MainController();
+        }
+        return instance;
+    }
+//---------------------------------------------------------
+
+    public void popUp(String screen, boolean canClose){
+        try {
+            FXMLLoader loader = new FXMLLoader(MainController.class.getResource(screen));
+            Parent Root = loader.load();
+            JFXDialogLayout content = new JFXDialogLayout();
+            content.setBody(Root);
+            dialog = new JFXDialog(stackPane, content , JFXDialog.DialogTransition.CENTER);
+            dialog.setOverlayClose(canClose);
+            dialog.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void utility(boolean show){
+        btnStart.setVisible(show);
+        btnInsert.setVisible(show);
+        btnShot.setVisible(show);
+    }
+
+    public void displaySignIn(){
+        utility(false);
+        popUp(SignInScreen,false);
+    }
+
+    public void displaySignUp(){
+        utility(false);
+        popUp(SignUpScreen,false);
+    }
+
     @FXML
-    void takeShot(ActionEvent event) throws IOException {
+    void takeShot(ActionEvent event) {
 
         callCV.stopAcquisition();
         // update the button content
         this.btnStart.setDisable(false);
         this.btnStart.setText("Continue");
 
-        FXMLLoader loader = new FXMLLoader(MainScreenController.class.getResource("/resources/CapturedScreen.fxml"));
-        Parent Root = loader.load();
+        popUp(CaptureScreen, true);
 
-        JFXDialogLayout content= new JFXDialogLayout();
-        content.setHeading(new Text("Error, No selection"));
-        content.setBody(Root);
-        dialog = new JFXDialog(stackPane, content , JFXDialog.DialogTransition.CENTER);
-        dialog.setOverlayClose(true);
-        dialog.show();
     }
 
     @FXML
@@ -119,7 +140,7 @@ public class MainScreenController implements Initializable
 
 
     @FXML
-    void insertImage(ActionEvent event) throws IOException {
+    void insertImage(ActionEvent event) {
         this.btnInsert.setText("Inserting...");
         FileChooser fileChooser = new FileChooser();
         File selectedFile = fileChooser.showOpenDialog(null);
@@ -178,6 +199,7 @@ public class MainScreenController implements Initializable
         {
             // the camera is not active at this point
             this.cameraActive = false;
+            this.currentFrame.setImage(null);
             // update again the button content
             this.btnStart.setText("Start Camera");
             this.btnInsert.setDisable(false);
@@ -203,6 +225,8 @@ public class MainScreenController implements Initializable
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         callCV.init();
+        displaySignIn();
+
 
     }
 }

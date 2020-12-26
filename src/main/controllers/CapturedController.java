@@ -5,38 +5,28 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import main.utils.OpenCV;
-import main.utils.Utils;
-import org.opencv.core.Mat;
 
 import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageOutputStream;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
-public class CapturedScreenController implements Initializable {
+public class CapturedController implements Initializable {
 
     @FXML
     private ImageView captImg;
@@ -90,7 +80,7 @@ public class CapturedScreenController implements Initializable {
                         )
                     );
 //                    close dialog from main
-                    MainScreenController.dialog.close();
+                    MainController.dialog.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

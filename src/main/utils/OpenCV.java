@@ -232,7 +232,7 @@ public class OpenCV {
             double pos_y = face.y - 10;
             // And now put it into the image:
             Imgproc.putText(frame, box_text, new Point(pos_x, pos_y),
-                    Imgproc.FONT_HERSHEY_COMPLEX_SMALL, 1, new Scalar(0, 255, 0, 2.0));
+                    Imgproc.FONT_HERSHEY_COMPLEX_SMALL, 1.5, new Scalar(0, 255, 0, 2.0),2);
         }
     }
     
