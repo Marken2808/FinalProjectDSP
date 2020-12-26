@@ -24,7 +24,7 @@
             </Label>
             <VBox alignment="CENTER_RIGHT" spacing="5.0">
                <children>
-                  <JFXTextField id="error" fx:id="filedUsername" labelFloat="true" onKeyReleased="#isEmpty" prefColumnCount="10" promptText="Username" />
+                  <JFXTextField id="error" fx:id="filedUsername" labelFloat="true" onKeyReleased="#isEmpty" promptText="Username" />
                   <HBox alignment="CENTER_RIGHT" spacing="5.0">
                      <children>
                         <Label fx:id="textInfor" contentDisplay="CENTER" disable="true" text="abccccc" textFill="#f90606" />
@@ -39,7 +39,7 @@
             </VBox>
             <VBox alignment="CENTER_RIGHT" spacing="5.0">
                <children>
-                  <JFXPasswordField fx:id="fieldPassword" labelFloat="true" onKeyReleased="#isEmpty" prefColumnCount="10" promptText="Password" />
+                  <JFXPasswordField fx:id="fieldPassword" labelFloat="true" onKeyReleased="#isEmpty" promptText="Password" />
                   <HBox alignment="CENTER_RIGHT" spacing="5.0">
                      <children>
                         <Label fx:id="textInfor" contentDisplay="CENTER" disable="true" text="abccccc" textFill="#f90606" />
@@ -63,9 +63,6 @@
                </VBox.margin>
             </HBox>
          </children>
-         <StackPane.margin>
-            <Insets />
-         </StackPane.margin>
       </VBox>
    </children>
 </StackPane>
