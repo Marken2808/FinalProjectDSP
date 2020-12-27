@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXSlider?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.SignUpController">
+   <children>
+      <VBox alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" text="Register">
+               <font>
+                  <Font name="Segoe UI" size="28.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="20.0" />
+               </VBox.margin>
+            </Label>
+            <VBox alignment="CENTER" spacing="5.0">
+               <children>
+                  <JFXTextField fx:id="fieldUsername" labelFloat="true" onKeyReleased="#isEmpty" prefColumnCount="15" promptText="Username" />
+                  <HBox alignment="CENTER_RIGHT" spacing="5.0">
+                     <children>
+                        <Label fx:id="textInfor" disable="true" text="abcccc" textAlignment="CENTER" textFill="RED">
+                           <font>
+                              <Font size="13.0" />
+                           </font></Label>
+                        <ImageView fx:id="picInfor" fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../resources/images/icon/alert-circle.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" spacing="5.0">
+               <children>
+                  <JFXPasswordField fx:id="fieldPassword" labelFloat="true" onKeyReleased="#isEmpty" prefColumnCount="15" promptText="Password" />
+                  <HBox alignment="CENTER_RIGHT" spacing="5.0">
+                     <children>
+                        <Label fx:id="textInfor" disable="true" text="abcccc" textAlignment="CENTER" textFill="RED">
+                           <font>
+                              <Font size="13.0" />
+                           </font></Label>
+                        <ImageView fx:id="picInfor" fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../resources/images/icon/alert-circle.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" spacing="5.0">
+               <children>
+                  <JFXPasswordField fx:id="fieldConfirm" labelFloat="true" onKeyReleased="#isEmpty" prefColumnCount="15" promptText="Confirm Password" />
+                  <HBox alignment="CENTER_RIGHT" spacing="5.0">
+                     <children>
+                        <Label fx:id="textInfor" disable="true" text="abcccc" textAlignment="CENTER" textFill="RED">
+                           <font>
+                              <Font size="13.0" />
+                           </font></Label>
+                        <ImageView fx:id="picInfor" fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../resources/images/icon/alert-circle.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER">
+               <children>
+                  <JFXDatePicker fx:id="pickDate" editable="false" minWidth="365.0" onAction="#checkingAge" promptText="Birthday">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin></JFXDatePicker>
+               </children>
+            </VBox>
+            <HBox alignment="CENTER">
+               <children>
+                  <JFXButton fx:id="btnSignUp" buttonType="RAISED" onAction="#makeRegister" style="-fx-background-color: #00ffaa;" text="Sign Up" />
+                  <JFXButton fx:id="btnSignUp1" buttonType="RAISED" onAction="#makeRegister" text="Cancel" />
+               </children>
+               <VBox.margin>
+                  <Insets top="30.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+      </VBox>
+      <JFXSlider fx:id="sliderAge" disable="true" indicatorPosition="RIGHT" majorTickUnit="10.0" max="65.0" min="5.0" minorTickCount="1" showTickLabels="true" value="1.0">
+         <StackPane.margin>
+            <Insets right="35.0" top="200.0" />
+         </StackPane.margin>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXSlider>
+   </children>
+</StackPane>

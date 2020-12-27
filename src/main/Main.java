@@ -15,7 +15,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../resources/MainScreen.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("views/MainScreen.fxml"));
         Parent root = loader.load();
         //root.setStyle("-fx-background-color: whitesmoke;");
         Scene scene = new Scene(root);

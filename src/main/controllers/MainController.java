@@ -9,16 +9,19 @@ import java.util.concurrent.TimeUnit;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
+import com.jfoenix.controls.JFXDrawer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.input.DragEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import main.utils.OpenCV;
-import main.utils.Utils;
+import main.utils.UtilsOCV;
 import org.opencv.core.*;
 
 import javafx.fxml.FXML;
@@ -33,6 +36,9 @@ public class MainController implements Initializable
     private ImageView currentFrame;
 
     @FXML
+    private AnchorPane anchorPane;
+
+    @FXML
     private StackPane stackPane;
 
     @FXML
@@ -44,6 +50,12 @@ public class MainController implements Initializable
     @FXML
     private JFXButton btnInsert;
 
+    @FXML
+    private JFXButton btnMenu;
+
+    @FXML
+    private JFXDrawer drawerPane;
+
     // a flag to change the button behavior
     private boolean cameraActive;
 
@@ -51,9 +63,9 @@ public class MainController implements Initializable
 
     public static JFXDialog dialog;
 
-    private String CaptureScreen = "/resources/CapturedScreen.fxml";
-    private String SignInScreen  = "/resources/SignInScreen.fxml";
-    private String SignUpScreen  = "/resources/SignUpScreen.fxml";
+    private String CaptureScreen = "/main/views/CapturedScreen.fxml";
+    private String SignInScreen  = "/main/views/SignInScreen.fxml";
+    private String SignUpScreen  = "/main/views/SignUpScreen.fxml";
 
 //----------------------------instance--------------------
     public static MainController instance;
@@ -96,6 +108,65 @@ public class MainController implements Initializable
     public void displaySignUp(){
         utility(false);
         popUp(SignUpScreen,false);
+    }
+
+    public void showElements(VBox menuLeft) throws IOException {
+//        AnchorPane home = FXMLLoader.load(getClass().getResource("../../filesFXML/HomeScreen.fxml"));
+//        AnchorPane setting = FXMLLoader.load(getClass().getResource("../../filesFXML/SettingScreen.fxml"));
+//        AnchorPane dashboard = FXMLLoader.load(getClass().getResource("../../filesFXML/ActivityScreen.fxml"));
+
+        for (Node node : menuLeft.getChildren()) {
+            if (node.getAccessibleText() != null) {
+                node.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+                    switch (node.getAccessibleText()) {
+//                        case "Home":
+//                            stackPane.getChildren().setAll(home);
+////                            title.setText("Home");
+//                            break;
+//                        case "Setting":
+//                            stackPane.getChildren().setAll(setting);
+////                            title.setText("Setting");
+//                            break;
+//                        case "Dashboard":
+//                            stackPane.getChildren().setAll(dashboard);
+////                            title.setText("Dashboard");
+//                            break;
+                    }
+                });
+            }
+        }
+    }
+
+    @FXML
+    void drawerExit(MouseEvent event) {
+        if(drawerPane.isOpened() || drawerPane.isOpening()) {
+            drawerPane.close();
+            btnMenu.setGraphic(new ImageView(new Image("/resources/images/icon/menu.png")));
+        }
+        // set Drawer always hide away from main scene;
+        anchorPane.clearConstraints(drawerPane);
+        anchorPane.setTopAnchor(drawerPane,40.0);
+        anchorPane.setLeftAnchor(drawerPane, 0.0);
+        anchorPane.setBottomAnchor(drawerPane,0.0);
+    }
+
+    @FXML
+    void isMenuClicked(MouseEvent event) throws IOException {
+        anchorPane.setTopAnchor(drawerPane,40.0);
+        anchorPane.setLeftAnchor(drawerPane, 0.0);
+        anchorPane.setBottomAnchor(drawerPane,0.0);
+
+        VBox menuLeft = FXMLLoader.load(getClass().getResource("/main/views/DrawerScreen.fxml"));
+        drawerPane.setSidePane(menuLeft);
+//        showElements(menuLeft);
+
+        if (drawerPane.isClosed() || drawerPane.isClosing()) {
+            drawerPane.open();
+            btnMenu.setGraphic(new ImageView(new Image("/resources/images/icon/x.png")));
+        } else {
+            drawerPane.close();
+            btnMenu.setGraphic(new ImageView(new Image("/resources/images/icon/menu.png")));
+        }
     }
 
     @FXML
@@ -180,7 +251,7 @@ public class MainController implements Initializable
                         // effectively grab and process a single frame
                         Mat frame = callCV.grabFrame();
                         // convert and show the frame
-                        Image imageToShow = Utils.mat2Image(frame);
+                        Image imageToShow = UtilsOCV.mat2Image(frame);
                         callCV.updateImageView(currentFrame, imageToShow);
 
                     }
@@ -227,6 +298,7 @@ public class MainController implements Initializable
         callCV.init();
         displaySignIn();
 
+//        btnInsert.setGraphic(new ImageView(new Image("resources/images/icon/check-circle_green.png")));
 
     }
 }

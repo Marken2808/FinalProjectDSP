@@ -4,29 +4,20 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import org.opencv.core.*;
-import org.opencv.face.Face;
 import org.opencv.face.FaceRecognizer;
-import org.opencv.face.FisherFaceRecognizer;
 import org.opencv.face.LBPHFaceRecognizer;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
 import org.opencv.objdetect.Objdetect;
 import org.opencv.videoio.VideoCapture;
-import org.opencv.videoio.Videoio;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Stream;
 
 
 public class OpenCV {
@@ -123,14 +114,14 @@ public class OpenCV {
         String outputImg = outputSrc + file.getName().replace(".jpg","_add.jpg");
 
         Mat src = Imgcodecs.imread(inputImg);
-        Image imageToShow = Utils.mat2Image(src);
+        Image imageToShow = UtilsOCV.mat2Image(src);
         this.updateImageView(currentFrame, imageToShow);
         this.faceCascade = new CascadeClassifier(haarFace);
         this.eyesCascade = new CascadeClassifier(haarEyes);
 
         this.detectAndDisplay(src);
         Imgcodecs.imwrite( outputImg, src);
-        this.updateImageView(currentFrame, Utils.mat2Image(Imgcodecs.imread(outputImg)) );
+        this.updateImageView(currentFrame, UtilsOCV.mat2Image(Imgcodecs.imread(outputImg)) );
 
         return this.listRez;
     }
@@ -333,7 +324,7 @@ public class OpenCV {
      */
     public void updateImageView(ImageView view, Image image)
     {
-        Utils.onFXThread(view.imageProperty(), image);
+        UtilsOCV.onFXThread(view.imageProperty(), image);
     }
 
     /**
