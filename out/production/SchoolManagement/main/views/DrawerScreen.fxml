@@ -6,13 +6,12 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="drawerPane" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.DrawerController">
+<VBox fx:id="drawerPane" alignment="TOP_CENTER" prefWidth="200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.DrawerController">
    <children>
-      <ImageView fx:id="picAvatar" fitHeight="150.0" fitWidth="202.0" pickOnBounds="true">
+      <ImageView fx:id="picAvatar" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true">
          <image>
             <Image url="@../../resources/images/icon/alert-circle.png" />
          </image>
@@ -45,7 +44,6 @@
             </HBox>
          </graphic>
       </JFXButton>
-      <StackPane prefHeight="50.0" />
       <JFXButton fx:id="btnHome" accessibleText="Home" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="-Infinity" minHeight="-Infinity" onMouseClicked="#isHomeClicked" prefHeight="50.0" prefWidth="200.0" text="&lt;Home&gt;">
          <graphic>
             <HBox alignment="CENTER_LEFT">
@@ -82,8 +80,7 @@
             </HBox>
          </graphic>
       </JFXButton>
-      <StackPane maxHeight="-Infinity" prefHeight="150.0" />
-      <JFXButton fx:id="btnDashboard" accessibleText="Dashboard" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" prefWidth="200.0" text="&lt;Dashboard&gt;">
+      <JFXButton fx:id="btnDashboard" accessibleText="Dashboard" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" prefWidth="200.0" text="&lt;Dashboard&gt;" VBox.vgrow="ALWAYS">
          <graphic>
             <HBox alignment="CENTER_LEFT">
                <children>
@@ -101,7 +98,7 @@
             </HBox>
          </graphic>
       </JFXButton>
-      <JFXButton fx:id="btnSignOut" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="-Infinity" minHeight="-Infinity" onMouseClicked="#makeLogOut" prefHeight="50.0" prefWidth="200.0" text="&lt; Log out&gt;" textAlignment="CENTER">
+      <JFXButton fx:id="btnSignOut" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="-Infinity" minHeight="-Infinity" onMouseClicked="#makeLogOut" prefHeight="50.0" prefWidth="200.0" text="&lt; Log out&gt;" textAlignment="CENTER" VBox.vgrow="ALWAYS">
          <graphic>
             <HBox alignment="CENTER_LEFT">
                <children>

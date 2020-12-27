@@ -122,8 +122,9 @@ public class MainController implements Initializable
 
     public void displayDrawer(){
         anchorPane.setTopAnchor(drawerPane,40.0);
-        anchorPane.setLeftAnchor(drawerPane, 0.0);
         anchorPane.setBottomAnchor(drawerPane,0.0);
+        if ( drawerPane.isClosing() ) { anchorPane.setLeftAnchor(drawerPane, -200.0); }
+        else { anchorPane.setLeftAnchor(drawerPane, 0.0); }
     }
 
     public void displaySignIn(){
@@ -139,7 +140,7 @@ public class MainController implements Initializable
     public void showElements(VBox menuLeft) throws IOException {
 //        AnchorPane home = FXMLLoader.load(getClass().getResource("/main/views/MainScreen.fxml"));
 //        AnchorPane setting = FXMLLoader.load(getClass().getResource("../../filesFXML/SettingScreen.fxml"));
-//        AnchorPane dashboard = FXMLLoader.load(getClass().getResource("../../filesFXML/ActivityScreen.fxml"));
+        AnchorPane dashboard = FXMLLoader.load(getClass().getResource("/main/views/DashboardScreen.fxml"));
 
         for (Node node : menuLeft.getChildren()) {
             if (node.getAccessibleText() != null) {
@@ -154,7 +155,7 @@ public class MainController implements Initializable
                             labelTitle.setText("Setting");
                             break;
                         case "Dashboard":
-//                            stackPane.getChildren().setAll(dashboard);
+                            anchorPane.getChildren().setAll(dashboard);
                             labelTitle.setText("Dashboard");
                             break;
                     }

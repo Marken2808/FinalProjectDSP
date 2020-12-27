@@ -18,10 +18,8 @@ public class Main extends Application {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("views/MainScreen.fxml"));
         Parent root = loader.load();
-        //root.setStyle("-fx-background-color: whitesmoke;");
         Scene scene = new Scene(root);
-        //scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-        primaryStage.setTitle("Face Detection and Tracking");
+//        primaryStage.setTitle("Face Detection and Tracking");
         primaryStage.setScene(scene);
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.show();
