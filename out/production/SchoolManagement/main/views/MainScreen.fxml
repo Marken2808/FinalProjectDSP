@@ -91,7 +91,11 @@
          <children>
             <StackPane fx:id="stackPane" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <ImageView fx:id="currentFrame" fitHeight="675.0" fitWidth="900.0" onDragDropped="#dropImage" onDragOver="#dragImage" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="currentFrame" fitHeight="675.0" fitWidth="900.0" onDragDropped="#dropImage" onDragOver="#dragImage" pickOnBounds="true" preserveRatio="true">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
                </children>
             </StackPane>
             <HBox fx:id="boxFooter" alignment="CENTER" prefHeight="50.0" spacing="50.0" style="-fx-background-color: #111111;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">

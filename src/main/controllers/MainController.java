@@ -13,6 +13,8 @@ import com.jfoenix.controls.JFXDrawer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
+import javafx.scene.ImageCursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
@@ -76,18 +78,17 @@ public class MainController implements Initializable
     @FXML
     private JFXDrawer drawerPane;
 
-    // a flag to change the button behavior
     private boolean cameraActive;
-
-    private OpenCV callCV = OpenCV.getInstance();
 
     public static JFXDialog dialog;
 
-    private String CaptureScreen = "/main/views/CapturedScreen.fxml";
-    private String SignInScreen  = "/main/views/SignInScreen.fxml";
-    private String SignUpScreen  = "/main/views/SignUpScreen.fxml";
-
+    private String CaptureScreen    = "/main/views/CapturedScreen.fxml";
+    private String SignInScreen     = "/main/views/SignInScreen.fxml";
+    private String SignUpScreen     = "/main/views/SignUpScreen.fxml";
+    private String DrawerScreen     = "/main/views/DrawerScreen.fxml";
+    private String DashboardScreen  = "/main/views/DashboardScreen.fxml";
 //----------------------------instance--------------------
+    private OpenCV callCV = OpenCV.getInstance();
     public static MainController instance;
     public MainController(){
         instance = this;
@@ -120,11 +121,15 @@ public class MainController implements Initializable
         drawerPane.setVisible(show);
     }
 
-    public void displayDrawer(){
+    public void displayDrawer() throws IOException {
         anchorPane.setTopAnchor(drawerPane,40.0);
         anchorPane.setBottomAnchor(drawerPane,0.0);
         if ( drawerPane.isClosing() ) { anchorPane.setLeftAnchor(drawerPane, -200.0); }
         else { anchorPane.setLeftAnchor(drawerPane, 0.0); }
+
+        VBox menuLeft = FXMLLoader.load(getClass().getResource(DrawerScreen));
+        drawerPane.setSidePane(menuLeft);
+        showElements(menuLeft);
     }
 
     public void displaySignIn(){
@@ -137,26 +142,37 @@ public class MainController implements Initializable
         popUp(SignUpScreen,false);
     }
 
+    public void displayComponent(Node node, AnchorPane componentPane){
+
+        String title = node.getAccessibleText().toUpperCase();
+        labelTitle.setText(title);
+//        anchorPane.getChildren().setAll(comPane);
+        if(title.equals("HOME")){
+            anchorPane.getChildren().clear();
+            anchorPane.getChildren().setAll(stackPane,boxFooter);
+        } else {
+            anchorPane.getChildren().setAll(componentPane);
+        }
+    }
+
     public void showElements(VBox menuLeft) throws IOException {
 //        AnchorPane home = FXMLLoader.load(getClass().getResource("/main/views/MainScreen.fxml"));
 //        AnchorPane setting = FXMLLoader.load(getClass().getResource("../../filesFXML/SettingScreen.fxml"));
-        AnchorPane dashboard = FXMLLoader.load(getClass().getResource("/main/views/DashboardScreen.fxml"));
+        AnchorPane dashboard = FXMLLoader.load(getClass().getResource(DashboardScreen));
 
         for (Node node : menuLeft.getChildren()) {
             if (node.getAccessibleText() != null) {
                 node.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
                     switch (node.getAccessibleText()) {
                         case "Home":
-                            anchorPane.setVisible(true);
-                            labelTitle.setText("HOME");
+                            displayComponent(node, null);
                             break;
                         case "Setting":
-//                            stackPane.getChildren().setAll(setting);
-                            labelTitle.setText("Setting");
+                            displayComponent(node,null);
                             break;
                         case "Dashboard":
-                            anchorPane.getChildren().setAll(dashboard);
-                            labelTitle.setText("Dashboard");
+                            displayComponent(node, dashboard);
+//                            System.out.println(node.getAccessibleText().toUpperCase());
                             break;
                     }
                 });
@@ -164,8 +180,21 @@ public class MainController implements Initializable
         }
     }
 
+    public void turnOffCamera(){
+        callCV.stopAcquisition();
+        // the camera is not active at this point
+        this.cameraActive = false;
+        this.currentFrame.setImage(null);
+        // update again the button content
+        this.btnStart.setText("Start Camera");
+        this.btnInsert.setDisable(false);
+        this.btnShot.setDisable(true);
+        this.btnStart.setDisable(false);
+        // stop the timer
+    }
+
     @FXML
-    void drawerExit(MouseEvent event) {
+    void drawerExit(MouseEvent event) throws IOException {
         if(drawerPane.isOpened() || drawerPane.isOpening()) {
             drawerPane.close();
             btnMenu.setGraphic(new ImageView(new Image("/resources/images/icon/menu.png")));
@@ -177,18 +206,20 @@ public class MainController implements Initializable
 
     @FXML
     void isMenuClicked(MouseEvent event) throws IOException {
+
         displayDrawer();
+        if (!this.cameraActive) {
 
-        VBox menuLeft = FXMLLoader.load(getClass().getResource("/main/views/DrawerScreen.fxml"));
-        drawerPane.setSidePane(menuLeft);
-        showElements(menuLeft);
-
-        if (drawerPane.isClosed() || drawerPane.isClosing()) {
-            drawerPane.open();
-            btnMenu.setGraphic(new ImageView(new Image("/resources/images/icon/x.png")));
+            if (drawerPane.isClosed() || drawerPane.isClosing()) {
+                drawerPane.open();
+                btnMenu.setGraphic(new ImageView(new Image("/resources/images/icon/x.png")));
+            } else {
+                drawerPane.close();
+                btnMenu.setGraphic(new ImageView(new Image("/resources/images/icon/menu.png")));
+            }
         } else {
-            drawerPane.close();
-            btnMenu.setGraphic(new ImageView(new Image("/resources/images/icon/menu.png")));
+            System.out.println("Need close camera" );
+            turnOffCamera();
         }
     }
 
@@ -237,42 +268,35 @@ public class MainController implements Initializable
         File selectedFile = fileChooser.showOpenDialog(null);
         if (selectedFile != null){
             callCV.detectImage(selectedFile, currentFrame);
+            this.btnShot.setDisable(false);
+            this.btnShot.setText("Save new");
         }
         this.btnInsert.setText("Insert Image");
-        this.btnShot.setDisable(false);
-        this.btnShot.setText("Save new");
 
     }
 
     @FXML
-    protected void startCamera(ActionEvent event) {
-        // set a fixed width for the frame
-//        currentFrame.setFitWidth(600);
-        // preserve image ratio
+    void startCamera(ActionEvent event) {
         currentFrame.fitWidthProperty().bind(stackPane.widthProperty());
         currentFrame.fitHeightProperty().bind(stackPane.heightProperty());
-        if (!this.cameraActive)
-        {
+        if (!this.cameraActive) {
             this.btnShot.setDisable(false);
             this.btnInsert.setDisable(true);
             // start the video capture
             this.callCV.capture.open(0);
 
             // is the video stream available?
-            if (callCV.capture.isOpened())
-            {
+            if (callCV.capture.isOpened()) {
                 this.cameraActive = true;
                 // grab a frame every 33 ms (30 frames/sec)
                 Runnable frameGrabber = new Runnable() {
                     @Override
-                    public void run()
-                    {
+                    public void run() {
                         // effectively grab and process a single frame
                         Mat frame = callCV.grabFrame();
                         // convert and show the frame
                         Image imageToShow = UtilsOCV.mat2Image(frame);
                         callCV.updateImageView(currentFrame, imageToShow);
-
                     }
                 };
 
@@ -285,18 +309,10 @@ public class MainController implements Initializable
             }
             else { System.err.println("Failed to open the camera connection..."); }
         }
-        else
-        {
-            // the camera is not active at this point
-            this.cameraActive = false;
-            this.currentFrame.setImage(null);
-            // update again the button content
-            this.btnStart.setText("Start Camera");
-            this.btnInsert.setDisable(false);
-            this.btnShot.setDisable(true);
-            // stop the timer
-            callCV.stopAcquisition();
+        else {
+            turnOffCamera();
         }
+
     }
 
     @FXML
@@ -319,16 +335,6 @@ public class MainController implements Initializable
             restore.setMaximized(true);
         }
     }
-
-
-
-
-
-
-    /**
-     * The action triggered by selecting the Haar Classifier checkbox. It loads
-     * the trained set to be used for frontal face detection.
-     */
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
