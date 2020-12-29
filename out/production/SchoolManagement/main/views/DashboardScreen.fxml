@@ -2,6 +2,7 @@
 
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.chart.AreaChart?>
+<?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -32,18 +33,28 @@
                      <children>
                         <LineChart fx:id="lineChart" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <xAxis>
-                            <CategoryAxis side="BOTTOM" fx:id="x" />
+                            <CategoryAxis side="BOTTOM" fx:id="xline" />
                           </xAxis>
                           <yAxis>
-                            <NumberAxis fx:id="y" side="LEFT" />
+                            <NumberAxis fx:id="yline" side="LEFT" />
                           </yAxis>
                         </LineChart>
                      </children></AnchorPane>
                </content>
             </Tab>
-            <Tab text="Clubs">
+            <Tab text="Bar Chart">
                <content>
-                  <AnchorPane />
+                  <AnchorPane>
+                     <children>
+                        <BarChart fx:id="barChart" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <xAxis>
+                            <CategoryAxis side="BOTTOM" fx:id="xbar" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis fx:id="ybar" side="LEFT" />
+                          </yAxis>
+                        </BarChart>
+                     </children></AnchorPane>
                </content>
             </Tab>
             <Tab text="Leagues">

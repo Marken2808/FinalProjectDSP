@@ -62,6 +62,9 @@ public class MainController implements Initializable
     private HBox boxFooter;
 
     @FXML
+    private VBox home;
+
+    @FXML
     private JFXButton btnMenu;
 
     @FXML
@@ -150,7 +153,7 @@ public class MainController implements Initializable
         labelTitle.setText(title);
         if(title.equals("HOME")){
             stackPane.getChildren().clear();
-            stackPane.getChildren().setAll(stackPane,boxFooter);
+            stackPane.getChildren().setAll(home);
         } else {
             stackPane.getChildren().setAll(componentPane);
         }

@@ -55,10 +55,19 @@ public class DashboardController implements Initializable {
     private LineChart<?, ?> lineChart;
 
     @FXML
-    private CategoryAxis x;
+    private CategoryAxis xline;
 
     @FXML
-    private NumberAxis y;
+    private NumberAxis yline;
+
+    @FXML
+    private BarChart<?, ?> barChart;
+
+    @FXML
+    private CategoryAxis xbar;
+
+    @FXML
+    private NumberAxis ybar;
 
     @FXML
     private LineChart<Double, Double> lineGraph;
@@ -108,6 +117,14 @@ public class DashboardController implements Initializable {
     }
 
     public void drawLineChart(){
+        lineChart.getData().addAll(dataChart());
+    }
+
+    public void drawBarChart(){
+        barChart.getData().addAll(dataChart());
+    }
+
+    public XYChart.Series dataChart(){
         XYChart.Series series = new XYChart.Series();
         //Add Data
         series.getData().add(new XYChart.Data("1", 23));
@@ -117,7 +134,7 @@ public class DashboardController implements Initializable {
         series.getData().add(new XYChart.Data("5", 14));
         series.getData().add(new XYChart.Data("6", 15));
 
-        lineChart.getData().addAll(series);
+        return series;
     }
 
     @Override
@@ -126,6 +143,8 @@ public class DashboardController implements Initializable {
         areaMathsGraph = new MyGraph(areaGraph, 10);
         drawPieChart();
         drawLineChart();
+        drawBarChart();
+
     }
 
 //    -----------------------------EX----------------------------
