@@ -10,9 +10,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane style="-fx-background-image: url(&quot;/resources/images/background/background.png&quot;); -fx-background-position: center;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.MainController">
+<AnchorPane fx:id="anchorPane" style="-fx-background-image: url(&quot;/resources/images/background/background.png&quot;); -fx-background-position: center;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.MainController">
    <children>
       <HBox fx:id="boxHeader" alignment="CENTER_LEFT" prefHeight="40.0" spacing="30.0" style="-fx-background-color: #333333;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -87,26 +88,26 @@
             </HBox>
          </children>
       </HBox>
-      <AnchorPane fx:id="anchorPane" layoutY="639.7777709960938" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+      <StackPane fx:id="stackPane" alignment="BOTTOM_CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
          <children>
-            <StackPane fx:id="stackPane" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <VBox>
                <children>
                   <ImageView fx:id="currentFrame" fitHeight="675.0" fitWidth="900.0" onDragDropped="#dropImage" onDragOver="#dragImage" pickOnBounds="true" preserveRatio="true">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
+                  <HBox fx:id="boxFooter" alignment="CENTER" prefHeight="50.0" spacing="50.0" style="-fx-background-color: #111111;">
+                     <children>
+                        <JFXButton fx:id="btnStart" buttonType="RAISED" onAction="#startCamera" style="-fx-background-color: white;" text="Start Camera" />
+                        <JFXButton fx:id="btnShot" buttonType="RAISED" disable="true" onAction="#takeShot" style="-fx-background-color: white;" text="Shot" />
+                        <JFXButton fx:id="btnInsert" buttonType="RAISED" onAction="#insertImage" style="-fx-background-color: white;" text="Insert Image" />
+                     </children>
+                  </HBox>
                </children>
-            </StackPane>
-            <HBox fx:id="boxFooter" alignment="CENTER" prefHeight="50.0" spacing="50.0" style="-fx-background-color: #111111;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-               <children>
-                  <JFXButton fx:id="btnStart" buttonType="RAISED" onAction="#startCamera" style="-fx-background-color: white;" text="Start Camera" />
-                  <JFXButton fx:id="btnShot" buttonType="RAISED" disable="true" onAction="#takeShot" style="-fx-background-color: white;" text="Shot" />
-                  <JFXButton fx:id="btnInsert" buttonType="RAISED" onAction="#insertImage" style="-fx-background-color: white;" text="Insert Image" />
-               </children>
-            </HBox>
+            </VBox>
          </children>
-      </AnchorPane>
+      </StackPane>
       <JFXDrawer fx:id="drawerPane" defaultDrawerSize="200.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseExited="#drawerExit" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="40.0" />
    </children>
 </AnchorPane>

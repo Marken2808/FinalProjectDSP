@@ -13,6 +13,7 @@ import com.jfoenix.controls.JFXDrawer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
 import javafx.scene.Node;
@@ -127,6 +128,7 @@ public class MainController implements Initializable
         if ( drawerPane.isClosing() ) { anchorPane.setLeftAnchor(drawerPane, -200.0); }
         else { anchorPane.setLeftAnchor(drawerPane, 0.0); }
 
+
         VBox menuLeft = FXMLLoader.load(getClass().getResource(DrawerScreen));
         drawerPane.setSidePane(menuLeft);
         showElements(menuLeft);
@@ -142,23 +144,22 @@ public class MainController implements Initializable
         popUp(SignUpScreen,false);
     }
 
-    public void displayComponent(Node node, AnchorPane componentPane){
+    public void displayComponent(Node node, StackPane componentPane){
 
         String title = node.getAccessibleText().toUpperCase();
         labelTitle.setText(title);
-//        anchorPane.getChildren().setAll(comPane);
         if(title.equals("HOME")){
-            anchorPane.getChildren().clear();
-            anchorPane.getChildren().setAll(stackPane,boxFooter);
+            stackPane.getChildren().clear();
+            stackPane.getChildren().setAll(stackPane,boxFooter);
         } else {
-            anchorPane.getChildren().setAll(componentPane);
+            stackPane.getChildren().setAll(componentPane);
         }
     }
 
     public void showElements(VBox menuLeft) throws IOException {
 //        AnchorPane home = FXMLLoader.load(getClass().getResource("/main/views/MainScreen.fxml"));
 //        AnchorPane setting = FXMLLoader.load(getClass().getResource("../../filesFXML/SettingScreen.fxml"));
-        AnchorPane dashboard = FXMLLoader.load(getClass().getResource(DashboardScreen));
+        StackPane dashboard = FXMLLoader.load(getClass().getResource(DashboardScreen));
 
         for (Node node : menuLeft.getChildren()) {
             if (node.getAccessibleText() != null) {
@@ -172,7 +173,6 @@ public class MainController implements Initializable
                             break;
                         case "Dashboard":
                             displayComponent(node, dashboard);
-//                            System.out.println(node.getAccessibleText().toUpperCase());
                             break;
                     }
                 });
@@ -200,7 +200,7 @@ public class MainController implements Initializable
             btnMenu.setGraphic(new ImageView(new Image("/resources/images/icon/menu.png")));
         }
         // set Drawer always hide away from main scene;
-        anchorPane.clearConstraints(drawerPane);
+        stackPane.clearConstraints(drawerPane);
         displayDrawer();
     }
 
