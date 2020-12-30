@@ -6,7 +6,6 @@
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -22,7 +21,7 @@
                <content>
                   <AnchorPane>
                      <children>
-                        <PieChart fx:id="pieChart" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <StackPane fx:id="semiPane" alignment="BOTTOM_CENTER" prefHeight="150.0" prefWidth="200.0" />
                      </children>
                   </AnchorPane>
                </content>
@@ -31,7 +30,7 @@
                <content>
                   <AnchorPane>
                      <children>
-                        <LineChart fx:id="lineChart" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <LineChart fx:id="lineChart" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <xAxis>
                             <CategoryAxis side="BOTTOM" fx:id="xline" />
                           </xAxis>
@@ -39,14 +38,7 @@
                             <NumberAxis fx:id="yline" side="LEFT" />
                           </yAxis>
                         </LineChart>
-                     </children></AnchorPane>
-               </content>
-            </Tab>
-            <Tab text="Bar Chart">
-               <content>
-                  <AnchorPane>
-                     <children>
-                        <BarChart fx:id="barChart" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <BarChart fx:id="barChart" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <xAxis>
                             <CategoryAxis side="BOTTOM" fx:id="xbar" />
                           </xAxis>
@@ -55,6 +47,11 @@
                           </yAxis>
                         </BarChart>
                      </children></AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Bar Chart">
+               <content>
+                  <AnchorPane fx:id="polarPane" />
                </content>
             </Tab>
             <Tab text="Leagues">

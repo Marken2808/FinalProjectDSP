@@ -90,7 +90,7 @@
       </HBox>
       <StackPane fx:id="stackPane" alignment="BOTTOM_CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
          <children>
-            <VBox fx:id="home">
+            <VBox fx:id="home" alignment="CENTER">
                <children>
                   <ImageView fx:id="currentFrame" fitHeight="675.0" fitWidth="900.0" onDragDropped="#dropImage" onDragOver="#dragImage" pickOnBounds="true" preserveRatio="true">
                      <cursor>

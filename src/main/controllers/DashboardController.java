@@ -1,20 +1,38 @@
 package main.controllers;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
+import javafx.css.Size;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.chart.*;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import main.utils.SemiCircleChart;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PolarPlot;
+import org.jfree.chart.renderer.DefaultPolarItemRenderer;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 
-import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.ResourceBundle;
 import java.util.function.Function;
 
@@ -49,7 +67,7 @@ class MyGraph {
 public class DashboardController implements Initializable {
 
     @FXML
-    private PieChart pieChart;
+    private StackPane semiPane;
 
     @FXML
     private LineChart<?, ?> lineChart;
@@ -107,13 +125,18 @@ public class DashboardController implements Initializable {
 
 
     public void drawPieChart(){
-        ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList(
-            new PieChart.Data("A",13),
-            new PieChart.Data("B",13),
-            new PieChart.Data("C",13),
-            new PieChart.Data("D",13)
+        ObservableList<SemiCircleChart.Data> dataList = FXCollections.observableArrayList(
+                new SemiCircleChart.Data(5, "BAD", Color.RED),
+                new SemiCircleChart.Data(3, "NORMAL", Color.GOLD),
+                new SemiCircleChart.Data(2, "GOOD", Color.GREEN)
         );
-        pieChart.setData(pieData);
+
+        SemiCircleChart chart = new SemiCircleChart(dataList, 300, 300, 300,200,2);
+
+        Label label = new Label("DATANAME");
+        label.setFont(new Font(50));
+
+        semiPane.getChildren().addAll(chart, label);
     }
 
     public void drawLineChart(){
@@ -137,6 +160,10 @@ public class DashboardController implements Initializable {
         return series;
     }
 
+
+
+//    -------------------------
+
     @Override
     public void initialize(final URL url, final ResourceBundle rb) {
         mathsGraph = new MyGraph(lineGraph, 10);
@@ -144,7 +171,6 @@ public class DashboardController implements Initializable {
         drawPieChart();
         drawLineChart();
         drawBarChart();
-
     }
 
 //    -----------------------------EX----------------------------
