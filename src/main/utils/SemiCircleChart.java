@@ -18,7 +18,7 @@ public class SemiCircleChart extends Parent{ //TODO: this should extend Chart in
     private double radius;
     private double innerHoleRadius;
     private double separatorLength;
-    private Color holeColor = Color.web("#f4f4f4");
+    private Color holeColor = Color.web("#fefefe");
     private Color separatorColor = holeColor;
 
     public SemiCircleChart(List<Data> data){
@@ -86,7 +86,7 @@ public class SemiCircleChart extends Parent{ //TODO: this should extend Chart in
             slice.setOnMouseEntered(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    slice.setFill(data.getColor().brighter());
+//                    slice.setFill(data.getColor().brighter());
                     tooltip.show(slice, event.getScreenX()+10, event.getScreenY()+10);
                 }
             });

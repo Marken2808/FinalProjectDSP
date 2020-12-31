@@ -1,5 +1,6 @@
 package main.controllers;
 
+import com.jfoenix.controls.JFXMasonryPane;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
@@ -67,25 +68,13 @@ class MyGraph {
 public class DashboardController implements Initializable {
 
     @FXML
-    private StackPane semiPane;
+    private JFXMasonryPane semiPane;
 
     @FXML
     private LineChart<?, ?> lineChart;
 
     @FXML
-    private CategoryAxis xline;
-
-    @FXML
-    private NumberAxis yline;
-
-    @FXML
     private BarChart<?, ?> barChart;
-
-    @FXML
-    private CategoryAxis xbar;
-
-    @FXML
-    private NumberAxis ybar;
 
     @FXML
     private LineChart<Double, Double> lineGraph;
@@ -93,50 +82,24 @@ public class DashboardController implements Initializable {
     @FXML
     private AreaChart<Double, Double> areaGraph;
 
-    @FXML
-    private Button lineGraphButton;
-
-    @FXML
-    private Button areaGraphButton;
-
-    @FXML
-    private Button xyButton;
-
-    @FXML
-    private Button xyButton2;
-
-    @FXML
-    private Button squaredButton;
-
-    @FXML
-    private Button squaredButton2;
-
-    @FXML
-    private Button cubedButton;
-
-    @FXML
-    private Button cubedButton2;
-
-    @FXML
-    private Button clearButton;
-
     private MyGraph mathsGraph;
     private MyGraph areaMathsGraph;
 
 
-    public void drawPieChart(){
+    public void drawSemiCircleChart(String name, int achieve){
+        StackPane stackPane = new StackPane();
         ObservableList<SemiCircleChart.Data> dataList = FXCollections.observableArrayList(
-                new SemiCircleChart.Data(5, "BAD", Color.RED),
-                new SemiCircleChart.Data(3, "NORMAL", Color.GOLD),
-                new SemiCircleChart.Data(2, "GOOD", Color.GREEN)
+                new SemiCircleChart.Data(achieve, "Achieve", Color.LIMEGREEN),
+                new SemiCircleChart.Data(10-achieve, "Total", Color.LIGHTGRAY)
         );
 
-        SemiCircleChart chart = new SemiCircleChart(dataList, 300, 300, 300,200,2);
+        SemiCircleChart chart = new SemiCircleChart(dataList, 90, 90, 90,80,0);
 
-        Label label = new Label("DATANAME");
-        label.setFont(new Font(50));
-
-        semiPane.getChildren().addAll(chart, label);
+        Label label = new Label(name);
+        label.setFont(new Font(20));
+        stackPane.getChildren().addAll(chart, label);
+        stackPane.setAlignment(Pos.BOTTOM_CENTER);
+        semiPane.getChildren().add(stackPane);
     }
 
     public void drawLineChart(){
@@ -168,7 +131,13 @@ public class DashboardController implements Initializable {
     public void initialize(final URL url, final ResourceBundle rb) {
         mathsGraph = new MyGraph(lineGraph, 10);
         areaMathsGraph = new MyGraph(areaGraph, 10);
-        drawPieChart();
+        drawSemiCircleChart("MATH",7);
+        drawSemiCircleChart("PHYSICS",4);
+        drawSemiCircleChart("CHEMISTRY",4);
+        drawSemiCircleChart("ENGLISH",8);
+        drawSemiCircleChart("HISTORY",5);
+        drawSemiCircleChart("BIOLOGY",6);
+        drawSemiCircleChart("GEOGRAPHY",3);
         drawLineChart();
         drawBarChart();
     }
