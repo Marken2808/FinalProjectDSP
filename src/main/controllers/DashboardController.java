@@ -14,38 +14,15 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import main.utils.CircleChart;
+import main.utils.MyGraph;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.function.Function;
 
-class MyGraph {
 
-    private XYChart<Double, Double> graph;
-    private double range;
-
-    public MyGraph(final XYChart<Double, Double> graph, final double range) {
-        this.graph = graph;
-        this.range = range;
-    }
-
-    public void plotLine(final Function<Double, Double> function) {
-        final XYChart.Series<Double, Double> series = new XYChart.Series<Double, Double>();
-        for (double x = -range; x <= range; x = x + 0.01) {
-            plotPoint(x, function.apply(x), series);
-        }
-        graph.getData().add(series);
-    }
-
-    private void plotPoint(final double x, final double y,
-                           final XYChart.Series<Double, Double> series) {
-        series.getData().add(new XYChart.Data<Double, Double>(x, y));
-    }
-
-    public void clear() {
-        graph.getData().clear();
-    }
-}
 
 public class DashboardController implements Initializable {
 
@@ -137,13 +114,12 @@ public class DashboardController implements Initializable {
     public void initialize(final URL url, final ResourceBundle rb) {
         mathsGraph = new MyGraph(lineGraph, 10);
         areaMathsGraph = new MyGraph(areaGraph, 10);
-        drawSemiCircleChart("MATH",7);
-        drawSemiCircleChart("PHYSICS",4);
-        drawSemiCircleChart("CHEMISTRY",4);
-        drawSemiCircleChart("ENGLISH",8);
-        drawSemiCircleChart("HISTORY",5);
-        drawSemiCircleChart("BIOLOGY",6);
-        drawSemiCircleChart("GEOGRAPHY",3);
+
+        String[] subjects = new String[]{"MATH","PHYSICS","CHEMISTRY","ENGLISH","HISTORY","BIOLOGY","GEOGRAPHY"};
+        for(String subject : subjects) {
+            int rand = new Random().nextInt(10);
+            drawSemiCircleChart(subject, rand);
+        }
         drawDoughnutChart();
         drawLineChart();
         drawBarChart();

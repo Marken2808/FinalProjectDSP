@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
+import main.utils.DBbean;
 import main.utils.OpenCV;
 import org.opencv.core.Core;
 
@@ -33,6 +34,8 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
+
+        DBbean.getConnection();
         // load the native OpenCV library
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         launch(args);

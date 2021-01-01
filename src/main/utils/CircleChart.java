@@ -132,8 +132,6 @@ public class CircleChart extends Parent{ //TODO: this should extend Chart in the
             hole.setLength(degree);
             this.getChildren().add(hole);
 
-
-
         }
     }
 
