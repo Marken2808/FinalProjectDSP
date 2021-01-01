@@ -108,22 +108,24 @@ public class OpenCV {
         return frame;
     }
 
-    public ArrayList<Mat> detectImage (File file, ImageView currentFrame){
+    public Image detectImage (File file, ImageView currentFrame){
 
         String inputImg = inputSrc + file.getName();
         String outputImg = outputSrc + file.getName().replace(".jpg","_add.jpg");
 
         Mat src = Imgcodecs.imread(inputImg);
-        Image imageToShow = UtilsOCV.mat2Image(src);
-        this.updateImageView(currentFrame, imageToShow);
+        Image imageBefore = UtilsOCV.mat2Image(src);
+        this.updateImageView(currentFrame, imageBefore);
         this.faceCascade = new CascadeClassifier(haarFace);
         this.eyesCascade = new CascadeClassifier(haarEyes);
 
         this.detectAndDisplay(src);
         Imgcodecs.imwrite( outputImg, src);
-        this.updateImageView(currentFrame, UtilsOCV.mat2Image(Imgcodecs.imread(outputImg)) );
+        Image imageAfter = UtilsOCV.mat2Image(Imgcodecs.imread(outputImg));
+        this.updateImageView(currentFrame, imageAfter );
 
-        return this.listRez;
+
+        return UtilsOCV.mat2Image(Imgcodecs.imread(outputImg));
     }
 
     public File[] ImageFile(){

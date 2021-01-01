@@ -25,6 +25,7 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import main.utils.DBbean;
 import main.utils.OpenCV;
 import main.utils.UtilsOCV;
 import org.opencv.core.*;
@@ -255,7 +256,11 @@ public class MainController implements Initializable
         File selectedFile = event.getDragboard().getFiles().get(0);
         currentFrame.setImage(new Image(new FileInputStream(selectedFile)));
         event.consume();
-        callCV.detectImage(selectedFile, currentFrame);
+        Image imageBefore = callCV.detectImage(selectedFile, currentFrame);
+
+        DBbean.uploadImageDB(selectedFile, imageBefore);
+
+
 //        System.out.println(test);
         this.btnInsert.setText("Insert Image");
         this.btnShot.setDisable(false);
