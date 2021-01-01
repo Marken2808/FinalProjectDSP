@@ -2,16 +2,14 @@ package main.utils;
 
 import java.util.List;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Arc;
 import javafx.scene.shape.ArcType;
 
-public class SemiCircleChart extends Parent{ //TODO: this should extend Chart in the future
+public class CircleChart extends Parent{ //TODO: this should extend Chart in the future
     private List<Data> dataList;
     private double centerX;
     private double centerY;
@@ -21,22 +19,22 @@ public class SemiCircleChart extends Parent{ //TODO: this should extend Chart in
     private Color holeColor = Color.web("#fefefe");
     private Color separatorColor = holeColor;
 
-    public SemiCircleChart(int type, List<Data> data){
-        this(type, data, 0, 0,100);
+    public CircleChart(int degree, List<Data> data){
+        this(degree, data, 0, 0,100);
     }
 
-    public SemiCircleChart(int type, List<Data> dataList, double centerX, double centerY, double radius){
-        this(type, dataList,centerX,centerY,radius,0,0);
+    public CircleChart(int degree, List<Data> dataList, double centerX, double centerY, double radius){
+        this(degree, dataList,centerX,centerY,radius,0,0);
     }
 
-    public SemiCircleChart(int type, List<Data> dataList, double centerX, double centerY, double radius, double innerHoleRadius, double separatorLength){
+    public CircleChart(int degree, List<Data> dataList, double centerX, double centerY, double radius, double innerHoleRadius, double separatorLength){
         this.dataList = dataList;
         this.centerX = centerX;
         this.centerY = centerY;
         this.radius = radius;
         this.innerHoleRadius = innerHoleRadius;
         this.separatorLength = separatorLength;
-        makeChart(type);
+        makeChart(degree);
     }
 
     public void setHoleColor(Color holeColor){
@@ -54,15 +52,15 @@ public class SemiCircleChart extends Parent{ //TODO: this should extend Chart in
         this.getChildren().clear();
 //        makeChart(type);
     }
-    private void makeChart(int type){
+    private void makeChart(int degree){
         double totalValues=0;
 
         for(Data data:dataList){
             totalValues += data.getValue();
         }
 
-        double ratio = totalValues/type;
-        double totalAngle=type;
+        double ratio = totalValues/degree;
+        double totalAngle=degree;
 
         for(int i=0;i<dataList.size();i++){
             Data data = dataList.get(i);
@@ -131,7 +129,7 @@ public class SemiCircleChart extends Parent{ //TODO: this should extend Chart in
             hole.setType(ArcType.ROUND);
             hole.setFill(holeColor);
             hole.setStartAngle(0);
-            hole.setLength(type);
+            hole.setLength(degree);
             this.getChildren().add(hole);
 
 

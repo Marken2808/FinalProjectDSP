@@ -2,39 +2,20 @@ package main.controllers;
 
 import com.jfoenix.controls.JFXMasonryPane;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
-import javafx.css.Size;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.chart.*;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import main.utils.DoughnutChart;
-import main.utils.SemiCircleChart;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PolarPlot;
-import org.jfree.chart.renderer.DefaultPolarItemRenderer;
-import org.jfree.data.xy.XYDataset;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
+import main.utils.CircleChart;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.ResourceBundle;
 import java.util.function.Function;
 
@@ -72,6 +53,9 @@ public class DashboardController implements Initializable {
     private JFXMasonryPane semiPane;
 
     @FXML
+    private StackPane doughnutPane;
+
+    @FXML
     private LineChart<?, ?> lineChart;
 
     @FXML
@@ -88,27 +72,34 @@ public class DashboardController implements Initializable {
 
     public void drawDoughnutChart(){
         StackPane stackPane = new StackPane();
-        ObservableList<SemiCircleChart.Data> dataList = FXCollections.observableArrayList(
-                new SemiCircleChart.Data(7, "Achieve", Color.LIMEGREEN),
-                new SemiCircleChart.Data(3, "Total", Color.LIGHTGRAY)
+        ObservableList<CircleChart.Data> dataList = FXCollections.observableArrayList(
+                new CircleChart.Data(7, "MATH", Color.LIMEGREEN),
+                new CircleChart.Data(4, "PHYSICS", Color.LIGHTBLUE),
+                new CircleChart.Data(4, "CHEMISTRY", Color.BISQUE),
+                new CircleChart.Data(8, "ENGLISH", Color.LIGHTPINK),
+                new CircleChart.Data(5, "HISTORY", Color.LAVENDER),
+                new CircleChart.Data(6, "BIOLOGY", Color.HONEYDEW),
+                new CircleChart.Data(3, "GEOGRAPHY", Color.TOMATO)
+
+
         );
 
-        SemiCircleChart chart = new SemiCircleChart(360, dataList, 90, 90, 90,80,0);
+        CircleChart chart = new CircleChart(360, dataList, 100, 100, 100,70,2);
 
-        Label label = new Label("name");
+        Label label = new Label("Student\nOverall");
         label.setFont(new Font(20));
         stackPane.getChildren().addAll(chart, label);
-        semiPane.getChildren().add(stackPane);
+        doughnutPane.getChildren().add(stackPane);
     }
 
     public void drawSemiCircleChart(String name, int achieve){
         StackPane stackPane = new StackPane();
-        ObservableList<SemiCircleChart.Data> dataList = FXCollections.observableArrayList(
-                new SemiCircleChart.Data(achieve, "Achieve", Color.LIMEGREEN),
-                new SemiCircleChart.Data(10-achieve, "Total", Color.LIGHTGRAY)
+        ObservableList<CircleChart.Data> dataList = FXCollections.observableArrayList(
+                new CircleChart.Data(achieve, "Achieve", Color.LIMEGREEN),
+                new CircleChart.Data(10-achieve, "Total", Color.LIGHTGRAY)
         );
 
-        SemiCircleChart chart = new SemiCircleChart(180, dataList, 90, 90, 90,80,0);
+        CircleChart chart = new CircleChart(180, dataList, 90, 90, 90,80,0);
 
         Label label = new Label(name);
         label.setFont(new Font(20));
