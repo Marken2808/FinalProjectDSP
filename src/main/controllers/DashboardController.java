@@ -21,6 +21,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import main.utils.DoughnutChart;
 import main.utils.SemiCircleChart;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -85,6 +86,20 @@ public class DashboardController implements Initializable {
     private MyGraph mathsGraph;
     private MyGraph areaMathsGraph;
 
+    public void drawDoughnutChart(){
+        StackPane stackPane = new StackPane();
+        ObservableList<SemiCircleChart.Data> dataList = FXCollections.observableArrayList(
+                new SemiCircleChart.Data(7, "Achieve", Color.LIMEGREEN),
+                new SemiCircleChart.Data(3, "Total", Color.LIGHTGRAY)
+        );
+
+        SemiCircleChart chart = new SemiCircleChart(360, dataList, 90, 90, 90,80,0);
+
+        Label label = new Label("name");
+        label.setFont(new Font(20));
+        stackPane.getChildren().addAll(chart, label);
+        semiPane.getChildren().add(stackPane);
+    }
 
     public void drawSemiCircleChart(String name, int achieve){
         StackPane stackPane = new StackPane();
@@ -93,7 +108,7 @@ public class DashboardController implements Initializable {
                 new SemiCircleChart.Data(10-achieve, "Total", Color.LIGHTGRAY)
         );
 
-        SemiCircleChart chart = new SemiCircleChart(dataList, 90, 90, 90,80,0);
+        SemiCircleChart chart = new SemiCircleChart(180, dataList, 90, 90, 90,80,0);
 
         Label label = new Label(name);
         label.setFont(new Font(20));
@@ -138,6 +153,7 @@ public class DashboardController implements Initializable {
         drawSemiCircleChart("HISTORY",5);
         drawSemiCircleChart("BIOLOGY",6);
         drawSemiCircleChart("GEOGRAPHY",3);
+        drawDoughnutChart();
         drawLineChart();
         drawBarChart();
     }

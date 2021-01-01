@@ -21,22 +21,22 @@ public class SemiCircleChart extends Parent{ //TODO: this should extend Chart in
     private Color holeColor = Color.web("#fefefe");
     private Color separatorColor = holeColor;
 
-    public SemiCircleChart(List<Data> data){
-        this(data, 0, 0,100);
+    public SemiCircleChart(int type, List<Data> data){
+        this(type, data, 0, 0,100);
     }
 
-    public SemiCircleChart(List<Data> dataList, double centerX, double centerY, double radius){
-        this(dataList,centerX,centerY,radius,0,0);
+    public SemiCircleChart(int type, List<Data> dataList, double centerX, double centerY, double radius){
+        this(type, dataList,centerX,centerY,radius,0,0);
     }
 
-    public SemiCircleChart(List<Data> dataList, double centerX, double centerY, double radius, double innerHoleRadius, double separatorLength){
+    public SemiCircleChart(int type, List<Data> dataList, double centerX, double centerY, double radius, double innerHoleRadius, double separatorLength){
         this.dataList = dataList;
         this.centerX = centerX;
         this.centerY = centerY;
         this.radius = radius;
         this.innerHoleRadius = innerHoleRadius;
         this.separatorLength = separatorLength;
-        makeChart();
+        makeChart(type);
     }
 
     public void setHoleColor(Color holeColor){
@@ -44,7 +44,7 @@ public class SemiCircleChart extends Parent{ //TODO: this should extend Chart in
 
         //reset the chart
         this.getChildren().clear();
-        makeChart();
+//        makeChart();
     }
 
     public void setSeparatorColor(Color separatorColor){
@@ -52,17 +52,17 @@ public class SemiCircleChart extends Parent{ //TODO: this should extend Chart in
 
         //reset the chart
         this.getChildren().clear();
-        makeChart();
+//        makeChart(type);
     }
-    private void makeChart(){
+    private void makeChart(int type){
         double totalValues=0;
 
         for(Data data:dataList){
             totalValues += data.getValue();
         }
 
-        double ratio = totalValues/180;
-        double totalAngle=180;
+        double ratio = totalValues/type;
+        double totalAngle=type;
 
         for(int i=0;i<dataList.size();i++){
             Data data = dataList.get(i);
@@ -131,7 +131,7 @@ public class SemiCircleChart extends Parent{ //TODO: this should extend Chart in
             hole.setType(ArcType.ROUND);
             hole.setFill(holeColor);
             hole.setStartAngle(0);
-            hole.setLength(180);
+            hole.setLength(type);
             this.getChildren().add(hole);
 
 
