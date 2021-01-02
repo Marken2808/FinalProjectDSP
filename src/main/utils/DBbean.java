@@ -24,25 +24,52 @@ public class DBbean {
 
         System.out.println("Connection established......");
 
-
-
     }
 
-    public static void uploadImageDB(File file, Image img){
+    public static void insertStudent(int sid, String sname){
         try {
-            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO student (sid,sname,sface) VALUES(?,?,?)");
-            pstmt.setInt(1, new Random().nextInt());
-            pstmt.setString(2, file.getName());
-            //Inserting Blob type
-            InputStream in = new FileInputStream(file.getPath());
-            pstmt.setBlob(3, in);
+            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO student (sid,sname) VALUES(?,?)");
+            pstmt.setInt(1, sid);
+            pstmt.setString(2, sname);
             //Executing the statement
             pstmt.execute();
-            System.out.println("Record inserted......");
-        } catch (SQLException | FileNotFoundException e) {
+            System.out.println("student inserted......");
+        } catch (SQLException e) {
+            System.out.println("student already stored......");
+        }
+    }
+
+    public static void insertFace(String input, String output, String set, int sid){
+        try {
+            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO face (finput, foutput, fset, sid) VALUES(?,?,?,?)");
+
+            pstmt.setString(1, input);
+            pstmt.setString(2, output);
+            pstmt.setString(3, set);
+            pstmt.setInt(4, sid);
+            //Executing the statement
+            pstmt.execute();
+            System.out.println("face inserted......");
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
+//    public static void uploadImageDB(File file, Image img){
+//        try {
+//            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO student (sid,sname) VALUES(?,?,?)");
+//            pstmt.setInt(1, new Random().nextInt());
+//            pstmt.setString(2, file.getName());
+//            //Inserting Blob type
+//            InputStream in = new FileInputStream(file.getPath());
+//            pstmt.setBlob(3, in);
+//            //Executing the statement
+//            pstmt.execute();
+//            System.out.println("Record inserted......");
+//        } catch (SQLException | FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 //    public static Image retrieveImageDB(){
 //        try {

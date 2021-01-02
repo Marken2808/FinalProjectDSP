@@ -18,6 +18,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
+import main.utils.DBbean;
 import main.utils.OpenCV;
 
 import javax.imageio.ImageIO;
@@ -61,6 +62,7 @@ public class CapturedController implements Initializable {
     File imgs;
     OpenCV callCV = OpenCV.getInstance();
     StringBuilder sb = new StringBuilder();
+    File datasetImg;
 
     @FXML
     public void submitNew(ActionEvent event) {
@@ -72,13 +74,20 @@ public class CapturedController implements Initializable {
             if (isFulfill()) {
                 try {
 //                    write image on file
+                    datasetImg = new File (callCV.dataPath + boxID.getValue() + "-" + fieldName.getText() + "_" + boxSet.getValue() + ".jpg");
                     ImageIO.write(
                             SwingFXUtils.fromFXImage( this.captImg.getImage(), null),
                             "jpg",
-                            new FileImageOutputStream( new File(
-                                    callCV.basePath + "images/dataset/" + boxID.getValue() + "-" + fieldName.getText() + "_" + boxSet.getValue() + ".jpg")
-                        )
+                            new FileImageOutputStream(datasetImg)
                     );
+//                    System.out.println("out: "+callCV.outImg);
+//                    System.out.println("in: "+callCV.inImg);
+//                    System.out.println("set: "+ datasetImg.getName().split("\\-")[1].split("\\_")[0]);
+
+                    String name = datasetImg.getName().split("\\-")[1].split("\\_")[0];
+
+                    DBbean.insertStudent(1,name);
+                    DBbean.insertFace(callCV.inImg,callCV.outImg,datasetImg.getPath(), 1);
 //                    close dialog from main
                     MainController.dialog.close();
                 } catch (IOException e) {

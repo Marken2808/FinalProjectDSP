@@ -16,6 +16,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
@@ -38,10 +39,12 @@ public class OpenCV {
 
 
     public String basePath      = System.getProperty("user.dir").concat("\\src\\resources\\");
-    public String outputSrc     = basePath+"images/output/";
-    public String inputSrc      = basePath+"images/input/";
-    public String outputCapt    = basePath+"images/test/";
-    public String outputData    = basePath+"images/dataset/";
+    public String outputPath    = basePath+"images/output/";
+    public String inputPath      = basePath+"images/input/";
+    public String testPath    = basePath+"images/test/";
+    public String dataPath    = basePath+"images/dataset/";
+    public String outImg;
+    public String inImg;
     public String haarFace      = basePath+"haarcascades/haarcascade_frontalface_alt2.xml";
     public String haarEyes      = basePath+"haarcascades/haarcascade_eye_tree_eyeglasses.xml";
 
@@ -110,26 +113,31 @@ public class OpenCV {
 
     public Image detectImage (File file, ImageView currentFrame){
 
-        String inputImg = inputSrc + file.getName();
-        String outputImg = outputSrc + file.getName().replace(".jpg","_add.jpg");
+        inImg = inputPath + file.getName();
+        outImg = outputPath + file.getName().replace(".jpg","_add.jpg");
 
-        Mat src = Imgcodecs.imread(inputImg);
+        Mat src = Imgcodecs.imread(inImg);
         Image imageBefore = UtilsOCV.mat2Image(src);
         this.updateImageView(currentFrame, imageBefore);
         this.faceCascade = new CascadeClassifier(haarFace);
         this.eyesCascade = new CascadeClassifier(haarEyes);
 
         this.detectAndDisplay(src);
-        Imgcodecs.imwrite( outputImg, src);
-        Image imageAfter = UtilsOCV.mat2Image(Imgcodecs.imread(outputImg));
+        Imgcodecs.imwrite( outImg, src);
+        Image imageAfter = UtilsOCV.mat2Image(Imgcodecs.imread(outImg));
         this.updateImageView(currentFrame, imageAfter );
 
+//        System.out.println(file.getName().split("\\.")[0]);
+//        Random rand = new Random();
+//        int id = rand.nextInt();
+//        DBbean.insertStudent(id,file.getName().split("\\.")[0]);
+//        DBbean.insertFace(inImg,outImg,dataPath, id);
 
-        return UtilsOCV.mat2Image(Imgcodecs.imread(outputImg));
+        return UtilsOCV.mat2Image(Imgcodecs.imread(outImg));
     }
 
     public File[] ImageFile(){
-        File root = new File(outputData);
+        File root = new File(dataPath);
         File[] imageFiles = root.listFiles( new FilenameFilter() {
             @Override
             public boolean accept(File dir, String name) {
@@ -200,7 +208,7 @@ public class OpenCV {
             this.listRez.add(resizeImage);
 
             for(int i=0; i<this.listCrop.size();i++){
-                Imgcodecs.imwrite( outputCapt+"0-new_"+i+".jpg", this.listCrop.get(i));
+                Imgcodecs.imwrite( testPath+"0-new_"+i+".jpg", this.listCrop.get(i));
             }
 
             Imgproc.cvtColor(croppedImage, croppedImage, Imgproc.COLOR_BGR2GRAY);

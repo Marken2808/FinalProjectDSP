@@ -256,9 +256,10 @@ public class MainController implements Initializable
         File selectedFile = event.getDragboard().getFiles().get(0);
         currentFrame.setImage(new Image(new FileInputStream(selectedFile)));
         event.consume();
-        Image imageBefore = callCV.detectImage(selectedFile, currentFrame);
 
-        DBbean.uploadImageDB(selectedFile, imageBefore);
+        callCV.detectImage(selectedFile, currentFrame);
+
+
 
 
 //        System.out.println(test);
