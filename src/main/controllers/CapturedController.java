@@ -74,20 +74,19 @@ public class CapturedController implements Initializable {
             if (isFulfill()) {
                 try {
 //                    write image on file
-                    datasetImg = new File (callCV.dataPath + boxID.getValue() + "-" + fieldName.getText() + "_" + boxSet.getValue() + ".jpg");
+                    int id = Integer.parseInt(String.valueOf(boxID.getValue()));
+                    String name = fieldName.getText();
+                    int set = Integer.parseInt(String.valueOf(boxSet.getValue()));
+
+                    datasetImg = new File (callCV.dataPath + id + "-" + name + "_" + set + ".jpg");
                     ImageIO.write(
                             SwingFXUtils.fromFXImage( this.captImg.getImage(), null),
                             "jpg",
                             new FileImageOutputStream(datasetImg)
                     );
-//                    System.out.println("out: "+callCV.outImg);
-//                    System.out.println("in: "+callCV.inImg);
-//                    System.out.println("set: "+ datasetImg.getName().split("\\-")[1].split("\\_")[0]);
 
-                    String name = datasetImg.getName().split("\\-")[1].split("\\_")[0];
-
-                    DBbean.insertStudent(1,name);
-                    DBbean.insertFace(callCV.inImg,callCV.outImg,datasetImg.getPath(), 1);
+                    DBbean.insertStudent(id, name);
+                    DBbean.insertFace(callCV.inImg, callCV.outImg, datasetImg.getPath(), set, id);
 //                    close dialog from main
                     MainController.dialog.close();
                 } catch (IOException e) {

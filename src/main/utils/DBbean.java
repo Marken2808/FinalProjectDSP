@@ -35,23 +35,25 @@ public class DBbean {
             pstmt.execute();
             System.out.println("student inserted......");
         } catch (SQLException e) {
-            System.out.println("student already stored......");
+            System.out.println("student already registered, continue save faces");
         }
     }
 
-    public static void insertFace(String input, String output, String set, int sid){
+    public static void insertFace(String input, String output, String data, int set, int sid){
         try {
-            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO face (finput, foutput, fset, sid) VALUES(?,?,?,?)");
+            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO face (finput, foutput, fdata, fset, sid) VALUES(?,?,?,?,?)");
 
             pstmt.setString(1, input);
             pstmt.setString(2, output);
-            pstmt.setString(3, set);
-            pstmt.setInt(4, sid);
+            pstmt.setString(3, data);
+            pstmt.setInt(4, set);
+            pstmt.setInt(5, sid);
+
             //Executing the statement
             pstmt.execute();
             System.out.println("face inserted......");
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("this faces already exist on dataset, please try newest");
         }
     }
 
