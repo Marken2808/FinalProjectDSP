@@ -6,11 +6,15 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.chart.*;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import main.utils.CircleChart;
@@ -71,16 +75,27 @@ public class DashboardController implements Initializable {
 
     public void drawSemiCircleChart(String name, int achieve){
         StackPane stackPane = new StackPane();
+        VBox vBox = new VBox();
+
         ObservableList<CircleChart.Data> dataList = FXCollections.observableArrayList(
-                new CircleChart.Data(achieve, "Achieve", Color.LIMEGREEN),
+                new CircleChart.Data(achieve, "Achieve : "+achieve, Color.LIMEGREEN),
                 new CircleChart.Data(10-achieve, "Total", Color.LIGHTGRAY)
         );
 
-        CircleChart chart = new CircleChart(180, dataList, 90, 90, 90,80,0);
+        CircleChart chart = new CircleChart(180, dataList, 0, 0, 100,85,0);
 
-        Label label = new Label(name);
-        label.setFont(new Font(20));
-        stackPane.getChildren().addAll(chart, label);
+        Label labelName = new Label(name);
+        Label labelAchieve = new Label(achieve+"");
+
+        vBox.getChildren().addAll(labelName, labelAchieve);
+        vBox.setAlignment(Pos.BOTTOM_CENTER);
+//        vBox.setStyle("-fx-border-color: black; -fx-border-width: 1");
+        labelName.setFont(new Font(15));
+//        labelAchieve.setPadding(new Insets(0,5,0,5));
+//        labelAchieve.setStyle("-fx-background-radius: 100; -fx-background-color: lawngreen");
+//        stackPane.setStyle("-fx-border-color: black; -fx-border-width: 1");
+        stackPane.setMargin(vBox,new Insets(60,60,0,60));
+        stackPane.getChildren().addAll(chart, vBox);
         stackPane.setAlignment(Pos.BOTTOM_CENTER);
         semiPane.getChildren().add(stackPane);
     }
