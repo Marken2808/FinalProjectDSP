@@ -40,9 +40,9 @@ public class OpenCV {
 
     public String basePath      = System.getProperty("user.dir").concat("\\src\\resources\\");
     public String outputPath    = basePath+"images/output/";
-    public String inputPath      = basePath+"images/input/";
-    public String testPath    = basePath+"images/test/";
-    public String dataPath    = basePath+"images/dataset/";
+    public String inputPath     = basePath+"images/input/";
+    public String testPath      = basePath+"images/test/";
+    public String datasetPath   = basePath+"images/dataset/";
     public String outImg;
     public String inImg;
     public String haarFace      = basePath+"haarcascades/haarcascade_frontalface_alt2.xml";
@@ -137,7 +137,7 @@ public class OpenCV {
     }
 
     public File[] ImageFile(){
-        File root = new File(dataPath);
+        File root = new File(datasetPath);
         File[] imageFiles = root.listFiles( new FilenameFilter() {
             @Override
             public boolean accept(File dir, String name) {

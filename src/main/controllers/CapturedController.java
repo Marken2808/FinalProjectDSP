@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
@@ -25,6 +26,7 @@ import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageOutputStream;
 import java.io.*;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.*;
 
 public class CapturedController implements Initializable {
@@ -62,7 +64,6 @@ public class CapturedController implements Initializable {
     File imgs;
     OpenCV callCV = OpenCV.getInstance();
     StringBuilder sb = new StringBuilder();
-    File datasetImg;
 
     @FXML
     public void submitNew(ActionEvent event) {
@@ -78,19 +79,45 @@ public class CapturedController implements Initializable {
                     String name = fieldName.getText();
                     int set = Integer.parseInt(String.valueOf(boxSet.getValue()));
 
-                    datasetImg = new File (callCV.dataPath + id + "-" + name + "_" + set + ".jpg");
+                    String imgPath = callCV.datasetPath + id + "-" + name + "_" + set + ".jpg";
+                    String inImg = callCV.inImg;
+                    String outImg = callCV.outImg;
+
                     ImageIO.write(
                             SwingFXUtils.fromFXImage( this.captImg.getImage(), null),
                             "jpg",
-                            new FileImageOutputStream(datasetImg)
+                            new FileImageOutputStream(new File(imgPath))
                     );
 
-                    DBbean.insertStudent(id, name);
-                    DBbean.insertFace(callCV.inImg, callCV.outImg, datasetImg.getPath(), set, id);
+                    try {
+                        DBbean.insertStudent(id, name);
+                    } catch (SQLException e) {
+                        System.out.println("catch student");
+                    }
+
+                    try {
+                        DBbean.insertFace( inImg, outImg, imgPath, set, id);
+                    } catch (SQLException e) {
+                        System.out.println("catch face");
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                String AlertScreen    = "/main/views/InforScreen.fxml";
+                                MainController.getInstance().popUp(AlertScreen,true);
+                                InforController.getInstance().setDialog(
+                                        "Face Exist\nPlease double check",
+                                        "resources/images/icon/alert-triangle_red.png"
+                                );
+                            }
+                        });
+                    }
+
+
+
 //                    close dialog from main
                     MainController.dialog.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+//                    System.out.println("Catch here");
                 }
             }
         }));
