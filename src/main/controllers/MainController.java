@@ -63,7 +63,7 @@ public class MainController implements Initializable
     private HBox boxFooter;
 
     @FXML
-    private VBox home;
+    private AnchorPane home;
 
     @FXML
     private JFXButton btnMenu;

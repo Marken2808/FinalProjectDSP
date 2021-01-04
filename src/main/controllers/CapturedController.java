@@ -97,19 +97,20 @@ public class CapturedController implements Initializable {
 
                     try {
                         DBbean.insertFace( inImg, outImg, imgPath, set, id);
+                        handlePopup(
+                                "Success",
+                                "Face Inserted",
+                                "resources/images/icon/check-circle_green.png",
+                                "OK"
+                        );
                     } catch (SQLException e) {
                         System.out.println("catch face");
-                        Platform.runLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                String AlertScreen    = "/main/views/InforScreen.fxml";
-                                MainController.getInstance().popUp(AlertScreen,true);
-                                InforController.getInstance().setDialog(
-                                        "Face Exist\nPlease double check",
-                                        "resources/images/icon/alert-triangle_red.png"
-                                );
-                            }
-                        });
+                        handlePopup(
+                                "Fail",
+                                "Face Exist",
+                                "resources/images/icon/alert-circle_red.png",
+                                "Return"
+                        );
                     }
 
 
@@ -118,11 +119,23 @@ public class CapturedController implements Initializable {
                     MainController.dialog.close();
                 } catch (IOException e) {
 //                    System.out.println("Catch here");
+
                 }
             }
         }));
         timeline.play();
 
+    }
+
+    public void handlePopup(String title, String content, String img, String type){
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                String AlertScreen    = "/main/views/InforScreen.fxml";
+                MainController.getInstance().popUp(AlertScreen,true);
+                InforController.getInstance().setDialog(title,content,img,type);
+            }
+        });
     }
 
     public boolean isEmpty(Object obj){

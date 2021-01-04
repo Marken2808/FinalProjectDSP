@@ -13,10 +13,14 @@ import java.util.ResourceBundle;
 
 public class InforController implements Initializable {
     @FXML
-    private JFXButton btnCancel;
+    private JFXButton btnType;
 
     @FXML
     private Label labelTitle;
+
+    @FXML
+    private Label labelContent;
+
 
     @FXML
     private ImageView imgType;
@@ -39,9 +43,11 @@ public class InforController implements Initializable {
         MainController.getInstance().popUp(CaptureScreen,true);
     }
 
-    public void setDialog(String content, String img){
-        labelTitle.setText(content);
+    public void setDialog(String title, String content, String img, String type){
+        labelTitle.setText(title);
+        labelContent.setText(content);
         imgType.setImage(new Image(img));
+        btnType.setText(type);
     }
 
     @Override

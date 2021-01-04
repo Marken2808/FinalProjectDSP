@@ -15,6 +15,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
+
 <StackPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.DashboardController">
    <children>
       <TabPane style="-fx-background-color: white;" tabClosingPolicy="UNAVAILABLE">
@@ -53,7 +54,8 @@
                             <NumberAxis fx:id="ybar" side="LEFT" />
                           </yAxis>
                         </BarChart>
-                     </children></AnchorPane>
+                     </children>
+                  </AnchorPane>
                </content>
             </Tab>
             <Tab text="Bar Chart">
@@ -104,10 +106,14 @@
                               </VBox>
                            </children>
                         </AnchorPane>
-                     </children></AnchorPane>
+                     </children>
+                  </AnchorPane>
                </content>
             </Tab>
          </tabs>
       </TabPane>
    </children>
+   <padding>
+      <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
+   </padding>
 </StackPane>
