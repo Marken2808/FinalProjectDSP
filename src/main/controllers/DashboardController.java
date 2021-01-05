@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -12,14 +13,13 @@ import javafx.scene.Group;
 import javafx.scene.chart.*;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import main.utils.CircleChart;
 import main.utils.MyGraph;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
@@ -47,6 +47,9 @@ public class DashboardController implements Initializable {
 
     @FXML
     private AreaChart<Double, Double> areaGraph;
+
+    @FXML
+    private AnchorPane CalendarPane;
 
     private MyGraph mathsGraph;
     private MyGraph areaMathsGraph;
@@ -121,7 +124,19 @@ public class DashboardController implements Initializable {
         return series;
     }
 
-
+    public void CalendarView(){
+        try {
+            AnchorPane calendar = FXMLLoader.load(getClass().getResource("/main/views/CalendarScreen.fxml"));
+            calendar.setMaxSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+            CalendarPane.getChildren().addAll(calendar);
+            CalendarPane.setTopAnchor(calendar,0.0);
+            CalendarPane.setBottomAnchor(calendar,0.0);
+            CalendarPane.setRightAnchor(calendar,0.0);
+            CalendarPane.setLeftAnchor(calendar,0.0);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 //    -------------------------
 
@@ -138,6 +153,7 @@ public class DashboardController implements Initializable {
         drawDoughnutChart();
         drawLineChart();
         drawBarChart();
+        CalendarView();
     }
 
 //    -----------------------------EX----------------------------

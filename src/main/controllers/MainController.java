@@ -91,6 +91,7 @@ public class MainController implements Initializable
     private String SignInScreen     = "/main/views/SignInScreen.fxml";
     private String SignUpScreen     = "/main/views/SignUpScreen.fxml";
     private String DrawerScreen     = "/main/views/DrawerScreen.fxml";
+    private String CalendarScreen   = "/main/views/CalendarScreen.fxml";
     private String DashboardScreen  = "/main/views/DashboardScreen.fxml";
 //----------------------------instance--------------------
     private OpenCV callCV = OpenCV.getInstance();
@@ -162,7 +163,7 @@ public class MainController implements Initializable
 
     public void showElements(VBox menuLeft) throws IOException {
 //        AnchorPane home = FXMLLoader.load(getClass().getResource("/main/views/MainScreen.fxml"));
-//        AnchorPane setting = FXMLLoader.load(getClass().getResource("../../filesFXML/SettingScreen.fxml"));
+//        StackPane setting = FXMLLoader.load(getClass().getResource(CalendarScreen));
         StackPane dashboard = FXMLLoader.load(getClass().getResource(DashboardScreen));
 
         for (Node node : menuLeft.getChildren()) {
