@@ -68,9 +68,7 @@ public class CapturedController implements Initializable {
     @FXML
     public void submitNew(ActionEvent event) {
         isFulfill();
-//        Timeline timeline = new Timeline(
-//                new KeyFrame( Duration.millis(200),
-//                ae -> {if (isFulfill()) btnSubmit.getScene().getWindow().hide();}));
+
         Timeline timeline = new Timeline( new KeyFrame( Duration.millis(200), ae -> {
             if (isFulfill()) {
                 try {
@@ -80,8 +78,6 @@ public class CapturedController implements Initializable {
                     int set = Integer.parseInt(String.valueOf(boxSet.getValue()));
 
                     String imgPath = callCV.datasetPath + id + "-" + name + "_" + set + ".jpg";
-                    String inImg = callCV.inImg;
-                    String outImg = callCV.outImg;
 
                     ImageIO.write(
                             SwingFXUtils.fromFXImage( this.captImg.getImage(), null),
@@ -89,14 +85,10 @@ public class CapturedController implements Initializable {
                             new FileImageOutputStream(new File(imgPath))
                     );
 
-                    try {
-                        DBbean.insertStudent(id, name);
-                    } catch (SQLException e) {
-                        System.out.println("catch student");
-                    }
+                    DBbean.insertStudent(id, name);
 
                     try {
-                        DBbean.insertFace( inImg, outImg, imgPath, set, id);
+                        DBbean.insertFace(imgPath, set, id);
                         handlePopup(
                                 "Success",
                                 "Face Inserted",
@@ -104,21 +96,18 @@ public class CapturedController implements Initializable {
                                 "OK"
                         );
                     } catch (SQLException e) {
-                        System.out.println("catch face");
                         handlePopup(
                                 "Fail",
                                 "Face Exist",
                                 "resources/images/icon/alert-circle_red.png",
-                                "Return"
+                                "Close"
                         );
                     }
 
-
-
-//                    close dialog from main
                     MainController.dialog.close();
+
                 } catch (IOException e) {
-//                    System.out.println("Catch here");
+                    System.out.println("Catch here");
 
                 }
             }
@@ -131,8 +120,8 @@ public class CapturedController implements Initializable {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                String AlertScreen    = "/main/views/InforScreen.fxml";
-                MainController.getInstance().popUp(AlertScreen,true);
+                String InforScreen    = "/main/views/InforScreen.fxml";
+                MainController.getInstance().popUp(InforScreen,true);
                 InforController.getInstance().setDialog(title,content,img,type);
             }
         });
@@ -227,10 +216,11 @@ public class CapturedController implements Initializable {
     }
 
 
+    ObservableList<Integer> observableList = FXCollections.observableList(getListSet(callCV.predictionID));
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        ObservableList<Integer> observableList = FXCollections.observableList(getListSet(callCV.predictionID));
         if(callCV.listRez.size()==1){
             comboPic.setPromptText("This Image");
             comboPic.setDisable(true);
@@ -250,7 +240,7 @@ public class CapturedController implements Initializable {
         try {
             captImg.setImage(new Image(new FileInputStream(imgs)));
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("NO file found!");
         }
         isFulfill();
         hboxInfor.setVisible(false);

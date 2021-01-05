@@ -26,26 +26,28 @@ public class DBbean {
 
     }
 
-    public static void insertStudent(int sid, String sname) throws SQLException {
+    public static void insertStudent(int sid, String sname) {
 
+        try {
             PreparedStatement pstmt = conn.prepareStatement("INSERT INTO student (sid,sname) VALUES(?,?)");
             pstmt.setInt(1, sid);
             pstmt.setString(2, sname);
             //Executing the statement
             pstmt.execute();
             System.out.println("student inserted......");
+        } catch (SQLException e) {
+            System.out.println("student already exist......");
+        }
 
     }
 
-    public static void insertFace(String input, String output, String data, int set, int sid) throws SQLException {
+    public static void insertFace(String data, int set, int sid) throws SQLException {
 
-            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO face (finput, foutput, fdata, fset, sid) VALUES(?,?,?,?,?)");
+            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO face (fdata, fset, sid) VALUES(?,?,?)");
 
-            pstmt.setString(1, input);
-            pstmt.setString(2, output);
-            pstmt.setString(3, data);
-            pstmt.setInt(4, set);
-            pstmt.setInt(5, sid);
+            pstmt.setString(1, data);
+            pstmt.setInt(2, set);
+            pstmt.setInt(3, sid);
 
             //Executing the statement
             pstmt.execute();

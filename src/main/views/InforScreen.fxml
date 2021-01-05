@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="150.0" prefWidth="200.0" spacing="15.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.InforController">
+<VBox alignment="CENTER" prefHeight="150.0" prefWidth="100.0" spacing="15.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.InforController">
    <children>
       <ImageView fx:id="imgType" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -20,6 +20,6 @@
          </font>
       </Label>
       <Label fx:id="labelContent" alignment="CENTER" text="CONTENT" />
-      <JFXButton fx:id="btnType" onMouseClicked="#clickCancel" style="-fx-background-color: #f2f2f2;" text="OK" />
+      <JFXButton fx:id="btnType" onMouseClicked="#clickBtn" style="-fx-background-color: #f2f2f2;" text="OK" />
    </children>
 </VBox>

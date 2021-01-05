@@ -21,7 +21,6 @@ public class InforController implements Initializable {
     @FXML
     private Label labelContent;
 
-
     @FXML
     private ImageView imgType;
 
@@ -37,7 +36,7 @@ public class InforController implements Initializable {
     }
 
     @FXML
-    void clickCancel(MouseEvent event) {
+    void clickBtn(MouseEvent event) {
         MainController.dialog.close();
         String CaptureScreen    = "/main/views/CapturedScreen.fxml";
         MainController.getInstance().popUp(CaptureScreen,true);
