@@ -6,6 +6,8 @@ import java.util.GregorianCalendar;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTreeTableView;
+import com.sun.javafx.scene.control.LabeledText;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -17,11 +19,11 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -37,6 +39,8 @@ public class CalendarController implements Initializable{
 
     @FXML
     private GridPane gpBody;
+
+
 
     @FXML
     private HBox hbFooter;
@@ -67,15 +71,42 @@ public class CalendarController implements Initializable{
         tHeader.setText(monthString + ", " + yearString);
     }
 
-    public Node buttonCell(String value, boolean active){
-
+    public Node buttonCell(String value, int level){
+        VBox vBox = new VBox();
+        vBox.setStyle("-fx-border-width: 0.5; -fx-border-color: black");
         Label text = new Label(value);
-        text.setFont(new Font(30));
-        btn = new JFXButton(text.getText());
-        btn.setMaxWidth(MAX_VALUE);
-        btn.setMaxHeight(MAX_VALUE);
-        btn.setDisable(!active);
-        return btn;
+        text.setPadding(new Insets(3));
+        text.setMaxWidth(MAX_VALUE);
+        text.setMaxHeight(MAX_VALUE);
+        text.setAlignment(Pos.CENTER);
+
+
+
+        switch (level) {
+            case 0:     //low
+                text.setStyle("-fx-background-color: rgba(233,234,197,0.25)");
+                text.setFont(new Font(15));
+                text.setDisable(true);
+                break;
+            case 1:     //medi
+                text.setStyle("-fx-background-color: rgba(219,219,245,0.25)");
+                text.setFont(new Font(15));
+                text.setDisable(false);
+                break;
+            default:
+                text.setDisable(false);
+                text.setFont(new Font(18));
+                break;
+        }
+
+
+//        btn = new JFXButton(value);
+//        btn.setMaxWidth(MAX_VALUE);
+//        btn.setMaxHeight(MAX_VALUE);
+//        btn.setDisable(!active);
+//        return btn;
+        vBox.getChildren().add(text);
+        return vBox;
     }
 
     private void drawBody() {
@@ -83,8 +114,10 @@ public class CalendarController implements Initializable{
 
         // Draw days of the week
         for (int day = 1; day <= 7; day++) {
-            gpBody.add(buttonCell(getDayName(day),true), day - 1, 0);
-//            gpBody.add(new Text(getDayName(day)), day - 1, 0);
+
+            gpBody.add(buttonCell(getDayName(day), 2), day - 1, 0);
+
+//            gpBody.add(text, day - 1, 0);
         }
 
 
@@ -98,7 +131,7 @@ public class CalendarController implements Initializable{
                 dayOfWeek = 1;
                 row++;
             }
-            gpBody.add(buttonCell(String.valueOf(currentDay),true), dayOfWeek - 1, row);
+            gpBody.add(buttonCell(String.valueOf(currentDay),1), dayOfWeek - 1, row);
 //            gpBody.add(new Text(String.valueOf(currentDay)), dayOfWeek - 1, row);
             currentDay++;
             dayOfWeek++;
@@ -110,10 +143,9 @@ public class CalendarController implements Initializable{
             Calendar prevMonth = getPreviousMonth(currentMonth);
             int daysInPrevMonth = prevMonth.getActualMaximum(Calendar.DAY_OF_MONTH);
             for (int i = dayOfWeek - 2; i >= 0; i--) {
-//                Text tDate = new Text(String.valueOf(daysInPrevMonth));
-//                tDate.setFill(Color.GRAY);
-                gpBody.add(buttonCell(String.valueOf(daysInPrevMonth),false), i, 1);
-//                gpBody.add(new Text(String.valueOf(daysInPrevMonth)), i, 1);
+
+//                gpBody.add(buttonCell(String.valueOf(daysInPrevMonth),false), i, 1);
+                gpBody.add(buttonCell(String.valueOf(daysInPrevMonth),0), i, 1);
 
                 daysInPrevMonth--;
             }
@@ -125,10 +157,9 @@ public class CalendarController implements Initializable{
         if (dayOfWeek != 7) {
             int day = 1;
             for (int i = dayOfWeek; i < 7; i++) {
-//                Text tDate = new Text(String.valueOf(day));
-//                tDate.setFill(Color.GRAY);
-//                gpBody.add(new Text(String.valueOf(day)), i, row);
-                gpBody.add(buttonCell(String.valueOf(day),false), i, row);
+
+                gpBody.add(buttonCell(String.valueOf(day),0), i, row);
+//                gpBody.add(buttonCell(String.valueOf(day),false), i, row);
                 day++;
             }
         }
@@ -141,7 +172,13 @@ public class CalendarController implements Initializable{
 
     @FXML
     void testGrid(MouseEvent event) {
-//        System.out.println(((Text) event.getTarget()).getText());
+        System.out.println(event.getTarget().toString());
+        String selectClass = event.getTarget().toString().split("[@\\[]")[0];
+        if(selectClass.equals("Label")){
+            System.out.println(((Label) event.getTarget()).getText());
+        } else if( selectClass.equals("Text")){
+            System.out.println(((Text) event.getTarget()).getText());
+        }
     }
 
     @FXML

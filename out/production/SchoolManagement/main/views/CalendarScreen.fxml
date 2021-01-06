@@ -22,7 +22,7 @@
             </Text>
          </children>
       </StackPane>
-      <GridPane fx:id="gpBody" alignment="CENTER" gridLinesVisible="true" layoutX="38.0" layoutY="70.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#testGrid" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="40.0">
+      <GridPane fx:id="gpBody" alignment="CENTER" layoutX="38.0" layoutY="70.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#testGrid" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="40.0">
         <columnConstraints>
           <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" prefWidth="100.0" />
             <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" prefWidth="100.0" />
