@@ -172,13 +172,19 @@ public class CalendarController implements Initializable{
 
     @FXML
     void testGrid(MouseEvent event) {
-        System.out.println(event.getTarget().toString());
+//        System.out.println(event.getTarget().toString());
         String selectClass = event.getTarget().toString().split("[@\\[]")[0];
+        int selectMonth = (currentMonth.get(Calendar.MONTH)+1);
+        int selectYear = (currentMonth.get(Calendar.YEAR));
+        int selectDay = 0;
         if(selectClass.equals("Label")){
-            System.out.println(((Label) event.getTarget()).getText());
+            selectDay = Integer.parseInt(((Label) event.getTarget()).getText());
+
         } else if( selectClass.equals("Text")){
-            System.out.println(((Text) event.getTarget()).getText());
+            selectDay = Integer.parseInt(((Text) event.getTarget()).getText());
+
         }
+        System.out.println("Date: "+ selectDay+"/" +selectMonth +"/" + selectYear);
     }
 
     @FXML
