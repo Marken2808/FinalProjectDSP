@@ -1,9 +1,9 @@
 package main.controllers;
 
 import java.net.URL;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.ResourceBundle;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTreeTableView;
@@ -17,15 +17,16 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -56,7 +57,13 @@ public class CalendarController implements Initializable{
 
     private Calendar currentMonth;
 
-    private JFXButton btn;
+    private String currentDate = new SimpleDateFormat("d/M/yyyy").format(new Date());
+
+    int selectMonth;
+    int selectYear ;
+    int selectDay=0;
+    String selectDate;
+
 
     private void drawCalendar() {
 
@@ -72,26 +79,58 @@ public class CalendarController implements Initializable{
     }
 
     public Node buttonCell(String value, int level){
-        VBox vBox = new VBox();
-        vBox.setStyle("-fx-border-width: 0.5; -fx-border-color: black");
+
+        String active    = "-fx-background-color: rgba(219,219,245,0.25)";
+        String inactive  = "-fx-background-color: rgba(232,232,222,0.25)";
+        String clickable = "-fx-background-color: rgba(174,253,171,0.25)";
+        String hightlight= "-fx-background-color: rgba(253,252,171,0.25)";
+
         Label text = new Label(value);
+
         text.setPadding(new Insets(3));
         text.setMaxWidth(MAX_VALUE);
         text.setMaxHeight(MAX_VALUE);
         text.setAlignment(Pos.CENTER);
 
 
-
         switch (level) {
-            case 0:     //low
-                text.setStyle("-fx-background-color: rgba(233,234,197,0.25)");
+            case 0:     //inactive
+
+                text.setStyle(inactive);
                 text.setFont(new Font(15));
                 text.setDisable(true);
+
                 break;
-            case 1:     //medi
-                text.setStyle("-fx-background-color: rgba(219,219,245,0.25)");
+            case 1:     //active
+
+                text.setStyle(active);
                 text.setFont(new Font(15));
                 text.setDisable(false);
+                ImageView img = new ImageView();
+                img.setImage(new Image("/resources/images/icon/airplay.png"));
+                text.setGraphic(img);
+                text.setContentDisplay(ContentDisplay.BOTTOM);
+
+                text.setOnMousePressed(event -> text.setStyle(clickable));
+                text.setOnMouseReleased(event -> text.setStyle(active));
+
+                String buildDate = value+"/"+(currentMonth.get(Calendar.MONTH)+1)+"/"+(currentMonth.get(Calendar.YEAR));
+                if(currentDate.equals(buildDate)){
+
+//                    System.out.println("Test"+Arrays.toString(test));
+//                    System.out.println("Date"+Arrays.toString(date));
+//                    System.out.println("DAY: " + date[0].equals(test[0]));
+//                    System.out.println("MON: " + date[1].equals(test[1]));
+//                    System.out.println("YEA: " + date[2].equals(test[2]));
+
+                    text.setBorder(new Border(new BorderStroke(
+                            Color.BLACK,
+                            BorderStrokeStyle.SOLID,
+                            null,
+                            new BorderWidths(1)
+                    )));
+                }
+
                 break;
             default:
                 text.setDisable(false);
@@ -99,14 +138,20 @@ public class CalendarController implements Initializable{
                 break;
         }
 
+        text.setOnMouseClicked(event -> {
+            System.out.println("Popup ");
+            String AttendanceScreen = "/main/views/AttendanceScreen.fxml";
+            MainController.getInstance().popUp(AttendanceScreen,true);
+        });
+
 
 //        btn = new JFXButton(value);
 //        btn.setMaxWidth(MAX_VALUE);
 //        btn.setMaxHeight(MAX_VALUE);
 //        btn.setDisable(!active);
-//        return btn;
-        vBox.getChildren().add(text);
-        return vBox;
+        return text;
+//        vBox.getChildren().addAll(text);
+//        return vBox;
     }
 
     private void drawBody() {
@@ -114,10 +159,7 @@ public class CalendarController implements Initializable{
 
         // Draw days of the week
         for (int day = 1; day <= 7; day++) {
-
             gpBody.add(buttonCell(getDayName(day), 2), day - 1, 0);
-
-//            gpBody.add(text, day - 1, 0);
         }
 
 
@@ -135,6 +177,7 @@ public class CalendarController implements Initializable{
 //            gpBody.add(new Text(String.valueOf(currentDay)), dayOfWeek - 1, row);
             currentDay++;
             dayOfWeek++;
+
         }
 
         // Draw previous month days
@@ -143,8 +186,6 @@ public class CalendarController implements Initializable{
             Calendar prevMonth = getPreviousMonth(currentMonth);
             int daysInPrevMonth = prevMonth.getActualMaximum(Calendar.DAY_OF_MONTH);
             for (int i = dayOfWeek - 2; i >= 0; i--) {
-
-//                gpBody.add(buttonCell(String.valueOf(daysInPrevMonth),false), i, 1);
                 gpBody.add(buttonCell(String.valueOf(daysInPrevMonth),0), i, 1);
 
                 daysInPrevMonth--;
@@ -174,17 +215,27 @@ public class CalendarController implements Initializable{
     void testGrid(MouseEvent event) {
 //        System.out.println(event.getTarget().toString());
         String selectClass = event.getTarget().toString().split("[@\\[]")[0];
-        int selectMonth = (currentMonth.get(Calendar.MONTH)+1);
-        int selectYear = (currentMonth.get(Calendar.YEAR));
-        int selectDay = 0;
+
         if(selectClass.equals("Label")){
-            selectDay = Integer.parseInt(((Label) event.getTarget()).getText());
+            try{
+                this.selectDay = Integer.parseInt(((Label) event.getTarget()).getText());
+            } catch (Exception e){
+                System.out.println("cannot convert string");
+            }
 
         } else if( selectClass.equals("Text")){
-            selectDay = Integer.parseInt(((Text) event.getTarget()).getText());
+            try {
+                this.selectDay = Integer.parseInt(((Text) event.getTarget()).getText());
+            } catch (Exception e){
+                System.out.println("cannot convert string");
+            }
 
         }
-        System.out.println("Date: "+ selectDay+"/" +selectMonth +"/" + selectYear);
+
+
+        selectDate = selectDay+"/"+selectMonth+"/"+selectYear;
+
+        System.out.println("Date: "+ selectDate);
     }
 
     @FXML
@@ -254,6 +305,9 @@ public class CalendarController implements Initializable{
     public void initialize(URL url, ResourceBundle resourceBundle) {
         currentMonth = new GregorianCalendar();
         currentMonth.set(Calendar.DAY_OF_MONTH, 1);
+
+        selectMonth = (currentMonth.get(Calendar.MONTH)+1);
+        selectYear = (currentMonth.get(Calendar.YEAR));
 
         drawCalendar();
 

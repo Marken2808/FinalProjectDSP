@@ -4,8 +4,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.chart.AreaChart?>
-<?import javafx.scene.chart.BarChart?>
-<?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
@@ -29,30 +27,6 @@
                               <Insets bottom="20.0" />
                            </padding>
                         </StackPane>
-                     </children>
-                  </AnchorPane>
-               </content>
-            </Tab>
-            <Tab text="Line Chart">
-               <content>
-                  <AnchorPane>
-                     <children>
-                        <LineChart fx:id="lineChart" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <xAxis>
-                            <CategoryAxis side="BOTTOM" fx:id="xline" />
-                          </xAxis>
-                          <yAxis>
-                            <NumberAxis fx:id="yline" side="LEFT" />
-                          </yAxis>
-                        </LineChart>
-                        <BarChart fx:id="barChart" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <xAxis>
-                            <CategoryAxis side="BOTTOM" fx:id="xbar" />
-                          </xAxis>
-                          <yAxis>
-                            <NumberAxis fx:id="ybar" side="LEFT" />
-                          </yAxis>
-                        </BarChart>
                      </children>
                   </AnchorPane>
                </content>

@@ -103,26 +103,8 @@ public class DashboardController implements Initializable {
         semiPane.getChildren().add(stackPane);
     }
 
-    public void drawLineChart(){
-        lineChart.getData().addAll(dataChart());
-    }
 
-    public void drawBarChart(){
-        barChart.getData().addAll(dataChart());
-    }
 
-    public XYChart.Series dataChart(){
-        XYChart.Series series = new XYChart.Series();
-        //Add Data
-        series.getData().add(new XYChart.Data("1", 23));
-        series.getData().add(new XYChart.Data("2", 14));
-        series.getData().add(new XYChart.Data("3", 15));
-        series.getData().add(new XYChart.Data("4", 23));
-        series.getData().add(new XYChart.Data("5", 14));
-        series.getData().add(new XYChart.Data("6", 15));
-
-        return series;
-    }
 
     public void CalendarView(){
         try {
@@ -151,8 +133,6 @@ public class DashboardController implements Initializable {
             drawSemiCircleChart(subject, rand);
         }
         drawDoughnutChart();
-        drawLineChart();
-        drawBarChart();
         CalendarView();
     }
 
