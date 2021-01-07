@@ -3,6 +3,7 @@ package main.controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -43,13 +44,8 @@ public class CalendarController implements Initializable{
     @FXML
     private GridPane gpBody;
 
-
-
     @FXML
-    private HBox hbFooter;
-
-    @FXML
-    private Text tHeader;
+    private Label labelTitle;
 
     @FXML
     private Label labelTotal;
@@ -77,7 +73,7 @@ public class CalendarController implements Initializable{
     private void drawHeader() {
         String monthString = getMonthName(currentMonth.get(Calendar.MONTH));
         String yearString = String.valueOf(currentMonth.get(Calendar.YEAR));
-        tHeader.setText(monthString + ", " + yearString);
+        labelTitle.setText(monthString + ", " + yearString);
     }
 
     public Node buttonCell(String value, int level){
@@ -109,18 +105,7 @@ public class CalendarController implements Initializable{
 //                text.setFont(new Font(15));
                 text.setDisable(false);
 
-//                ImageView img = new ImageView();
-//                img.setImage(new Image("/resources/images/icon/airplay.png"));
-//                text.setGraphic(img);
-//                text.setContentDisplay(ContentDisplay.BOTTOM);
 
-                try {
-                    AnchorPane an = FXMLLoader.load(getClass().getResource("/main/views/PreviewScreen.fxml"));
-                    text.setGraphic(an);
-                    text.setContentDisplay(ContentDisplay.BOTTOM);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
 
                 text.setOnMousePressed(event -> text.setStyle(clickable));
                 text.setOnMouseReleased(event -> text.setStyle(active));
@@ -129,13 +114,12 @@ public class CalendarController implements Initializable{
                     MainController.getInstance().popUp(AttendanceScreen,true);
                 });
 
-                Random rand = new Random();
-                int on = (rand.nextInt(11));
-                int total = Integer.parseInt(labelTotal.getText());
-                PreviewController.getInstance().showAbsence(on,total);
 
 
                 String buildDate = value+"/"+(currentMonth.get(Calendar.MONTH)+1)+"/"+(currentMonth.get(Calendar.YEAR));
+
+
+
                 if(currentDate.equals(buildDate)){
 //                    System.out.println("Test"+Arrays.toString(test));
 //                    System.out.println("Date"+Arrays.toString(date));
@@ -148,6 +132,23 @@ public class CalendarController implements Initializable{
                             null,
                             new BorderWidths(2)
                     )));
+                }
+
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy");
+
+                try {
+                    if(!sdf.parse(buildDate).after(sdf.parse(currentDate))){
+                        AnchorPane an = FXMLLoader.load(getClass().getResource("/main/views/PreviewScreen.fxml"));
+                        text.setGraphic(an);
+                        text.setContentDisplay(ContentDisplay.BOTTOM);
+
+                        Random rand = new Random();
+                        int on = (rand.nextInt(11));
+                        int total = Integer.parseInt(labelTotal.getText());
+                        PreviewController.getInstance().showAbsence(on,total);
+                    }
+                } catch (ParseException | IOException e) {
+                    e.printStackTrace();
                 }
 
                 break;
