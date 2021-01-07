@@ -9,25 +9,22 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.AttendanceController">
    <children>
-      <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <LineChart fx:id="lineChart" prefWidth="400.0">
-               <xAxis>
-                  <CategoryAxis side="BOTTOM" fx:id="xline" />
-               </xAxis>
-               <yAxis>
-                  <NumberAxis fx:id="yline" side="LEFT" />
-               </yAxis>
-            </LineChart>
-            <BarChart fx:id="barChart" prefWidth="400.0">
-               <xAxis>
-                  <CategoryAxis side="BOTTOM" fx:id="xbar" />
-               </xAxis>
-               <yAxis>
-                  <NumberAxis fx:id="ybar" side="LEFT" />
-               </yAxis>
-            </BarChart>
-         </children>
-      </HBox>
+      <HBox alignment="CENTER" />
+      <BarChart fx:id="barChart" visible="false">
+         <xAxis>
+            <CategoryAxis side="BOTTOM" fx:id="xbar" />
+         </xAxis>
+         <yAxis>
+            <NumberAxis fx:id="ybar" side="LEFT" />
+         </yAxis>
+      </BarChart>
+      <LineChart fx:id="lineChart" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <xAxis>
+            <CategoryAxis side="BOTTOM" fx:id="xline" />
+         </xAxis>
+         <yAxis>
+            <NumberAxis fx:id="yline" side="LEFT" />
+         </yAxis>
+      </LineChart>
    </children>
 </AnchorPane>

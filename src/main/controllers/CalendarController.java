@@ -1,5 +1,6 @@
 package main.controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -12,6 +13,7 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -88,25 +90,34 @@ public class CalendarController implements Initializable{
         text.setMaxWidth(MAX_VALUE);
         text.setMaxHeight(MAX_VALUE);
         text.setAlignment(Pos.CENTER);
-
+        text.setFont(new Font(18));
 
         switch (level) {
             case 0:     //inactive
 
                 text.setStyle(inactive);
-                text.setFont(new Font(15));
+//                text.setFont(new Font(15));
                 text.setDisable(true);
 
                 break;
             case 1:     //active
 
                 text.setStyle(active);
-                text.setFont(new Font(15));
+//                text.setFont(new Font(15));
                 text.setDisable(false);
-                ImageView img = new ImageView();
-                img.setImage(new Image("/resources/images/icon/airplay.png"));
-                text.setGraphic(img);
-                text.setContentDisplay(ContentDisplay.BOTTOM);
+
+//                ImageView img = new ImageView();
+//                img.setImage(new Image("/resources/images/icon/airplay.png"));
+//                text.setGraphic(img);
+//                text.setContentDisplay(ContentDisplay.BOTTOM);
+
+                try {
+                    AnchorPane an = FXMLLoader.load(getClass().getResource("/main/views/PreviewScreen.fxml"));
+                    text.setGraphic(an);
+                    text.setContentDisplay(ContentDisplay.BOTTOM);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
                 text.setOnMousePressed(event -> text.setStyle(clickable));
                 text.setOnMouseReleased(event -> text.setStyle(active));
@@ -114,6 +125,12 @@ public class CalendarController implements Initializable{
                     String AttendanceScreen = "/main/views/AttendanceScreen.fxml";
                     MainController.getInstance().popUp(AttendanceScreen,true);
                 });
+
+                Random rand = new Random();
+                int num = (rand.nextInt(11));
+                System.out.println("have " +num);
+                PreviewController.getInstance().checkAttend(num,10);
+
 
                 String buildDate = value+"/"+(currentMonth.get(Calendar.MONTH)+1)+"/"+(currentMonth.get(Calendar.YEAR));
                 if(currentDate.equals(buildDate)){
@@ -134,7 +151,7 @@ public class CalendarController implements Initializable{
             default:
                 text.setStyle(whiteBase);
                 text.setDisable(false);
-                text.setFont(new Font(18));
+                text.setFont(Font.font("System",FontWeight.BOLD,16));
                 break;
         }
 
