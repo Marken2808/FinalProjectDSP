@@ -52,6 +52,9 @@ public class CalendarController implements Initializable{
     private Text tHeader;
 
     @FXML
+    private Label labelTotal;
+
+    @FXML
     private JFXButton btNext;
 
     @FXML
@@ -128,8 +131,8 @@ public class CalendarController implements Initializable{
 
                 Random rand = new Random();
                 int num = (rand.nextInt(11));
-                System.out.println("have " +num);
-                PreviewController.getInstance().checkAttend(num,10);
+                int total = Integer.parseInt(labelTotal.getText());
+                PreviewController.getInstance().checkAttend(num,total);
 
 
                 String buildDate = value+"/"+(currentMonth.get(Calendar.MONTH)+1)+"/"+(currentMonth.get(Calendar.YEAR));
@@ -317,7 +320,7 @@ public class CalendarController implements Initializable{
         currentMonth.set(Calendar.DAY_OF_MONTH, 1);
 
 
-
+        labelTotal.setText("10");
         drawCalendar();
 
 

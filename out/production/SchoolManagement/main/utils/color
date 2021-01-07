@@ -1,0 +1,9 @@
+.red{
+    -fx-text-fill:#f90606;
+}
+.green {
+    -fx-text-fill: #06dd06;
+}
+.darkgreen{
+    -fx-text-fill: #069b06;
+}
