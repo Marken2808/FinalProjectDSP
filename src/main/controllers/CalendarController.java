@@ -59,10 +59,7 @@ public class CalendarController implements Initializable{
 
     private String currentDate = new SimpleDateFormat("d/M/yyyy").format(new Date());
 
-    int selectMonth;
-    int selectYear ;
-    int selectDay=0;
-    String selectDate;
+
 
 
     private void drawCalendar() {
@@ -80,10 +77,10 @@ public class CalendarController implements Initializable{
 
     public Node buttonCell(String value, int level){
 
-        String active    = "-fx-background-color: rgba(219,219,245,0.25)";
-        String inactive  = "-fx-background-color: rgba(232,232,222,0.25)";
-        String clickable = "-fx-background-color: rgba(174,253,171,0.25)";
-        String hightlight= "-fx-background-color: rgba(253,252,171,0.25)";
+        String active    = "-fx-background-color: rgba(204,242,255,0.25)";
+        String inactive  = "-fx-background-color: rgb(242,242,242)";
+        String clickable = "-fx-background-color: rgba(48,173,255,0.5)";
+        String whiteBase = "-fx-background-color: rgb(255,255,255)";
 
         Label text = new Label(value);
 
@@ -113,36 +110,35 @@ public class CalendarController implements Initializable{
 
                 text.setOnMousePressed(event -> text.setStyle(clickable));
                 text.setOnMouseReleased(event -> text.setStyle(active));
+                text.setOnMouseClicked(event -> {
+                    String AttendanceScreen = "/main/views/AttendanceScreen.fxml";
+                    MainController.getInstance().popUp(AttendanceScreen,true);
+                });
 
                 String buildDate = value+"/"+(currentMonth.get(Calendar.MONTH)+1)+"/"+(currentMonth.get(Calendar.YEAR));
                 if(currentDate.equals(buildDate)){
-
 //                    System.out.println("Test"+Arrays.toString(test));
 //                    System.out.println("Date"+Arrays.toString(date));
 //                    System.out.println("DAY: " + date[0].equals(test[0]));
 //                    System.out.println("MON: " + date[1].equals(test[1]));
 //                    System.out.println("YEA: " + date[2].equals(test[2]));
-
                     text.setBorder(new Border(new BorderStroke(
                             Color.BLACK,
                             BorderStrokeStyle.SOLID,
                             null,
-                            new BorderWidths(1)
+                            new BorderWidths(2)
                     )));
                 }
 
                 break;
             default:
+                text.setStyle(whiteBase);
                 text.setDisable(false);
                 text.setFont(new Font(18));
                 break;
         }
 
-        text.setOnMouseClicked(event -> {
-            System.out.println("Popup ");
-            String AttendanceScreen = "/main/views/AttendanceScreen.fxml";
-            MainController.getInstance().popUp(AttendanceScreen,true);
-        });
+
 
 
 //        btn = new JFXButton(value);
@@ -215,25 +211,22 @@ public class CalendarController implements Initializable{
     void testGrid(MouseEvent event) {
 //        System.out.println(event.getTarget().toString());
         String selectClass = event.getTarget().toString().split("[@\\[]")[0];
+        int selectMonth = (currentMonth.get(Calendar.MONTH)+1);
+        int selectYear = (currentMonth.get(Calendar.YEAR));
+        int selectDay = 0;
 
-        if(selectClass.equals("Label")){
-            try{
-                this.selectDay = Integer.parseInt(((Label) event.getTarget()).getText());
-            } catch (Exception e){
-                System.out.println("cannot convert string");
+        try{
+            if(selectClass.equals("Label")) {
+                selectDay = Integer.parseInt(((Label) event.getTarget()).getText());
+            } else if( selectClass.equals("Text")){
+                selectDay = Integer.parseInt(((Text) event.getTarget()).getText());
             }
-
-        } else if( selectClass.equals("Text")){
-            try {
-                this.selectDay = Integer.parseInt(((Text) event.getTarget()).getText());
-            } catch (Exception e){
-                System.out.println("cannot convert string");
-            }
-
+        } catch (Exception e){
+            System.out.println("Cannot convert String");
         }
 
 
-        selectDate = selectDay+"/"+selectMonth+"/"+selectYear;
+        String selectDate = selectDay+"/"+selectMonth+"/"+selectYear;
 
         System.out.println("Date: "+ selectDate);
     }
@@ -306,8 +299,7 @@ public class CalendarController implements Initializable{
         currentMonth = new GregorianCalendar();
         currentMonth.set(Calendar.DAY_OF_MONTH, 1);
 
-        selectMonth = (currentMonth.get(Calendar.MONTH)+1);
-        selectYear = (currentMonth.get(Calendar.YEAR));
+
 
         drawCalendar();
 
