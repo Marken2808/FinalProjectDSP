@@ -20,7 +20,7 @@
          <children>
             <Label fx:id="labelTotal" text="Total" StackPane.alignment="CENTER_LEFT">
                <graphic>
-                  <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../resources/images/icon/users.png" />
                      </image>

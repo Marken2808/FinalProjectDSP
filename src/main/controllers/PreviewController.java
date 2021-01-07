@@ -30,23 +30,23 @@ public class PreviewController implements Initializable {
         return instance;
     }
 
-    public void checkAttend(int on, int total){
+    public void showAbsence(int on, int total){
 
 
 
-        Label student = new Label();
-        student.setFont(new Font(12));
+        Label absence = new Label();
+        absence.setFont(new Font(14));
 
         if (on!=total) {
             ImageView img = new ImageView(new Image("/resources/images/icon/user-x_red.png"));
-            student.setText((total-on)+"");
-            img.setFitWidth(14);
-            img.setFitHeight(14);
-            student.setGraphic(img);
-            student.setGraphicTextGap(3);
+            absence.setText((total-on)+"");
+            img.setFitWidth(15);
+            img.setFitHeight(15);
+            absence.setGraphic(img);
+            absence.setGraphicTextGap(3);
         }
 
-        previewPane.getChildren().addAll(student);
+        previewPane.getChildren().addAll(absence);
     }
 
     @Override

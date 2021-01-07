@@ -130,9 +130,9 @@ public class CalendarController implements Initializable{
                 });
 
                 Random rand = new Random();
-                int num = (rand.nextInt(11));
+                int on = (rand.nextInt(11));
                 int total = Integer.parseInt(labelTotal.getText());
-                PreviewController.getInstance().checkAttend(num,total);
+                PreviewController.getInstance().showAbsence(on,total);
 
 
                 String buildDate = value+"/"+(currentMonth.get(Calendar.MONTH)+1)+"/"+(currentMonth.get(Calendar.YEAR));
