@@ -17,7 +17,8 @@ import java.util.ResourceBundle;
 public class PreviewController implements Initializable {
 
     @FXML
-    private AnchorPane previewPane;
+    public AnchorPane previewPane;
+
 
     public static PreviewController instance;
     public PreviewController(){
@@ -30,23 +31,23 @@ public class PreviewController implements Initializable {
         return instance;
     }
 
+
     public void showAbsence(int on, int total){
 
-
-
         Label absence = new Label();
-        absence.setFont(new Font(14));
-
         if (on!=total) {
+
+            absence.setFont(new Font(14));
             ImageView img = new ImageView(new Image("/resources/images/icon/user-x_red.png"));
             absence.setText((total-on)+"");
             img.setFitWidth(15);
             img.setFitHeight(15);
             absence.setGraphic(img);
             absence.setGraphicTextGap(3);
+            previewPane.getChildren().add(absence);
+
         }
 
-        previewPane.getChildren().addAll(absence);
     }
 
     @Override

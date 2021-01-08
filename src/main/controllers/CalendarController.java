@@ -18,6 +18,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
+import javafx.scene.ImageCursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -60,14 +62,16 @@ public class CalendarController implements Initializable{
 
     private String currentDate = new SimpleDateFormat("d/M/yyyy").format(new Date());
 
+    String active    = "-fx-background-color: rgba(204,242,255,0.25)";
+    String inactive  = "-fx-background-styleCSS.txt: rgb(242,242,242)";
+    String clickable = "-fx-background-color: rgba(48,173,255,0.5)";
+    String whiteBase = "-fx-background-styleCSS.txt: rgb(255,255,255)";
 
 
 
-    private void drawCalendar() {
-
+    private void drawCalendar() throws IOException, ParseException {
         drawHeader();
         drawBody();
-        drawFooter();
     }
 
     private void drawHeader() {
@@ -76,105 +80,103 @@ public class CalendarController implements Initializable{
         labelTitle.setText(monthString + ", " + yearString);
     }
 
-    public Node buttonCell(String value, int level){
+//    cell ( text, preview )
 
-        String active    = "-fx-background-color: rgba(204,242,255,0.25)";
-        String inactive  = "-fx-background-color: rgb(242,242,242)";
-        String clickable = "-fx-background-color: rgba(48,173,255,0.5)";
-        String whiteBase = "-fx-background-color: rgb(255,255,255)";
-
-        Label text = new Label(value);
-
+    public void displayCell_Text (Label text){
         text.setPadding(new Insets(3));
         text.setMaxWidth(MAX_VALUE);
         text.setMaxHeight(MAX_VALUE);
         text.setAlignment(Pos.CENTER);
         text.setFont(new Font(18));
+    }
 
+    public void displayCell_Preview (Label text) throws IOException {
+        AnchorPane an = FXMLLoader.load(getClass().getResource("/main/views/PreviewScreen.fxml"));
+        text.setGraphic(an);
+        text.setContentDisplay(ContentDisplay.BOTTOM);
+
+        Random rand = new Random();
+        labelTotal.setText("10");   //change total here
+        int total = Integer.parseInt(labelTotal.getText());
+        int on = (rand.nextInt(total+1));
+        PreviewController.getInstance().showAbsence(on,total);
+    }
+
+    public void displayCell_Level (Label text, String level){
+
+        text.setStyle(level);
+
+        if(level.equals(inactive)){
+            text.setDisable(true);
+        } else {
+            text.setDisable(false);
+        }
+
+    }
+
+    public void displayCell_Presented (Label text, String buildDate) throws ParseException, IOException {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy");
+        if(!sdf.parse(buildDate).after(sdf.parse(currentDate))) {
+            displayCell_Action(text);
+            displayCell_Preview(text);
+        }
+    }
+
+    public void displayCell_Action (Label text){
+        text.setCursor(Cursor.HAND);
+        text.setOnMousePressed(event ->{
+            text.setCursor(Cursor.WAIT);
+            text.setStyle(clickable);
+        });
+        text.setOnMouseReleased(event -> {
+            text.setCursor(Cursor.HAND);
+            text.setStyle(active);
+        });
+        text.setOnMouseClicked(event -> {
+            String AttendanceScreen = "/main/views/AttendanceScreen.fxml";
+            MainController.getInstance().popUp(AttendanceScreen,true);
+        });
+    }
+
+    public void displayCell_CurrentDate (Label text, String buildDate){
+        if(currentDate.equals(buildDate)){
+            text.setBorder(new Border(new BorderStroke(
+                    Color.BLACK,
+                    BorderStrokeStyle.SOLID,
+                    null,
+                    new BorderWidths(2)
+            )));
+        }
+    }
+
+    public Node displayCell (String value, String level) throws IOException, ParseException {
+
+        Label text = new Label(value);
+        displayCell_Text(text);
         switch (level) {
-            case 0:     //inactive
-
-                text.setStyle(inactive);
-                text.setDisable(true);
-
+            case "inactive":
+                displayCell_Level(text, inactive);
                 break;
-            case 1:     //active
-
-                text.setStyle(active);
-                text.setDisable(false);
-
-
-
-                text.setOnMousePressed(event -> text.setStyle(clickable));
-                text.setOnMouseReleased(event -> text.setStyle(active));
-                text.setOnMouseClicked(event -> {
-                    String AttendanceScreen = "/main/views/AttendanceScreen.fxml";
-                    MainController.getInstance().popUp(AttendanceScreen,true);
-                });
-
-
-
+            case "active":
                 String buildDate = value+"/"+(currentMonth.get(Calendar.MONTH)+1)+"/"+(currentMonth.get(Calendar.YEAR));
-
-
-
-                if(currentDate.equals(buildDate)){
-//                    System.out.println("Test"+Arrays.toString(test));
-//                    System.out.println("Date"+Arrays.toString(date));
-//                    System.out.println("DAY: " + date[0].equals(test[0]));
-//                    System.out.println("MON: " + date[1].equals(test[1]));
-//                    System.out.println("YEA: " + date[2].equals(test[2]));
-                    text.setBorder(new Border(new BorderStroke(
-                            Color.BLACK,
-                            BorderStrokeStyle.SOLID,
-                            null,
-                            new BorderWidths(2)
-                    )));
-                }
-
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy");
-
-                try {
-                    if(!sdf.parse(buildDate).after(sdf.parse(currentDate))){
-                        AnchorPane an = FXMLLoader.load(getClass().getResource("/main/views/PreviewScreen.fxml"));
-                        text.setGraphic(an);
-                        text.setContentDisplay(ContentDisplay.BOTTOM);
-
-                        Random rand = new Random();
-                        int on = (rand.nextInt(11));
-                        int total = Integer.parseInt(labelTotal.getText());
-                        PreviewController.getInstance().showAbsence(on,total);
-                    }
-                } catch (ParseException | IOException e) {
-                    e.printStackTrace();
-                }
-
+                displayCell_Level(text, active);
+                displayCell_CurrentDate(text, buildDate);
+                displayCell_Presented(text, buildDate);
                 break;
             default:
-                text.setStyle(whiteBase);
-                text.setDisable(false);
+                displayCell_Level(text, whiteBase);
                 text.setFont(Font.font("System",FontWeight.BOLD,16));
                 break;
         }
-
-
-
-
-//        btn = new JFXButton(value);
-//        btn.setMaxWidth(MAX_VALUE);
-//        btn.setMaxHeight(MAX_VALUE);
-//        btn.setDisable(!active);
         return text;
-//        vBox.getChildren().addAll(text);
-//        return vBox;
     }
 
-    private void drawBody() {
+    private void drawBody() throws IOException, ParseException {
 
 
         // Draw days of the week
         for (int day = 1; day <= 7; day++) {
-            gpBody.add(buttonCell(getDayName(day), 2), day - 1, 0);
+            gpBody.add(displayCell(getDayName(day), "header"), day - 1, 0);
         }
 
 
@@ -188,7 +190,7 @@ public class CalendarController implements Initializable{
                 dayOfWeek = 1;
                 row++;
             }
-            gpBody.add(buttonCell(String.valueOf(currentDay),1), dayOfWeek - 1, row);
+            gpBody.add(displayCell(String.valueOf(currentDay),"active"), dayOfWeek - 1, row);
 //            gpBody.add(new Text(String.valueOf(currentDay)), dayOfWeek - 1, row);
             currentDay++;
             dayOfWeek++;
@@ -201,7 +203,7 @@ public class CalendarController implements Initializable{
             Calendar prevMonth = getPreviousMonth(currentMonth);
             int daysInPrevMonth = prevMonth.getActualMaximum(Calendar.DAY_OF_MONTH);
             for (int i = dayOfWeek - 2; i >= 0; i--) {
-                gpBody.add(buttonCell(String.valueOf(daysInPrevMonth),0), i, 1);
+                gpBody.add(displayCell(String.valueOf(daysInPrevMonth),"inactive"), i, 1);
 
                 daysInPrevMonth--;
             }
@@ -214,17 +216,13 @@ public class CalendarController implements Initializable{
             int day = 1;
             for (int i = dayOfWeek; i < 7; i++) {
 
-                gpBody.add(buttonCell(String.valueOf(day),0), i, row);
+                gpBody.add(displayCell(String.valueOf(day),"inactive"), i, row);
 //                gpBody.add(buttonCell(String.valueOf(day),false), i, row);
                 day++;
             }
         }
 
     }
-
-    private void drawFooter() {
-    }
-
 
     @FXML
     void testGrid(MouseEvent event) {
@@ -251,7 +249,7 @@ public class CalendarController implements Initializable{
     }
 
     @FXML
-    void next(ActionEvent event) {
+    void next(ActionEvent event) throws IOException, ParseException {
         gpBody.getChildren().clear();
         currentMonth = getNextMonth(currentMonth);
         drawCalendar();
@@ -259,7 +257,7 @@ public class CalendarController implements Initializable{
     }
 
     @FXML
-    void previous(ActionEvent event) {
+    void previous(ActionEvent event) throws IOException, ParseException {
         gpBody.getChildren().clear();
         currentMonth = getPreviousMonth(currentMonth);
         drawCalendar();
@@ -318,9 +316,13 @@ public class CalendarController implements Initializable{
         currentMonth = new GregorianCalendar();
         currentMonth.set(Calendar.DAY_OF_MONTH, 1);
 
-
-        labelTotal.setText("10");
-        drawCalendar();
+        try {
+            drawCalendar();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
 
     }

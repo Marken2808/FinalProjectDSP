@@ -92,11 +92,11 @@ public class DashboardController implements Initializable {
 
         vBox.getChildren().addAll(labelName, labelAchieve);
         vBox.setAlignment(Pos.BOTTOM_CENTER);
-//        vBox.setStyle("-fx-border-color: black; -fx-border-width: 1");
+//        vBox.setStyle("-fx-border-styleCSS.txt: black; -fx-border-width: 1");
         labelName.setFont(new Font(15));
 //        labelAchieve.setPadding(new Insets(0,5,0,5));
-//        labelAchieve.setStyle("-fx-background-radius: 100; -fx-background-color: lawngreen");
-//        stackPane.setStyle("-fx-border-color: black; -fx-border-width: 1");
+//        labelAchieve.setStyle("-fx-background-radius: 100; -fx-background-styleCSS.txt: lawngreen");
+//        stackPane.setStyle("-fx-border-styleCSS.txt: black; -fx-border-width: 1");
         stackPane.setMargin(vBox,new Insets(60,60,0,60));
         stackPane.getChildren().addAll(chart, vBox);
         stackPane.setAlignment(Pos.BOTTOM_CENTER);
