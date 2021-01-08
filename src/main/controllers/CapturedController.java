@@ -200,7 +200,7 @@ public class CapturedController implements Initializable {
 //        System.out.println("check: "+callCV.ImageFile().length);
         for (int i = 0; i < callCV.ImageFile().length; i++) {
             if(callCV.namesList[i][0].equals(id)) {
-                listSet.add((Integer) callCV.namesList[i][2]);
+                listSet.add((int) callCV.namesList[i][2]);
             }
         }
         return listSet;

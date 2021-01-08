@@ -29,7 +29,7 @@ public class DBbean {
     public static void insertStudent(int sid, String sname) {
 
         try {
-            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO student (sid,sname) VALUES(?,?)");
+            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO student (sId,sName) VALUES(?,?)");
             pstmt.setInt(1, sid);
             pstmt.setString(2, sname);
             //Executing the statement
@@ -43,7 +43,7 @@ public class DBbean {
 
     public static void insertFace(String data, int set, int sid) throws SQLException {
 
-            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO face (fdata, fset, sid) VALUES(?,?,?)");
+            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO face (fData, fSet, f_sId) VALUES(?,?,?)");
 
             pstmt.setString(1, data);
             pstmt.setInt(2, set);

@@ -17,21 +17,6 @@
    <children>
       <StackPane layoutX="10.0" layoutY="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
          <children>
-            <Label fx:id="labelTotal" text="Total" StackPane.alignment="CENTER_LEFT">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../resources/images/icon/users.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <StackPane.margin>
-                  <Insets left="30.0" />
-               </StackPane.margin>
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Label>
             <HBox alignment="CENTER">
                <children>
                   <JFXButton fx:id="btPrev" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" onAction="#previous" prefHeight="40.0" style="-fx-background-radius: 100;" text="Previous">
@@ -59,21 +44,9 @@
                   </JFXButton>
                </children>
             </HBox>
-            <Label text=": Absence" StackPane.alignment="CENTER_RIGHT">
-               <graphic>
-                  <ImageView fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../resources/images/icon/user-x_red.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <StackPane.margin>
-                  <Insets right="30.0" />
-               </StackPane.margin>
-            </Label>
          </children>
       </StackPane>
-      <GridPane fx:id="gpBody" alignment="CENTER" hgap="5.0" layoutX="38.0" layoutY="70.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#testGrid" style="-fx-background-color: white;" vgap="5.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="60.0">
+      <GridPane fx:id="gpBody" alignment="CENTER" hgap="5.0" layoutX="38.0" layoutY="70.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#testGrid" style="-fx-background-color: white;" vgap="5.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="60.0">
         <columnConstraints>
           <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" prefWidth="100.0" />
             <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" prefWidth="100.0" />
@@ -96,6 +69,37 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </GridPane>
+      <StackPane AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Label fx:id="labelTotal" text="Total" StackPane.alignment="CENTER_LEFT">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../resources/images/icon/users.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label disable="true" text=": Absence" StackPane.alignment="CENTER_RIGHT">
+               <graphic>
+                  <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../resources/images/icon/user-x_red.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+         <padding>
+            <Insets left="40.0" right="40.0" />
+         </padding>
+      </StackPane>
    </children>
    <padding>
       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

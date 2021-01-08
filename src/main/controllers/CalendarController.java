@@ -95,14 +95,12 @@ public class CalendarController implements Initializable{
             case 0:     //inactive
 
                 text.setStyle(inactive);
-//                text.setFont(new Font(15));
                 text.setDisable(true);
 
                 break;
             case 1:     //active
 
                 text.setStyle(active);
-//                text.setFont(new Font(15));
                 text.setDisable(false);
 
 
