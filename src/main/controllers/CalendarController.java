@@ -1,39 +1,28 @@
 package main.controllers;
 
-import java.io.IOException;
-import java.net.URL;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXTreeTableView;
-import com.sun.javafx.scene.control.LabeledText;
-import javafx.application.Application;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.ImageCursor;
 import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import static java.lang.Integer.MAX_VALUE;
 
@@ -63,9 +52,9 @@ public class CalendarController implements Initializable{
     private String currentDate = new SimpleDateFormat("d/M/yyyy").format(new Date());
 
     String active    = "-fx-background-color: rgba(204,242,255,0.25)";
-    String inactive  = "-fx-background-styleCSS.txt: rgb(242,242,242)";
+    String inactive  = "-fx-background-color: rgba(242,242,242,1)";
     String clickable = "-fx-background-color: rgba(48,173,255,0.5)";
-    String whiteBase = "-fx-background-styleCSS.txt: rgb(255,255,255)";
+    String whiteBase = "-fx-background-color: rgba(255,255,255,1)";
 
 
 
@@ -171,16 +160,9 @@ public class CalendarController implements Initializable{
         return text;
     }
 
-    private void drawBody() throws IOException, ParseException {
+    public void drawBody() throws IOException, ParseException {
 
-
-        // Draw days of the week
-        for (int day = 1; day <= 7; day++) {
-            gpBody.add(displayCell(getDayName(day), "header"), day - 1, 0);
-        }
-
-
-        // Draw days in month
+//        draw current month
         int currentDay = currentMonth.get(Calendar.DAY_OF_MONTH);
         int daysInMonth = currentMonth.getActualMaximum(Calendar.DAY_OF_MONTH);
         int dayOfWeek = currentMonth.get(Calendar.DAY_OF_WEEK);
@@ -197,8 +179,22 @@ public class CalendarController implements Initializable{
 
         }
 
+        drawDay_OfWeek();
+        drawDay_PreviousMonth(currentDay);
+        drawDay_NextMonth(row);
+
+    }
+
+    public void drawDay_OfWeek() throws IOException, ParseException {
+        // Draw days of the week
+        for (int day = 1; day <= 7; day++) {
+            gpBody.add(displayCell(getDayName(day), "header"), day - 1, 0);
+        }
+    }
+
+    public void drawDay_PreviousMonth(int currentDay) throws IOException, ParseException {
         // Draw previous month days
-        dayOfWeek = currentMonth.get(Calendar.DAY_OF_WEEK);
+        int dayOfWeek = currentMonth.get(Calendar.DAY_OF_WEEK);
         if (currentDay != 1) {
             Calendar prevMonth = getPreviousMonth(currentMonth);
             int daysInPrevMonth = prevMonth.getActualMaximum(Calendar.DAY_OF_MONTH);
@@ -208,21 +204,22 @@ public class CalendarController implements Initializable{
                 daysInPrevMonth--;
             }
         }
+    }
 
+    public void drawDay_NextMonth(int row) throws IOException, ParseException {
         // Draw next month days
         currentMonth.set(Calendar.DAY_OF_MONTH, currentMonth.getActualMaximum(Calendar.DAY_OF_MONTH));
-        dayOfWeek = currentMonth.get(Calendar.DAY_OF_WEEK);
+        int dayOfWeek = currentMonth.get(Calendar.DAY_OF_WEEK);
         if (dayOfWeek != 7) {
             int day = 1;
             for (int i = dayOfWeek; i < 7; i++) {
 
                 gpBody.add(displayCell(String.valueOf(day),"inactive"), i, row);
-//                gpBody.add(buttonCell(String.valueOf(day),false), i, row);
                 day++;
             }
         }
-
     }
+
 
     @FXML
     void testGrid(MouseEvent event) {

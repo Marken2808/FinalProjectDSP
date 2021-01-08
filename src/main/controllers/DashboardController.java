@@ -51,6 +51,10 @@ public class DashboardController implements Initializable {
     @FXML
     private AnchorPane CalendarPane;
 
+    @FXML
+    private AnchorPane StudentPane;
+
+
     private MyGraph mathsGraph;
     private MyGraph areaMathsGraph;
 
@@ -104,17 +108,29 @@ public class DashboardController implements Initializable {
     }
 
 
+    public void StudentView(){
+        try {
+            AnchorPane studentTab = FXMLLoader.load(getClass().getResource("/main/views/StudentTab.fxml"));
+            StudentPane.getChildren().addAll(studentTab);
+            StudentPane.setTopAnchor(studentTab,0.0);
+            StudentPane.setBottomAnchor(studentTab,0.0);
+            StudentPane.setRightAnchor(studentTab,0.0);
+            StudentPane.setLeftAnchor(studentTab,0.0);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     public void CalendarView(){
         try {
-            AnchorPane calendar = FXMLLoader.load(getClass().getResource("/main/views/CalendarScreen.fxml"));
-            calendar.setMaxSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
-            CalendarPane.getChildren().addAll(calendar);
-            CalendarPane.setTopAnchor(calendar,0.0);
-            CalendarPane.setBottomAnchor(calendar,0.0);
-            CalendarPane.setRightAnchor(calendar,0.0);
-            CalendarPane.setLeftAnchor(calendar,0.0);
+            AnchorPane calendarTab = FXMLLoader.load(getClass().getResource("/main/views/CalendarScreen.fxml"));
+//            calendar.setMaxSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+            CalendarPane.getChildren().addAll(calendarTab);
+            CalendarPane.setTopAnchor(calendarTab,0.0);
+            CalendarPane.setBottomAnchor(calendarTab,0.0);
+            CalendarPane.setRightAnchor(calendarTab,0.0);
+            CalendarPane.setLeftAnchor(calendarTab,0.0);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -133,7 +149,11 @@ public class DashboardController implements Initializable {
             drawSemiCircleChart(subject, rand);
         }
         drawDoughnutChart();
+
+//        -----------------
         CalendarView();
+        StudentView();
+//        -----------------
     }
 
 //    -----------------------------EX----------------------------
