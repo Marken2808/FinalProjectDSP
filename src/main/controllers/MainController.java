@@ -13,9 +13,6 @@ import com.jfoenix.controls.JFXDrawer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
-import javafx.scene.Cursor;
-import javafx.scene.ImageCursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
@@ -25,7 +22,6 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import main.utils.DBbean;
 import main.utils.OpenCV;
 import main.utils.UtilsOCV;
 import org.opencv.core.*;
@@ -90,7 +86,7 @@ public class MainController implements Initializable
     private String CaptureScreen    = "/main/views/CapturedScreen.fxml";
     private String SignInScreen     = "/main/views/SignInScreen.fxml";
     private String SignUpScreen     = "/main/views/SignUpScreen.fxml";
-    private String DrawerScreen     = "/main/views/DrawerScreen.fxml";
+    private String DrawerScreen     = "/main/views/DrawerMenu.fxml";
     private String CalendarScreen   = "/main/views/CalendarScreen.fxml";
     private String DashboardScreen  = "/main/views/DashboardScreen.fxml";
 //----------------------------instance--------------------

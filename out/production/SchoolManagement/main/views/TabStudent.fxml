@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXDrawer?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="anchorPane" nodeOrientation="LEFT_TO_RIGHT" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.TabStudentController">
+   <children>
+      <TableView fx:id="tableSTUDENT" onMouseClicked="#clickOnTable" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0">
+        <columns>
+            <TableColumn fx:id="colSID" text="Student ID" />
+          <TableColumn fx:id="colSNAME" text="Student Name" />
+        </columns>
+      </TableView>
+      <JFXDrawer fx:id="drawerPane" defaultDrawerSize="500.0" direction="BOTTOM" resizableOnDrag="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="100.0" />
+   </children>
+</AnchorPane>
