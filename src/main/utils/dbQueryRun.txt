@@ -21,3 +21,17 @@ CREATE TABLE `attendance` (
   PRIMARY KEY (`aDate`),
   CONSTRAINT `a_sid` FOREIGN KEY (`a_sId`) REFERENCES `student` (`sId`)
 )
+
+CREATE TABLE `module` (
+  `mId` int NOT NULL AUTO_INCREMENT,
+  `mMath` int DEFAULT NULL,
+  `mPhysics` int DEFAULT NULL,
+  `mChemistry` int DEFAULT NULL,
+  `mEnglish` int DEFAULT NULL,
+  `mHistory` int DEFAULT NULL,
+  `mBiology` int DEFAULT NULL,
+  `mGeography` int DEFAULT NULL,
+  `m_sId` int DEFAULT NULL,
+  PRIMARY KEY (`mId`),
+  CONSTRAINT `m_sId` FOREIGN KEY (`m_sId`) REFERENCES `student` (`sId`)
+)

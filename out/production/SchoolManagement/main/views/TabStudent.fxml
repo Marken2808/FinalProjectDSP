@@ -11,6 +11,7 @@
         <columns>
             <TableColumn fx:id="colSID" text="Student ID" />
           <TableColumn fx:id="colSNAME" text="Student Name" />
+            <TableColumn fx:id="colMID" text="Marked All" />
         </columns>
       </TableView>
       <JFXDrawer fx:id="drawerPane" defaultDrawerSize="500.0" direction="BOTTOM" resizableOnDrag="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="100.0" />

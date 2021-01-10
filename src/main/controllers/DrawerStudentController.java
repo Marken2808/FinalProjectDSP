@@ -15,8 +15,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import main.utils.CircleChart;
+import main.utils.DBbean;
 
+import java.lang.reflect.Array;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.ResourceBundle;
 
@@ -32,6 +36,7 @@ public class DrawerStudentController implements Initializable {
     @FXML
     private StackPane doughnutPane;
 
+    public double[] moduleLists;
 
     public void drawDoughnutChart(){
         StackPane stackPane = new StackPane();
@@ -55,7 +60,7 @@ public class DrawerStudentController implements Initializable {
         doughnutPane.getChildren().add(stackPane);
     }
 
-    public void drawSemiCircleChart(String name, int achieve){
+    public void drawSemiCircleChart(String name, double achieve){
         StackPane stackPane = new StackPane();
         VBox vBox = new VBox();
 
@@ -71,17 +76,26 @@ public class DrawerStudentController implements Initializable {
 
         vBox.getChildren().addAll(labelName, labelAchieve);
         vBox.setAlignment(Pos.BOTTOM_CENTER);
-//        vBox.setStyle("-fx-border-styleCSS.txt: black; -fx-border-width: 1");
         labelName.setFont(new Font(15));
-//        labelAchieve.setPadding(new Insets(0,5,0,5));
-//        labelAchieve.setStyle("-fx-background-radius: 100; -fx-background-styleCSS.txt: lawngreen");
-//        stackPane.setStyle("-fx-border-styleCSS.txt: black; -fx-border-width: 1");
         stackPane.setMargin(vBox,new Insets(60,60,0,60));
         stackPane.getChildren().addAll(chart, vBox);
         stackPane.setAlignment(Pos.BOTTOM_CENTER);
         semiPane.getChildren().add(stackPane);
     }
 
+    public void displaySeCiChart(){
+        String[] moduleName = new String[]{"MATH","PHYSICS","CHEMISTRY","ENGLISH","HISTORY","BIOLOGY","GEOGRAPHY"};
+
+        int id = TabStudentController.id;
+        double[] moduleData = DBbean.getModuleData(id);
+        moduleLists = Arrays.copyOfRange(moduleData,1,moduleData.length-1);
+
+        for(int i=0; i<moduleLists.length; i++) {
+            drawSemiCircleChart(moduleName[i], moduleLists[i]);
+        }
+
+//        System.out.println(Arrays.toString(moduleLists));
+    }
 
     @FXML
     void closeDrawer(MouseEvent event) {
@@ -91,11 +105,7 @@ public class DrawerStudentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        String[] subjects = new String[]{"MATH","PHYSICS","CHEMISTRY","ENGLISH","HISTORY","BIOLOGY","GEOGRAPHY"};
-        for(String subject : subjects) {
-            int rand = new Random().nextInt(10);
-            drawSemiCircleChart(subject, rand);
-        }
+        displaySeCiChart();
         drawDoughnutChart();
     }
 }

@@ -29,6 +29,8 @@ import main.utils.DBbean;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 
@@ -50,6 +52,10 @@ public class TabStudentController implements Initializable {
     @FXML
     private TableColumn<Student, String> colSNAME;
 
+    @FXML
+    private TableColumn<Student, Integer> colMID;
+
+
     public static TabStudentController instance;
     public TabStudentController(){
         instance = this;
@@ -63,51 +69,68 @@ public class TabStudentController implements Initializable {
 
     ObservableList<Student> studentLists = FXCollections.observableArrayList();
 
+    static int id;
+    boolean marked;
+
     @FXML
     void clickOnTable(MouseEvent event) {
         Student selectedStudent = tableSTUDENT.getSelectionModel().getSelectedItem();
         if(!tableSTUDENT.getSelectionModel().isEmpty()){
             if(event.getClickCount() == 2){
-                System.out.println(selectedStudent.getSid()+","+selectedStudent.getSname());
-                this.displayDrawer();
+                id = selectedStudent.getSid();
+//                System.out.println(selectedStudent.getSid()+","+selectedStudent.getSname());
+                if(marked = DBbean.isIdMark(id)){
+                    openDrawer();
+                }
             }else{
+                closeDrawer();
                 tableSTUDENT.getSelectionModel().clearSelection(tableSTUDENT.getSelectionModel().getSelectedIndex());
             }
         }
+
     }
 
-    public void displayDrawer() {
-
+    public void openDrawer() {
         try {
             AnchorPane sBottom = FXMLLoader.load(getClass().getResource("/main/views/DrawerStudent.fxml"));
             drawerPane.setSidePane(sBottom);
+            anchorPane.setRightAnchor(drawerPane,0.0);
+            anchorPane.setLeftAnchor(drawerPane, 0.0);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-
-        anchorPane.setRightAnchor(drawerPane,0.0);
-        anchorPane.setLeftAnchor(drawerPane, 0.0);
-
         if (drawerPane.isClosed() || drawerPane.isClosing()) {
 //            System.out.println("open" + drawerPane.isClosed());
             drawerPane.open();
-        } else {
+        }
+
+    }
+
+    public void closeDrawer(){
+        if (drawerPane.isOpened() || drawerPane.isOpening()) {
 //            System.out.println("close" + drawerPane.isOpened());
             drawerPane.close();
 //            this.anchorPane.setBottomAnchor(this.drawerPane, -500.0);
             anchorPane.setBottomAnchor(drawerPane,0.0);
         }
     }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        colSID.setCellValueFactory(new PropertyValueFactory<Student, Integer>("Sid"));
-        colSNAME.setCellValueFactory(new PropertyValueFactory<Student, String>("Sname"));
+        colSID.setCellValueFactory(new PropertyValueFactory<>("Sid"));
+        colSNAME.setCellValueFactory(new PropertyValueFactory<>("Sname"));
+        colMID.setCellValueFactory(new PropertyValueFactory<>("Marked"));
 
         studentLists = DBbean.getStudentData();
+
+//        System.out.println(DBbean.isIdUnmark(1));
+//        System.out.println(DBbean.isIdUnmark(2));
+//        System.out.println(DBbean.isIdUnmark(3));
+//        System.out.println(DBbean.isIdUnmark(4));
+
         tableSTUDENT.setItems(studentLists);
+
 
 
 
