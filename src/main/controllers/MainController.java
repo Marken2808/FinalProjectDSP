@@ -30,6 +30,8 @@ import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import static main.utils.DBbean.getLength;
+
 //import static org.bytedeco.opencv.global.opencv_videoio.CAP_PROP_FPS;
 
 public class MainController implements Initializable
@@ -344,7 +346,7 @@ public class MainController implements Initializable
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        getLength();
         callCV.init();
         displaySignIn();
     }

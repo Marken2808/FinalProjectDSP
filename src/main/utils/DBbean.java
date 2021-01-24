@@ -25,6 +25,31 @@ public class DBbean {
 
     }
 
+    public static int getLength(){
+        try {
+//            pstmt = conn.prepareStatement("Select * from Face");
+//            ResultSet rs = pstmt.executeQuery()
+
+            Statement stmt = conn.createStatement();
+            //Retrieving the data
+            ResultSet rs = stmt.executeQuery("select count(*) from face");
+            rs.next();
+            //Moving the cursor to the last row
+            System.out.println("Table contains "+rs.getInt("count(*)")+" rows");
+
+            return rs.getInt("count(*)");
+//            if(rs.last()){
+//                System.out.println(rs.getRow());
+//                return rs.getRow();
+//            } else {
+//                return 0; //just cus I like to always do some kinda else statement.
+//            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     public static ObservableList<Student> getStudentData(){
         ObservableList<Student> studentLists = FXCollections.observableArrayList();
         try {

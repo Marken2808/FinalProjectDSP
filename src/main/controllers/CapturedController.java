@@ -197,8 +197,8 @@ public class CapturedController implements Initializable {
 
     public ArrayList<Integer> getListSet(int id){
         ArrayList<Integer> listSet = new ArrayList<>();
-//        System.out.println("check: "+callCV.ImageFile().length);
-        for (int i = 0; i < callCV.ImageFile().length; i++) {
+//        System.out.println("check: "+callCV.imageFiles.length);
+        for (int i = 0; i < callCV.imageFiles.length; i++) {
             if(callCV.namesList[i][0].equals(id)) {
                 listSet.add((int) callCV.namesList[i][2]);
             }
@@ -207,7 +207,7 @@ public class CapturedController implements Initializable {
     }
 
     public String getListName(int id){
-        for (int i = 0; i < callCV.ImageFile().length; i++) {
+        for (int i = 0; i < callCV.imageFiles.length; i++) {
             if(callCV.namesList[i][0].equals(id)) {
                 return (String) callCV.namesList[i][1];
             }
