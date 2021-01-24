@@ -77,7 +77,7 @@ public class TabStudentController implements Initializable {
         Student selectedStudent = tableSTUDENT.getSelectionModel().getSelectedItem();
         if(!tableSTUDENT.getSelectionModel().isEmpty()){
             if(event.getClickCount() == 2){
-                id = selectedStudent.getSid();
+                id = selectedStudent.getStudentId();
 //                System.out.println(selectedStudent.getSid()+","+selectedStudent.getSname());
                 if(marked = DBbean.isIdMark(id)){
                     openDrawer();
@@ -118,16 +118,11 @@ public class TabStudentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        colSID.setCellValueFactory(new PropertyValueFactory<>("Sid"));
-        colSNAME.setCellValueFactory(new PropertyValueFactory<>("Sname"));
-        colMID.setCellValueFactory(new PropertyValueFactory<>("Marked"));
+        colSID.setCellValueFactory(new PropertyValueFactory<>("StudentId"));
+        colSNAME.setCellValueFactory(new PropertyValueFactory<>("StudentName"));
+        colMID.setCellValueFactory(new PropertyValueFactory<>("StudentMarked"));
 
         studentLists = DBbean.getStudentData();
-
-//        System.out.println(DBbean.isIdUnmark(1));
-//        System.out.println(DBbean.isIdUnmark(2));
-//        System.out.println(DBbean.isIdUnmark(3));
-//        System.out.println(DBbean.isIdUnmark(4));
 
         tableSTUDENT.setItems(studentLists);
 

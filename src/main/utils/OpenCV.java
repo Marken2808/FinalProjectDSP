@@ -50,6 +50,8 @@ public class OpenCV {
     public File[] imageFiles;
     public Object[][] namesList;
     public int predictionID = 0;
+    public File root = new File(datasetPath);
+    public FaceRecognizer faceRecognizer = LBPHFaceRecognizer.create();
 
 
 
@@ -73,6 +75,7 @@ public class OpenCV {
      */
     public void init() {
 
+        this.faceRecognizer.read("traineddata");
         this.capture = new VideoCapture();
         this.faceCascade = new CascadeClassifier();
         this.eyesCascade = new CascadeClassifier();
@@ -224,10 +227,14 @@ public class OpenCV {
                     Imgproc.FONT_HERSHEY_COMPLEX_SMALL, 1.5, new Scalar(0, 255, 0, 2.0),2);
         }
     }
+
+
     
     public void trainModel () {
 
-        File root = new File(datasetPath);
+
+        FaceRecognizer faceRecognizer = LBPHFaceRecognizer.create();
+
         FilenameFilter filter = new FilenameFilter(){
             @Override
             public boolean accept(File root, String name) {
@@ -272,10 +279,9 @@ public class OpenCV {
 
             labels.put(counter, 0, id);
             counter++;
-
         }
 
-        FaceRecognizer faceRecognizer = LBPHFaceRecognizer.create();
+
         faceRecognizer.train(images, labels);
         faceRecognizer.save("traineddata");
 
@@ -288,11 +294,9 @@ public class OpenCV {
         int[] predLabel = new int[1];
         double[] confidence = new double[1];
 
-        FaceRecognizer faceRecognizer = LBPHFaceRecognizer.create();
+
         faceRecognizer.read("traineddata");
         faceRecognizer.predict(currentFace,predLabel,confidence);
-//        result = faceRecognizer.predict_label(currentFace);
-//        result = predLabel[0];
 
         return new double[] {predLabel[0],Math.round(confidence[0])};
     }

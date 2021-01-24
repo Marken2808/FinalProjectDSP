@@ -19,6 +19,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
+import main.models.Face;
+import main.models.Student;
 import main.utils.DBbean;
 import main.utils.OpenCV;
 
@@ -65,6 +67,30 @@ public class CapturedController implements Initializable {
     OpenCV callCV = OpenCV.getInstance();
     StringBuilder sb = new StringBuilder();
 
+
+//    public static File getLastModified(String directoryFilePath)
+//    {
+//        File directory = new File(directoryFilePath);
+//        File[] files = directory.listFiles(File::isFile);
+//        long lastModifiedTime = Long.MIN_VALUE;
+//        File chosenFile = null;
+//
+//        if (files != null)
+//        {
+//            for (File file : files)
+//            {
+//                if (file.lastModified() > lastModifiedTime)
+//                {
+//                    chosenFile = file;
+//                    lastModifiedTime = file.lastModified();
+//                    System.out.println("newest ok?");
+//                }
+//            }
+//        }
+//
+//        return chosenFile;
+//    }
+
     @FXML
     public void submitNew(ActionEvent event) {
         isFulfill();
@@ -76,6 +102,7 @@ public class CapturedController implements Initializable {
                     int id = Integer.parseInt(String.valueOf(boxID.getValue()));
                     String name = fieldName.getText();
                     int set = Integer.parseInt(String.valueOf(boxSet.getValue()));
+                    Student student = new Student(id,name);
 
                     String imgPath = callCV.datasetPath + id + "-" + name + "_" + set + ".jpg";
 
@@ -85,10 +112,10 @@ public class CapturedController implements Initializable {
                             new FileImageOutputStream(new File(imgPath))
                     );
 
-                    DBbean.insertStudent(id, name);
+                    DBbean.insertStudent(student);
 
                     try {
-                        DBbean.insertFace(imgPath, set, id);
+                        DBbean.insertFace(new Face(imgPath,set,student));
                         handlePopup(
                                 "Success",
                                 "Face Inserted",
@@ -105,7 +132,6 @@ public class CapturedController implements Initializable {
                     }
 
                     MainController.dialog.close();
-
                 } catch (IOException e) {
                     System.out.println("Catch here");
 

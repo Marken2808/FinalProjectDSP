@@ -2,6 +2,7 @@ package main.utils;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import main.models.Face;
 import main.models.Student;
 
 import java.sql.*;
@@ -25,30 +26,30 @@ public class DBbean {
 
     }
 
-    public static int getLength(){
-        try {
-//            pstmt = conn.prepareStatement("Select * from Face");
-//            ResultSet rs = pstmt.executeQuery()
-
-            Statement stmt = conn.createStatement();
-            //Retrieving the data
-            ResultSet rs = stmt.executeQuery("select count(*) from face");
-            rs.next();
-            //Moving the cursor to the last row
-            System.out.println("Table contains "+rs.getInt("count(*)")+" rows");
-
-            return rs.getInt("count(*)");
-//            if(rs.last()){
-//                System.out.println(rs.getRow());
-//                return rs.getRow();
-//            } else {
-//                return 0; //just cus I like to always do some kinda else statement.
-//            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
+//    public static int getLength(){
+//        try {
+////            pstmt = conn.prepareStatement("Select * from Face");
+////            ResultSet rs = pstmt.executeQuery()
+//
+//            Statement stmt = conn.createStatement();
+//            //Retrieving the data
+//            ResultSet rs = stmt.executeQuery("select count(*) from face");
+//            rs.next();
+//            //Moving the cursor to the last row
+//            System.out.println("Table contains "+rs.getInt("count(*)")+" rows");
+//
+//            return rs.getInt("count(*)");
+////            if(rs.last()){
+////                System.out.println(rs.getRow());
+////                return rs.getRow();
+////            } else {
+////                return 0; //just cus I like to always do some kinda else statement.
+////            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return 0;
+//    }
 
     public static ObservableList<Student> getStudentData(){
         ObservableList<Student> studentLists = FXCollections.observableArrayList();
@@ -114,16 +115,16 @@ public class DBbean {
         return true;
     }
 
-    public static void insertStudent(int sid, String sname) {
+    public static void insertStudent(Student student) {
 
         try {
             pstmt = conn.prepareStatement("INSERT INTO student (sId,sName) VALUES(?,?)");
-            pstmt.setInt(1, sid);
-            pstmt.setString(2, sname);
+            pstmt.setInt(1, student.getStudentId());
+            pstmt.setString(2, student.getStudentName());
             //Executing the statement
             pstmt.execute();
             System.out.println("student inserted......");
-            insertModule(sid);
+            insertModule(student.getStudentId());
         } catch (SQLException e) {
             System.out.println("student already exist......");
         }
@@ -142,13 +143,13 @@ public class DBbean {
         }
     }
 
-    public static void insertFace(String data, int set, int sid) throws SQLException {
+    public static void insertFace(Face face) throws SQLException {
 
             pstmt = conn.prepareStatement("INSERT INTO face (fData, fSet, f_sId) VALUES(?,?,?)");
 
-            pstmt.setString(1, data);
-            pstmt.setInt(2, set);
-            pstmt.setInt(3, sid);
+            pstmt.setString(1, face.getFaceData());
+            pstmt.setInt(2, face.getFaceSet());
+            pstmt.setInt(3, face.getStudent().getStudentId());
 
             //Executing the statement
             pstmt.execute();

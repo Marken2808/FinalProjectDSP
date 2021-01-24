@@ -3,37 +3,42 @@ package main.models;
 
 public class Student {
 
-    private int sid;
-    private String sname;
-    private boolean marked;
+    private int studentId;
+    private String studentName;
+    private boolean studentMarked;
+
+    public Student(int sid, String sname){
+        this.studentId = sid;
+        this.studentName = sname;
+    }
 
     public Student(int sid, String sname, boolean marked) {
-        this.sid = sid;
-        this.sname = sname;
-        this.marked = marked;
+        this.studentId = sid;
+        this.studentName = sname;
+        this.studentMarked = marked;
     }
 
-    public int getSid() {
-        return sid;
+    public int getStudentId() {
+        return studentId;
     }
 
-    public void setSid(int sid) {
-        this.sid = sid;
+    public void setStudentId(int studentId) {
+        this.studentId = studentId;
     }
 
-    public String getSname() {
-        return sname;
+    public String getStudentName() {
+        return studentName;
     }
 
-    public void setSname(String sname) {
-        this.sname = sname;
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
     }
 
-    public boolean isMarked() {
-        return marked;
+    public boolean isStudentMarked() {
+        return studentMarked;
     }
 
-    public void setMarked(boolean marked) {
-        this.marked = marked;
+    public void setStudentMarked(boolean studentMarked) {
+        this.studentMarked = studentMarked;
     }
 }
