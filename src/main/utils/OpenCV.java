@@ -17,6 +17,8 @@ import java.util.*;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static org.opencv.imgproc.Imgproc.*;
+
 
 public class OpenCV {
 
@@ -27,9 +29,9 @@ public class OpenCV {
     public VideoCapture capture;
     public int absoluteFaceSize;
     //   face cascade classifier
-    public CascadeClassifier faceCascade;
+    public CascadeClassifier faceCascade = new CascadeClassifier();
     //   eyes cascade classifier
-    public CascadeClassifier eyesCascade;
+    public CascadeClassifier eyesCascade = new CascadeClassifier();
 
     public ArrayList<Mat> listRez;
     public ArrayList<Mat> listCrop;
@@ -75,10 +77,7 @@ public class OpenCV {
      */
     public void init() {
 
-        this.faceRecognizer.read("traineddata");
         this.capture = new VideoCapture();
-        this.faceCascade = new CascadeClassifier();
-        this.eyesCascade = new CascadeClassifier();
         this.faceCascade.load(haarFace);
         this.eyesCascade.load(haarEyes);
         this.absoluteFaceSize = 0;
@@ -132,11 +131,6 @@ public class OpenCV {
         return UtilsOCV.mat2Image(Imgcodecs.imread(outImg));
     }
 
-//    public File[] ImageFile(){
-//
-//
-//        return imageFiles;
-//    }
 
 
     /**
@@ -205,7 +199,7 @@ public class OpenCV {
             Imgproc.cvtColor(croppedImage, croppedImage, Imgproc.COLOR_BGR2GRAY);
             Imgproc.equalizeHist(croppedImage, croppedImage);
             Size size = new Size(250,250);
-            Imgproc.resize(croppedImage, resizeImage, size);
+            Imgproc.resize(croppedImage, resizeImage, size, 0,0, INTER_AREA);
 
             double[] returnedResults = faceRecognition(resizeImage);
             predictionID = ((int) returnedResults[0]);
@@ -228,21 +222,12 @@ public class OpenCV {
         }
     }
 
-
-    
     public void trainModel () {
 
 
         FaceRecognizer faceRecognizer = LBPHFaceRecognizer.create();
 
-        FilenameFilter filter = new FilenameFilter(){
-            @Override
-            public boolean accept(File root, String name) {
-                return name.endsWith(".jpg");
-            }
-        };
-
-        imageFiles = root.listFiles(filter);
+        imageFiles = root.listFiles(File::isFile);
         namesList = new Object[imageFiles.length][3];
         int counter = 0;
         int id = 0;
@@ -251,39 +236,41 @@ public class OpenCV {
         // Read the data from the training set
         List<Mat> images = new ArrayList<Mat>();
         Mat labels = new Mat(imageFiles.length,1,CvType.CV_32SC1);
-        for (File image : imageFiles) {
-            // Parse the training set folder files
-            Mat img = Imgcodecs.imread(image.getAbsolutePath());
-            // Change to Grayscale and equalize the histogram
-            Imgproc.cvtColor(img, img, Imgproc.COLOR_BGR2GRAY);
-            Imgproc.equalizeHist(img, img);
-            // Extract label from the file name
-            id = Integer.parseInt(image.getName().split("\\-")[0]);
-            // Extract name from the file name and add it to names HashMap
-            name = image.getName().split("\\-")[1].split("\\_")[0];
-            // Extract set from the file name
-            set = Integer.parseInt(image.getName().split("\\-")[1].split("\\_")[1].split("\\.jpg")[0]);
+        if (imageFiles != null) {
+            for (File image : imageFiles) {
+                // Parse the training set folder files
+                Mat img = Imgcodecs.imread(image.getAbsolutePath());
+                // Change to Grayscale and equalize the histogram
+                Imgproc.cvtColor(img, img, Imgproc.COLOR_BGR2GRAY);
+                Imgproc.equalizeHist(img, img);
+                // Extract label from the file name
+                id = Integer.parseInt(image.getName().split("\\-")[0]);
+                // Extract name from the file name and add it to names HashMap
+                name = image.getName().split("\\-")[1].split("\\_")[0];
+                // Extract set from the file name
+                set = Integer.parseInt(image.getName().split("\\-")[1].split("\\_")[1].split("\\.jpg")[0]);
 
 
-            // add id,name,set into array[][] nameList
+                // add id,name,set into array[][] nameList
 
-            namesList[counter][0] = id;
-            namesList[counter][1] = name;
-            namesList[counter][2] = set;
+                namesList[counter][0] = id;
+                namesList[counter][1] = name;
+                namesList[counter][2] = set;
 
-            // add id,name into Hashmap nameNap
-            namesMap.put(id,name);
+                // add id,name into Hashmap nameNap
+                namesMap.put(id, name);
 
-            // Add training set images to images Mat
-            images.add(img);
+                // Add training set images to images Mat
+                images.add(img);
 
-            labels.put(counter, 0, id);
-            counter++;
+                labels.put(counter, 0, id);
+                counter++;
+            }
+
+            faceRecognizer.train(images, labels);
+            faceRecognizer.save("traineddata.json");
         }
 
-
-        faceRecognizer.train(images, labels);
-        faceRecognizer.save("traineddata");
 
     }
 
@@ -295,7 +282,7 @@ public class OpenCV {
         double[] confidence = new double[1];
 
 
-        faceRecognizer.read("traineddata");
+        faceRecognizer.read("traineddata.json");
         faceRecognizer.predict(currentFace,predLabel,confidence);
 
         return new double[] {predLabel[0],Math.round(confidence[0])};

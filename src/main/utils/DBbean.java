@@ -5,6 +5,9 @@ import javafx.collections.ObservableList;
 import main.models.Face;
 import main.models.Student;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -50,6 +53,7 @@ public class DBbean {
 //        }
 //        return 0;
 //    }
+
 
     public static ObservableList<Student> getStudentData(){
         ObservableList<Student> studentLists = FXCollections.observableArrayList();

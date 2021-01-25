@@ -31,8 +31,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 
-//import static org.bytedeco.opencv.global.opencv_videoio.CAP_PROP_FPS;
-
 public class MainController implements Initializable
 {
     @FXML

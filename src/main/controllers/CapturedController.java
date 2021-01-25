@@ -63,33 +63,9 @@ public class CapturedController implements Initializable {
     @FXML
     private ImageView picInfor;
 
-    File imgs;
+    String imgPath;
     OpenCV callCV = OpenCV.getInstance();
     StringBuilder sb = new StringBuilder();
-
-
-//    public static File getLastModified(String directoryFilePath)
-//    {
-//        File directory = new File(directoryFilePath);
-//        File[] files = directory.listFiles(File::isFile);
-//        long lastModifiedTime = Long.MIN_VALUE;
-//        File chosenFile = null;
-//
-//        if (files != null)
-//        {
-//            for (File file : files)
-//            {
-//                if (file.lastModified() > lastModifiedTime)
-//                {
-//                    chosenFile = file;
-//                    lastModifiedTime = file.lastModified();
-//                    System.out.println("newest ok?");
-//                }
-//            }
-//        }
-//
-//        return chosenFile;
-//    }
 
     @FXML
     public void submitNew(ActionEvent event) {
@@ -254,20 +230,24 @@ public class CapturedController implements Initializable {
             fieldName.setText(String.valueOf(callCV.namesMap.get(callCV.predictionID)));
             boxSet.setItems(observableList);
             boxSet.setValue(0);
-            imgs = new File(callCV.basePath +"images/test/0-new_0.jpg");
+            imgPath = callCV.basePath +"images/test/0-new_0.jpg";
         } else if(callCV.listRez.size()==0){
-            imgs = null;
+            imgPath = null;
         } else{
             for(int i=0; i<callCV.listRez.size(); i++){
 //                System.out.println(i);
-                imgs = new File(callCV.basePath +"images/test/0-new_"+i+".jpg");
+                imgPath = callCV.basePath +"images/test/0-new_"+i+".jpg";
             }
         }
-        try {
-            captImg.setImage(new Image(new FileInputStream(imgs)));
-        } catch (FileNotFoundException e) {
-            System.out.println("NO file found!");
+
+        if(imgPath!=null) {
+            try {
+                captImg.setImage(new Image(new FileInputStream(imgPath)));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
+
         isFulfill();
         hboxInfor.setVisible(false);
 
