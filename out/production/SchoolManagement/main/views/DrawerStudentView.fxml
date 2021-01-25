@@ -2,9 +2,6 @@
 
 <?import com.jfoenix.controls.JFXMasonryPane?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
 
@@ -15,18 +12,6 @@
          <padding>
             <Insets bottom="20.0" />
          </padding>
-      </StackPane>
-      <StackPane AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <ImageView fitHeight="35.0" fitWidth="35.0" onMouseClicked="#closeDrawer" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
-               <image>
-                  <Image url="@../../resources/images/icon/minus.png" />
-               </image>
-               <cursor>
-                  <Cursor fx:constant="MOVE" />
-               </cursor>
-            </ImageView>
-         </children>
       </StackPane>
    </children>
 </AnchorPane>

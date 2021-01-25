@@ -1,5 +1,6 @@
 package main.controllers;
 
+import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXMasonryPane;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -95,12 +96,6 @@ public class DrawerStudentController implements Initializable {
         }
 
 //        System.out.println(Arrays.toString(moduleLists));
-    }
-
-    @FXML
-    void closeDrawer(MouseEvent event) {
-//        System.out.println("click image");
-//        TabStudentController.getInstance().displayDrawer();
     }
 
     @Override

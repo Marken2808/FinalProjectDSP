@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXDrawer?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane fx:id="anchorPane" nodeOrientation="LEFT_TO_RIGHT" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.TabStudentController">
@@ -14,6 +17,17 @@
             <TableColumn fx:id="colMID" text="Marked All" />
         </columns>
       </TableView>
-      <JFXDrawer fx:id="drawerPane" defaultDrawerSize="500.0" direction="BOTTOM" resizableOnDrag="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="100.0" />
+      <JFXDrawer fx:id="drawerViewPane" alignment="TOP_CENTER" defaultDrawerSize="500.0" direction="BOTTOM" overLayVisible="false" resizableOnDrag="true" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="100.0">
+         <children>
+            <ImageView fx:id="closeBtn" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#closeViewPane" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@../../resources/images/icon/minus.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+         </children>
+      </JFXDrawer>
    </children>
 </AnchorPane>

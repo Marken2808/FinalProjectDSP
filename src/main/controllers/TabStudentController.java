@@ -1,36 +1,26 @@
 package main.controllers;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawer;
-import com.jfoenix.controls.JFXMasonryPane;
-import com.jfoenix.controls.JFXTextField;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
+import javafx.util.Duration;
 import main.models.Student;
-import main.utils.CircleChart;
 import main.utils.DBbean;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 
@@ -41,7 +31,7 @@ public class TabStudentController implements Initializable {
     private AnchorPane anchorPane;
 
     @FXML
-    private JFXDrawer drawerPane;
+    private JFXDrawer drawerViewPane;
 
     @FXML
     private TableView<Student> tableSTUDENT;
@@ -54,6 +44,9 @@ public class TabStudentController implements Initializable {
 
     @FXML
     private TableColumn<Student, Integer> colMID;
+
+    @FXML
+    private ImageView closeBtn;
 
 
     public static TabStudentController instance;
@@ -71,6 +64,7 @@ public class TabStudentController implements Initializable {
 
     static int id;
     boolean marked;
+    String DrawerStudentView = "/main/views/DrawerStudentView.fxml";
 
     @FXML
     void clickOnTable(MouseEvent event) {
@@ -80,43 +74,66 @@ public class TabStudentController implements Initializable {
                 id = selectedStudent.getStudentId();
 //                System.out.println(selectedStudent.getSid()+","+selectedStudent.getSname());
                 if(marked = DBbean.isIdMark(id)){
-                    openDrawer();
+                    setOpenDrawer();
+
+                } else {
+                    System.out.println("No record , Not fulfill");
                 }
             }else{
-                closeDrawer();
+                setCloseDrawer();
                 tableSTUDENT.getSelectionModel().clearSelection(tableSTUDENT.getSelectionModel().getSelectedIndex());
             }
         }
 
     }
 
-    public void openDrawer() {
+    @FXML
+    void closeViewPane(MouseEvent event) {
+        setCloseDrawer();
+    }
+
+    public void setOpenDrawer() {
+
+        drawerViewPane.setVisible(true);
+        if (drawerViewPane.isClosing() || drawerViewPane.isClosed()) {
+            setDrawer(DrawerStudentView, drawerViewPane, 0.0, null, 0.0, 0.0);
+            drawerViewPane.open();
+            drawerViewPane.setOnDrawerOpened(jfxDrawerEvent -> {
+                closeBtn.setVisible(true);
+            });
+        }
+    }
+
+
+
+    public void setCloseDrawer() {
+        if(drawerViewPane.isOpening() || drawerViewPane.isOpened()){
+            setDrawer(DrawerStudentView, drawerViewPane, 0.0, null, 0.0, -500.0);
+            drawerViewPane.close();
+            closeBtn.setVisible(false);
+        }
+    }
+
+    public void setDrawer(String scene, JFXDrawer pane, Double left, Double top, Double right, Double bottom) {
         try {
-            AnchorPane sBottom = FXMLLoader.load(getClass().getResource("/main/views/DrawerStudent.fxml"));
-            drawerPane.setSidePane(sBottom);
-            anchorPane.setRightAnchor(drawerPane,0.0);
-            anchorPane.setLeftAnchor(drawerPane, 0.0);
+
+            anchorPane.setLeftAnchor(pane, left);
+            anchorPane.setTopAnchor(pane, top);
+            anchorPane.setRightAnchor(pane,right);
+            anchorPane.setBottomAnchor(pane, bottom);
+
+            AnchorPane sBottom = FXMLLoader.load(getClass().getResource(scene));
+            pane.setSidePane(sBottom);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        if (drawerPane.isClosed() || drawerPane.isClosing()) {
-//            System.out.println("open" + drawerPane.isClosed());
-            drawerPane.open();
-        }
-
     }
 
-    public void closeDrawer(){
-        if (drawerPane.isOpened() || drawerPane.isOpening()) {
-//            System.out.println("close" + drawerPane.isOpened());
-            drawerPane.close();
-//            this.anchorPane.setBottomAnchor(this.drawerPane, -500.0);
-            anchorPane.setBottomAnchor(drawerPane,0.0);
-        }
-    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        anchorPane.clearConstraints(drawerViewPane);    //init clear drawer
 
         colSID.setCellValueFactory(new PropertyValueFactory<>("StudentId"));
         colSNAME.setCellValueFactory(new PropertyValueFactory<>("StudentName"));
