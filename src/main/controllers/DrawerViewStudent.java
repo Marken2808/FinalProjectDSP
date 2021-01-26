@@ -2,6 +2,7 @@ package main.controllers;
 
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXMasonryPane;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -25,7 +26,7 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.ResourceBundle;
 
-public class DrawerStudentController implements Initializable {
+public class DrawerViewStudent implements Initializable {
 
 
     @FXML
@@ -100,6 +101,7 @@ public class DrawerStudentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         displaySeCiChart();
         drawDoughnutChart();
     }
