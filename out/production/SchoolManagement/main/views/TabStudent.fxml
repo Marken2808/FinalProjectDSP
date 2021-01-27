@@ -16,16 +16,19 @@
             <TableColumn fx:id="colMID" text="Marked All" />
         </columns>
       </TableView>
-      <JFXDrawer fx:id="drawerViewPane" alignment="BOTTOM_CENTER" defaultDrawerSize="0.0" direction="BOTTOM" overLayVisible="false" resizeContent="true" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <JFXDrawer fx:id="drawerViewPane" alignment="BOTTOM_CENTER" defaultDrawerSize="0.0" direction="BOTTOM" overLayVisible="false" resizableOnDrag="true" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <JFXButton fx:id="closeViewBtn" alignment="CENTER" contentDisplay="TEXT_ONLY" graphicTextGap="0.0" maxWidth="1.7976931348623157E308" onMouseClicked="#closeViewPane" style="-fx-background-color: #999999;" text="▼" visible="false" wrapText="true" />
+            <JFXButton fx:id="closeViewBtn" alignment="CENTER" buttonType="RAISED" contentDisplay="TEXT_ONLY" graphicTextGap="0.0" maxWidth="1.7976931348623157E308" onMouseClicked="#closeViewPane" style="-fx-background-color: #a6a6a6;" text="﹀" visible="false" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></JFXButton>
          </children>
       </JFXDrawer>
-      <JFXDrawer fx:id="drawerControlPane" alignment="CENTER_RIGHT" defaultDrawerSize="0.0" direction="RIGHT" overLayVisible="false" resizeContent="true" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <JFXDrawer fx:id="drawerControlPane" alignment="CENTER_RIGHT" defaultDrawerSize="0.0" direction="RIGHT" overLayVisible="false" resizableOnDrag="true" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <JFXButton fx:id="closeControlBtn" alignment="CENTER" cache="true" contentDisplay="TEXT_ONLY" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" onMouseClicked="#closeControlPane" style="-fx-background-color: #999999;" text="▶" textAlignment="CENTER" visible="false" wrapText="true">
+            <JFXButton fx:id="closeControlBtn" alignment="CENTER" buttonType="RAISED" cache="true" contentDisplay="TEXT_ONLY" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" onMouseClicked="#closeControlPane" style="-fx-background-color: #a6a6a6;" text="〉" textAlignment="CENTER" visible="false">
                <font>
-                  <Font size="15.0" />
+                  <Font name="System Bold" size="12.0" />
                </font></JFXButton>
          </children>
       </JFXDrawer>

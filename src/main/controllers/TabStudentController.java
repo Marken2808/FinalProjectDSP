@@ -97,13 +97,13 @@ public class TabStudentController implements Initializable {
                     DrawerControlStudent,
                     drawerControlPane,
                     closeControlBtn,
-                    new Double[]{0.0,0.0,0.0,0.0}
+                    new double[]{10, 5, 0, 5}
                     );
             setCloseDrawer(
                     DrawerViewStudent,
                     drawerViewPane,
                     closeViewBtn,
-                    new Double[]{0.0, 0.0, 0.0, -anchorPane.getHeight()}
+                    new double[]{0, 0, 0, -anchorPane.getHeight()}
                     );
 
         } else {    // left click on selected row
@@ -111,13 +111,13 @@ public class TabStudentController implements Initializable {
                     DrawerViewStudent,
                     drawerViewPane,
                     closeViewBtn,
-                    new Double[]{0.0, 0.0, 0.0, 0.0}
+                    new double[]{10, 5, 10, 0}
                     );
             setCloseDrawer(
                     DrawerControlStudent,
                     drawerControlPane,
                     closeControlBtn,
-                    new Double[]{0.0,0.0,-anchorPane.getWidth(),0.0}
+                    new double[]{0, 0, -anchorPane.getWidth(), 0}
                     );
         }
 
@@ -130,7 +130,7 @@ public class TabStudentController implements Initializable {
                 DrawerViewStudent,
                 drawerViewPane,
                 closeViewBtn,
-                new Double[]{0.0, 0.0, 0.0, -anchorPane.getHeight()}
+                new double[]{0, 0, 0, -anchorPane.getHeight()}
                 );
     }
 
@@ -141,11 +141,11 @@ public class TabStudentController implements Initializable {
                 DrawerControlStudent,
                 drawerControlPane,
                 closeControlBtn,
-                new Double[]{0.0,0.0,-anchorPane.getWidth(),0.0});
+                new double[]{0, 0,-anchorPane.getWidth(), 0});
     }
 
 
-    public void setOpenDrawer(String scene, JFXDrawer pane, JFXButton btn, Double[] sides) {
+    public void setOpenDrawer(String scene, JFXDrawer pane, JFXButton btn, double[] sides) {
         setDrawer(scene, pane, sides);
         pane.open();
         pane.setOnDrawerOpened(jfxDrawerEvent -> {
@@ -157,7 +157,7 @@ public class TabStudentController implements Initializable {
 
 
 
-    public void setCloseDrawer(String scene, JFXDrawer pane, JFXButton btn, Double[] sides) {
+    public void setCloseDrawer(String scene, JFXDrawer pane, JFXButton btn, double[] sides) {
         setDrawer(scene, pane, sides);
         pane.close();
         pane.setOnDrawerClosing(jfxDrawerEvent -> {
@@ -167,7 +167,7 @@ public class TabStudentController implements Initializable {
     }
 
 
-    public void setDrawer(String scene, JFXDrawer pane, Double[] sides) {
+    public void setDrawer(String scene, JFXDrawer pane, double[] sides) {
         try {
 
             anchorPane.setLeftAnchor(pane, sides[0]);
@@ -179,10 +179,10 @@ public class TabStudentController implements Initializable {
             pane.setSidePane(sBottom);
 
             if (scene.equals(DrawerControlStudent)) {
-                pane.setDefaultDrawerSize(anchorPane.getWidth());
+                pane.setDefaultDrawerSize(anchorPane.getWidth()*0.6);
 //                pane.prefWidthProperty().bind(anchorPane.widthProperty().multiply(80/100));
             } else {
-                pane.setDefaultDrawerSize(anchorPane.getHeight());
+                pane.setDefaultDrawerSize(anchorPane.getHeight()*0.9);
 //                pane.prefHeightProperty().bind(anchorPane.heightProperty().multiply(80/100));
 
             }

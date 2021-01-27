@@ -71,7 +71,7 @@ public class DrawerViewStudent implements Initializable {
                 new CircleChart.Data(10-achieve, "Total", Color.LIGHTGRAY)
         );
 
-        CircleChart chart = new CircleChart(180, dataList, 0, 0, 100,85,0);
+        CircleChart chart = new CircleChart(180, dataList, 0, 0, 100,90,0);
 
         Label labelName = new Label(name);
         Label labelAchieve = new Label(achieve+"");
@@ -79,7 +79,7 @@ public class DrawerViewStudent implements Initializable {
         vBox.getChildren().addAll(labelName, labelAchieve);
         vBox.setAlignment(Pos.BOTTOM_CENTER);
         labelName.setFont(new Font(15));
-        stackPane.setMargin(vBox,new Insets(60,60,0,60));
+//        stackPane.setMargin(vBox,new Insets(0,0,0,0));
         stackPane.getChildren().addAll(chart, vBox);
         stackPane.setAlignment(Pos.BOTTOM_CENTER);
         semiPane.getChildren().add(stackPane);
