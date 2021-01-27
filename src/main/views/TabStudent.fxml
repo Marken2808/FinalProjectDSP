@@ -5,6 +5,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="anchorPane" nodeOrientation="LEFT_TO_RIGHT" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.TabStudentController">
    <children>
@@ -15,14 +16,17 @@
             <TableColumn fx:id="colMID" text="Marked All" />
         </columns>
       </TableView>
-      <JFXDrawer fx:id="drawerViewPane" alignment="TOP_CENTER" defaultDrawerSize="600.0" direction="BOTTOM" overLayVisible="false" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <JFXDrawer fx:id="drawerViewPane" alignment="BOTTOM_CENTER" defaultDrawerSize="0.0" direction="BOTTOM" overLayVisible="false" resizeContent="true" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <JFXButton fx:id="closeViewBtn" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxWidth="1.7976931348623157E308" onMouseClicked="#closeViewPane" style="-fx-background-color: blue;" visible="false" wrapText="true" />
+            <JFXButton fx:id="closeViewBtn" alignment="CENTER" contentDisplay="TEXT_ONLY" graphicTextGap="0.0" maxWidth="1.7976931348623157E308" onMouseClicked="#closeViewPane" style="-fx-background-color: #999999;" text="▼" visible="false" wrapText="true" />
          </children>
       </JFXDrawer>
-      <JFXDrawer fx:id="drawerControlPane" alignment="CENTER_LEFT" defaultDrawerSize="800.0" direction="RIGHT" overLayVisible="false" style="-fx-background-color: red;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <JFXDrawer fx:id="drawerControlPane" alignment="CENTER_RIGHT" defaultDrawerSize="0.0" direction="RIGHT" overLayVisible="false" resizeContent="true" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <JFXButton fx:id="closeControlBtn" alignment="CENTER" cache="true" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" onMouseClicked="#closeControlPane" style="-fx-background-color: red;" textAlignment="CENTER" visible="false" wrapText="true" />
+            <JFXButton fx:id="closeControlBtn" alignment="CENTER" cache="true" contentDisplay="TEXT_ONLY" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" onMouseClicked="#closeControlPane" style="-fx-background-color: #999999;" text="▶" textAlignment="CENTER" visible="false" wrapText="true">
+               <font>
+                  <Font size="15.0" />
+               </font></JFXButton>
          </children>
       </JFXDrawer>
    </children>

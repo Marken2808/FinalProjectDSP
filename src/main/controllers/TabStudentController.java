@@ -21,7 +21,6 @@ import main.utils.DBbean;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 
@@ -78,7 +77,8 @@ public class TabStudentController implements Initializable {
         Student selectedStudent = tableSTUDENT.getSelectionModel().getSelectedItem();
 
         if(!tableSTUDENT.getSelectionModel().isEmpty()){
-            closeAllDrawer();
+            closeViewPane(event);
+            closeControlPane(event);
             id = selectedStudent.getStudentId();
             if(DBbean.isIdMark(id)){
 
@@ -92,74 +92,78 @@ public class TabStudentController implements Initializable {
 
     public void isDrawerClick(boolean check) {
         if(check) { // right click on selected row
-            setOpenDrawer(DrawerControlStudent, drawerControlPane, new Double[]{null,0.0,0.0,0.0});
-            setCloseDrawer(DrawerViewStudent, drawerViewPane, new Double[]{0.0, null, 0.0, -600.0});
+
+            setOpenDrawer(
+                    DrawerControlStudent,
+                    drawerControlPane,
+                    closeControlBtn,
+                    new Double[]{0.0,0.0,0.0,0.0}
+                    );
+            setCloseDrawer(
+                    DrawerViewStudent,
+                    drawerViewPane,
+                    closeViewBtn,
+                    new Double[]{0.0, 0.0, 0.0, -anchorPane.getHeight()}
+                    );
+
         } else {    // left click on selected row
-            setOpenDrawer(DrawerViewStudent, drawerViewPane, new Double[]{0.0, null, 0.0, 0.0});
-            setCloseDrawer(DrawerControlStudent, drawerControlPane, new Double[]{null,0.0,-800.0,0.0});
+            setOpenDrawer(
+                    DrawerViewStudent,
+                    drawerViewPane,
+                    closeViewBtn,
+                    new Double[]{0.0, 0.0, 0.0, 0.0}
+                    );
+            setCloseDrawer(
+                    DrawerControlStudent,
+                    drawerControlPane,
+                    closeControlBtn,
+                    new Double[]{0.0,0.0,-anchorPane.getWidth(),0.0}
+                    );
         }
 
-    }
-
-    public void closeAllDrawer() {
-        setCloseDrawer(DrawerViewStudent, drawerViewPane, new Double[]{0.0, null, 0.0, -600.0});
-        setCloseDrawer(DrawerControlStudent, drawerControlPane, new Double[]{null,0.0,-800.0,0.0});
     }
 
     @FXML
     void closeViewPane(MouseEvent event) {
 //        System.out.println("View clicked");
-        setCloseDrawer(DrawerViewStudent, drawerViewPane, new Double[]{0.0, null, 0.0, -600.0});
+        setCloseDrawer(
+                DrawerViewStudent,
+                drawerViewPane,
+                closeViewBtn,
+                new Double[]{0.0, 0.0, 0.0, -anchorPane.getHeight()}
+                );
     }
 
     @FXML
     void closeControlPane(MouseEvent event) {
 //        System.out.println("Control clicked");
-        setCloseDrawer(DrawerControlStudent, drawerControlPane, new Double[]{null,0.0,-800.0,0.0});
+        setCloseDrawer(
+                DrawerControlStudent,
+                drawerControlPane,
+                closeControlBtn,
+                new Double[]{0.0,0.0,-anchorPane.getWidth(),0.0});
     }
 
 
-    public void setOpenDrawer(String scene, JFXDrawer pane, Double[] sides) {
-
-        pane.setVisible(true);
+    public void setOpenDrawer(String scene, JFXDrawer pane, JFXButton btn, Double[] sides) {
         setDrawer(scene, pane, sides);
         pane.open();
-
-
         pane.setOnDrawerOpened(jfxDrawerEvent -> {
-            if (scene.equals(DrawerControlStudent)) {
-                closeControlBtn.setGraphic(new ImageView(new Image("/resources/images/icon/line.png")));
-                closeControlBtn.setVisible(true);
-            } else {
-                closeViewBtn.setGraphic(new ImageView(new Image("/resources/images/icon/minus.png")));
-                closeViewBtn.setVisible(true);
-            }
-
+            pane.setVisible(true);
+            btn.setVisible(true);
         });
-
-
     }
 
 
 
 
-    public void setCloseDrawer(String scene, JFXDrawer pane, Double[] sides) {
-//        if(pane.isOpening() || pane.isOpened()){
-        pane.setVisible(false);
+    public void setCloseDrawer(String scene, JFXDrawer pane, JFXButton btn, Double[] sides) {
         setDrawer(scene, pane, sides);
         pane.close();
-
         pane.setOnDrawerClosing(jfxDrawerEvent -> {
-            if (scene.equals(DrawerControlStudent)) {
-                closeControlBtn.setVisible(false);
-                anchorPane.clearConstraints(drawerControlPane);
-            } else {
-                closeViewBtn.setVisible(false);
-                anchorPane.clearConstraints(drawerViewPane);
-            }
-
+            btn.setVisible(false);
+            pane.setVisible(false);
         });
-
     }
 
 
@@ -174,6 +178,15 @@ public class TabStudentController implements Initializable {
             AnchorPane sBottom = FXMLLoader.load(getClass().getResource(scene));
             pane.setSidePane(sBottom);
 
+            if (scene.equals(DrawerControlStudent)) {
+                pane.setDefaultDrawerSize(anchorPane.getWidth());
+//                pane.prefWidthProperty().bind(anchorPane.widthProperty().multiply(80/100));
+            } else {
+                pane.setDefaultDrawerSize(anchorPane.getHeight());
+//                pane.prefHeightProperty().bind(anchorPane.heightProperty().multiply(80/100));
+
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -182,7 +195,7 @@ public class TabStudentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        anchorPane.clearConstraints(drawerViewPane);    //init clear drawer
+//        anchorPane.clearConstraints(drawerViewPane);    //init clear drawer
 
         colSID.setCellValueFactory(new PropertyValueFactory<>("StudentId"));
         colSNAME.setCellValueFactory(new PropertyValueFactory<>("StudentName"));
