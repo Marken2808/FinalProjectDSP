@@ -9,22 +9,24 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.AttendanceController">
    <children>
-      <HBox alignment="CENTER" />
-      <BarChart fx:id="barChart" visible="false">
-         <xAxis>
-            <CategoryAxis side="BOTTOM" fx:id="xbar" />
-         </xAxis>
-         <yAxis>
-            <NumberAxis fx:id="ybar" side="LEFT" />
-         </yAxis>
-      </BarChart>
-      <LineChart fx:id="lineChart" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <xAxis>
-            <CategoryAxis side="BOTTOM" fx:id="xline" />
-         </xAxis>
-         <yAxis>
-            <NumberAxis fx:id="yline" side="LEFT" />
-         </yAxis>
-      </LineChart>
+      <HBox alignment="CENTER">
+         <children>
+            <BarChart fx:id="barChart">
+               <xAxis>
+                  <CategoryAxis side="BOTTOM" fx:id="xbar" />
+               </xAxis>
+               <yAxis>
+                  <NumberAxis fx:id="ybar" side="LEFT" />
+               </yAxis>
+            </BarChart>
+            <LineChart fx:id="lineChart">
+               <xAxis>
+                  <CategoryAxis side="BOTTOM" fx:id="xline" />
+               </xAxis>
+               <yAxis>
+                  <NumberAxis fx:id="yline" side="LEFT" />
+               </yAxis>
+            </LineChart>
+         </children></HBox>
    </children>
 </AnchorPane>

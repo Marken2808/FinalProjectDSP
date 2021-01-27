@@ -74,11 +74,14 @@ public class TabStudentController implements Initializable {
 
     @FXML
     void clickOnTable(MouseEvent event) {
+        closeViewPane(event);
+        closeControlPane(event);
+
+
         Student selectedStudent = tableSTUDENT.getSelectionModel().getSelectedItem();
 
         if(!tableSTUDENT.getSelectionModel().isEmpty()){
-            closeViewPane(event);
-            closeControlPane(event);
+
             id = selectedStudent.getStudentId();
             if(DBbean.isIdMark(id)){
 
@@ -182,7 +185,7 @@ public class TabStudentController implements Initializable {
                 pane.setDefaultDrawerSize(anchorPane.getWidth()*0.6);
 //                pane.prefWidthProperty().bind(anchorPane.widthProperty().multiply(80/100));
             } else {
-                pane.setDefaultDrawerSize(anchorPane.getHeight()*0.9);
+                pane.setDefaultDrawerSize(anchorPane.getHeight());
 //                pane.prefHeightProperty().bind(anchorPane.heightProperty().multiply(80/100));
 
             }

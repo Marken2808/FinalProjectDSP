@@ -1,5 +1,6 @@
 package main.controllers;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXMasonryPane;
 import javafx.application.Platform;
@@ -18,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import main.utils.CircleChart;
 import main.utils.DBbean;
+import main.utils.PopUp;
 
 import java.lang.reflect.Array;
 import java.net.URL;
@@ -28,6 +30,10 @@ import java.util.ResourceBundle;
 
 public class DrawerViewStudent implements Initializable {
 
+
+
+    @FXML
+    private StackPane stackPanehere;
 
     @FXML
     private AnchorPane anchorPane;
@@ -64,6 +70,7 @@ public class DrawerViewStudent implements Initializable {
 
     public void drawSemiCircleChart(String name, double achieve){
         StackPane stackPane = new StackPane();
+        JFXButton btnPane = new JFXButton();
         VBox vBox = new VBox();
 
         ObservableList<CircleChart.Data> dataList = FXCollections.observableArrayList(
@@ -82,7 +89,20 @@ public class DrawerViewStudent implements Initializable {
 //        stackPane.setMargin(vBox,new Insets(0,0,0,0));
         stackPane.getChildren().addAll(chart, vBox);
         stackPane.setAlignment(Pos.BOTTOM_CENTER);
-        semiPane.getChildren().add(stackPane);
+        btnPane.setGraphic(stackPane);
+        semiPane.getChildren().add(btnPane);
+
+        btnPane.setOnMouseClicked(event -> {
+            Platform.runLater(() -> {
+
+                System.out.println("Clicked: "+ name);
+                String AttendanceScreen = "/main/views/AttendanceScreen.fxml";
+//            MainController.getInstance().popUp(AttendanceScreen,true);
+
+                PopUp test = new PopUp(AttendanceScreen, true, stackPanehere);
+                test.showPopUp();
+            });
+        });
     }
 
     public void displaySeCiChart(){
@@ -95,7 +115,8 @@ public class DrawerViewStudent implements Initializable {
         for(int i=0; i<moduleLists.length; i++) {
             drawSemiCircleChart(moduleName[i], moduleLists[i]);
         }
-
+//        mathPane.getChildren().add(drawSemiCircleChart(moduleName[0],moduleLists[0]));
+//        btnPane.setGraphic(drawSemiCircleChart(moduleName[0],moduleLists[0]));
 //        System.out.println(Arrays.toString(moduleLists));
     }
 

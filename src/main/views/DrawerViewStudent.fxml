@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXMasonryPane?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -22,11 +21,14 @@
             <Cursor fx:constant="MOVE" />
          </cursor>
       </StackPane>
-      <JFXMasonryPane fx:id="semiPane" HSpacing="15.0" VSpacing="8.0" cellHeight="50.0" cellWidth="50.0" layoutX="10.0" layoutY="10.0" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="22.0" />
-      <StackPane fx:id="doughnutPane" layoutX="10.0" layoutY="10.0" prefHeight="250.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-         <padding>
-            <Insets bottom="20.0" />
-         </padding>
+      <StackPane fx:id="stackPanehere" layoutX="2.0" layoutY="24.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="22.0">
+         <children>
+            <JFXMasonryPane fx:id="semiPane" HSpacing="15.0" VSpacing="8.0" cellHeight="50.0" cellWidth="50.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" StackPane.alignment="CENTER">
+               <children>
+                  <StackPane fx:id="doughnutPane" style="-fx-border-color: black;" />
+               </children>
+            </JFXMasonryPane>
+         </children>
       </StackPane>
    </children>
 </AnchorPane>
