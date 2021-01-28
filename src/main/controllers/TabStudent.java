@@ -43,7 +43,10 @@ public class TabStudent implements Initializable {
     private TableColumn<Student, String> colSNAME;
 
     @FXML
-    private TableColumn<Student, Integer> colMID;
+    private TableColumn<Student, Boolean> colMarked;
+
+    @FXML
+    private TableColumn<Student, String> colLast5Days;
 
     @FXML
     private JFXButton closeViewBtn;
@@ -52,16 +55,16 @@ public class TabStudent implements Initializable {
     private JFXButton closeControlBtn;
 
 
-    public static TabStudent instance;
-    public TabStudent(){
-        instance = this;
-    }
-    public static TabStudent getInstance() {
-        if(instance == null){
-            instance = new TabStudent();
-        }
-        return instance;
-    }
+//    public static TabStudent instance;
+//    public TabStudent(){
+//        instance = this;
+//    }
+//    public static TabStudent getInstance() {
+//        if(instance == null){
+//            instance = new TabStudent();
+//        }
+//        return instance;
+//    }
 
     ObservableList<Student> studentLists = FXCollections.observableArrayList();
 
@@ -70,10 +73,30 @@ public class TabStudent implements Initializable {
     String DrawerControlStudent = "/main/views/DrawerControlStudent.fxml";
 
     @FXML
+    void closeViewPane(MouseEvent event) {
+//        System.out.println("View clicked");
+        setCloseDrawer(
+                DrawerViewStudent,
+                drawerViewPane,
+                closeViewBtn,
+                new double[]{0, 0, 0, -anchorPane.getHeight()}
+        );
+    }
+
+    @FXML
+    void closeControlPane(MouseEvent event) {
+//        System.out.println("Control clicked");
+        setCloseDrawer(
+                DrawerControlStudent,
+                drawerControlPane,
+                closeControlBtn,
+                new double[]{0, 0,-anchorPane.getWidth(), 0});
+    }
+
+    @FXML
     void clickOnTable(MouseEvent event) {
         closeViewPane(event);
         closeControlPane(event);
-
 
         Student selectedStudent = tableSTUDENT.getSelectionModel().getSelectedItem();
 
@@ -123,28 +146,6 @@ public class TabStudent implements Initializable {
 
     }
 
-    @FXML
-    void closeViewPane(MouseEvent event) {
-//        System.out.println("View clicked");
-        setCloseDrawer(
-                DrawerViewStudent,
-                drawerViewPane,
-                closeViewBtn,
-                new double[]{0, 0, 0, -anchorPane.getHeight()}
-                );
-    }
-
-    @FXML
-    void closeControlPane(MouseEvent event) {
-//        System.out.println("Control clicked");
-        setCloseDrawer(
-                DrawerControlStudent,
-                drawerControlPane,
-                closeControlBtn,
-                new double[]{0, 0,-anchorPane.getWidth(), 0});
-    }
-
-
     public void setOpenDrawer(String scene, JFXDrawer pane, JFXButton btn, double[] sides) {
         setDrawer(scene, pane, sides);
         pane.open();
@@ -154,9 +155,6 @@ public class TabStudent implements Initializable {
         });
     }
 
-
-
-
     public void setCloseDrawer(String scene, JFXDrawer pane, JFXButton btn, double[] sides) {
         setDrawer(scene, pane, sides);
         pane.close();
@@ -165,7 +163,6 @@ public class TabStudent implements Initializable {
             pane.setVisible(false);
         });
     }
-
 
     public void setDrawer(String scene, JFXDrawer pane, double[] sides) {
         try {
@@ -199,13 +196,14 @@ public class TabStudent implements Initializable {
 
         colSID.setCellValueFactory(new PropertyValueFactory<>("StudentId"));
         colSNAME.setCellValueFactory(new PropertyValueFactory<>("StudentName"));
-        colMID.setCellValueFactory(new PropertyValueFactory<>("StudentMarked"));
+        colMarked.setCellValueFactory(new PropertyValueFactory<>("StudentMarked"));
 
         studentLists = DBbean.getStudentData();
 
         tableSTUDENT.setItems(studentLists);
 
 
+        DBbean.retrieveAttendance();
     }
 
 

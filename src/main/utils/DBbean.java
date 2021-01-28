@@ -2,6 +2,7 @@ package main.utils;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import main.models.Attendance;
 import main.models.Face;
 import main.models.Student;
 
@@ -10,6 +11,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class DBbean {
 
@@ -29,6 +31,8 @@ public class DBbean {
 
     }
 
+//    select ----------------------------------------------------
+
     public static ObservableList<Student> getStudentData(){
         ObservableList<Student> studentLists = FXCollections.observableArrayList();
         try {
@@ -46,6 +50,30 @@ public class DBbean {
             System.out.println("cannot access student table");
         }
         return studentLists;
+    }
+
+    public static void retrieveAttendance(){
+        ArrayList<ArrayList> parent = new ArrayList<>();
+        try {
+            pstmt = conn.prepareStatement("Select * from Attendance");
+            ResultSet rs = pstmt.executeQuery();
+            ArrayList<Attendance> test = new ArrayList<>();
+            while (rs.next()){
+                test.add(new Attendance(
+                        rs.getTimestamp(1),
+                        rs.getInt(2),
+                        rs.getInt(3)
+                ));
+                System.out.println(Arrays.asList(test));
+                System.out.println(rs.getTimestamp(1) + " - " + rs.getInt(2) + " - "+ rs.getInt(3));
+
+            }
+
+
+            System.out.println("accessed successfully");
+        } catch (SQLException throwables) {
+//            System.out.println("cannot access student table");
+        }
     }
 
     public static double[] getModuleData(int sid){
@@ -93,6 +121,9 @@ public class DBbean {
         return true;
     }
 
+
+//    insert -----------------------------------------------------
+
     public static void insertStudent(Student student) {
 
         try {
@@ -123,18 +154,32 @@ public class DBbean {
 
     public static void insertFace(Face face) throws SQLException {
 
-            pstmt = conn.prepareStatement("INSERT INTO face (fData, fSet, f_sId) VALUES(?,?,?)");
+        pstmt = conn.prepareStatement("INSERT INTO face (fData, fSet, f_sId) VALUES(?,?,?)");
+        pstmt.setString(1, face.getFaceData());
+        pstmt.setInt(2, face.getFaceSet());
+        pstmt.setInt(3, face.getStudent().getStudentId());
 
-            pstmt.setString(1, face.getFaceData());
-            pstmt.setInt(2, face.getFaceSet());
-            pstmt.setInt(3, face.getStudent().getStudentId());
+        //Executing the statement
+        pstmt.execute();
+        System.out.println("face inserted......");
 
-            //Executing the statement
-            pstmt.execute();
-            System.out.println("face inserted......");
+
 
     }
 
+    public static void insertAttendance(Attendance attendance){
+        try {
+            pstmt = conn.prepareStatement("INSERT INTO attendance (aStatus, a_sId) VALUES(?,?)");
+            pstmt.setInt(1,attendance.getAttStatus());
+            pstmt.setInt(2,attendance.getStudentID());
+
+            //Executing the statement
+            pstmt.execute();
+            System.out.println("attendance inserted......");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
 

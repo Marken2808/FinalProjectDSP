@@ -1,39 +1,47 @@
 package main.models;
 
-import java.sql.Date;
+
+import java.sql.Timestamp;
 
 public class Attendance {
-    private Date attDate;
-    private boolean attStatus;
-    private Student student;
 
-    public Attendance(Date attDate, boolean attStatus, Student student) {
-        this.attDate = attDate;
+    private Timestamp attDate;
+    private int attStatus;
+    private int studentID;
+
+    public Attendance(int attStatus, int studentID) {
         this.attStatus = attStatus;
-        this.student = student;
+        this.studentID = studentID;
     }
 
-    public Date getAttDate() {
+    public Attendance(Timestamp attDate, int attStatus, int studentID) {
+        this.attDate = attDate;
+        this.attStatus = attStatus;
+        this.studentID = studentID;
+    }
+
+
+    public Timestamp getAttDate() {
         return attDate;
     }
 
-    public void setAttDate(Date attDate) {
+    public void setAttDate(Timestamp attDate) {
         this.attDate = attDate;
     }
 
-    public boolean isAttStatus() {
+    public int getAttStatus() {
         return attStatus;
     }
 
-    public void setAttStatus(boolean attStatus) {
+    public void setAttStatus(int attStatus) {
         this.attStatus = attStatus;
     }
 
-    public Student getStudent() {
-        return student;
+    public int getStudentID() {
+        return studentID;
     }
 
-    public void setStudent(Student student) {
-        this.student = student;
+    public void setStudentID(int studentID) {
+        this.studentID = studentID;
     }
 }
