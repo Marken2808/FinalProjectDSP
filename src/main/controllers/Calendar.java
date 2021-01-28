@@ -26,7 +26,7 @@ import java.util.*;
 
 import static java.lang.Integer.MAX_VALUE;
 
-public class CalendarController implements Initializable{
+public class Calendar implements Initializable{
 
 
     @FXML
@@ -47,7 +47,7 @@ public class CalendarController implements Initializable{
     @FXML
     private JFXButton btPrev;
 
-    private Calendar currentMonth;
+    private java.util.Calendar currentMonth;
 
     private String currentDate = new SimpleDateFormat("d/M/yyyy").format(new Date());
 
@@ -64,8 +64,8 @@ public class CalendarController implements Initializable{
     }
 
     private void drawHeader() {
-        String monthString = getMonthName(currentMonth.get(Calendar.MONTH));
-        String yearString = String.valueOf(currentMonth.get(Calendar.YEAR));
+        String monthString = getMonthName(currentMonth.get(java.util.Calendar.MONTH));
+        String yearString = String.valueOf(currentMonth.get(java.util.Calendar.YEAR));
         labelTitle.setText(monthString + ", " + yearString);
     }
 
@@ -76,7 +76,7 @@ public class CalendarController implements Initializable{
         text.setMaxWidth(MAX_VALUE);
         text.setMaxHeight(MAX_VALUE);
         text.setAlignment(Pos.CENTER);
-        text.setFont(new Font(18));
+        text.setFont(new Font(15));
     }
 
     public void displayCell_Preview (Label text) throws IOException {
@@ -88,7 +88,7 @@ public class CalendarController implements Initializable{
         labelTotal.setText("10");   //change total here
         int total = Integer.parseInt(labelTotal.getText());
         int on = (rand.nextInt(total+1));
-        PreviewController.getInstance().showAbsence(on,total);
+        Preview.getInstance().showAbsence(on,total);
     }
 
     public void displayCell_Level (Label text, String level){
@@ -147,14 +147,14 @@ public class CalendarController implements Initializable{
                 displayCell_Level(text, inactive);
                 break;
             case "active":
-                String buildDate = value+"/"+(currentMonth.get(Calendar.MONTH)+1)+"/"+(currentMonth.get(Calendar.YEAR));
+                String buildDate = value+"/"+(currentMonth.get(java.util.Calendar.MONTH)+1)+"/"+(currentMonth.get(java.util.Calendar.YEAR));
                 displayCell_Level(text, active);
                 displayCell_CurrentDate(text, buildDate);
                 displayCell_Presented(text, buildDate);
                 break;
             default:
                 displayCell_Level(text, whiteBase);
-                text.setFont(Font.font("System",FontWeight.BOLD,16));
+                text.setFont(Font.font("System",FontWeight.BOLD,12));
                 break;
         }
         return text;
@@ -163,9 +163,9 @@ public class CalendarController implements Initializable{
     public void drawBody() throws IOException, ParseException {
 
 //        draw current month
-        int currentDay = currentMonth.get(Calendar.DAY_OF_MONTH);
-        int daysInMonth = currentMonth.getActualMaximum(Calendar.DAY_OF_MONTH);
-        int dayOfWeek = currentMonth.get(Calendar.DAY_OF_WEEK);
+        int currentDay = currentMonth.get(java.util.Calendar.DAY_OF_MONTH);
+        int daysInMonth = currentMonth.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
+        int dayOfWeek = currentMonth.get(java.util.Calendar.DAY_OF_WEEK);
         int row = 1;
         for (int i = currentDay; i <= daysInMonth; i++) {
             if (dayOfWeek == 8) {
@@ -194,10 +194,10 @@ public class CalendarController implements Initializable{
 
     public void drawDay_PreviousMonth(int currentDay) throws IOException, ParseException {
         // Draw previous month days
-        int dayOfWeek = currentMonth.get(Calendar.DAY_OF_WEEK);
+        int dayOfWeek = currentMonth.get(java.util.Calendar.DAY_OF_WEEK);
         if (currentDay != 1) {
-            Calendar prevMonth = getPreviousMonth(currentMonth);
-            int daysInPrevMonth = prevMonth.getActualMaximum(Calendar.DAY_OF_MONTH);
+            java.util.Calendar prevMonth = getPreviousMonth(currentMonth);
+            int daysInPrevMonth = prevMonth.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
             for (int i = dayOfWeek - 2; i >= 0; i--) {
                 gpBody.add(displayCell(String.valueOf(daysInPrevMonth),"inactive"), i, 1);
 
@@ -208,8 +208,8 @@ public class CalendarController implements Initializable{
 
     public void drawDay_NextMonth(int row) throws IOException, ParseException {
         // Draw next month days
-        currentMonth.set(Calendar.DAY_OF_MONTH, currentMonth.getActualMaximum(Calendar.DAY_OF_MONTH));
-        int dayOfWeek = currentMonth.get(Calendar.DAY_OF_WEEK);
+        currentMonth.set(java.util.Calendar.DAY_OF_MONTH, currentMonth.getActualMaximum(java.util.Calendar.DAY_OF_MONTH));
+        int dayOfWeek = currentMonth.get(java.util.Calendar.DAY_OF_WEEK);
         if (dayOfWeek != 7) {
             int day = 1;
             for (int i = dayOfWeek; i < 7; i++) {
@@ -225,8 +225,8 @@ public class CalendarController implements Initializable{
     void testGrid(MouseEvent event) {
 //        System.out.println(event.getTarget().toString());
         String selectClass = event.getTarget().toString().split("[@\\[]")[0];
-        int selectMonth = (currentMonth.get(Calendar.MONTH)+1);
-        int selectYear = (currentMonth.get(Calendar.YEAR));
+        int selectMonth = (currentMonth.get(java.util.Calendar.MONTH)+1);
+        int selectYear = (currentMonth.get(java.util.Calendar.YEAR));
         int selectDay = 0;
 
         try{
@@ -260,17 +260,17 @@ public class CalendarController implements Initializable{
         drawCalendar();
     }
 
-    private GregorianCalendar getPreviousMonth(Calendar cal) {
-        int cMonth = cal.get(Calendar.MONTH);
+    private GregorianCalendar getPreviousMonth(java.util.Calendar cal) {
+        int cMonth = cal.get(java.util.Calendar.MONTH);
         int pMonth = cMonth == 0 ? 11 : cMonth - 1;
-        int pYear = cMonth == 0 ? cal.get(Calendar.YEAR) - 1 : cal.get(Calendar.YEAR);
+        int pYear = cMonth == 0 ? cal.get(java.util.Calendar.YEAR) - 1 : cal.get(java.util.Calendar.YEAR);
         return new GregorianCalendar(pYear, pMonth, 1);
     }
 
-    private GregorianCalendar getNextMonth(Calendar cal) {
-        int cMonth = cal.get(Calendar.MONTH);
+    private GregorianCalendar getNextMonth(java.util.Calendar cal) {
+        int cMonth = cal.get(java.util.Calendar.MONTH);
         int pMonth = cMonth == 11 ? 0 : cMonth + 1;
-        int pYear = cMonth == 11 ? cal.get(Calendar.YEAR) + 1 : cal.get(Calendar.YEAR);
+        int pYear = cMonth == 11 ? cal.get(java.util.Calendar.YEAR) + 1 : cal.get(java.util.Calendar.YEAR);
         return new GregorianCalendar(pYear, pMonth, 1);
     }
 
@@ -311,7 +311,7 @@ public class CalendarController implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         currentMonth = new GregorianCalendar();
-        currentMonth.set(Calendar.DAY_OF_MONTH, 1);
+        currentMonth.set(java.util.Calendar.DAY_OF_MONTH, 1);
 
         try {
             drawCalendar();

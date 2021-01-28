@@ -1,17 +1,14 @@
 package main.controllers;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXMasonryPane;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -21,11 +18,8 @@ import main.utils.CircleChart;
 import main.utils.DBbean;
 import main.utils.PopUp;
 
-import java.lang.reflect.Array;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Random;
 import java.util.ResourceBundle;
 
 public class DrawerViewStudent implements Initializable {
@@ -108,7 +102,7 @@ public class DrawerViewStudent implements Initializable {
     public void displaySeCiChart(){
         String[] moduleName = new String[]{"MATH","PHYSICS","CHEMISTRY","ENGLISH","HISTORY","BIOLOGY","GEOGRAPHY"};
 
-        int id = TabStudentController.id;
+        int id = TabStudent.id;
         double[] moduleData = DBbean.getModuleData(id);
         moduleLists = Arrays.copyOfRange(moduleData,1,moduleData.length-1);
 

@@ -4,15 +4,12 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -25,7 +22,7 @@ import java.util.ResourceBundle;
 
 
 
-public class TabStudentController implements Initializable {
+public class TabStudent implements Initializable {
 
     @FXML
     private AnchorPane anchorPane;
@@ -55,13 +52,13 @@ public class TabStudentController implements Initializable {
     private JFXButton closeControlBtn;
 
 
-    public static TabStudentController instance;
-    public TabStudentController(){
+    public static TabStudent instance;
+    public TabStudent(){
         instance = this;
     }
-    public static TabStudentController getInstance() {
+    public static TabStudent getInstance() {
         if(instance == null){
-            instance = new TabStudentController();
+            instance = new TabStudent();
         }
         return instance;
     }

@@ -1,32 +1,29 @@
 package main.controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
-import main.utils.OpenCV;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class PreviewController implements Initializable {
+public class Preview implements Initializable {
 
     @FXML
     public AnchorPane previewPane;
 
 
-    public static PreviewController instance;
-    public PreviewController(){
+    public static Preview instance;
+    public Preview(){
         instance = this;
     }
-    public static PreviewController getInstance() {
+    public static Preview getInstance() {
         if(instance == null){
-            instance = new PreviewController();
+            instance = new Preview();
         }
         return instance;
     }

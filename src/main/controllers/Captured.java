@@ -31,7 +31,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
 
-public class CapturedController implements Initializable {
+public class Captured implements Initializable {
 
     @FXML
     private ImageView captImg;

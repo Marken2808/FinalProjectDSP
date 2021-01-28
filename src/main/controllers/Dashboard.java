@@ -25,7 +25,7 @@ import java.util.function.Function;
 
 
 
-public class DashboardController implements Initializable {
+public class Dashboard implements Initializable {
 
     @FXML
     private LineChart<Double, Double> lineGraph;

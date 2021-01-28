@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
 
 //import static resources.controllers.functions.duplicatedForms.*;
 
-public class SignInController implements Initializable {
+public class SignIn implements Initializable {
 
     @FXML
     private JFXTextField filedUsername;

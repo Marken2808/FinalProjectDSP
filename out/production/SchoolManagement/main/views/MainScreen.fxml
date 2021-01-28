@@ -111,6 +111,6 @@
             </AnchorPane>
          </children>
       </StackPane>
-      <JFXDrawer fx:id="drawerPane" defaultDrawerSize="200.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseExited="#drawerExit" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="40.0" />
+      <JFXDrawer fx:id="drawerPane" defaultDrawerSize="200.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseExited="#drawerExit" overLayVisible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="40.0" />
    </children>
 </AnchorPane>

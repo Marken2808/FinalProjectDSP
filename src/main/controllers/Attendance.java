@@ -9,7 +9,7 @@ import javafx.scene.chart.XYChart;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AttendanceController implements Initializable {
+public class Attendance implements Initializable {
 
 
     @FXML

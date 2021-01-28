@@ -22,7 +22,7 @@ import java.util.ResourceBundle;
 
 //import static resources.controllers.functions.duplicatedForms.*;
 
-public class SignUpController implements Initializable {
+public class SignUp implements Initializable {
 
     @FXML
     private JFXTextField fieldUsername;
