@@ -1,6 +1,9 @@
 package main.models;
 
 
+import javafx.scene.Node;
+import javafx.scene.control.Label;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -9,14 +12,14 @@ public class Student {
     private int studentId;
     private String studentName;
     private boolean studentMarked;
-    private ArrayList<String> studentLast5Days;
+    private ArrayList<Label> studentLast5Days;
 
     public Student(int sid, String sname){
         this.studentId = sid;
         this.studentName = sname;
     }
 
-    public Student(int sid, String sname, boolean marked, ArrayList<String> studentLast5Days) {
+    public Student(int sid, String sname, boolean marked, ArrayList<Label> studentLast5Days) {
         this.studentId = sid;
         this.studentName = sname;
         this.studentMarked = marked;
@@ -47,11 +50,11 @@ public class Student {
         this.studentMarked = studentMarked;
     }
 
-    public ArrayList<String> getStudentLast5Days() {
+    public ArrayList<Label> getStudentLast5Days() {
         return studentLast5Days;
     }
 
-    public void setStudentLast5Days(ArrayList<String> studentLast5Days) {
+    public void setStudentLast5Days(ArrayList<Label> studentLast5Days) {
         this.studentLast5Days = studentLast5Days;
     }
 

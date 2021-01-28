@@ -2,11 +2,16 @@ package main.utils;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.paint.Color;
 import main.models.Attendance;
 import main.models.Face;
 import main.models.Module;
 import main.models.Student;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -102,10 +107,10 @@ public class DBbean {
         return true;
     }
 
-    public static ArrayList<String> getLast5Days(int sid){
+    public static ArrayList<Label> getLast5Days(int sid){
 
 //        ArrayList<Timestamp> test = new ArrayList<>();
-        ArrayList<String> test = new ArrayList<>();
+        ArrayList<Label> test = new ArrayList<>();
         try {
             pstmt = conn.prepareStatement("Select aDate, aStatus from Attendance where a_sId="+sid);
             ResultSet rs = pstmt.executeQuery();
@@ -116,10 +121,15 @@ public class DBbean {
                         new Date(rs.getTimestamp(1).getTime())
                 );
                 int status = rs.getInt(2);
+
                 if(status==1){
-                    test.add("P");
+                    Label label = new Label("P");
+                    label.setStyle("-fx-background-color: limegreen");
+                    test.add(label);
                 } else {
-                    test.add("A");
+                    Label label = new Label("A");
+                    label.setStyle("-fx-background-color: palevioletred");
+                    test.add(label);
                 }
                 
 //                test.add(date);
