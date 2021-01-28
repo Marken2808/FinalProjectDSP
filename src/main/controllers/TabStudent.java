@@ -13,11 +13,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import main.models.Attendance;
 import main.models.Student;
 import main.utils.DBbean;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 
@@ -103,6 +105,7 @@ public class TabStudent implements Initializable {
         if(!tableSTUDENT.getSelectionModel().isEmpty()){
 
             id = selectedStudent.getStudentId();
+
             if(DBbean.isIdMark(id)){
 
                 isDrawerClick(event.getButton().equals(MouseButton.SECONDARY));
@@ -197,13 +200,18 @@ public class TabStudent implements Initializable {
         colSID.setCellValueFactory(new PropertyValueFactory<>("StudentId"));
         colSNAME.setCellValueFactory(new PropertyValueFactory<>("StudentName"));
         colMarked.setCellValueFactory(new PropertyValueFactory<>("StudentMarked"));
+        colLast5Days.setCellValueFactory(new PropertyValueFactory<>("StudentLast5Days"));
 
-        studentLists = DBbean.getStudentData();
+        studentLists = DBbean.showStudentTable();
 
         tableSTUDENT.setItems(studentLists);
 
+//        ArrayList<Attendance> test = DBbean.retrieveAttendance();
+//        for (Attendance a: test){
+//            System.out.println("array: "+a.toString());
+//        }
 
-        DBbean.retrieveAttendance();
+
     }
 
 

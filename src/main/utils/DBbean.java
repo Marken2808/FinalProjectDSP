@@ -4,12 +4,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import main.models.Attendance;
 import main.models.Face;
+import main.models.Module;
 import main.models.Student;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -33,16 +37,17 @@ public class DBbean {
 
 //    select ----------------------------------------------------
 
-    public static ObservableList<Student> getStudentData(){
+    public static ObservableList<Student> showStudentTable(){
         ObservableList<Student> studentLists = FXCollections.observableArrayList();
         try {
-            pstmt = conn.prepareStatement("Select * from Student where sid");
+            pstmt = conn.prepareStatement("Select * from Student");
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()){
                 studentLists.add(new Student(
                         rs.getInt("sId"),
                         rs.getString("sName"),
-                        isIdMark(rs.getInt("sId"))
+                        isIdMark(rs.getInt("sId")),
+                        getLast5Days(rs.getInt("sId"))
                 ));
             }
 //            System.out.println("accessed successfully");
@@ -50,30 +55,6 @@ public class DBbean {
             System.out.println("cannot access student table");
         }
         return studentLists;
-    }
-
-    public static void retrieveAttendance(){
-        ArrayList<ArrayList> parent = new ArrayList<>();
-        try {
-            pstmt = conn.prepareStatement("Select * from Attendance");
-            ResultSet rs = pstmt.executeQuery();
-            ArrayList<Attendance> test = new ArrayList<>();
-            while (rs.next()){
-                test.add(new Attendance(
-                        rs.getTimestamp(1),
-                        rs.getInt(2),
-                        rs.getInt(3)
-                ));
-                System.out.println(Arrays.asList(test));
-                System.out.println(rs.getTimestamp(1) + " - " + rs.getInt(2) + " - "+ rs.getInt(3));
-
-            }
-
-
-            System.out.println("accessed successfully");
-        } catch (SQLException throwables) {
-//            System.out.println("cannot access student table");
-        }
     }
 
     public static double[] getModuleData(int sid){
@@ -100,13 +81,13 @@ public class DBbean {
         try {
             pstmt = conn.prepareStatement(
                     "select  m_sId from modules where \n" +
-                        "mMath is null or \n" +
-                        "mPhysics is null or \n" +
-                        "mChemistry is null or\n" +
-                        "mEnglish is null or\n" +
-                        "mHistory is null or\n" +
-                        "mBiology is null or\n" +
-                        "mGeography is null"
+                            "mMath is null or \n" +
+                            "mPhysics is null or \n" +
+                            "mChemistry is null or\n" +
+                            "mEnglish is null or\n" +
+                            "mHistory is null or\n" +
+                            "mBiology is null or\n" +
+                            "mGeography is null"
             );
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()){
@@ -119,6 +100,72 @@ public class DBbean {
             System.out.println("cannot access null mark table......");
         }
         return true;
+    }
+
+    public static ArrayList<String> getLast5Days(int sid){
+
+//        ArrayList<Timestamp> test = new ArrayList<>();
+        ArrayList<String> test = new ArrayList<>();
+        try {
+            pstmt = conn.prepareStatement("Select aDate, aStatus from Attendance where a_sId="+sid);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()){
+//                test.add(rs.getTimestamp(1));
+                String date = new SimpleDateFormat("yyyy-MM-dd").format(
+                        new Date(rs.getTimestamp(1).getTime())
+                );
+                int status = rs.getInt(2);
+                if(status==1){
+                    test.add("P");
+                } else {
+                    test.add("A");
+                }
+                
+//                test.add(date);
+            }
+            System.out.println("test: "+test);
+            return test;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+//    retrieve -----------------------------------------------------------
+
+    public static ArrayList<Student> retrieveStudent(){
+        return null;
+    }
+
+    public static ArrayList<Face> retrieveFace(){
+        return null;
+    }
+
+    public static ArrayList<Module> retrieveModule(){
+        return null;
+    }
+
+    public static ArrayList<Attendance> retrieveAttendance(){
+        try {
+            pstmt = conn.prepareStatement("Select * from Attendance");
+            ResultSet rs = pstmt.executeQuery();
+            ArrayList<Attendance> test = new ArrayList<>();
+            while (rs.next()){
+                test.add(new Attendance(
+                        rs.getTimestamp(1),
+                        rs.getInt(2),
+                        rs.getInt(3)
+                ));
+//                System.out.println(rs.getTimestamp(1) + " - " + rs.getInt(2) + " - "+ rs.getInt(3));
+            }
+//            System.out.println("accessed successfully");
+            return test;
+        } catch (SQLException throwables) {
+//            System.out.println("cannot access student table");
+        }
+        return null;
     }
 
 

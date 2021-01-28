@@ -44,4 +44,13 @@ public class Attendance {
     public void setStudentID(int studentID) {
         this.studentID = studentID;
     }
+
+    @Override
+    public String toString() {
+        return "Attendance{" +
+                "attDate=" + attDate +
+                ", attStatus=" + attStatus +
+                ", studentID=" + studentID +
+                '}';
+    }
 }
