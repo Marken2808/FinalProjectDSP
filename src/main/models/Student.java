@@ -1,6 +1,7 @@
 package main.models;
 
 
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 
@@ -12,14 +13,14 @@ public class Student {
     private int studentId;
     private String studentName;
     private boolean studentMarked;
-    private ArrayList<Label> studentLast5Days;
+    private ObservableList<String> studentLast5Days;
 
     public Student(int sid, String sname){
         this.studentId = sid;
         this.studentName = sname;
     }
 
-    public Student(int sid, String sname, boolean marked, ArrayList<Label> studentLast5Days) {
+    public Student(int sid, String sname, boolean marked, ObservableList<String> studentLast5Days) {
         this.studentId = sid;
         this.studentName = sname;
         this.studentMarked = marked;
@@ -50,11 +51,11 @@ public class Student {
         this.studentMarked = studentMarked;
     }
 
-    public ArrayList<Label> getStudentLast5Days() {
+    public ObservableList<String> getStudentLast5Days() {
         return studentLast5Days;
     }
 
-    public void setStudentLast5Days(ArrayList<Label> studentLast5Days) {
+    public void setStudentLast5Days(ObservableList<String> studentLast5Days) {
         this.studentLast5Days = studentLast5Days;
     }
 

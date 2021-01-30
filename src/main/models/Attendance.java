@@ -9,6 +9,11 @@ public class Attendance {
     private int attStatus;
     private int studentID;
 
+    public Attendance(Timestamp attDate, int attStatus) {
+        this.attDate = attDate;
+        this.attStatus = attStatus;
+    }
+
     public Attendance(int attStatus, int studentID) {
         this.attStatus = attStatus;
         this.studentID = studentID;

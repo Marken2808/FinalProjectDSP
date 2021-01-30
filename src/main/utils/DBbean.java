@@ -107,10 +107,10 @@ public class DBbean {
         return true;
     }
 
-    public static ArrayList<Label> getLast5Days(int sid){
+    public static ObservableList<String> getLast5Days(int sid){
 
 //        ArrayList<Timestamp> test = new ArrayList<>();
-        ArrayList<Label> test = new ArrayList<>();
+        ObservableList<String> test = FXCollections.observableArrayList();;
         try {
             pstmt = conn.prepareStatement("Select aDate, aStatus from Attendance where a_sId="+sid);
             ResultSet rs = pstmt.executeQuery();
@@ -123,13 +123,13 @@ public class DBbean {
                 int status = rs.getInt(2);
 
                 if(status==1){
-                    Label label = new Label("P");
-                    label.setStyle("-fx-background-color: limegreen");
-                    test.add(label);
+//                    Label label = new Label("P");
+//                    label.setStyle("-fx-background-color: limegreen");
+                    test.add("P");
                 } else {
-                    Label label = new Label("A");
-                    label.setStyle("-fx-background-color: palevioletred");
-                    test.add(label);
+//                    Label label = new Label("A");
+//                    label.setStyle("-fx-background-color: palevioletred");
+                    test.add("A");
                 }
                 
 //                test.add(date);

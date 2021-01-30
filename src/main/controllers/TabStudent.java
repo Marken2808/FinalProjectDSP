@@ -7,18 +7,25 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.util.Callback;
 import main.models.Attendance;
 import main.models.Student;
 import main.utils.DBbean;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -48,7 +55,7 @@ public class TabStudent implements Initializable {
     private TableColumn<Student, Boolean> colMarked;
 
     @FXML
-    private TableColumn<Student, String> colLast5Days;
+    private TableColumn<Student, ObservableList<String>> colLast5Days;
 
     @FXML
     private JFXButton closeViewBtn;
@@ -73,6 +80,7 @@ public class TabStudent implements Initializable {
     static int id;
     String DrawerViewStudent = "/main/views/DrawerViewStudent.fxml";
     String DrawerControlStudent = "/main/views/DrawerControlStudent.fxml";
+
 
     @FXML
     void closeViewPane(MouseEvent event) {
@@ -192,6 +200,8 @@ public class TabStudent implements Initializable {
         }
     }
 
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -200,7 +210,42 @@ public class TabStudent implements Initializable {
         colSID.setCellValueFactory(new PropertyValueFactory<>("StudentId"));
         colSNAME.setCellValueFactory(new PropertyValueFactory<>("StudentName"));
         colMarked.setCellValueFactory(new PropertyValueFactory<>("StudentMarked"));
-        colLast5Days.setCellValueFactory(new PropertyValueFactory<>("StudentLast5Days"));
+//        colLast5Days.setCellValueFactory(new PropertyValueFactory<>("StudentLast5Days"));
+        colLast5Days.setCellFactory(param -> new TableCell<Student, ObservableList<String>>() {
+            @Override
+            protected void updateItem(ObservableList<String> item, boolean empty) {
+                if (!empty) {
+                    ObservableList<String> clmStatus = param
+                            .getTableView().getItems()
+                            .get(getIndex()).getStudentLast5Days();
+
+                    HBox hBox = new HBox();
+                    for (String s : clmStatus){
+                        Label label = new Label();
+                        label.setTextFill(Color.WHITE);
+                        label.setAlignment(Pos.CENTER);
+                        label.setPrefWidth(15);
+                        label.setText(s);
+
+
+                        if (s.equals("P")) {
+                            label.setStyle("-fx-background-color: forestgreen; -fx-background-radius: 5;");
+                        } else {
+                            label.setStyle("-fx-background-color: orangered; -fx-background-radius: 5;");
+                        }
+                        hBox.setSpacing(5);
+                        hBox.getChildren().add(label);
+
+                    }
+                    setGraphic(hBox);
+
+
+
+
+
+                }
+            }
+        });
 
         studentLists = DBbean.showStudentTable();
 
