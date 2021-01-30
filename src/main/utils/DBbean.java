@@ -107,10 +107,10 @@ public class DBbean {
         return true;
     }
 
-    public static ObservableList<String> getLast5Days(int sid){
+    public static ArrayList<String> getLast5Days(int sid){
 
 //        ArrayList<Timestamp> test = new ArrayList<>();
-        ObservableList<String> test = FXCollections.observableArrayList();;
+        ArrayList<String> test = new ArrayList<>();
         try {
             pstmt = conn.prepareStatement("Select aDate, aStatus from Attendance where a_sId="+sid);
             ResultSet rs = pstmt.executeQuery();

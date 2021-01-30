@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -55,7 +56,7 @@ public class TabStudent implements Initializable {
     private TableColumn<Student, Boolean> colMarked;
 
     @FXML
-    private TableColumn<Student, ObservableList<String>> colLast5Days;
+    private TableColumn<Student, ArrayList<String>> colLast5Days;
 
     @FXML
     private JFXButton closeViewBtn;
@@ -200,7 +201,23 @@ public class TabStudent implements Initializable {
         }
     }
 
+    public Node customCell_Last5Days(ArrayList<String> status){
+        HBox hBox = new HBox();
+        CornerRadii corn = new CornerRadii(8);
 
+        for (String s : status){
+
+            JFXButton btn = new JFXButton(s);
+            Color color = s.equals("P") ? (Color.FORESTGREEN) : (Color.ORANGERED);
+            btn.setTextFill(Color.WHITE);
+            btn.setBackground(new Background(new BackgroundFill(color, corn, Insets.EMPTY)));
+            hBox.setSpacing(3);
+            hBox.getChildren().add(btn);
+
+        }
+        return hBox;
+
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -211,36 +228,16 @@ public class TabStudent implements Initializable {
         colSNAME.setCellValueFactory(new PropertyValueFactory<>("StudentName"));
         colMarked.setCellValueFactory(new PropertyValueFactory<>("StudentMarked"));
 //        colLast5Days.setCellValueFactory(new PropertyValueFactory<>("StudentLast5Days"));
-        colLast5Days.setCellFactory(param -> new TableCell<Student, ObservableList<String>>() {
+        colLast5Days.setCellFactory(param -> new TableCell<>() {
             @Override
-            protected void updateItem(ObservableList<String> item, boolean empty) {
+            protected void updateItem(ArrayList<String> item, boolean empty) {
                 if (!empty) {
-                    ObservableList<String> clmStatus = param
-                            .getTableView().getItems()
-                            .get(getIndex()).getStudentLast5Days();
 
-                    HBox hBox = new HBox();
-                    for (String s : clmStatus){
-                        Label label = new Label();
-                        label.setTextFill(Color.WHITE);
-                        label.setAlignment(Pos.CENTER);
-                        label.setPrefWidth(15);
-                        label.setText(s);
+                    Student indexStudent = param.getTableView().getItems().get(getIndex());
+                    ArrayList<String> status = indexStudent.getStudentLast5Days();
 
-
-                        if (s.equals("P")) {
-                            label.setStyle("-fx-background-color: forestgreen; -fx-background-radius: 5;");
-                        } else {
-                            label.setStyle("-fx-background-color: orangered; -fx-background-radius: 5;");
-                        }
-                        hBox.setSpacing(5);
-                        hBox.getChildren().add(label);
-
-                    }
+                    Node hBox = customCell_Last5Days(status);
                     setGraphic(hBox);
-
-
-
 
 
                 }
