@@ -8,6 +8,11 @@
 
 <AnchorPane style="-fx-border-color: #999999; -fx-border-width: 1;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.DrawerControlStudent">
    <children>
+      <StackPane prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label text="Working!!!" />
+         </children>
+      </StackPane>
       <StackPane style="-fx-background-color: #d9d9d9;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label text=" ░ ">
@@ -19,11 +24,6 @@
          <cursor>
             <Cursor fx:constant="MOVE" />
          </cursor>
-      </StackPane>
-      <StackPane prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <Label text="Working!!!" />
-         </children>
       </StackPane>
    </children>
 </AnchorPane>

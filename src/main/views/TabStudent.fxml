@@ -15,7 +15,7 @@
             <TableColumn fx:id="colSID" text="Student ID" />
           <TableColumn fx:id="colSNAME" text="Student Name" />
             <TableColumn fx:id="colMarked" text="Marked All" />
-            <TableColumn fx:id="colLast5Days" prefWidth="100.0" text="Last 5 days" />
+            <TableColumn fx:id="colLast5Days" prefWidth="160.0" text="Last 5 days" />
         </columns>
          <cursor>
             <Cursor fx:constant="DEFAULT" />

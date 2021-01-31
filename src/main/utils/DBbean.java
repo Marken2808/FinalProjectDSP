@@ -16,11 +16,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.*;
+import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 public class DBbean {
 
@@ -107,35 +108,36 @@ public class DBbean {
         return true;
     }
 
-    public static ArrayList<String> getLast5Days(int sid){
+    public static ArrayList<Attendance> getLast5Days(int sid){
 
-//        ArrayList<Timestamp> test = new ArrayList<>();
-        ArrayList<String> test = new ArrayList<>();
+        ArrayList<Attendance> test = new ArrayList<>();
+        HashMap<Integer, Attendance> map = new HashMap<>();
+
+        ArrayList<LocalDate> days = new ArrayList<>();
+        days.add(LocalDate.now());
+        for(int i=1; i<5; i++){
+            days.add(days.get(i-1).minusDays(1));
+        }
+//        System.out.println(days);
+
         try {
-            pstmt = conn.prepareStatement("Select aDate, aStatus from Attendance where a_sId="+sid);
+            pstmt = conn.prepareStatement("Select aDate, aStatus from Attendance where a_sId="+sid +" ORDER BY aDate ASC");
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()){
-//                test.add(rs.getTimestamp(1));
-                String date = new SimpleDateFormat("yyyy-MM-dd").format(
-                        new Date(rs.getTimestamp(1).getTime())
-                );
-                int status = rs.getInt(2);
+                Date date = rs.getDate(1);
+                String status = rs.getString(2);
 
-                if(status==1){
-//                    Label label = new Label("P");
-//                    label.setStyle("-fx-background-color: limegreen");
-                    test.add("P");
-                } else {
-//                    Label label = new Label("A");
-//                    label.setStyle("-fx-background-color: palevioletred");
-                    test.add("A");
+                if(days.contains(date.toLocalDate())){
+//                    System.out.println("S: "+date+"--"+status);
+                    map.put(sid, new Attendance(date, status));
+                    test.add(map.get(sid));
+
                 }
-                
-//                test.add(date);
             }
-            System.out.println("test: "+test);
+//            System.out.println(test);
             return test;
+//            return map;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -164,8 +166,8 @@ public class DBbean {
             ArrayList<Attendance> test = new ArrayList<>();
             while (rs.next()){
                 test.add(new Attendance(
-                        rs.getTimestamp(1),
-                        rs.getInt(2),
+                        rs.getDate(1),
+                        rs.getString(2),
                         rs.getInt(3)
                 ));
 //                System.out.println(rs.getTimestamp(1) + " - " + rs.getInt(2) + " - "+ rs.getInt(3));
@@ -225,10 +227,14 @@ public class DBbean {
     }
 
     public static void insertAttendance(Attendance attendance){
+
+        Date date = Date.valueOf(LocalDate.now());
+
         try {
-            pstmt = conn.prepareStatement("INSERT INTO attendance (aStatus, a_sId) VALUES(?,?)");
-            pstmt.setInt(1,attendance.getAttStatus());
-            pstmt.setInt(2,attendance.getStudentID());
+            pstmt = conn.prepareStatement("INSERT INTO attendance (aDate, aStatus, a_sId) VALUES(?,?,?)");
+            pstmt.setDate(1, date);
+            pstmt.setString(2,attendance.getAttStatus());
+            pstmt.setInt(3,attendance.getStudentID());
 
             //Executing the statement
             pstmt.execute();

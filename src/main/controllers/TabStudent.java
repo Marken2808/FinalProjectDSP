@@ -2,6 +2,8 @@ package main.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawer;
+import javafx.beans.binding.Bindings;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventTarget;
@@ -12,25 +14,30 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.PickResult;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.util.Callback;
+import javafx.util.Duration;
 import main.models.Attendance;
 import main.models.Student;
 import main.utils.DBbean;
 
+import javax.naming.Binding;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 
@@ -59,7 +66,7 @@ public class TabStudent implements Initializable {
     private TableColumn<Student, Boolean> colMarked;
 
     @FXML
-    private TableColumn<Student, ArrayList<String>> colLast5Days;
+    private TableColumn<Student, ArrayList<Attendance> > colLast5Days;
 
     @FXML
     private JFXButton closeViewBtn;
@@ -126,6 +133,7 @@ public class TabStudent implements Initializable {
         if(!tableSTUDENT.getSelectionModel().isEmpty()){
 
             id = selectedStudent.getStudentId();
+//            DBbean.insertAttendance(new Attendance("P",id));
 
             if(DBbean.isIdMark(id)){
 
@@ -133,6 +141,9 @@ public class TabStudent implements Initializable {
 
             }
             tableSTUDENT.getSelectionModel().clearSelection(tableSTUDENT.getSelectionModel().getSelectedIndex());
+            tableSTUDENT.refresh();
+            studentLists = DBbean.showStudentTable();
+            tableSTUDENT.setItems(studentLists);
         }
 
     }
@@ -213,29 +224,7 @@ public class TabStudent implements Initializable {
         }
     }
 
-    public Node customCell_Last5Days(ArrayList<String> status){
-        HBox hBox = new HBox();
-        CornerRadii corn = new CornerRadii(8);
-
-        for (String s : status){
-
-            JFXButton btn = new JFXButton(s);
-            Color color = s.equals("P") ? (Color.FORESTGREEN) : (Color.ORANGERED);
-            btn.setTextFill(Color.WHITE);
-            btn.setBackground(new Background(new BackgroundFill(color, corn, Insets.EMPTY)));
-            hBox.setSpacing(3);
-            hBox.getChildren().add(btn);
-        }
-        return hBox;
-
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-//        anchorPane.clearConstraints(drawerViewPane);    //init clear drawer
-
-//        colSID.setCellValueFactory(new PropertyValueFactory<Student, Integer>("StudentID"));
+    public void callbackCell_StudentID(){
         colSID.setCellFactory(param -> new TableCell<>() {
             @Override
             protected void updateItem(Integer item, boolean empty) {
@@ -245,6 +234,9 @@ public class TabStudent implements Initializable {
                 }
             }
         });
+    }
+
+    public void callbackCell_StudentName(){
         colSNAME.setCellFactory(param -> new TableCell<>() {
             @Override
             protected void updateItem(String item, boolean empty) {
@@ -254,6 +246,9 @@ public class TabStudent implements Initializable {
                 }
             }
         });
+    }
+
+    public void callbackCell_StudentMarked(){
         colMarked.setCellFactory(param -> new TableCell<>() {
             @Override
             protected void updateItem(Boolean item, boolean empty) {
@@ -263,27 +258,77 @@ public class TabStudent implements Initializable {
                 }
             }
         });
+    }
+
+    public void hoverBtn(JFXButton btn, Color color, CornerRadii corn){
+        btn.backgroundProperty().bind(Bindings.when(btn.hoverProperty())
+                .then(new Background(new BackgroundFill(color, corn, Insets.EMPTY)))
+                .otherwise(new Background(new BackgroundFill(null, null, Insets.EMPTY)))
+        );
+        btn.textFillProperty().bind(Bindings.when(btn.hoverProperty())
+                .then(Color.WHITE)
+                .otherwise(Color.BLACK)
+        );
+//        btn.tooltipProperty().bind(Bindings.when(btn.hoverProperty())
+//                .then(new Tooltip("showed"))
+//                .otherwise(new Tooltip(null))
+//        );
+
+
+    }
+    
+    public void callbackCell_Last5Days(){
         colLast5Days.setCellFactory(param -> new TableCell<>() {
             @Override
-            protected void updateItem(ArrayList<String> item, boolean empty) {
-                if (!empty) {
-                    Student indexStudent = param.getTableView().getItems().get(getIndex());
-                    ArrayList<String> status = indexStudent.getStudentLast5Days();
-                    setGraphic(customCell_Last5Days(status));
+            protected void updateItem(ArrayList<Attendance> item, boolean empty) {
+            if (!empty) {
+                Student indexStudent = param.getTableView().getItems().get(getIndex());
+                ArrayList<Attendance> last5Days = indexStudent.getStudentLast5Days();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd / MM / yyyy");
+                HBox hBox = new HBox();
+                CornerRadii corn = new CornerRadii(8);
+                for (Attendance a : last5Days){
+
+                    Tooltip tooltip = new Tooltip();
+                    tooltip.setShowDelay(Duration.ZERO);
+                    tooltip.setText(dateFormat.format(a.getAttDate()));
+
+                    Color color = a.getAttStatus().equals("P") ? (Color.FORESTGREEN) : (Color.ORANGERED);
+                    JFXButton btn = new JFXButton(a.getAttStatus());
+                    btn.setBorder(new Border(new BorderStroke(color, BorderStrokeStyle.SOLID, corn, BorderWidths.DEFAULT)));
+                    btn.setTooltip(tooltip);
+                    hoverBtn(btn, color, corn);
+                    
+                    hBox.setSpacing(5);
+                    hBox.setAlignment(Pos.CENTER);
+                    hBox.getChildren().add(btn);
                 }
+
+                setGraphic(hBox);
+            }
             }
         });
 
 
+
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+//        anchorPane.clearConstraints(drawerViewPane);    //init clear drawer
+
+
+        callbackCell_StudentID();
+        callbackCell_StudentName();
+        callbackCell_StudentMarked();
+        callbackCell_Last5Days();
+
+
+
         studentLists = DBbean.showStudentTable();
-
-
         tableSTUDENT.setItems(studentLists);
 
-//        ArrayList<Attendance> test = DBbean.retrieveAttendance();
-//        for (Attendance a: test){
-//            System.out.println("array: "+a.toString());
-//        }
+
 
 
     }
