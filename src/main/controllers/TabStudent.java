@@ -4,11 +4,13 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventTarget;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
@@ -17,6 +19,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.PickResult;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
@@ -105,6 +108,15 @@ public class TabStudent implements Initializable {
     }
 
     @FXML
+    void testMove(MouseEvent event) {
+        if(event.getTarget().toString().contains("null")){
+            tableSTUDENT.setCursor(Cursor.DEFAULT);
+        } else {
+            tableSTUDENT.setCursor(Cursor.HAND);
+        }
+    }
+
+    @FXML
     void clickOnTable(MouseEvent event) {
         closeViewPane(event);
         closeControlPane(event);
@@ -132,7 +144,7 @@ public class TabStudent implements Initializable {
                     DrawerControlStudent,
                     drawerControlPane,
                     closeControlBtn,
-                    new double[]{10, 5, 0, 5}
+                    new double[]{5, 5, 0, 5}
                     );
             setCloseDrawer(
                     DrawerViewStudent,
@@ -146,7 +158,7 @@ public class TabStudent implements Initializable {
                     DrawerViewStudent,
                     drawerViewPane,
                     closeViewBtn,
-                    new double[]{10, 5, 10, 0}
+                    new double[]{5, 5, 5, 0}
                     );
             setCloseDrawer(
                     DrawerControlStudent,
@@ -191,7 +203,7 @@ public class TabStudent implements Initializable {
                 pane.setDefaultDrawerSize(anchorPane.getWidth()*0.6);
 //                pane.prefWidthProperty().bind(anchorPane.widthProperty().multiply(80/100));
             } else {
-                pane.setDefaultDrawerSize(anchorPane.getHeight());
+                pane.setDefaultDrawerSize(anchorPane.getHeight()*0.8);
 //                pane.prefHeightProperty().bind(anchorPane.heightProperty().multiply(80/100));
 
             }
@@ -213,7 +225,6 @@ public class TabStudent implements Initializable {
             btn.setBackground(new Background(new BackgroundFill(color, corn, Insets.EMPTY)));
             hBox.setSpacing(3);
             hBox.getChildren().add(btn);
-
         }
         return hBox;
 
@@ -224,27 +235,48 @@ public class TabStudent implements Initializable {
 
 //        anchorPane.clearConstraints(drawerViewPane);    //init clear drawer
 
-        colSID.setCellValueFactory(new PropertyValueFactory<>("StudentId"));
-        colSNAME.setCellValueFactory(new PropertyValueFactory<>("StudentName"));
-        colMarked.setCellValueFactory(new PropertyValueFactory<>("StudentMarked"));
-//        colLast5Days.setCellValueFactory(new PropertyValueFactory<>("StudentLast5Days"));
+//        colSID.setCellValueFactory(new PropertyValueFactory<Student, Integer>("StudentID"));
+        colSID.setCellFactory(param -> new TableCell<>() {
+            @Override
+            protected void updateItem(Integer item, boolean empty) {
+                if (!empty) {
+                    setText(String.valueOf(param.getTableView().getItems().get(getIndex()).getStudentId()));
+                    setAlignment(Pos.CENTER);
+                }
+            }
+        });
+        colSNAME.setCellFactory(param -> new TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                if (!empty) {
+                    setText(String.valueOf(param.getTableView().getItems().get(getIndex()).getStudentName()));
+                    setAlignment(Pos.CENTER);
+                }
+            }
+        });
+        colMarked.setCellFactory(param -> new TableCell<>() {
+            @Override
+            protected void updateItem(Boolean item, boolean empty) {
+                if (!empty) {
+                    setText(String.valueOf(param.getTableView().getItems().get(getIndex()).isStudentMarked()));
+                    setAlignment(Pos.CENTER);
+                }
+            }
+        });
         colLast5Days.setCellFactory(param -> new TableCell<>() {
             @Override
             protected void updateItem(ArrayList<String> item, boolean empty) {
                 if (!empty) {
-
                     Student indexStudent = param.getTableView().getItems().get(getIndex());
                     ArrayList<String> status = indexStudent.getStudentLast5Days();
-
-                    Node hBox = customCell_Last5Days(status);
-                    setGraphic(hBox);
-
-
+                    setGraphic(customCell_Last5Days(status));
                 }
             }
         });
 
+
         studentLists = DBbean.showStudentTable();
+
 
         tableSTUDENT.setItems(studentLists);
 
