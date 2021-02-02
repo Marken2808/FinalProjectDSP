@@ -14,6 +14,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import main.models.ModuleDAO;
 import main.utils.CircleChart;
 import main.utils.DBbean;
 import main.utils.PopUp;
@@ -103,7 +104,7 @@ public class DrawerViewStudent implements Initializable {
         String[] moduleName = new String[]{"MATH","PHYSICS","CHEMISTRY","ENGLISH","HISTORY","BIOLOGY","GEOGRAPHY"};
 
         int id = TabStudent.id;
-        double[] moduleData = DBbean.getModuleData(id);
+        double[] moduleData = new ModuleDAO().getModuleData(id);
         moduleLists = Arrays.copyOfRange(moduleData,1,moduleData.length-1);
 
         for(int i=0; i<moduleLists.length; i++) {

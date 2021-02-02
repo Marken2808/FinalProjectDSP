@@ -20,7 +20,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 import main.models.Face;
+import main.models.FaceDAO;
 import main.models.Student;
+import main.models.StudentDAO;
 import main.utils.DBbean;
 import main.utils.OpenCV;
 
@@ -88,10 +90,10 @@ public class Captured implements Initializable {
                             new FileImageOutputStream(new File(imgPath))
                     );
 
-                    DBbean.insertStudent(student);
+                    new StudentDAO().insertStudent(student);
 
                     try {
-                        DBbean.insertFace(new Face(imgPath,set,student));
+                        new FaceDAO().insertFace(new Face(imgPath,set,student));
                         handlePopup(
                                 "Success",
                                 "Face Inserted",

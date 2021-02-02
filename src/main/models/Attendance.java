@@ -14,7 +14,6 @@ public class Attendance {
     private Date attDate;
     private String attStatus;
     private int studentID;
-    private ArrayList<Attendance> test5Days;
 
     public Attendance() {
     }
@@ -22,11 +21,6 @@ public class Attendance {
     public Attendance(Date attDate, String attStatus) {
         this.attDate = attDate;
         this.attStatus = attStatus;
-    }
-
-    public Attendance(String attStatus, int studentID) {
-        this.attStatus = attStatus;
-        this.studentID = studentID;
     }
 
     public Attendance(Date attDate, String attStatus, int studentID) {
@@ -60,43 +54,18 @@ public class Attendance {
 //        this.studentID = studentID;
 //    }
 
-    public ArrayList<Attendance> getTest5Days(int sid) {
+    public ArrayList<Attendance> getLast5days(int sid) {
 
         this.studentID = sid;
 
-        ArrayList<Attendance> test = new ArrayList<>();
-        HashMap<Integer, Attendance> map = new HashMap<>();
-
-        ArrayList<LocalDate> days = new ArrayList<>();
-        days.add(LocalDate.now());
+        ArrayList<LocalDate> last5days = new ArrayList<>();
+        last5days.add(LocalDate.now());
         for (int i = 1; i < 5; i++) {
-            days.add(days.get(i - 1).minusDays(1));
+            last5days.add(last5days.get(i - 1).minusDays(1));
         }
-//        System.out.println(days);
 
-//        System.out.println("id= "+ getStudentID());
-        try {
-            pstmt = conn.prepareStatement("Select aDate, aStatus from Attendance where a_sId=" + studentID + " ORDER BY aDate ASC");
-            ResultSet rs = pstmt.executeQuery();
+        return new AttendanceDAO().retrieveDate(studentID, last5days);
 
-            while (rs.next()) {
-                Date date = rs.getDate(1);
-                String status = rs.getString(2);
-
-                if (days.contains(date.toLocalDate())) {
-//                    System.out.println("S: "+date+"--"+status);
-                    map.put(studentID, new Attendance(date, status));
-                    test.add(map.get(studentID));
-
-                }
-            }
-//            System.out.println(test);
-            return test;
-//            return map;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     @Override

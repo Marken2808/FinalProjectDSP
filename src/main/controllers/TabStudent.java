@@ -29,6 +29,7 @@ import javafx.util.Duration;
 import main.models.Attendance;
 import main.models.AttendanceDAO;
 import main.models.Student;
+import main.models.StudentDAO;
 import main.utils.DBbean;
 
 import javax.naming.Binding;
@@ -136,7 +137,6 @@ public class TabStudent implements Initializable {
         if(!tableSTUDENT.getSelectionModel().isEmpty()){
 
             id = selectedStudent.getStudentId();
-//            DBbean.insertAttendance(new Attendance("P",id));
 
             if(DBbean.isIdMark(id)){
 
@@ -144,8 +144,10 @@ public class TabStudent implements Initializable {
 
             }
             tableSTUDENT.getSelectionModel().clearSelection(tableSTUDENT.getSelectionModel().getSelectedIndex());
+
+            // refresh
             tableSTUDENT.refresh();
-            studentLists = DBbean.showStudentTable();
+            studentLists = new StudentDAO().showStudentTable();
             tableSTUDENT.setItems(studentLists);
         }
 
@@ -329,11 +331,10 @@ public class TabStudent implements Initializable {
 
 
 
-        studentLists = DBbean.showStudentTable();
+        studentLists = new StudentDAO().showStudentTable();
         tableSTUDENT.setItems(studentLists);
 
-
-        new AttendanceDAO().retrieveAttendance();
+//        new AttendanceDAO().insertAttendance(new Attendance("A",2));
 
     }
 
