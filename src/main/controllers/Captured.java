@@ -19,10 +19,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
-import main.models.Face;
-import main.models.FaceDAO;
-import main.models.Student;
-import main.models.StudentDAO;
+import main.models.*;
 import main.utils.DBbean;
 import main.utils.OpenCV;
 
@@ -81,7 +78,7 @@ public class Captured implements Initializable {
                     String name = fieldName.getText();
                     int set = Integer.parseInt(String.valueOf(boxSet.getValue()));
                     Student student = new Student(id,name);
-
+                    Face face = new Face(imgPath,set,student);
                     String imgPath = callCV.datasetPath + id + "-" + name + "_" + set + ".jpg";
 
                     ImageIO.write(
@@ -90,10 +87,8 @@ public class Captured implements Initializable {
                             new FileImageOutputStream(new File(imgPath))
                     );
 
-                    new StudentDAO().insertStudent(student);
-
                     try {
-                        new FaceDAO().insertFace(new Face(imgPath,set,student));
+                        new User().insertStudentData(student, face);
                         handlePopup(
                                 "Success",
                                 "Face Inserted",

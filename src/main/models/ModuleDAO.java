@@ -40,10 +40,10 @@ public class ModuleDAO {
         return null;
     }
 
-    public void insertModule(int sid){
+    public void insert(Student student){
         try {
             pstmt = conn.prepareStatement("INSERT INTO modules (m_sId) VALUES(?)");
-            pstmt.setInt(1, sid);
+            pstmt.setInt(1, student.getStudentId());
             //Executing the statement
             pstmt.execute();
             System.out.println("module inserted......");

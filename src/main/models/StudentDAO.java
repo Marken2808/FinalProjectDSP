@@ -26,7 +26,7 @@ public class StudentDAO {
         return null;
     }
 
-    public void insertStudent(Student student) {
+    public void insert(Student student) {
 
         try {
             pstmt = conn.prepareStatement("INSERT INTO student (sId,sName) VALUES(?,?)");

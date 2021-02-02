@@ -21,7 +21,7 @@ public class FaceDAO {
         return null;
     }
 
-    public void insertFace(Face face) throws SQLException {
+    public void insert(Face face) throws SQLException {
 
         pstmt = conn.prepareStatement("INSERT INTO face (fData, fSet, f_sId) VALUES(?,?,?)");
         pstmt.setString(1, face.getFaceData());
@@ -31,8 +31,6 @@ public class FaceDAO {
         //Executing the statement
         pstmt.execute();
         System.out.println("face inserted......");
-
-
 
     }
 
