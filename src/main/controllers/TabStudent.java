@@ -22,9 +22,12 @@ import javafx.scene.input.PickResult;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.util.Callback;
 import javafx.util.Duration;
 import main.models.Attendance;
+import main.models.AttendanceDAO;
 import main.models.Student;
 import main.utils.DBbean;
 
@@ -241,8 +244,9 @@ public class TabStudent implements Initializable {
             @Override
             protected void updateItem(String item, boolean empty) {
                 if (!empty) {
-                    setText(String.valueOf(param.getTableView().getItems().get(getIndex()).getStudentName()));
+                    setText(param.getTableView().getItems().get(getIndex()).getStudentName().toUpperCase());
                     setAlignment(Pos.CENTER);
+//                    setFont(Font.font("Arial", FontWeight.NORMAL, 15));
                 }
             }
         });
@@ -329,7 +333,7 @@ public class TabStudent implements Initializable {
         tableSTUDENT.setItems(studentLists);
 
 
-
+        new AttendanceDAO().retrieveAttendance();
 
     }
 

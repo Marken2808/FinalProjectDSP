@@ -28,20 +28,25 @@ public class DBbean {
     public static Connection conn;
     public static PreparedStatement pstmt;
 
-    public static void getConnection() {
+    public static Connection getConnection() {
 
         String mysqlUrl = "jdbc:mysql://localhost:3306/schoolmana";
         try {
             DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
             conn = DriverManager.getConnection(mysqlUrl, "root", "123456");
+            return conn;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         System.out.println("Connection established......");
-
+        return null;
     }
 
-//    select ----------------------------------------------------
+    public static PreparedStatement getPreparedStatement() {
+        return pstmt;
+    }
+
+    //    select ----------------------------------------------------
 
     public static ObservableList<Student> showStudentTable(){
         ObservableList<Student> studentLists = FXCollections.observableArrayList();
@@ -53,7 +58,7 @@ public class DBbean {
                         rs.getInt("sId"),
                         rs.getString("sName"),
                         isIdMark(rs.getInt("sId")),
-                        getLast5Days(rs.getInt("sId"))
+                        new Attendance().getTest5Days(rs.getInt("sId"))
                 ));
             }
 //            System.out.println("accessed successfully");
@@ -108,42 +113,42 @@ public class DBbean {
         return true;
     }
 
-    public static ArrayList<Attendance> getLast5Days(int sid){
-
-        ArrayList<Attendance> test = new ArrayList<>();
-        HashMap<Integer, Attendance> map = new HashMap<>();
-
-        ArrayList<LocalDate> days = new ArrayList<>();
-        days.add(LocalDate.now());
-        for(int i=1; i<5; i++){
-            days.add(days.get(i-1).minusDays(1));
-        }
-//        System.out.println(days);
-
-        try {
-            pstmt = conn.prepareStatement("Select aDate, aStatus from Attendance where a_sId="+sid +" ORDER BY aDate ASC");
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()){
-                Date date = rs.getDate(1);
-                String status = rs.getString(2);
-
-                if(days.contains(date.toLocalDate())){
-//                    System.out.println("S: "+date+"--"+status);
-                    map.put(sid, new Attendance(date, status));
-                    test.add(map.get(sid));
-
-                }
-            }
-//            System.out.println(test);
-            return test;
-//            return map;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
+//    public static ArrayList<Attendance> getLast5Days(int sid){
+//
+//        ArrayList<Attendance> test = new ArrayList<>();
+//        HashMap<Integer, Attendance> map = new HashMap<>();
+//
+//        ArrayList<LocalDate> days = new ArrayList<>();
+//        days.add(LocalDate.now());
+//        for(int i=1; i<5; i++){
+//            days.add(days.get(i-1).minusDays(1));
+//        }
+////        System.out.println(days);
+//
+//        try {
+//            pstmt = conn.prepareStatement("Select aDate, aStatus from Attendance where a_sId="+sid +" ORDER BY aDate ASC");
+//            ResultSet rs = pstmt.executeQuery();
+//
+//            while (rs.next()){
+//                Date date = rs.getDate(1);
+//                String status = rs.getString(2);
+//
+//                if(days.contains(date.toLocalDate())){
+////                    System.out.println("S: "+date+"--"+status);
+//                    map.put(sid, new Attendance(date, status));
+//                    test.add(map.get(sid));
+//
+//                }
+//            }
+////            System.out.println(test);
+//            return test;
+////            return map;
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return null;
+//    }
 
 //    retrieve -----------------------------------------------------------
 
@@ -159,27 +164,27 @@ public class DBbean {
         return null;
     }
 
-    public static ArrayList<Attendance> retrieveAttendance(){
-        try {
-            pstmt = conn.prepareStatement("Select * from Attendance");
-            ResultSet rs = pstmt.executeQuery();
-            ArrayList<Attendance> test = new ArrayList<>();
-            while (rs.next()){
-                test.add(new Attendance(
-                        rs.getDate(1),
-                        rs.getString(2),
-                        rs.getInt(3)
-                ));
-//                System.out.println(rs.getTimestamp(1) + " - " + rs.getInt(2) + " - "+ rs.getInt(3));
-            }
-//            System.out.println("accessed successfully");
-            return test;
-        } catch (SQLException throwables) {
-//            System.out.println("cannot access student table");
-        }
-        return null;
-    }
-
+//    public static ArrayList<Attendance> retrieveAttendance(){
+//        try {
+//            pstmt = conn.prepareStatement("Select * from Attendance");
+//            ResultSet rs = pstmt.executeQuery();
+//            ArrayList<Attendance> test = new ArrayList<>();
+//
+//            while (rs.next()){
+//                test.add(new Attendance(
+//                        rs.getDate(1),
+//                        rs.getString(2),
+//                        rs.getInt(3)
+//                ));
+////                System.out.println(rs.getDate(1) + " - " + rs.getString(2) + " - "+ rs.getInt(3));
+//            }
+////            System.out.println("accessed successfully");
+//            return test;
+//        } catch (SQLException throwables) {
+////            System.out.println("cannot access student table");
+//        }
+//        return null;
+//    }
 
 //    insert -----------------------------------------------------
 
