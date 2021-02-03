@@ -62,9 +62,9 @@ public class StudentDAO {
 
     public Student retrieveStudentByID(int sid){
         ArrayList<Student> test = selectStudent("Select * from Student where sid = "+sid);
-
         return test.get(0);
     }
+
     public void insert(Student student) {
 
         try {
@@ -79,6 +79,21 @@ public class StudentDAO {
             System.out.println("student already exist......");
         }
 
+    }
+
+    public void update(int sid, String text){
+        try {
+
+            String sql = "UPDATE student SET sname = '" + text + "' WHERE sid = " + sid;
+
+            PreparedStatement pst = conn.prepareStatement(sql);
+//            pst.setString(1, "John");
+
+            pst.executeUpdate();
+            System.out.println("Updated Successfully!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 

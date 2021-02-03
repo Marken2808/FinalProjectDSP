@@ -79,16 +79,16 @@ public class TabStudent implements Initializable {
     private JFXButton closeControlBtn;
 
 
-//    public static TabStudent instance;
-//    public TabStudent(){
-//        instance = this;
-//    }
-//    public static TabStudent getInstance() {
-//        if(instance == null){
-//            instance = new TabStudent();
-//        }
-//        return instance;
-//    }
+    public static TabStudent instance;
+    public TabStudent(){
+        instance = this;
+    }
+    public static TabStudent getInstance() {
+        if(instance == null){
+            instance = new TabStudent();
+        }
+        return instance;
+    }
 
     ObservableList<Student> studentLists = FXCollections.observableArrayList();
 
@@ -142,12 +142,16 @@ public class TabStudent implements Initializable {
             }
             tableSTUDENT.getSelectionModel().clearSelection(tableSTUDENT.getSelectionModel().getSelectedIndex());
 
-            // refresh
-            tableSTUDENT.refresh();
-            studentLists = new StudentDAO().showStudentTable();
-            tableSTUDENT.setItems(studentLists);
+            refresh();
         }
 
+    }
+
+    public void refresh(){
+        // refresh
+        tableSTUDENT.refresh();
+        studentLists = new StudentDAO().showStudentTable();
+        tableSTUDENT.setItems(studentLists);
     }
 
     public void isDrawerClick(boolean check) {
@@ -186,6 +190,7 @@ public class TabStudent implements Initializable {
             pane.setVisible(true);
             btn.setVisible(true);
         });
+
     }
 
     public void setCloseDrawer(JFXDrawer pane, JFXButton btn) {
@@ -324,8 +329,8 @@ public class TabStudent implements Initializable {
 
 
 
-        studentLists = new StudentDAO().showStudentTable();
-        tableSTUDENT.setItems(studentLists);
+//        studentLists = new StudentDAO().showStudentTable();
+        refresh();
 
 //        new AttendanceDAO().insertAttendance(new Attendance("A",2));
 
