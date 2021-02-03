@@ -53,7 +53,6 @@ public class DrawerControlStudent implements Initializable {
 
         JFXButton btnUpdate = new JFXButton("Update");
         btnUpdate.setOnMouseClicked(event -> {
-            System.out.println("clicked");
             new StudentDAO().update(id, textField.getText());
             TabStudent.getInstance().refresh();
         });

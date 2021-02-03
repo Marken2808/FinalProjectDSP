@@ -1,12 +1,14 @@
 package main.models;
 
+import java.util.Arrays;
+
 public class Subject {
 
     private String subjectName;
-    private double[] subjectMark;
+    private double subjectMark;
     private double subjectAvgMark;
 
-    public Subject(String subjectName, double[] subjectMark) {
+    public Subject(String subjectName, double subjectMark) {
         this.subjectName = subjectName;
         this.subjectMark = subjectMark;
     }
@@ -19,21 +21,26 @@ public class Subject {
         this.subjectName = subjectName;
     }
 
-    public double[] getSubjectMark() {
+    public double getSubjectMark() {
         return subjectMark;
     }
 
-    public void setSubjectMark(double[] subjectMark) {
+    public void setSubjectMark(double subjectMark) {
         this.subjectMark = subjectMark;
     }
 
-    public double getSubjectAvgMark() {
-        double sum = 0;
-        for(double ele : subjectMark){ sum+=ele; }
-        return subjectAvgMark = sum/subjectMark.length;
-    }
+//    public double getSubjectAvgMark() {
+//        double sum = 0;
+//        for(double ele : subjectMark){ sum+=ele; }
+//        return subjectAvgMark = sum/subjectMark.length;
+//    }
 
-    public void setSubjectAvgMark(double subjectAvgMark) {
-        this.subjectAvgMark = subjectAvgMark;
+
+    @Override
+    public String toString() {
+        return "Subject{" +
+                "subjectName='" + subjectName + '\'' +
+                ", subjectMark=" + subjectMark +
+                "}\n";
     }
 }

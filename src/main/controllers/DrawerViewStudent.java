@@ -14,13 +14,17 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import main.models.Module;
 import main.models.ModuleDAO;
+import main.models.Student;
+import main.models.Subject;
 import main.utils.CircleChart;
 import main.utils.DBbean;
 import main.utils.PopUp;
 
 import java.net.URL;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class DrawerViewStudent implements Initializable {
@@ -39,6 +43,7 @@ public class DrawerViewStudent implements Initializable {
     @FXML
     private StackPane doughnutPane;
 
+    private int id = TabStudent.id;
     public double[] moduleLists;
 
     public void drawDoughnutChart(){
@@ -89,11 +94,8 @@ public class DrawerViewStudent implements Initializable {
 
         btnPane.setOnMouseClicked(event -> {
             Platform.runLater(() -> {
-
                 System.out.println("Clicked: "+ name);
                 String AttendanceScreen = "/main/views/AttendanceScreen.fxml";
-//            MainController.getInstance().popUp(AttendanceScreen,true);
-
                 PopUp test = new PopUp(AttendanceScreen, true, stackPanehere);
                 test.showPopUp();
             });
@@ -101,18 +103,12 @@ public class DrawerViewStudent implements Initializable {
     }
 
     public void displaySeCiChart(){
-        String[] moduleName = new String[]{"MATH","PHYSICS","CHEMISTRY","ENGLISH","HISTORY","BIOLOGY","GEOGRAPHY"};
 
-        int id = TabStudent.id;
-        double[] moduleData = new ModuleDAO().getModuleData(id);
-        moduleLists = Arrays.copyOfRange(moduleData,1,moduleData.length-1);
+        Subject[] subjectData = new ModuleDAO().retrieveSubjectData(id);
 
-        for(int i=0; i<moduleLists.length; i++) {
-            drawSemiCircleChart(moduleName[i], moduleLists[i]);
+        for(Subject s: subjectData) {
+            drawSemiCircleChart(s.getSubjectName(), s.getSubjectMark());
         }
-//        mathPane.getChildren().add(drawSemiCircleChart(moduleName[0],moduleLists[0]));
-//        btnPane.setGraphic(drawSemiCircleChart(moduleName[0],moduleLists[0]));
-//        System.out.println(Arrays.toString(moduleLists));
     }
 
     @Override
@@ -120,5 +116,6 @@ public class DrawerViewStudent implements Initializable {
 
         displaySeCiChart();
         drawDoughnutChart();
+
     }
 }

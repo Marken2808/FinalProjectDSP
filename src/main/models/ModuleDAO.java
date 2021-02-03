@@ -4,6 +4,8 @@ import main.utils.DBbean;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 public class ModuleDAO {
 
@@ -15,29 +17,44 @@ public class ModuleDAO {
         this.pstmt = DBbean.getPreparedStatement();
     }
 
-    public static ArrayList<Module> retrieveModule(){
+    public ArrayList<Module> select(String query){
+        ArrayList<Module> modules = new ArrayList<>();
+        try {
+            pstmt = conn.prepareStatement(query);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()){
+
+                modules.add(new Module(
+                    rs.getInt(1),
+                    new Subject[]{
+                        new Subject("Math", rs.getDouble(2)),
+                        new Subject("Physic", rs.getDouble(3)),
+                        new Subject("Chemistry", rs.getDouble(4)),
+                        new Subject("English", rs.getDouble(5)),
+                        new Subject("History", rs.getDouble(6)),
+                        new Subject("Biology", rs.getDouble(7)),
+                        new Subject("Geography", rs.getDouble(8))
+                    },
+                    rs.getInt(9)
+                ));
+            }
+            System.out.println("module retrieved......");
+            return modules;
+
+        } catch (SQLException e) {
+            System.out.println("error......");
+        }
         return null;
     }
 
+    public Module retrieveModuleByID(int sid){
+        ArrayList<Module> test = select("Select * from Modules where m_sid = "+sid);
+        return test.get(0);
+    }
 
-    public double[] getModuleData(int sid){
-        try {
-            pstmt = conn.prepareStatement("Select * from modules where m_sId="+sid);
-            ResultSet rs = pstmt.executeQuery();
-            ResultSetMetaData rsmd = rs.getMetaData();
-            int numOfCols = rsmd.getColumnCount();
-            double[] moduleData = new double[numOfCols];
-            while (rs.next()){
-                for(int i = 0; i<numOfCols-1 ; i++){
-                    moduleData[i] = rs.getDouble(i+1);
-                }
-            }
-//            System.out.println("accessed module successfully");
-            return moduleData;
-        } catch (SQLException e) {
-//            System.out.println("cannot access module table");
-        }
-        return null;
+    public Subject[] retrieveSubjectData(int sid){
+        return retrieveModuleByID(sid).getSubjects();
     }
 
     public void insert(Student student){

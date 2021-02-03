@@ -42,7 +42,7 @@ public class StudentDAO {
         return studentLists;
     }
 
-    public ArrayList<Student> selectStudent(String query){
+    public ArrayList<Student> select(String query){
         ArrayList<Student> students = new ArrayList<>();
         try {
 //            pstmt = conn.prepareStatement("Select * from Student");
@@ -61,7 +61,7 @@ public class StudentDAO {
     }
 
     public Student retrieveStudentByID(int sid){
-        ArrayList<Student> test = selectStudent("Select * from Student where sid = "+sid);
+        ArrayList<Student> test = select("Select * from Student where sid = "+sid);
         return test.get(0);
     }
 
