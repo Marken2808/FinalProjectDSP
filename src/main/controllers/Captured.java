@@ -20,7 +20,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 import main.models.*;
-import main.utils.DBbean;
 import main.utils.OpenCV;
 
 import javax.imageio.ImageIO;
@@ -104,7 +103,7 @@ public class Captured implements Initializable {
                         );
                     }
 
-                    MainController.dialog.close();
+                    Primary.dialog.close();
                 } catch (IOException e) {
                     System.out.println("Catch here");
 
@@ -120,7 +119,7 @@ public class Captured implements Initializable {
             @Override
             public void run() {
                 String InforScreen    = "/main/views/InforScreen.fxml";
-                MainController.getInstance().popUp(InforScreen,true);
+                Primary.getInstance().popUp(InforScreen,true);
                 InforController.getInstance().setDialog(title,content,img,type);
             }
         });

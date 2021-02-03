@@ -67,12 +67,12 @@ public class Student {
 
 
 
-    @Override
-    public String toString() {
-        return "Student{" +
-                "studentId=" + studentId +
-                ", studentName='" + studentName + '\'' +
-                ", studentMarked=" + studentMarked +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Student{" +
+//                "studentId=" + studentId +
+//                ", studentName='" + studentName + '\'' +
+//                ", studentMarked=" + studentMarked +
+//                '}';
+//    }
 }

@@ -1,15 +1,12 @@
 package main;
 
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.stage.WindowEvent;
 import main.utils.DBbean;
-import main.utils.OpenCV;
 import org.opencv.core.Core;
 
 public class Main extends Application {
@@ -17,7 +14,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("views/MainScreen.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("views/PrimaryScreen.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
 //        primaryStage.setTitle("Face Detection and Tracking");

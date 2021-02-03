@@ -37,9 +37,9 @@ public class InforController implements Initializable {
 
     @FXML
     void clickBtn(MouseEvent event) {
-        MainController.dialog.close();
+        Primary.dialog.close();
         String CaptureScreen    = "/main/views/CapturedScreen.fxml";
-        MainController.getInstance().popUp(CaptureScreen,true);
+        Primary.getInstance().popUp(CaptureScreen,true);
     }
 
     public void setDialog(String title, String content, String img, String type){

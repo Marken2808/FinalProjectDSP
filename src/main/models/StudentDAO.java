@@ -22,26 +22,6 @@ public class StudentDAO {
         this.pstmt = DBbean.getPreparedStatement();
     }
 
-    public ArrayList<Student> retrieveStudent(){
-        return null;
-    }
-
-    public void insert(Student student) {
-
-        try {
-            pstmt = conn.prepareStatement("INSERT INTO student (sId,sName) VALUES(?,?)");
-            pstmt.setInt(1, student.getStudentId());
-            pstmt.setString(2, student.getStudentName());
-            //Executing the statement
-            pstmt.execute();
-            System.out.println("student inserted......");
-//            insertModule(student.getStudentId());
-        } catch (SQLException e) {
-            System.out.println("student already exist......");
-        }
-
-    }
-
     public ObservableList<Student> showStudentTable(){
         ObservableList<Student> studentLists = FXCollections.observableArrayList();
         try {
@@ -60,6 +40,45 @@ public class StudentDAO {
             System.out.println("cannot access student table");
         }
         return studentLists;
+    }
+
+    public ArrayList<Student> selectStudent(String query){
+        ArrayList<Student> students = new ArrayList<>();
+        try {
+//            pstmt = conn.prepareStatement("Select * from Student");
+            pstmt = conn.prepareStatement(query);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()){
+                students.add(new Student(rs.getInt(1), rs.getString(2)));
+            }
+            System.out.println("student retrieved......");
+            return students;
+
+        } catch (SQLException e) {
+            System.out.println("error......");
+        }
+        return null;
+    }
+
+    public Student retrieveStudentByID(int sid){
+        ArrayList<Student> test = selectStudent("Select * from Student where sid = "+sid);
+
+        return test.get(0);
+    }
+    public void insert(Student student) {
+
+        try {
+            pstmt = conn.prepareStatement("INSERT INTO student (sId,sName) VALUES(?,?)");
+            pstmt.setInt(1, student.getStudentId());
+            pstmt.setString(2, student.getStudentName());
+            //Executing the statement
+            pstmt.execute();
+            System.out.println("student inserted......");
+//            insertModule(student.getStudentId());
+        } catch (SQLException e) {
+            System.out.println("student already exist......");
+        }
+
     }
 
 

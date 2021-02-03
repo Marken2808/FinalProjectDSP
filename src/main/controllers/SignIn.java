@@ -48,14 +48,14 @@ public class SignIn implements Initializable {
 
     @FXML
     void makeLogin(ActionEvent event) {
-        MainController.dialog.close();
-        MainController.getInstance().utility(true);
+        Primary.dialog.close();
+        Primary.getInstance().utility(true);
     }
 
     @FXML
     void letRegister(ActionEvent event) {
-        MainController.dialog.close();
-        MainController.getInstance().displaySignUp();
+        Primary.dialog.close();
+        Primary.getInstance().displaySignUp();
     }
 
     @FXML

@@ -123,7 +123,7 @@ public class Calendar implements Initializable{
         });
         text.setOnMouseClicked(event -> {
             String AttendanceScreen = "/main/views/AttendanceScreen.fxml";
-            MainController.getInstance().popUp(AttendanceScreen,true);
+            Primary.getInstance().popUp(AttendanceScreen,true);
         });
     }
 

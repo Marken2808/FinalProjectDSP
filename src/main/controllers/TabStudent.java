@@ -101,10 +101,8 @@ public class TabStudent implements Initializable {
     void closeViewPane(MouseEvent event) {
 //        System.out.println("View clicked");
         setCloseDrawer(
-                DrawerViewStudent,
                 drawerViewPane,
-                closeViewBtn,
-                new double[]{0, 0, 0, -anchorPane.getHeight()}
+                closeViewBtn
         );
     }
 
@@ -112,10 +110,9 @@ public class TabStudent implements Initializable {
     void closeControlPane(MouseEvent event) {
 //        System.out.println("Control clicked");
         setCloseDrawer(
-                DrawerControlStudent,
                 drawerControlPane,
-                closeControlBtn,
-                new double[]{0, 0,-anchorPane.getWidth(), 0});
+                closeControlBtn
+        );
     }
 
     @FXML
@@ -163,10 +160,8 @@ public class TabStudent implements Initializable {
                     new double[]{5, 5, 0, 5}
                     );
             setCloseDrawer(
-                    DrawerViewStudent,
                     drawerViewPane,
-                    closeViewBtn,
-                    new double[]{0, 0, 0, -anchorPane.getHeight()}
+                    closeViewBtn
                     );
 
         } else {    // left click on selected row
@@ -177,10 +172,8 @@ public class TabStudent implements Initializable {
                     new double[]{5, 5, 5, 0}
                     );
             setCloseDrawer(
-                    DrawerControlStudent,
                     drawerControlPane,
-                    closeControlBtn,
-                    new double[]{0, 0, -anchorPane.getWidth(), 0}
+                    closeControlBtn
                     );
         }
 
@@ -195,8 +188,8 @@ public class TabStudent implements Initializable {
         });
     }
 
-    public void setCloseDrawer(String scene, JFXDrawer pane, JFXButton btn, double[] sides) {
-        setDrawer(scene, pane, sides);
+    public void setCloseDrawer(JFXDrawer pane, JFXButton btn) {
+
         pane.close();
         pane.setOnDrawerClosing(jfxDrawerEvent -> {
             btn.setVisible(false);

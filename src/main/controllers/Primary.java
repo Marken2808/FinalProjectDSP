@@ -31,7 +31,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 
-public class MainController implements Initializable
+public class Primary implements Initializable
 {
     @FXML
     private ImageView currentFrame;
@@ -90,13 +90,13 @@ public class MainController implements Initializable
     private String DashboardScreen  = "/main/views/DashboardScreen.fxml";
 //----------------------------instance--------------------
     private OpenCV callCV = OpenCV.getInstance();
-    public static MainController instance;
-    public MainController(){
+    public static Primary instance;
+    public Primary(){
         instance = this;
     }
-    public static MainController getInstance() {
+    public static Primary getInstance() {
         if(instance == null){
-            instance = new MainController();
+            instance = new Primary();
         }
         return instance;
     }
@@ -104,7 +104,7 @@ public class MainController implements Initializable
 
     public void popUp(String screen, boolean canClose){
         try {
-            FXMLLoader loader = new FXMLLoader(MainController.class.getResource(screen));
+            FXMLLoader loader = new FXMLLoader(Primary.class.getResource(screen));
             Parent Root = loader.load();
             JFXDialogLayout content = new JFXDialogLayout();
             content.setBody(Root);
@@ -122,16 +122,43 @@ public class MainController implements Initializable
         drawerPane.setVisible(show);
     }
 
-    public void displayDrawer() throws IOException {
-        anchorPane.setTopAnchor(drawerPane,40.0);
-        anchorPane.setBottomAnchor(drawerPane,0.0);
-        if ( drawerPane.isClosing() ) { anchorPane.setLeftAnchor(drawerPane, -200.0); }
-        else { anchorPane.setLeftAnchor(drawerPane, 0.0); }
+    @FXML
+    void isMenuClicked(MouseEvent event) throws IOException {
+
+        if (!this.cameraActive) {
+
+            displayDrawer(0.0, 40.0, 0.0, 0.0);
+            drawerPane.open();
+            drawerPane.setVisible(true);
 
 
-        VBox menuLeft = FXMLLoader.load(getClass().getResource(DrawerScreen));
-        drawerPane.setSidePane(menuLeft);
-        showElements(menuLeft);
+            drawerPane.setOnDrawerClosed(jfxDrawerEvent -> {
+                drawerPane.close();
+                drawerPane.setVisible(false);
+            });
+
+        } else {
+            System.out.println("Need close camera" );
+            turnOffCamera();
+        }
+    }
+
+    public void displayDrawer(Double left,Double top,Double right,Double bottom) {
+        try {
+            anchorPane.setLeftAnchor(drawerPane, left);
+            anchorPane.setTopAnchor(drawerPane, top);
+            anchorPane.setRightAnchor(drawerPane, right);
+            anchorPane.setBottomAnchor(drawerPane,bottom);
+
+
+
+            VBox menuLeft = FXMLLoader.load(getClass().getResource(DrawerScreen));
+            drawerPane.setSidePane(menuLeft);
+            drawerPane.setDefaultDrawerSize(anchorPane.getWidth()*0.25);
+            showElements(menuLeft);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void displaySignIn(){
@@ -157,7 +184,7 @@ public class MainController implements Initializable
     }
 
     public void showElements(VBox menuLeft) throws IOException {
-//        AnchorPane home = FXMLLoader.load(getClass().getResource("/main/views/MainScreen.fxml"));
+//        AnchorPane home = FXMLLoader.load(getClass().getResource("/main/views/PrimaryScreen.fxml"));
 //        StackPane setting = FXMLLoader.load(getClass().getResource(CalendarScreen));
         StackPane dashboard = FXMLLoader.load(getClass().getResource(DashboardScreen));
 
@@ -193,35 +220,18 @@ public class MainController implements Initializable
         // stop the timer
     }
 
-    @FXML
-    void drawerExit(MouseEvent event) throws IOException {
-        if(drawerPane.isOpened() || drawerPane.isOpening()) {
-            drawerPane.close();
-            btnMenu.setGraphic(new ImageView(new Image("/resources/images/icon/menu.png")));
-        }
-        // set Drawer always hide away from main scene;
-        stackPane.clearConstraints(drawerPane);
-        displayDrawer();
-    }
+//    @FXML
+//    void drawerExit(MouseEvent event) throws IOException {
+//        if(drawerPane.isOpened() || drawerPane.isOpening()) {
+//            drawerPane.close();
+//            btnMenu.setGraphic(new ImageView(new Image("/resources/images/icon/menu.png")));
+//        }
+//        // set Drawer always hide away from main scene;
+//        stackPane.clearConstraints(drawerPane);
+//        displayDrawer();
+//    }
 
-    @FXML
-    void isMenuClicked(MouseEvent event) throws IOException {
 
-        displayDrawer();
-        if (!this.cameraActive) {
-
-            if (drawerPane.isClosed() || drawerPane.isClosing()) {
-                drawerPane.open();
-                btnMenu.setGraphic(new ImageView(new Image("/resources/images/icon/x.png")));
-            } else {
-                drawerPane.close();
-                btnMenu.setGraphic(new ImageView(new Image("/resources/images/icon/menu.png")));
-            }
-        } else {
-            System.out.println("Need close camera" );
-            turnOffCamera();
-        }
-    }
 
     @FXML
     void takeShot(ActionEvent event) {

@@ -7,15 +7,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 //import resources.mySQLconnection;
 
-import javax.swing.*;
-import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ResourceBundle;
@@ -73,8 +67,8 @@ public class SignUp implements Initializable {
 //        catch ( Exception e){
 //            //JOptionPane.showMessageDialog(null,e);
 //        }
-        MainController.dialog.close();
-        MainController.getInstance().displaySignIn();
+        Primary.dialog.close();
+        Primary.getInstance().displaySignIn();
     }
 
     @FXML

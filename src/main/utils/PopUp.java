@@ -5,7 +5,7 @@ import com.jfoenix.controls.JFXDialogLayout;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.StackPane;
-import main.controllers.MainController;
+import main.controllers.Primary;
 
 import java.io.IOException;
 
@@ -25,7 +25,7 @@ public class PopUp {
     public void showPopUp(){
         try {
 
-            FXMLLoader loader = new FXMLLoader(MainController.class.getResource(screen));
+            FXMLLoader loader = new FXMLLoader(Primary.class.getResource(screen));
             Parent Root = loader.load();
             JFXDialogLayout content = new JFXDialogLayout();
             content.setBody(Root);
