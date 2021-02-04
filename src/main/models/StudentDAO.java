@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static main.utils.DBbean.isIdMark;
 
@@ -81,11 +82,10 @@ public class StudentDAO {
 
     }
 
-    public void update(int sid, String text){
+    public void update(int sid, HashMap<String, Object> map){
         try {
 
-            String sql = "UPDATE student SET sname = '" + text + "' WHERE sid = " + sid;
-
+            String sql = "UPDATE student SET sname = '" + map.get("Student Name") + "' WHERE sid = " + sid;
             PreparedStatement pst = conn.prepareStatement(sql);
 //            pst.setString(1, "John");
 

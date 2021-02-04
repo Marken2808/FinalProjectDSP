@@ -22,14 +22,12 @@ public class ModuleDAO {
         try {
             pstmt = conn.prepareStatement(query);
             ResultSet rs = pstmt.executeQuery();
-
             while (rs.next()){
-
                 modules.add(new Module(
                     rs.getInt(1),
                     new Subject[]{
                         new Subject("Math", rs.getDouble(2)),
-                        new Subject("Physic", rs.getDouble(3)),
+                        new Subject("Physics", rs.getDouble(3)),
                         new Subject("Chemistry", rs.getDouble(4)),
                         new Subject("English", rs.getDouble(5)),
                         new Subject("History", rs.getDouble(6)),
@@ -41,7 +39,6 @@ public class ModuleDAO {
             }
             System.out.println("module retrieved......");
             return modules;
-
         } catch (SQLException e) {
             System.out.println("error......");
         }
@@ -66,6 +63,32 @@ public class ModuleDAO {
             System.out.println("module inserted......");
         } catch (SQLException e) {
             System.out.println("module already exist......");
+        }
+    }
+
+    public void update(int sid, HashMap<String, Object> map){
+
+        System.out.println("test: "+map.get("Math"));
+
+        try {
+
+            String sql= "UPDATE modules " +
+                        "SET mMath      = '" + map.get("Math"       ) + "' ," +
+                        "    mPhysics   = '" + map.get("Physics"    ) + "' ," +
+                        "    mChemistry = '" + map.get("Chemistry"  ) + "' ," +
+                        "    mEnglish   = '" + map.get("English"    ) + "' ," +
+                        "    mHistory   = '" + map.get("History"    ) + "' ," +
+                        "    mBiology   = '" + map.get("Biology"    ) + "' ," +
+                        "    mGeography = '" + map.get("Geography"  ) + "'  " +
+
+                        "WHERE m_sid = " + sid;
+            PreparedStatement pst = conn.prepareStatement(sql);
+//            pst.setString(1, "John");
+
+            pst.executeUpdate();
+            System.out.println("Updated Successfully!");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
