@@ -66,10 +66,7 @@ public class DrawerControlStudent implements Initializable {
         declareSubject();
 
         setTextField("Student ID", false);
-
         setTextField("Student Name", true);
-
-
         setTextField("Math",true);
         setTextField("Physics",true);
         setTextField("Chemistry",true);
@@ -81,8 +78,10 @@ public class DrawerControlStudent implements Initializable {
 
         JFXButton btnUpdate = new JFXButton("Update");
         btnUpdate.setOnMouseClicked(event -> {
+
             new StudentDAO().update(id, map);
             new ModuleDAO().update(id, map);
+
             TabStudent.getInstance().refresh();
         });
 

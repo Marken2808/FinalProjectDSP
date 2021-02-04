@@ -67,9 +67,6 @@ public class ModuleDAO {
     }
 
     public void update(int sid, HashMap<String, Object> map){
-
-        System.out.println("test: "+map.get("Math"));
-
         try {
 
             String sql= "UPDATE modules " +
@@ -80,13 +77,10 @@ public class ModuleDAO {
                         "    mHistory   = '" + map.get("History"    ) + "' ," +
                         "    mBiology   = '" + map.get("Biology"    ) + "' ," +
                         "    mGeography = '" + map.get("Geography"  ) + "'  " +
-
                         "WHERE m_sid = " + sid;
             PreparedStatement pst = conn.prepareStatement(sql);
-//            pst.setString(1, "John");
-
             pst.executeUpdate();
-            System.out.println("Updated Successfully!");
+            System.out.println("module updated......");
         } catch (SQLException e) {
             e.printStackTrace();
         }
