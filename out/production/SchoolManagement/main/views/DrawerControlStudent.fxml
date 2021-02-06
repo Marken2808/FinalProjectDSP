@@ -1,32 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXMasonryPane?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane style="-fx-border-color: #999999; -fx-border-width: 1;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.DrawerControlStudent">
    <children>
-      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox alignment="CENTER_LEFT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <JFXMasonryPane fx:id="m1" VSpacing="20.0" cellHeight="30.0" cellWidth="50.0" style="-fx-background-color: #d9d9d9;" />
-            <JFXMasonryPane fx:id="m2" style="-fx-background-color: blue;" />
+            <StackPane style="-fx-background-color: #d9d9d9;">
+               <children>
+                  <Label text=" ░ ">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+               <cursor>
+                  <Cursor fx:constant="MOVE" />
+               </cursor>
+            </StackPane>
+            <VBox alignment="CENTER" spacing="25.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <JFXMasonryPane fx:id="m1" HSpacing="15.0" VSpacing="30.0" cellHeight="30.0" cellWidth="50.0">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets left="20.0" right="10.0" />
+                     </padding>
+                  </JFXMasonryPane>
+                  <Separator />
+                  <JFXMasonryPane fx:id="m2" HSpacing="15.0" VSpacing="30.0" cellHeight="30.0" cellWidth="50.0">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets left="20.0" right="10.0" />
+                     </padding>
+                  </JFXMasonryPane>
+                  <JFXButton fx:id="btnUpdate" maxWidth="1.7976931348623157E308" onMouseClicked="#updateClick" text="Update" VBox.vgrow="ALWAYS" />
+               </children>
+            </VBox>
          </children>
-      </VBox>
-      <StackPane style="-fx-background-color: #d9d9d9;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <Label text=" ░ ">
-               <font>
-                  <Font name="System Bold" size="20.0" />
-               </font>
-            </Label>
-         </children>
-         <cursor>
-            <Cursor fx:constant="MOVE" />
-         </cursor>
-      </StackPane>
+      </HBox>
    </children>
 </AnchorPane>

@@ -71,7 +71,7 @@ public class StudentDAO {
         try {
             pstmt = conn.prepareStatement("INSERT INTO student (sId,sName) VALUES(?,?)");
             pstmt.setInt(1, student.getStudentId());
-            pstmt.setString(2, student.getStudentName());
+            pstmt.setString(2, student.getStudentName().toUpperCase());
             //Executing the statement
             pstmt.execute();
             System.out.println("student inserted......");
