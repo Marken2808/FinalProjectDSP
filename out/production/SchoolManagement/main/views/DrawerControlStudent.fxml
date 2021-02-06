@@ -30,21 +30,21 @@
             </StackPane>
             <VBox alignment="CENTER" spacing="25.0" HBox.hgrow="ALWAYS">
                <children>
-                  <JFXMasonryPane fx:id="m1" HSpacing="15.0" VSpacing="30.0" cellHeight="30.0" cellWidth="50.0">
+                  <JFXMasonryPane fx:id="m1" HSpacing="10.0" VSpacing="10.0" cellHeight="25.0" cellWidth="40.0">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
                      <padding>
-                        <Insets left="20.0" right="10.0" />
+                        <Insets left="10.0" right="20.0" />
                      </padding>
                   </JFXMasonryPane>
                   <Separator />
-                  <JFXMasonryPane fx:id="m2" HSpacing="15.0" VSpacing="30.0" cellHeight="30.0" cellWidth="50.0">
+                  <JFXMasonryPane fx:id="m2" HSpacing="10.0" VSpacing="10.0" cellHeight="25.0" cellWidth="40.0">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
                      <padding>
-                        <Insets left="20.0" right="10.0" />
+                        <Insets left="10.0" right="20.0" />
                      </padding>
                   </JFXMasonryPane>
                   <JFXButton fx:id="btnUpdate" maxWidth="1.7976931348623157E308" onMouseClicked="#updateClick" text="Update" VBox.vgrow="ALWAYS" />
