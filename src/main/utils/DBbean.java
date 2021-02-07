@@ -34,11 +34,11 @@ public class DBbean {
         try {
             DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
             conn = DriverManager.getConnection(mysqlUrl, "root", "123456");
+            System.out.println("Connection established......");
             return conn;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println("Connection established......");
         return null;
     }
 

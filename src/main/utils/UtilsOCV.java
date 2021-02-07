@@ -12,7 +12,7 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 
 
-public final class UtilsOCV
+public class UtilsOCV
 {
     /**
      * Convert a Mat object (OpenCV) in the corresponding Image for JavaFX
