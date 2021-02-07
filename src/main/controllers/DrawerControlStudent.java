@@ -4,11 +4,13 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXMasonryPane;
 import com.jfoenix.controls.JFXTextField;
 import javafx.beans.binding.Bindings;
+import javafx.css.Size;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.Separator;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -25,16 +27,11 @@ import java.util.ResourceBundle;
 public class DrawerControlStudent implements Initializable {
 
     @FXML
-    private JFXMasonryPane m1;
+    private VBox vBox;
 
-    @FXML
-    private JFXMasonryPane m2;
+    private JFXMasonryPane[] masonryPane  = new JFXMasonryPane[2];
 
-    @FXML
-    private JFXButton btnUpdate;
-
-
-
+    private JFXButton btnUpdate = new JFXButton("Update");
 
     private HashMap<String, Object> map = new HashMap<>();
 
@@ -63,7 +60,7 @@ public class DrawerControlStudent implements Initializable {
         stackPane.getChildren().add(setTextField(dataKey, size, edit));
 //        stackPane.setPrefHeight(40);
         stackPane.setAlignment(Pos.BOTTOM_CENTER);
-        stackPane.setPadding(new Insets(10,0,5,0));
+        stackPane.setPadding(new Insets(0,0,10,0));
         return stackPane;
     }
     public JFXTextField setTextField (String dataKey, double size, boolean edit){
@@ -75,7 +72,6 @@ public class DrawerControlStudent implements Initializable {
         textField.setPrefWidth(size);
         textField.setEditable(edit);
         textField.setAlignment(Pos.CENTER);
-//        textField.setStyle("-fx-background-color: red");
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
 //            System.out.println("textfield changed from " + oldValue + " to " + newValue);
             map.put(dataKey, newValue);
@@ -85,19 +81,18 @@ public class DrawerControlStudent implements Initializable {
 
     }
 
-    public void load(){
+    public void displayPane(){
 
-
-        m1.getChildren().clear();
-        m2.getChildren().clear();
-
-
-        m1.getChildren().addAll(
+        for(int i=0; i<masonryPane.length; i++){
+            masonryPane[i] = new JFXMasonryPane();
+            masonryPane[i].setPadding(new Insets(0,20,0,20));
+        }
+        masonryPane[0].getChildren().addAll(
                 setCard("Student ID",    40,false),
                 setCard("Student Name", 160,true)
         );
 
-        m2.getChildren().addAll(
+        masonryPane[1].getChildren().addAll(
                 setCard("Math",     40,true),
                 setCard("Physics",  40,true),
                 setCard("Chemistry",40,true),
@@ -105,19 +100,27 @@ public class DrawerControlStudent implements Initializable {
                 setCard("History",  40,true),
                 setCard("Biology",  40,true),
                 setCard("Geography",40,true)
-
         );
+
+        btnUpdate.setOnMouseClicked(event -> {
+            new StudentDAO().update(id, map);
+            new ModuleDAO().update(id, map);
+
+            refresh();
+            TabStudent.getInstance().refresh();
+        });
+
+        vBox.getChildren().addAll(masonryPane[0], masonryPane[1], btnUpdate);
+
     }
 
-    @FXML
-    void updateClick(MouseEvent event) {
-        new StudentDAO().update(id, map);
-        new ModuleDAO().update(id, map);
+    public void refresh(){
 
-        load();
-        TabStudent.getInstance().refresh();
+        vBox.getChildren().clear();
+        displayPane();
 
     }
+
 
 
     @Override
@@ -126,7 +129,7 @@ public class DrawerControlStudent implements Initializable {
         declareStudent();
         declareSubject();
 
-        load();
+        displayPane();
 
 
     }

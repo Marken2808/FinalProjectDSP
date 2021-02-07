@@ -86,7 +86,6 @@ public class StudentDAO {
         try {
             String sql = "UPDATE student SET sname = '" + map.get("Student Name") + "' WHERE sid = " + sid;
             PreparedStatement pst = conn.prepareStatement(sql);
-//            pst.setString(1, "John");
 
             pst.executeUpdate();
             System.out.println("student updated......");

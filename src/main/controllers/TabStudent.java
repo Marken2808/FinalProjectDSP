@@ -130,21 +130,15 @@ public class TabStudent implements Initializable {
         closeControlPane(event);
 
         Student selectedStudent = tableSTUDENT.getSelectionModel().getSelectedItem();
-
         if(!tableSTUDENT.getSelectionModel().isEmpty()){
-
             id = selectedStudent.getStudentId();
-
             if(DBbean.isIdMark(id)){
-
                 isDrawerClick(event.getButton().equals(MouseButton.SECONDARY));
-
             }
             tableSTUDENT.getSelectionModel().clearSelection(tableSTUDENT.getSelectionModel().getSelectedIndex());
 
             refresh();
         }
-
     }
 
     public void refresh(){
@@ -194,7 +188,6 @@ public class TabStudent implements Initializable {
     }
 
     public void setCloseDrawer(JFXDrawer pane, JFXButton btn) {
-
         pane.close();
         pane.setOnDrawerClosing(jfxDrawerEvent -> {
             btn.setVisible(false);
@@ -204,7 +197,6 @@ public class TabStudent implements Initializable {
 
     public void setDrawer(String scene, JFXDrawer pane, double[] sides) {
         try {
-
             anchorPane.setLeftAnchor(pane, sides[0]);
             anchorPane.setTopAnchor(pane, sides[1]);
             anchorPane.setRightAnchor(pane, sides[2]);
@@ -219,7 +211,6 @@ public class TabStudent implements Initializable {
             } else {
                 pane.setDefaultDrawerSize(anchorPane.getHeight()*0.8);
 //                pane.prefHeightProperty().bind(anchorPane.heightProperty().multiply(80/100));
-
             }
 
         } catch (IOException e) {
@@ -273,12 +264,6 @@ public class TabStudent implements Initializable {
                 .then(Color.WHITE)
                 .otherwise(Color.BLACK)
         );
-//        btn.tooltipProperty().bind(Bindings.when(btn.hoverProperty())
-//                .then(new Tooltip("showed"))
-//                .otherwise(new Tooltip(null))
-//        );
-
-
     }
     
     public void callbackCell_Last5Days(){
@@ -312,27 +297,17 @@ public class TabStudent implements Initializable {
             }
             }
         });
-
-
-
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-//        anchorPane.clearConstraints(drawerViewPane);    //init clear drawer
-
 
         callbackCell_StudentID();
         callbackCell_StudentName();
         callbackCell_StudentMarked();
         callbackCell_Last5Days();
 
-
-
-//        studentLists = new StudentDAO().showStudentTable();
         refresh();
-
-//        new AttendanceDAO().insertAttendance(new Attendance("A",2));
 
     }
 
