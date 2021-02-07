@@ -46,7 +46,7 @@ public class ModuleDAO {
     }
 
     public Module retrieveModuleByID(int sid){
-        ArrayList<Module> test = select("Select * from Modules where m_sid = "+sid);
+        ArrayList<Module> test = select("Select * from Module where m_sid = "+sid);
         return test.get(0);
     }
 
@@ -56,7 +56,7 @@ public class ModuleDAO {
 
     public void insert(Student student){
         try {
-            pstmt = conn.prepareStatement("INSERT INTO modules (m_sId) VALUES(?)");
+            pstmt = conn.prepareStatement("INSERT INTO `module` (m_sId) VALUES(?)");
             pstmt.setInt(1, student.getStudentId());
             //Executing the statement
             pstmt.execute();
@@ -69,7 +69,7 @@ public class ModuleDAO {
     public void update(int sid, HashMap<String, Object> map){
         try {
 
-            String sql= "UPDATE modules " +
+            String sql= "UPDATE `module` " +
                         "SET mMath      = '" + map.get("Math"       ) + "' ," +
                         "    mPhysics   = '" + map.get("Physics"    ) + "' ," +
                         "    mChemistry = '" + map.get("Chemistry"  ) + "' ," +

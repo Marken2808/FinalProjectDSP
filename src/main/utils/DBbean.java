@@ -34,11 +34,11 @@ public class DBbean {
         try {
             DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
             conn = DriverManager.getConnection(mysqlUrl, "root", "123456");
-            System.out.println("Connection established......");
             return conn;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        System.out.println("Connection established......");
         return null;
     }
 
@@ -50,7 +50,7 @@ public class DBbean {
     public static boolean isIdMark(int sid){
         try {
             pstmt = conn.prepareStatement(
-                    "select  m_sId from modules where \n" +
+                    "select  m_sId from `module` where \n" +
                             "mMath is null or \n" +
                             "mPhysics is null or \n" +
                             "mChemistry is null or\n" +

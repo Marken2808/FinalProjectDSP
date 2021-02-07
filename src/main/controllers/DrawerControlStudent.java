@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
@@ -110,7 +111,9 @@ public class DrawerControlStudent implements Initializable {
             TabStudent.getInstance().refresh();
         });
 
-        vBox.getChildren().addAll(masonryPane[0], masonryPane[1], btnUpdate);
+        
+
+        vBox.getChildren().addAll(new Label("Control Student"), masonryPane[0], masonryPane[1], btnUpdate);
 
     }
 
