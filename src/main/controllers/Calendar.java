@@ -29,23 +29,12 @@ import static java.lang.Integer.MAX_VALUE;
 public class Calendar implements Initializable{
 
 
-    @FXML
-    private AnchorPane anchorPane;
 
     @FXML
     private GridPane gpBody;
 
     @FXML
     private Label labelTitle;
-
-    @FXML
-    private Label labelTotal;
-
-    @FXML
-    private JFXButton btNext;
-
-    @FXML
-    private JFXButton btPrev;
 
     private java.util.Calendar currentMonth;
 
@@ -57,6 +46,16 @@ public class Calendar implements Initializable{
     String whiteBase = "-fx-background-color: rgba(255,255,255,1)";
 
 
+    public static Calendar instance;
+    public Calendar(){
+        instance = this;
+    }
+    public static Calendar getInstance() {
+        if(instance == null){
+            instance = new Calendar();
+        }
+        return instance;
+    }
 
     private void drawCalendar() throws IOException, ParseException {
         drawHeader();
@@ -69,26 +68,24 @@ public class Calendar implements Initializable{
         labelTitle.setText(monthString + ", " + yearString);
     }
 
-//    cell ( text, preview )
-
     public void displayCell_Text (Label text){
         text.setPadding(new Insets(3));
         text.setMaxWidth(MAX_VALUE);
         text.setMaxHeight(MAX_VALUE);
         text.setAlignment(Pos.CENTER);
-        text.setFont(new Font(15));
+        text.setFont(new Font(10));
     }
 
     public void displayCell_Preview (Label text) throws IOException {
-        AnchorPane an = FXMLLoader.load(getClass().getResource("/main/views/PreviewScreen.fxml"));
-        text.setGraphic(an);
-        text.setContentDisplay(ContentDisplay.BOTTOM);
-
-        Random rand = new Random();
-        labelTotal.setText("10");   //change total here
-        int total = Integer.parseInt(labelTotal.getText());
-        int on = (rand.nextInt(total+1));
-        Preview.getInstance().showAbsence(on,total);
+//        AnchorPane an = FXMLLoader.load(getClass().getResource("/main/views/PreviewScreen.fxml"));
+//        text.setGraphic(an);
+//        text.setContentDisplay(ContentDisplay.BOTTOM);
+//
+//        Random rand = new Random();
+//        labelTotal.setText("10");   //change total here
+//        int total = Integer.parseInt(labelTotal.getText());
+//        int on = (rand.nextInt(total+1));
+//        Preview.getInstance().showAbsence(on,total);
     }
 
     public void displayCell_Level (Label text, String level){
@@ -131,9 +128,9 @@ public class Calendar implements Initializable{
         if(currentDate.equals(buildDate)){
             text.setBorder(new Border(new BorderStroke(
                     Color.BLACK,
-                    BorderStrokeStyle.SOLID,
+                    BorderStrokeStyle.DOTTED,
                     null,
-                    new BorderWidths(2)
+                    new BorderWidths(1)
             )));
         }
     }
@@ -154,7 +151,7 @@ public class Calendar implements Initializable{
                 break;
             default:
                 displayCell_Level(text, whiteBase);
-                text.setFont(Font.font("System",FontWeight.BOLD,12));
+                text.setFont(Font.font("System",FontWeight.BOLD,10));
                 break;
         }
         return text;
@@ -278,25 +275,25 @@ public class Calendar implements Initializable{
         StringBuilder sb = new StringBuilder();
         switch (n) {
             case 1:
-                sb.append("Sunday");
+                sb.append("Sun");
                 break;
             case 2:
-                sb.append("Monday");
+                sb.append("Mon");
                 break;
             case 3:
-                sb.append("Tuesday");
+                sb.append("Tue");
                 break;
             case 4:
-                sb.append("Wednesday");
+                sb.append("Wed");
                 break;
             case 5:
-                sb.append("Thursday");
+                sb.append("Thu");
                 break;
             case 6:
-                sb.append("Friday");
+                sb.append("Fri");
                 break;
             case 7:
-                sb.append("Saturday");
+                sb.append("Sat");
         }
         return sb.toString();
     }

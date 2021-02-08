@@ -105,6 +105,15 @@ public class DrawerControlStudent implements Initializable {
                 setCard("Geography",40,true)
         );
 
+        StackPane calendarTab = null;
+        try {
+            calendarTab = FXMLLoader.load(getClass().getResource("/main/views/CalendarScreen.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//        StackPane stackPane = new StackPane();
+//        stackPane.getChildren().add(calendarTab);
+
 
 
         btnUpdate.setOnMouseClicked(event -> {
@@ -115,9 +124,11 @@ public class DrawerControlStudent implements Initializable {
             TabStudent.getInstance().refresh();
         });
 
-        
-
-        vBox.getChildren().addAll(new Label("Control Student"), masonryPane[0], masonryPane[1],  Dashboard.getInstance().CalendarView() , btnUpdate);
+        vBox.setVgrow(calendarTab, Priority.ALWAYS);
+        vBox.setVgrow(masonryPane[0], Priority.ALWAYS);
+        vBox.setVgrow(masonryPane[1], Priority.ALWAYS);
+        vBox.setPadding(new Insets(0,0,10,0));
+        vBox.getChildren().addAll(calendarTab, masonryPane[0], masonryPane[1] , btnUpdate);
 
     }
 
