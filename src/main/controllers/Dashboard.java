@@ -43,6 +43,16 @@ public class Dashboard implements Initializable {
     private MyGraph mathsGraph;
     private MyGraph areaMathsGraph;
 
+    public static Dashboard instance;
+    public Dashboard(){
+        instance = this;
+    }
+    public static Dashboard getInstance() {
+        if(instance == null){
+            instance = new Dashboard();
+        }
+        return instance;
+    }
 
     public void StudentView(){
         try {
@@ -58,7 +68,7 @@ public class Dashboard implements Initializable {
     }
 
 
-    public void CalendarView(){
+    public AnchorPane CalendarView(){
         try {
             AnchorPane calendarTab = FXMLLoader.load(getClass().getResource("/main/views/CalendarScreen.fxml"));
 //            calendar.setMaxSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
@@ -67,9 +77,11 @@ public class Dashboard implements Initializable {
             CalendarPane.setBottomAnchor(calendarTab,0.0);
             CalendarPane.setRightAnchor(calendarTab,0.0);
             CalendarPane.setLeftAnchor(calendarTab,0.0);
+            return CalendarPane;
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
 //    -------------------------

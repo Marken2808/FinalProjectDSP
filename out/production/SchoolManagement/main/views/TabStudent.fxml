@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXDrawer?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="anchorPane" nodeOrientation="LEFT_TO_RIGHT" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.TabStudent">
    <children>
-      <TableView fx:id="tableSTUDENT" onMouseClicked="#clickOnTable" onMouseMoved="#testMove" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+      <TableView fx:id="tableSTUDENT" editable="true" onMouseClicked="#clickOnTable" onMouseMoved="#testMove" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
         <columns>
             <TableColumn fx:id="colSID" text="Student ID" />
-          <TableColumn fx:id="colSNAME" text="Student Name" />
+          <TableColumn fx:id="colSNAME" editable="false" text="Student Name" />
             <TableColumn fx:id="colMarked" text="Marked All" />
             <TableColumn fx:id="colLast5Days" prefWidth="160.0" text="Last 5 days" />
         </columns>
@@ -21,23 +19,7 @@
             <Cursor fx:constant="DEFAULT" />
          </cursor>
       </TableView>
-      <JFXDrawer fx:id="drawerViewPane" alignment="BOTTOM_CENTER" defaultDrawerSize="0.0" direction="BOTTOM" resizableOnDrag="true" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <JFXButton fx:id="closeViewBtn" alignment="CENTER" buttonType="RAISED" contentDisplay="TEXT_ONLY" graphicTextGap="0.0" maxWidth="1.7976931348623157E308" onMouseClicked="#closeViewPane" style="-fx-background-color: #b3b3b3;" text="﹀" visible="false" wrapText="true">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </JFXButton>
-         </children>
-      </JFXDrawer>
-      <JFXDrawer fx:id="drawerControlPane" alignment="CENTER_RIGHT" defaultDrawerSize="0.0" direction="RIGHT" resizableOnDrag="true" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <JFXButton fx:id="closeControlBtn" alignment="CENTER" buttonType="RAISED" cache="true" contentDisplay="TEXT_ONLY" graphicTextGap="0.0" maxHeight="1.7976931348623157E308" onMouseClicked="#closeControlPane" style="-fx-background-color: #b3b3b3;" text="〉" textAlignment="CENTER" visible="false">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </JFXButton>
-         </children>
-      </JFXDrawer>
+      <JFXDrawer fx:id="drawerViewPane" alignment="BOTTOM_CENTER" defaultDrawerSize="0.0" direction="BOTTOM" resizableOnDrag="true" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <JFXDrawer fx:id="drawerControlPane" alignment="CENTER_RIGHT" defaultDrawerSize="0.0" direction="RIGHT" resizableOnDrag="true" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
    </children>
 </AnchorPane>

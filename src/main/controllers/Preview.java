@@ -34,11 +34,11 @@ public class Preview implements Initializable {
         Label absence = new Label();
         if (on!=total) {
 
-            absence.setFont(new Font(14));
+            absence.setFont(new Font(8));
             ImageView img = new ImageView(new Image("/resources/images/icon/user-x_red.png"));
             absence.setText((total-on)+"");
-            img.setFitWidth(15);
-            img.setFitHeight(15);
+            img.setFitWidth(8);
+            img.setFitHeight(8);
             absence.setGraphic(img);
             absence.setGraphicTextGap(3);
             previewPane.getChildren().add(absence);

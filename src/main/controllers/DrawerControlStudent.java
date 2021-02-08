@@ -1,11 +1,10 @@
 package main.controllers;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXMasonryPane;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import javafx.beans.binding.Bindings;
 import javafx.css.Size;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -20,6 +19,7 @@ import javafx.scene.text.Font;
 import main.models.*;
 import main.models.Module;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +30,7 @@ public class DrawerControlStudent implements Initializable {
     @FXML
     private VBox vBox;
 
-    private JFXMasonryPane[] masonryPane  = new JFXMasonryPane[2];
+    private JFXMasonryPane[] masonryPane  = new JFXMasonryPane[3];
 
     private JFXButton btnUpdate = new JFXButton("Update");
 
@@ -58,10 +58,10 @@ public class DrawerControlStudent implements Initializable {
     public StackPane setCard(String dataKey, double size, boolean edit){
         StackPane stackPane = new StackPane();
         stackPane.setBorder(new Border(new BorderStroke(Color.LIGHTGRAY, BorderStrokeStyle.DOTTED, new CornerRadii(5), null)));
-        stackPane.getChildren().add(setTextField(dataKey, size, edit));
-//        stackPane.setPrefHeight(40);
         stackPane.setAlignment(Pos.BOTTOM_CENTER);
         stackPane.setPadding(new Insets(0,0,10,0));
+        stackPane.getChildren().add(setTextField(dataKey, size, edit));
+
         return stackPane;
     }
     public JFXTextField setTextField (String dataKey, double size, boolean edit){
@@ -76,11 +76,13 @@ public class DrawerControlStudent implements Initializable {
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
 //            System.out.println("textfield changed from " + oldValue + " to " + newValue);
             map.put(dataKey, newValue);
-        });
 
+        });
         return textField;
 
     }
+
+
 
     public void displayPane(){
 
@@ -103,6 +105,8 @@ public class DrawerControlStudent implements Initializable {
                 setCard("Geography",40,true)
         );
 
+
+
         btnUpdate.setOnMouseClicked(event -> {
             new StudentDAO().update(id, map);
             new ModuleDAO().update(id, map);
@@ -113,7 +117,7 @@ public class DrawerControlStudent implements Initializable {
 
         
 
-        vBox.getChildren().addAll(new Label("Control Student"), masonryPane[0], masonryPane[1], btnUpdate);
+        vBox.getChildren().addAll(new Label("Control Student"), masonryPane[0], masonryPane[1],  Dashboard.getInstance().CalendarView() , btnUpdate);
 
     }
 
