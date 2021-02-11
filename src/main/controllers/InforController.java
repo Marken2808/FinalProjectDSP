@@ -49,6 +49,7 @@ public class InforController implements Initializable {
         btnType.setText(type);
     }
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

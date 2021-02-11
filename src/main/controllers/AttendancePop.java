@@ -5,12 +5,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class AttendancePop implements Initializable {
 
+    @FXML
+    private AnchorPane previewPane;
 
     @FXML
     private LineChart<?, ?> lineChart;
@@ -39,6 +42,8 @@ public class AttendancePop implements Initializable {
 
         return series;
     }
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

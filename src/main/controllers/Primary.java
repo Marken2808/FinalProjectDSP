@@ -150,8 +150,6 @@ public class Primary implements Initializable
             anchorPane.setRightAnchor(drawerPane, right);
             anchorPane.setBottomAnchor(drawerPane,bottom);
 
-
-
             VBox menuLeft = FXMLLoader.load(getClass().getResource(DrawerScreen));
             drawerPane.setSidePane(menuLeft);
             drawerPane.setDefaultDrawerSize(anchorPane.getWidth()*0.25);

@@ -17,9 +17,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import main.models.Attendance;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.Instant;
+import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -36,12 +39,16 @@ public class Calendar implements Initializable{
     @FXML
     private Label labelTitle;
 
+    Label labelTotal = new Label();
+
     private java.util.Calendar currentMonth;
 
     private String currentDate = new SimpleDateFormat("d/M/yyyy").format(new Date());
 
     String active    = "-fx-background-color: rgba(204,242,255,0.25)";
     String inactive  = "-fx-background-color: rgba(242,242,242,1)";
+    String absent    = "-fx-background-color: red";
+    String present   = "-fx-background-color: green";
     String clickable = "-fx-background-color: rgba(48,173,255,0.5)";
     String whiteBase = "-fx-background-color: rgba(255,255,255,1)";
 
@@ -149,6 +156,12 @@ public class Calendar implements Initializable{
                 displayCell_CurrentDate(text, buildDate);
                 displayCell_Presented(text, buildDate);
                 break;
+            case "absent":
+                displayCell_Level(text, absent);
+                break;
+            case "present":
+                displayCell_Level(text, present);
+                break;
             default:
                 displayCell_Level(text, whiteBase);
                 text.setFont(Font.font("System",FontWeight.BOLD,10));
@@ -159,6 +172,7 @@ public class Calendar implements Initializable{
 
     public void drawBody() throws IOException, ParseException {
 
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 //        draw current month
         int currentDay = currentMonth.get(java.util.Calendar.DAY_OF_MONTH);
         int daysInMonth = currentMonth.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
@@ -169,6 +183,14 @@ public class Calendar implements Initializable{
                 dayOfWeek = 1;
                 row++;
             }
+
+            String testDate = currentDay+"-"+(currentMonth.get(java.util.Calendar.MONTH)+1)+"-"+currentMonth.get(java.util.Calendar.YEAR);
+            System.out.println("org: "+testDate);
+            Date date = formatter.parse(testDate);
+            java.sql.Date sqlDate= new java.sql.Date(date.getTime());
+            System.out.println(sqlDate);
+
+
             gpBody.add(displayCell(String.valueOf(currentDay),"active"), dayOfWeek - 1, row);
 //            gpBody.add(new Text(String.valueOf(currentDay)), dayOfWeek - 1, row);
             currentDay++;
