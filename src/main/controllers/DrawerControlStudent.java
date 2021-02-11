@@ -92,7 +92,7 @@ public class DrawerControlStudent implements Initializable {
         }
         masonryPane[0].getChildren().addAll(
                 setCard("Student ID",    40,false),
-                setCard("Student Name", 160,true)
+                setCard("Student Name", 120,true)
         );
 
         masonryPane[1].getChildren().addAll(
@@ -105,15 +105,13 @@ public class DrawerControlStudent implements Initializable {
                 setCard("Geography",40,true)
         );
 
-        StackPane calendarTab = null;
+        AnchorPane calendarTab = null;
         try {
             calendarTab = FXMLLoader.load(getClass().getResource("/main/views/CalendarScreen.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        StackPane stackPane = new StackPane();
-//        stackPane.getChildren().add(calendarTab);
-
+        masonryPane[2].getChildren().add(calendarTab);
 
 
         btnUpdate.setOnMouseClicked(event -> {
@@ -124,11 +122,13 @@ public class DrawerControlStudent implements Initializable {
             TabStudent.getInstance().refresh();
         });
 
-        vBox.setVgrow(calendarTab, Priority.ALWAYS);
-        vBox.setVgrow(masonryPane[0], Priority.ALWAYS);
-        vBox.setVgrow(masonryPane[1], Priority.ALWAYS);
+        vBox.setVgrow(masonryPane[2], Priority.ALWAYS);
+        vBox.setVgrow(btnUpdate, Priority.ALWAYS);
+
+//        vBox.setVgrow(masonryPane[0], Priority.ALWAYS);
+//        vBox.setVgrow(masonryPane[1], Priority.ALWAYS);
         vBox.setPadding(new Insets(0,0,10,0));
-        vBox.getChildren().addAll(calendarTab, masonryPane[0], masonryPane[1] , btnUpdate);
+        vBox.getChildren().addAll(masonryPane[2], masonryPane[0], masonryPane[1] , btnUpdate);
 
     }
 

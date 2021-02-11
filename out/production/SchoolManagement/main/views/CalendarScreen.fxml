@@ -5,37 +5,38 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 
-<StackPane style="-fx-background-color: red;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.Calendar">
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.Calendar">
    <children>
-      <VBox alignment="CENTER" StackPane.alignment="CENTER">
+      <VBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <StackPane style="-fx-background-color: #cccccc;">
+            <HBox alignment="CENTER" fillHeight="false" style="-fx-background-color: #cccccc;">
                <children>
-                  <JFXButton fx:id="btPrev" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" onAction="#previous" style="-fx-background-radius: 100;" text="Previous" StackPane.alignment="CENTER_LEFT">
+                  <JFXButton fx:id="btPrev" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" onAction="#previous" style="-fx-background-radius: 100;" text="Previous" HBox.hgrow="ALWAYS">
                      <graphic>
-                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../resources/images/icon/chevron-left.png" />
                            </image>
                         </ImageView>
                      </graphic>
                   </JFXButton>
-                  <Label fx:id="labelTitle" alignment="CENTER" text="Text">
+                  <Label fx:id="labelTitle" alignment="CENTER" prefWidth="150.0" text="Text">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <JFXButton fx:id="btNext" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" onAction="#next" style="-fx-background-radius: 50;" text="Next" StackPane.alignment="CENTER_RIGHT">
+                  <JFXButton fx:id="btNext" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" onAction="#next" style="-fx-background-radius: 50;" text="Next" HBox.hgrow="ALWAYS">
                      <graphic>
-                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../resources/images/icon/chevron-right.png" />
                            </image>
@@ -43,19 +44,19 @@
                      </graphic>
                   </JFXButton>
                </children>
-            </StackPane>
-            <GridPane fx:id="gpBody" alignment="CENTER" hgap="3.0" onMouseClicked="#testGrid" style="-fx-background-color: white;" vgap="3.0" VBox.vgrow="ALWAYS">
+            </HBox>
+            <GridPane fx:id="gpBody" alignment="CENTER" hgap="2.0" onMouseClicked="#testGrid" style="-fx-background-color: white; -fx-border-color: #cccccc; -fx-border-width: 0 1 1 1; -fx-border-radius: 0 0 5 5; -fx-border-style: dotted;" vgap="2.0" VBox.vgrow="ALWAYS">
                <columnConstraints>
-                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" prefWidth="25.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" prefWidth="25.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" prefWidth="25.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" prefWidth="25.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" prefWidth="25.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" prefWidth="25.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" prefWidth="25.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" prefWidth="30.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" prefWidth="30.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" prefWidth="30.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" prefWidth="30.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" prefWidth="30.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" prefWidth="30.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" prefWidth="30.0" />
                </columnConstraints>
                <rowConstraints>
-                  <RowConstraints prefHeight="25.0" valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints prefHeight="25.0" valignment="CENTER" />
                   <RowConstraints prefHeight="25.0" valignment="CENTER" vgrow="ALWAYS" />
                   <RowConstraints prefHeight="25.0" valignment="CENTER" vgrow="ALWAYS" />
                   <RowConstraints prefHeight="25.0" valignment="CENTER" vgrow="ALWAYS" />
@@ -66,8 +67,11 @@
                <VBox.margin>
                   <Insets />
                </VBox.margin>
+               <padding>
+                  <Insets bottom="5.0" />
+               </padding>
             </GridPane>
          </children>
       </VBox>
    </children>
-</StackPane>
+</AnchorPane>

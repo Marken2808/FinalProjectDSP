@@ -69,11 +69,11 @@ public class Calendar implements Initializable{
     }
 
     public void displayCell_Text (Label text){
-        text.setPadding(new Insets(3));
+//        text.setPadding(new Insets(2));
         text.setMaxWidth(MAX_VALUE);
         text.setMaxHeight(MAX_VALUE);
         text.setAlignment(Pos.CENTER);
-        text.setFont(new Font(10));
+        text.setFont(new Font(12));
     }
 
     public void displayCell_Preview (Label text) throws IOException {

@@ -70,7 +70,7 @@ public class Dashboard implements Initializable {
 
     public void CalendarView(){
         try {
-            StackPane calendarTab = FXMLLoader.load(getClass().getResource("/main/views/CalendarScreen.fxml"));
+            AnchorPane calendarTab = FXMLLoader.load(getClass().getResource("/main/views/CalendarScreen.fxml"));
             CalendarPane.getChildren().addAll(calendarTab);
             CalendarPane.setTopAnchor(calendarTab,0.0);
             CalendarPane.setBottomAnchor(calendarTab,0.0);
