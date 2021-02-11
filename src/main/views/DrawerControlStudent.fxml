@@ -24,7 +24,7 @@
                   <Cursor fx:constant="MOVE" />
                </cursor>
             </StackPane>
-            <VBox fx:id="vBox" alignment="CENTER" spacing="25.0" HBox.hgrow="ALWAYS" />
+            <VBox fx:id="controlPane" alignment="CENTER" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
    </children>

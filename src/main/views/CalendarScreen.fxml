@@ -13,10 +13,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.Calendar">
    <children>
-      <VBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="CENTER" style="-fx-background-color: #e6e6e6;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox alignment="CENTER" fillHeight="false" style="-fx-background-color: #cccccc;">
                <children>
@@ -45,31 +44,28 @@
                   </JFXButton>
                </children>
             </HBox>
-            <GridPane fx:id="gpBody" alignment="CENTER" hgap="2.0" onMouseClicked="#testGrid" style="-fx-background-color: white; -fx-border-color: #cccccc; -fx-border-width: 0 1 1 1; -fx-border-radius: 0 0 5 5; -fx-border-style: dotted;" vgap="2.0" VBox.vgrow="ALWAYS">
+            <GridPane fx:id="gpBody" alignment="CENTER" hgap="3.0" onMouseClicked="#testGrid" style="-fx-background-color: white;" vgap="3.0" VBox.vgrow="ALWAYS">
                <columnConstraints>
-                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" prefWidth="30.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" prefWidth="30.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" prefWidth="30.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" prefWidth="30.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" prefWidth="30.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" prefWidth="30.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" prefWidth="30.0" />
+                  <ColumnConstraints halignment="CENTER" prefWidth="30.0" />
+                  <ColumnConstraints halignment="CENTER" prefWidth="30.0" />
+                  <ColumnConstraints halignment="CENTER" prefWidth="30.0" />
+                  <ColumnConstraints halignment="CENTER" prefWidth="30.0" />
+                  <ColumnConstraints halignment="CENTER" prefWidth="30.0" />
+                  <ColumnConstraints halignment="CENTER" prefWidth="30.0" />
+                  <ColumnConstraints halignment="CENTER" prefWidth="30.0" />
                </columnConstraints>
                <rowConstraints>
-                  <RowConstraints prefHeight="25.0" valignment="CENTER" />
-                  <RowConstraints prefHeight="25.0" valignment="CENTER" vgrow="ALWAYS" />
-                  <RowConstraints prefHeight="25.0" valignment="CENTER" vgrow="ALWAYS" />
-                  <RowConstraints prefHeight="25.0" valignment="CENTER" vgrow="ALWAYS" />
-                  <RowConstraints prefHeight="25.0" valignment="CENTER" vgrow="ALWAYS" />
-                  <RowConstraints prefHeight="25.0" valignment="CENTER" vgrow="ALWAYS" />
-                  <RowConstraints prefHeight="25.0" valignment="CENTER" vgrow="ALWAYS" />
+                  <RowConstraints prefHeight="30.0" valignment="CENTER" />
+                  <RowConstraints prefHeight="30.0" valignment="CENTER" />
+                  <RowConstraints prefHeight="30.0" valignment="CENTER" />
+                  <RowConstraints prefHeight="30.0" valignment="CENTER" />
+                  <RowConstraints prefHeight="30.0" valignment="CENTER" />
+                  <RowConstraints prefHeight="30.0" valignment="CENTER" />
+                  <RowConstraints prefHeight="30.0" valignment="CENTER" />
                </rowConstraints>
                <VBox.margin>
                   <Insets />
                </VBox.margin>
-               <padding>
-                  <Insets bottom="5.0" />
-               </padding>
             </GridPane>
          </children>
       </VBox>

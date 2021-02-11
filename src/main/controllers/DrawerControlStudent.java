@@ -8,9 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
+import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -25,10 +23,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
+import static java.lang.Integer.MAX_VALUE;
+
 public class DrawerControlStudent implements Initializable {
 
     @FXML
-    private VBox vBox;
+    private VBox controlPane;
 
     private JFXMasonryPane[] masonryPane  = new JFXMasonryPane[3];
 
@@ -111,8 +111,8 @@ public class DrawerControlStudent implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        masonryPane[2].getChildren().add(calendarTab);
 
+        btnUpdate.setMaxWidth(MAX_VALUE);
 
         btnUpdate.setOnMouseClicked(event -> {
             new StudentDAO().update(id, map);
@@ -122,19 +122,34 @@ public class DrawerControlStudent implements Initializable {
             TabStudent.getInstance().refresh();
         });
 
-        vBox.setVgrow(masonryPane[2], Priority.ALWAYS);
-        vBox.setVgrow(btnUpdate, Priority.ALWAYS);
+        JFXTreeView treeView = new JFXTreeView();
 
-//        vBox.setVgrow(masonryPane[0], Priority.ALWAYS);
-//        vBox.setVgrow(masonryPane[1], Priority.ALWAYS);
-        vBox.setPadding(new Insets(0,0,10,0));
-        vBox.getChildren().addAll(masonryPane[2], masonryPane[0], masonryPane[1] , btnUpdate);
+        TreeItem rootItem = new TreeItem();
+        TreeItem firstItem = new TreeItem("Info");
+        firstItem.getChildren().add(new TreeItem(masonryPane[0]));
+        firstItem.setExpanded(true);
+        rootItem.getChildren().add(firstItem);
 
+        TreeItem secondItem = new TreeItem("Mark");
+        secondItem.getChildren().add(new TreeItem(masonryPane[1]));
+        secondItem.setExpanded(true);
+        rootItem.getChildren().add(secondItem);
+
+
+        treeView.setRoot(rootItem);
+        treeView.setShowRoot(false);
+        treeView.setStyle("-fx-box-border: transparent");
+
+        controlPane.setSpacing(5);
+        controlPane.setPadding(new Insets(0,0,5,0));
+        controlPane.setVgrow(calendarTab, Priority.ALWAYS);
+        controlPane.setVgrow(treeView, Priority.ALWAYS);
+        controlPane.getChildren().addAll(calendarTab, treeView, btnUpdate);
     }
 
     public void refresh(){
 
-        vBox.getChildren().clear();
+        controlPane.getChildren().clear();
         displayPane();
 
     }

@@ -191,7 +191,7 @@ public class TabStudent implements Initializable {
             pane.setSidePane(sBottom);
 
             if (scene.equals(DrawerControlStudent)) {
-                pane.setDefaultDrawerSize(anchorPane.getWidth()*0.34);
+                pane.setDefaultDrawerSize(anchorPane.getWidth()*0.4);
 //                pane.prefWidthProperty().bind(anchorPane.widthProperty().multiply(80/100));
             } else {
                 pane.setDefaultDrawerSize(anchorPane.getHeight()*0.8);
