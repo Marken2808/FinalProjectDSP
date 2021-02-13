@@ -119,7 +119,6 @@ public class Primary implements Initializable
     public void utility(boolean show){
         boxFooter.setVisible(show);
         boxHeader.setVisible(show);
-        drawerPane.setVisible(show);
     }
 
     @FXML
@@ -130,7 +129,6 @@ public class Primary implements Initializable
             displayDrawer(0.0, 40.0, 0.0, 0.0);
             drawerPane.open();
             drawerPane.setVisible(true);
-
 
             drawerPane.setOnDrawerClosed(jfxDrawerEvent -> {
                 drawerPane.close();
@@ -349,8 +347,10 @@ public class Primary implements Initializable
         }
     }
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         callCV.init();
         displaySignIn();
     }

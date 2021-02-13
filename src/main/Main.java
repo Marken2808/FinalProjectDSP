@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import main.utils.DBbean;
@@ -17,9 +18,9 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("views/PrimaryScreen.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
-//        primaryStage.setTitle("Face Detection and Tracking");
+        scene.setFill(Color.TRANSPARENT);
         primaryStage.setScene(scene);
-        primaryStage.initStyle(StageStyle.UNDECORATED);
+        primaryStage.initStyle(StageStyle.TRANSPARENT);
         primaryStage.show();
 //        primaryStage.setOnCloseRequest((new EventHandler<WindowEvent>() {
 //            public void handle(WindowEvent we)

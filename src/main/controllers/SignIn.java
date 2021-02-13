@@ -50,6 +50,7 @@ public class SignIn implements Initializable {
     void makeLogin(ActionEvent event) {
         Primary.dialog.close();
         Primary.getInstance().utility(true);
+
     }
 
     @FXML

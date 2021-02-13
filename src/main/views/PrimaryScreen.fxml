@@ -12,105 +12,110 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" style="-fx-background-image: url(&quot;/resources/images/background/background.png&quot;); -fx-background-position: center;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.Primary">
+
+<AnchorPane style="-fx-background-radius: 10; -fx-background-color: #1a1a1a;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.Primary">
    <children>
-      <HBox fx:id="boxHeader" alignment="CENTER" prefHeight="40.0" spacing="30.0" style="-fx-background-color: #333333;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="anchorPane" layoutX="15.0" layoutY="11.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="8.0">
          <children>
-            <JFXButton fx:id="btnMenu" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" graphicTextGap="0.0" onMouseClicked="#isMenuClicked" prefHeight="40.0" prefWidth="40.0" style="-fx-background-radius: 50;">
-               <graphic>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../resources/images/icon/menu.png" />
-                     </image>
-                     <effect>
-                        <ColorAdjust brightness="1.0" contrast="1.0" hue="-1.0" saturation="1.0" />
-                     </effect>
-                  </ImageView>
-               </graphic>
-               <cursor>
-                  <Cursor fx:constant="OPEN_HAND" />
-               </cursor>
-            </JFXButton>
-            <Label fx:id="labelTitle" text="Welcome," textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="16.0" />
-               </font>
-            </Label>
-            <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+            <HBox fx:id="boxHeader" alignment="TOP_CENTER" spacing="30.0" style="-fx-background-color: #1a1a1a;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <JFXButton fx:id="btnRestore" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" graphicTextGap="0.0" onMouseClicked="#clickRestore" prefHeight="35.0" prefWidth="35.0" style="-fx-background-radius: 50;" text="Button">
+                  <JFXButton fx:id="btnMenu" alignment="TOP_CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" graphicTextGap="0.0" onMouseClicked="#isMenuClicked" prefHeight="30.0" prefWidth="30.0" style="-fx-background-radius: 50;" HBox.hgrow="ALWAYS">
                      <graphic>
-                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../resources/images/icon/circle.png" />
+                              <Image url="@../../resources/images/icon/menu.png" />
                            </image>
                            <effect>
-                              <ColorAdjust brightness="1.0" saturation="1.0" />
+                              <ColorAdjust brightness="1.0" contrast="1.0" hue="-1.0" saturation="1.0" />
                            </effect>
                         </ImageView>
                      </graphic>
                      <cursor>
-                        <Cursor fx:constant="HAND" />
+                        <Cursor fx:constant="OPEN_HAND" />
                      </cursor>
                   </JFXButton>
-                  <JFXButton fx:id="btnMinimise" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" graphicTextGap="0.0" onMouseClicked="#clickMinimise" prefHeight="35.0" prefWidth="35.0" style="-fx-background-radius: 50;">
-                     <graphic>
-                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../resources/images/icon/minus-circle.png" />
-                           </image>
-                           <effect>
-                              <ColorAdjust brightness="1.0" saturation="1.0" />
-                           </effect>
-                        </ImageView>
-                     </graphic>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </JFXButton>
-                  <JFXButton fx:id="btnClose" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" graphicTextGap="0.0" onMouseClicked="#clickClose" prefHeight="35.0" prefWidth="35.0" style="-fx-background-radius: 50;">
-                     <graphic>
-                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../resources/images/icon/x-circle.png" />
-                           </image>
-                           <effect>
-                              <ColorAdjust brightness="1.0" saturation="1.0" />
-                           </effect>
-                        </ImageView>
-                     </graphic>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </JFXButton>
-               </children>
-            </HBox>
-         </children>
-      </HBox>
-      <StackPane fx:id="stackPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
-         <children>
-            <AnchorPane fx:id="home" StackPane.alignment="CENTER">
-               <children>
-                  <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <Label fx:id="labelTitle" alignment="CENTER" text="Welcome," textFill="WHITE" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <HBox alignment="TOP_RIGHT" HBox.hgrow="ALWAYS">
                      <children>
-                        <ImageView fx:id="currentFrame" fitHeight="650.0" fitWidth="875.0" onDragDropped="#dropImage" onDragOver="#dragImage" pickOnBounds="true" preserveRatio="true">
+                        <JFXButton fx:id="btnRestore" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" graphicTextGap="0.0" onMouseClicked="#clickRestore" prefHeight="30.0" prefWidth="30.0" style="-fx-background-radius: 50;" text="Button">
+                           <graphic>
+                              <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../resources/images/icon/circle.png" />
+                                 </image>
+                                 <effect>
+                                    <ColorAdjust brightness="1.0" saturation="1.0" />
+                                 </effect>
+                              </ImageView>
+                           </graphic>
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
-                        </ImageView>
-                     </children>
-                  </StackPane>
-                  <HBox fx:id="boxFooter" alignment="CENTER" prefHeight="50.0" spacing="100.0" style="-fx-background-color: #111111;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                     <children>
-                        <JFXButton fx:id="btnStart" buttonType="RAISED" onAction="#startCamera" style="-fx-background-color: white;" text="Start Camera" />
-                        <JFXButton fx:id="btnShot" buttonType="RAISED" disable="true" onAction="#takeShot" style="-fx-background-color: white;" text="Shot" />
-                        <JFXButton fx:id="btnInsert" buttonType="RAISED" onAction="#insertImage" style="-fx-background-color: white;" text="Insert Image" />
+                        </JFXButton>
+                        <JFXButton fx:id="btnMinimise" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" graphicTextGap="0.0" onMouseClicked="#clickMinimise" prefHeight="30.0" prefWidth="30.0" style="-fx-background-radius: 50;">
+                           <graphic>
+                              <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../resources/images/icon/minus-circle.png" />
+                                 </image>
+                                 <effect>
+                                    <ColorAdjust brightness="1.0" saturation="1.0" />
+                                 </effect>
+                              </ImageView>
+                           </graphic>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </JFXButton>
+                        <JFXButton fx:id="btnClose" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" graphicTextGap="0.0" onMouseClicked="#clickClose" prefHeight="30.0" prefWidth="30.0" style="-fx-background-radius: 50;">
+                           <graphic>
+                              <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../resources/images/icon/x-circle.png" />
+                                 </image>
+                                 <effect>
+                                    <ColorAdjust brightness="1.0" saturation="1.0" />
+                                 </effect>
+                              </ImageView>
+                           </graphic>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </JFXButton>
                      </children>
                   </HBox>
                </children>
-            </AnchorPane>
+            </HBox>
+            <StackPane fx:id="stackPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
+               <children>
+                  <AnchorPane fx:id="home" StackPane.alignment="CENTER">
+                     <children>
+                        <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <ImageView fx:id="currentFrame" fitHeight="650.0" fitWidth="875.0" onDragDropped="#dropImage" onDragOver="#dragImage" pickOnBounds="true" preserveRatio="true">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                           </children>
+                        </StackPane>
+                        <HBox fx:id="boxFooter" alignment="CENTER" prefHeight="50.0" spacing="100.0" style="-fx-background-color: #1a1a1a;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                           <children>
+                              <JFXButton fx:id="btnStart" buttonType="RAISED" onAction="#startCamera" style="-fx-background-color: white;" text="Start Camera" />
+                              <JFXButton fx:id="btnShot" buttonType="RAISED" disable="true" onAction="#takeShot" style="-fx-background-color: white;" text="Shot" />
+                              <JFXButton fx:id="btnInsert" buttonType="RAISED" onAction="#insertImage" style="-fx-background-color: white;" text="Insert Image" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </StackPane>
+            <JFXDrawer fx:id="drawerPane" defaultDrawerSize="0.0" style="-fx-background-color: red;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0" />
          </children>
-      </StackPane>
-      <JFXDrawer fx:id="drawerPane" defaultDrawerSize="0.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0" />
+      </AnchorPane>
    </children>
 </AnchorPane>
