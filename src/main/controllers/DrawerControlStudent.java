@@ -1,25 +1,19 @@
 package main.controllers;
 
 import com.jfoenix.controls.*;
-import javafx.beans.binding.Bindings;
-import javafx.css.Size;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import main.models.*;
-import main.models.Module;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
@@ -107,7 +101,7 @@ public class DrawerControlStudent implements Initializable {
 
         AnchorPane calendarTab = null;
         try {
-            calendarTab = FXMLLoader.load(getClass().getResource("/main/views/CalendarScreen.fxml"));
+            calendarTab = FXMLLoader.load(getClass().getResource("/main/views/ComponentCalendar.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }

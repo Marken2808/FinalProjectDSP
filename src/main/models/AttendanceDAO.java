@@ -56,6 +56,7 @@ public class AttendanceDAO {
             pstmt.execute();
             System.out.println("attendance inserted......");
         } catch (SQLException e) {
+            System.out.println("attendance failed......");
             e.printStackTrace();
         }
     }

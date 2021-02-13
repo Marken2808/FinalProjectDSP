@@ -39,11 +39,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.ResourceBundle;
-
+import java.util.*;
 
 
 public class TabStudent implements Initializable {
@@ -293,6 +289,9 @@ public class TabStudent implements Initializable {
         callbackCell_Last5Days();
 
         refresh();
+
+
+//        new AttendanceDAO().insertAttendance(new Attendance("Z", 5));
 
     }
 

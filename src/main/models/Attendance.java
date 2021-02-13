@@ -18,6 +18,11 @@ public class Attendance {
     public Attendance() {
     }
 
+    public Attendance(String attStatus, int studentID) {
+        this.attStatus = attStatus;
+        this.studentID = studentID;
+    }
+
     public Attendance(Date attDate, String attStatus) {
         this.attDate = attDate;
         this.attStatus = attStatus;

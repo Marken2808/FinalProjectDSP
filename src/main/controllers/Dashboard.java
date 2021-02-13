@@ -1,25 +1,15 @@
 package main.controllers;
 
-import com.jfoenix.controls.JFXMasonryPane;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.chart.*;
-import javafx.scene.control.Label;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import main.utils.CircleChart;
 import main.utils.MyGraph;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.function.Function;
 
@@ -70,7 +60,7 @@ public class Dashboard implements Initializable {
 
     public void CalendarView(){
         try {
-            AnchorPane calendarTab = FXMLLoader.load(getClass().getResource("/main/views/CalendarScreen.fxml"));
+            AnchorPane calendarTab = FXMLLoader.load(getClass().getResource("/main/views/ComponentCalendar.fxml"));
             CalendarPane.getChildren().addAll(calendarTab);
             CalendarPane.setTopAnchor(calendarTab,0.0);
             CalendarPane.setBottomAnchor(calendarTab,0.0);

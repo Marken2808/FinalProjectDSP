@@ -86,7 +86,7 @@ public class Primary implements Initializable
     private String SignInScreen     = "/main/views/SignInScreen.fxml";
     private String SignUpScreen     = "/main/views/SignUpScreen.fxml";
     private String DrawerScreen     = "/main/views/DrawerMenu.fxml";
-    private String CalendarScreen   = "/main/views/CalendarScreen.fxml";
+    private String CalendarScreen   = "/main/views/ComponentCalendar.fxml";
     private String DashboardScreen  = "/main/views/DashboardScreen.fxml";
 //----------------------------instance--------------------
     private OpenCV callCV = OpenCV.getInstance();
