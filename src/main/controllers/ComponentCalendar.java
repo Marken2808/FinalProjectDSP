@@ -46,10 +46,9 @@ public class ComponentCalendar implements Initializable{
     String basement = "-fx-background-color: rgba(242,242,242,1)";
     String ground   = "-fx-background-color: rgba(255,255,255,1)";
     String floor    = "-fx-background-color: rgba(204,242,255,0.25)";
-    String absent   = "-fx-background-color: red";
-    String present  = "-fx-background-color: green";
-
-    String clickable = "-fx-background-color: rgba(48,173,255,0.5)";
+    String absent   = "-fx-background-color: rgba(255,199,199,0.25)";
+    String present  = "-fx-background-color: rgba(186,227,186,0.25)";
+    String clickable= "-fx-background-color: rgba(48,173,255,0.5)";
 
 
     public static ComponentCalendar instance;
@@ -180,11 +179,18 @@ public class ComponentCalendar implements Initializable{
             ArrayList<Attendance> testAll= new Attendance().getAllDate(id, allDate);
 
             for (Attendance a : testAll){
-                System.out.println("from db: "+a.getAttDate());
-                System.out.println("from ca: "+sqlDate);
+//                System.out.println("from db: "+a.getAttDate());
+//                System.out.println("from ca: "+sqlDate);
 
                 if(sqlDate.equals(a.getAttDate())){
-                    text.setStyle(present);
+                    switch (a.getAttStatus()){
+                        case "P":
+                            text.setStyle(present);
+                            break;
+                        case "A":
+                            text.setStyle(absent);
+                            break;
+                    }
                 }
             }
 
