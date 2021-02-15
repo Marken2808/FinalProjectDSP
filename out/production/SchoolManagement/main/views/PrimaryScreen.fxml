@@ -113,7 +113,7 @@
                   </AnchorPane>
                </children>
             </StackPane>
-            <JFXDrawer fx:id="drawerPane" defaultDrawerSize="0.0" style="-fx-background-color: red;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0" />
+            <JFXDrawer fx:id="drawerPane" defaultDrawerSize="0.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0" />
          </children>
       </AnchorPane>
    </children>

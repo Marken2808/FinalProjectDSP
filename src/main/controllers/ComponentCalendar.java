@@ -38,16 +38,17 @@ public class ComponentCalendar implements Initializable{
 
     private Calendar currentMonth;
 
-    private String currentDate = new SimpleDateFormat("dd M yyyy").format(new java.util.Date());
+    private String currentDate = new SimpleDateFormat("d M yyyy").format(new java.util.Date());
 
-    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 
-    String active    = "-fx-background-color: rgba(204,242,255,0.25)";
-    String inactive  = "-fx-background-color: rgba(242,242,242,1)";
-    String absent    = "-fx-background-color: red";
-    String present   = "-fx-background-color: green";
+
+    String basement = "-fx-background-color: rgba(242,242,242,1)";
+    String ground   = "-fx-background-color: rgba(255,255,255,1)";
+    String floor    = "-fx-background-color: rgba(204,242,255,0.25)";
+    String absent   = "-fx-background-color: red";
+    String present  = "-fx-background-color: green";
+
     String clickable = "-fx-background-color: rgba(48,173,255,0.5)";
-    String whiteBase = "-fx-background-color: rgba(255,255,255,1)";
 
 
     public static ComponentCalendar instance;
@@ -61,7 +62,7 @@ public class ComponentCalendar implements Initializable{
         return instance;
     }
 
-    private void drawCalendar() throws IOException, ParseException {
+    private void drawCalendar() {
         drawHeader();
         drawBody();
     }
@@ -92,25 +93,13 @@ public class ComponentCalendar implements Initializable{
 //        Preview.getInstance().showAbsence(on,total);
     }
 
-    public void displayCell_Level (Label text, String level){
-
-        text.setStyle(level);
-
-        if(level.equals(inactive)){
-            text.setDisable(true);
-        } else {
-            text.setDisable(false);
-        }
-
-    }
-
-    public void displayCell_Presented (Label text, String buildDate) throws ParseException, IOException {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd M yyyy");
-        if(!sdf.parse(buildDate).after(sdf.parse(currentDate))) {
-            displayCell_Action(text);
-            displayCell_Preview(text);
-        }
-    }
+//    public void displayCell_Presented (Label text, String buildDate) throws ParseException, IOException {
+//        SimpleDateFormat sdf = new SimpleDateFormat("dd M yyyy");
+//        if(!sdf.parse(buildDate).after(sdf.parse(currentDate))) {
+//            displayCell_Action(text);
+//            displayCell_Preview(text);
+//        }
+//    }
 
     public void displayCell_Action (Label text){
         text.setCursor(Cursor.HAND);
@@ -120,7 +109,7 @@ public class ComponentCalendar implements Initializable{
         });
         text.setOnMouseReleased(event -> {
             text.setCursor(Cursor.HAND);
-            text.setStyle(active);
+            text.setStyle(floor);
         });
         text.setOnMouseClicked(event -> {
             String AttendanceScreen = "/main/views/AttendanceScreen.fxml";
@@ -133,43 +122,78 @@ public class ComponentCalendar implements Initializable{
             text.setBorder(new Border(new BorderStroke(
                     Color.BLACK,
                     BorderStrokeStyle.DOTTED,
-                    null,
+                    new CornerRadii(2),
                     new BorderWidths(1)
             )));
+
+            text.setBackground(new Background(new BackgroundFill(
+                    Color.rgb(204,242,255,0.25),
+                    new CornerRadii(2),
+                    null
+            )));
+
         }
     }
 
-    public Node displayCell (String value, String level) throws IOException, ParseException {
-
-//        Date sqlDate= new Date(formatter.parse(value).getTime());
-
+    public Node displayCell_Basement (String value) {
         String showDay = value.split("\\ ")[0];
         Label text = new Label(showDay);
-        displayCell_Text(text);
-        switch (level) {
-            case "inactive":
-                displayCell_Level(text, inactive);
-                break;
-            case "active":
-                displayCell_Level(text, active);
-                displayCell_CurrentDate(text, value);
-                displayCell_Presented(text, value);
-                break;
-            case "absent":
-                displayCell_Level(text, absent);
-                break;
-            case "present":
-                displayCell_Level(text, present);
-                break;
-            default:
-                displayCell_Level(text, whiteBase);
-                text.setFont(Font.font("System",FontWeight.BOLD,10));
-                break;
-        }
+        text.setDisable(true);
+        text.setMaxWidth(MAX_VALUE);
+        text.setMaxHeight(MAX_VALUE);
+        text.setAlignment(Pos.CENTER);
+
         return text;
     }
 
-    public void drawBody() throws IOException, ParseException {
+    public Node displayCell_Ground (String value) {
+        String showDay = value.split("\\ ")[0];
+        Label text = new Label(showDay);
+        text.setMaxWidth(MAX_VALUE);
+        text.setMaxHeight(MAX_VALUE);
+        text.setAlignment(Pos.CENTER);
+        text.setFont(Font.font("System",FontWeight.BOLD,12));
+
+        return text;
+
+    }
+
+
+
+    SimpleDateFormat formatter = new SimpleDateFormat("d M yyyy");
+    private int id = TabStudent.id;
+
+    public Node displayCell_Floor (String value) {
+
+        try {
+            Date sqlDate = new Date(formatter.parse(value).getTime());
+            System.out.println("got date: "+sqlDate.toString());
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        String showDay = value.split("\\ ")[0];
+        Label text = new Label(showDay);
+        text.setMaxWidth(MAX_VALUE);
+        text.setMaxHeight(MAX_VALUE);
+        text.setAlignment(Pos.CENTER);
+        text.setFont(new Font(14));
+
+        displayCell_CurrentDate(text, value);
+
+//        switch (level) {
+//            case "absent":
+//                displayCell_Level(text, absent);
+//                break;
+//            case "present":
+//                displayCell_Level(text, present);
+//                break;
+//        }
+        return text;
+    }
+
+    public void drawBody() {
 
 //        draw current month
         int currentDay = currentMonth.get(Calendar.DAY_OF_MONTH);
@@ -186,7 +210,7 @@ public class ComponentCalendar implements Initializable{
 //            System.out.println("current: "+sqlDate);
 
 
-            gpBody.add(displayCell(value,"active"), dayOfWeek - 1, row);
+            gpBody.add(displayCell_Floor(value), dayOfWeek - 1, row);
 //            gpBody.add(new Text(String.valueOf(currentDay)), dayOfWeek - 1, row);
             currentDay++;
             dayOfWeek++;
@@ -199,14 +223,14 @@ public class ComponentCalendar implements Initializable{
 
     }
 
-    public void drawDay_OfWeek() throws IOException, ParseException {
+    public void drawDay_OfWeek() {
         // Draw days of the week
         for (int day = 1; day <= 7; day++) {
-            gpBody.add(displayCell(getDayName(day), "header"), day - 1, 0);
+            gpBody.add(displayCell_Ground(getDayName(day)), day - 1, 0);
         }
     }
 
-    public void drawDay_PreviousMonth(int currentDay) throws IOException, ParseException {
+    public void drawDay_PreviousMonth(int currentDay) {
         // Draw previous month days
 
         int dayOfWeek = currentMonth.get(Calendar.DAY_OF_WEEK);
@@ -218,14 +242,14 @@ public class ComponentCalendar implements Initializable{
                 String value = daysInPrevMonth+" "+(prevMonth.get(Calendar.MONTH)+1)+" "+prevMonth.get(Calendar.YEAR);
 //                System.out.println("Prev: "+sqlDate);
 
-                gpBody.add(displayCell(value,"inactive"), i, 1);
+                gpBody.add(displayCell_Basement(value), i, 1);
 
                 daysInPrevMonth--;
             }
         }
     }
 
-    public void drawDay_NextMonth(int row) throws IOException, ParseException {
+    public void drawDay_NextMonth(int row) {
         // Draw next month days
         currentMonth.set(Calendar.DAY_OF_MONTH, currentMonth.getActualMaximum(Calendar.DAY_OF_MONTH));
 
@@ -238,7 +262,7 @@ public class ComponentCalendar implements Initializable{
                 String value = day+" "+(nextMonth.get(Calendar.MONTH)+1)+" "+nextMonth.get(Calendar.YEAR);
 //                System.out.println("Next: "+sqlDate);
 
-                gpBody.add(displayCell(value,"inactive"), i, row);
+                gpBody.add(displayCell_Basement(value), i, row);
                 day++;
             }
         }
@@ -338,13 +362,7 @@ public class ComponentCalendar implements Initializable{
         currentMonth = new GregorianCalendar();
         currentMonth.set(Calendar.DAY_OF_MONTH, 1);
 
-        try {
-            drawCalendar();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        drawCalendar();
 
 
     }

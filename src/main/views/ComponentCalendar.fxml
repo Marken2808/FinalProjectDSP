@@ -44,24 +44,24 @@
                   </JFXButton>
                </children>
             </HBox>
-            <GridPane fx:id="gpBody" alignment="CENTER" hgap="3.0" onMouseClicked="#testGrid" style="-fx-background-color: white;" vgap="3.0" VBox.vgrow="ALWAYS">
+            <GridPane fx:id="gpBody" alignment="CENTER" hgap="10.0" onMouseClicked="#testGrid" style="-fx-background-color: white;" vgap="3.0" VBox.vgrow="ALWAYS">
                <columnConstraints>
-                  <ColumnConstraints halignment="CENTER" prefWidth="30.0" />
-                  <ColumnConstraints halignment="CENTER" prefWidth="30.0" />
-                  <ColumnConstraints halignment="CENTER" prefWidth="30.0" />
-                  <ColumnConstraints halignment="CENTER" prefWidth="30.0" />
-                  <ColumnConstraints halignment="CENTER" prefWidth="30.0" />
-                  <ColumnConstraints halignment="CENTER" prefWidth="30.0" />
-                  <ColumnConstraints halignment="CENTER" prefWidth="30.0" />
+                  <ColumnConstraints halignment="CENTER" prefWidth="28.0" />
+                  <ColumnConstraints halignment="CENTER" prefWidth="28.0" />
+                  <ColumnConstraints halignment="CENTER" prefWidth="28.0" />
+                  <ColumnConstraints halignment="CENTER" prefWidth="28.0" />
+                  <ColumnConstraints halignment="CENTER" prefWidth="28.0" />
+                  <ColumnConstraints halignment="CENTER" prefWidth="28.0" />
+                  <ColumnConstraints halignment="CENTER" prefWidth="28.0" />
                </columnConstraints>
                <rowConstraints>
-                  <RowConstraints prefHeight="30.0" valignment="CENTER" />
-                  <RowConstraints prefHeight="30.0" valignment="CENTER" />
-                  <RowConstraints prefHeight="30.0" valignment="CENTER" />
-                  <RowConstraints prefHeight="30.0" valignment="CENTER" />
-                  <RowConstraints prefHeight="30.0" valignment="CENTER" />
-                  <RowConstraints prefHeight="30.0" valignment="CENTER" />
-                  <RowConstraints prefHeight="30.0" valignment="CENTER" />
+                  <RowConstraints prefHeight="28.0" valignment="CENTER" />
+                  <RowConstraints prefHeight="28.0" valignment="CENTER" />
+                  <RowConstraints prefHeight="28.0" valignment="CENTER" />
+                  <RowConstraints prefHeight="28.0" valignment="CENTER" />
+                  <RowConstraints prefHeight="28.0" valignment="CENTER" />
+                  <RowConstraints prefHeight="28.0" valignment="CENTER" />
+                  <RowConstraints prefHeight="28.0" valignment="CENTER" />
                </rowConstraints>
                <VBox.margin>
                   <Insets />

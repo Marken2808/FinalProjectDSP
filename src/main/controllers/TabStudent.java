@@ -81,7 +81,7 @@ public class TabStudent implements Initializable {
 
     ObservableList<Student> studentLists = FXCollections.observableArrayList();
 
-    static int id;
+    public static int id;
     String DrawerViewStudent = "/main/views/DrawerViewStudent.fxml";
     String DrawerControlStudent = "/main/views/DrawerControlStudent.fxml";
 
