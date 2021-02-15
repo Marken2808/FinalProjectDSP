@@ -126,7 +126,7 @@ public class Primary implements Initializable
 
         if (!this.cameraActive) {
 
-            displayDrawer(0.0, 40.0, 0.0, 0.0);
+            displayDrawer(0.0, 30.0, 0.0, 0.0);
             drawerPane.open();
             drawerPane.setVisible(true);
 
