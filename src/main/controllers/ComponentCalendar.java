@@ -13,6 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import main.models.Attendance;
 
 import java.io.IOException;
 import java.net.URL;
@@ -62,7 +63,7 @@ public class ComponentCalendar implements Initializable{
         return instance;
     }
 
-    private void drawCalendar() {
+    public void drawCalendar() {
         drawHeader();
         drawBody();
     }
@@ -71,14 +72,6 @@ public class ComponentCalendar implements Initializable{
         String monthString = getMonthName(currentMonth.get(Calendar.MONTH));
         String yearString = String.valueOf(currentMonth.get(Calendar.YEAR));
         labelTitle.setText(monthString + ", " + yearString);
-    }
-
-    public void displayCell_Text (Label text){
-//        text.setPadding(new Insets(2));
-        text.setMaxWidth(MAX_VALUE);
-        text.setMaxHeight(MAX_VALUE);
-        text.setAlignment(Pos.CENTER);
-        text.setFont(new Font(12));
     }
 
     public void displayCell_Preview (Label text) throws IOException {
@@ -158,20 +151,16 @@ public class ComponentCalendar implements Initializable{
 
     }
 
-
-
     SimpleDateFormat formatter = new SimpleDateFormat("d M yyyy");
     private int id = TabStudent.id;
 
+    public ArrayList<Attendance> showAttendance (String value) {
+
+
+        return null;
+    }
+
     public Node displayCell_Floor (String value) {
-
-        try {
-            Date sqlDate = new Date(formatter.parse(value).getTime());
-            System.out.println("got date: "+sqlDate.toString());
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
 
         String showDay = value.split("\\ ")[0];
         Label text = new Label(showDay);
@@ -181,6 +170,29 @@ public class ComponentCalendar implements Initializable{
         text.setFont(new Font(14));
 
         displayCell_CurrentDate(text, value);
+
+
+        ArrayList<LocalDate> allDate = new ArrayList<>();
+        try {
+            Date sqlDate = new Date(formatter.parse(value).getTime());
+            allDate.add(sqlDate.toLocalDate());
+
+            ArrayList<Attendance> testAll= new Attendance().getAllDate(id, allDate);
+
+            for (Attendance a : testAll){
+                System.out.println("from db: "+a.getAttDate());
+                System.out.println("from ca: "+sqlDate);
+
+                if(sqlDate.equals(a.getAttDate())){
+                    text.setStyle(present);
+                }
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
 
 //        switch (level) {
 //            case "absent":
@@ -211,10 +223,8 @@ public class ComponentCalendar implements Initializable{
 
 
             gpBody.add(displayCell_Floor(value), dayOfWeek - 1, row);
-//            gpBody.add(new Text(String.valueOf(currentDay)), dayOfWeek - 1, row);
             currentDay++;
             dayOfWeek++;
-
         }
 
         drawDay_OfWeek();
@@ -363,7 +373,5 @@ public class ComponentCalendar implements Initializable{
         currentMonth.set(Calendar.DAY_OF_MONTH, 1);
 
         drawCalendar();
-
-
     }
 }

@@ -106,6 +106,7 @@ public class DrawerControlStudent implements Initializable {
             e.printStackTrace();
         }
 
+
         btnUpdate.setMaxWidth(MAX_VALUE);
 
         btnUpdate.setOnMouseClicked(event -> {
