@@ -33,37 +33,16 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 
-public class Primary implements Initializable
-{
-    @FXML
-    private ImageView currentFrame;
+public class Primary implements Initializable {
 
     @FXML
     private AnchorPane anchorPane;
 
     @FXML
-    private StackPane stackPane;
+    public StackPane stackPane;
 
     @FXML
-    private JFXButton btnStart;
-
-    @FXML
-    private JFXButton btnShot;
-
-    @FXML
-    private JFXButton btnInsert;
-
-    @FXML
-    private HBox boxHeader;
-
-    @FXML
-    private HBox boxFooter;
-
-    @FXML
-    private AnchorPane home;
-
-    @FXML
-    private JFXButton btnMenu;
+    public StackPane header;
 
     @FXML
     private JFXButton btnRestore;
@@ -80,8 +59,6 @@ public class Primary implements Initializable
     @FXML
     private JFXDrawer drawerPane;
 
-    private boolean cameraActive;
-
     public static JFXDialog dialog;
 
     private String CaptureScreen    = "/main/views/CapturedScreen.fxml";
@@ -89,8 +66,9 @@ public class Primary implements Initializable
     private String SignUpScreen     = "/main/views/SignUpScreen.fxml";
     private String DrawerScreen     = "/main/views/DrawerMenu.fxml";
     private String DashboardScreen  = "/main/views/DashboardScreen.fxml";
+    private String CameraScreen     = "/main/views/ScreenCamera.fxml";
 //----------------------------instance--------------------
-    private OpenCV callCV = OpenCV.getInstance();
+
     public static Primary instance;
     public Primary(){
         instance = this;
@@ -115,18 +93,12 @@ public class Primary implements Initializable
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
 
-    public void utility(boolean show){
-        boxFooter.setVisible(show);
-        boxHeader.setVisible(show);
     }
 
     @FXML
     void isMenuClicked(MouseEvent event) throws IOException {
-
-        if (!this.cameraActive) {
-
+        if(Camera.getInstance().isCameraActive()) {     // grant turn off to use drawer
             displayDrawer(0.0, 30.0, 0.0, 0.0);
             drawerPane.open();
             drawerPane.setVisible(true);
@@ -135,10 +107,6 @@ public class Primary implements Initializable
                 drawerPane.close();
                 drawerPane.setVisible(false);
             });
-
-        } else {
-            System.out.println("Need close camera" );
-            turnOffCamera();
         }
     }
 
@@ -159,12 +127,12 @@ public class Primary implements Initializable
     }
 
     public void displaySignIn(){
-        utility(false);
+        header.setVisible(false);
         popUp(SignInScreen,false);
     }
 
     public void displaySignUp(){
-        utility(false);
+        header.setVisible(false);
         popUp(SignUpScreen,false);
     }
 
@@ -172,18 +140,13 @@ public class Primary implements Initializable
 
         String title = node.getAccessibleText().toUpperCase();
         labelTitle.setText(title);
-        if(title.equals("HOME")){
-            stackPane.getChildren().clear();
-            stackPane.getChildren().setAll(home);
-        } else {
-            stackPane.getChildren().setAll(componentPane);
-        }
+        stackPane.getChildren().setAll(componentPane);
+
     }
 
     public void showElements(VBox menuLeft) throws IOException {
-//        AnchorPane home = FXMLLoader.load(getClass().getResource("/main/views/PrimaryScreen.fxml"));
         StackPane dashboard = FXMLLoader.load(getClass().getResource(DashboardScreen));
-//        StackPane camera    = FXMLLoader.load(getClass().getResource(""));
+        StackPane camera    = FXMLLoader.load(getClass().getResource(CameraScreen));
 
         ObservableList<Node> DrawerMenu = menuLeft.getChildren();
         ObservableList<Node> DrawerBoxes = ((VBox) DrawerMenu.get(2)).getChildren();
@@ -193,13 +156,11 @@ public class Primary implements Initializable
                 node.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
                     switch (node.getAccessibleText()) {
                         case "Home":
-                            displayComponent(node, null);
                             break;
                         case "Settings":
-//                            displayComponent(node,null);
                             break;
                         case "Camera":
-//                            displayComponent(node,null);
+                            displayComponent(node,camera);
                             break;
                         case "Dashboard":
                             displayComponent(node, dashboard);
@@ -210,116 +171,12 @@ public class Primary implements Initializable
         }
     }
 
-    public void turnOffCamera(){
-        callCV.stopAcquisition();
-        // the camera is not active at this point
-        this.cameraActive = false;
-        this.currentFrame.setImage(null);
-        // update again the button content
-        this.btnStart.setText("Start Camera");
-        this.btnInsert.setDisable(false);
-        this.btnShot.setDisable(true);
-        this.btnStart.setDisable(false);
-        // stop the timer
-    }
-
-    @FXML
-    void takeShot(ActionEvent event) {
-
-        callCV.stopAcquisition();
-        // update the button content
-        this.btnStart.setDisable(false);
-        this.btnStart.setText("Continue");
-
-        popUp(CaptureScreen, true);
-
-    }
-
-    @FXML
-    void dragImage(DragEvent event) {
-        if (event.getDragboard().hasFiles()) {
-            event.acceptTransferModes(TransferMode.ANY);
-        }
-        event.consume();
-        this.btnInsert.setText("Dragging...");
-
-    }
-
-    @FXML
-    void dropImage(DragEvent event) throws FileNotFoundException {
-//        System.out.println("Dropping.............");
-        this.btnInsert.setText("Dropping...");
-        File selectedFile = event.getDragboard().getFiles().get(0);
-        currentFrame.setImage(new Image(new FileInputStream(selectedFile)));
-        event.consume();
-
-        callCV.detectImage(selectedFile, currentFrame);
-
-//        System.out.println(test);
-        this.btnInsert.setText("Insert Image");
-        this.btnShot.setDisable(false);
-        this.btnShot.setText("Save new");
 
 
-    }
-
-    @FXML
-    void insertImage(ActionEvent event) {
-        this.btnInsert.setText("Inserting...");
-        FileChooser fileChooser = new FileChooser();
-        File selectedFile = fileChooser.showOpenDialog(null);
-        if (selectedFile != null){
-            callCV.detectImage(selectedFile, currentFrame);
-            this.btnShot.setDisable(false);
-            this.btnShot.setText("Save new");
-        }
-        this.btnInsert.setText("Insert Image");
-
-    }
-
-    @FXML
-    void startCamera(ActionEvent event) {
-        currentFrame.fitWidthProperty().bind(stackPane.widthProperty());
-        currentFrame.fitHeightProperty().bind(stackPane.heightProperty());
-        if (!this.cameraActive) {
-            this.btnShot.setDisable(false);
-            this.btnInsert.setDisable(true);
-            // start the video capture
-            this.callCV.capture.open(0);
-
-            // is the video stream available?
-            if (callCV.capture.isOpened()) {
-                this.cameraActive = true;
-                // grab a frame every 33 ms (30 frames/sec)
-                Runnable frameGrabber = new Runnable() {
-                    @Override
-                    public void run() {
-                        // effectively grab and process a single frame
-                        Mat frame = callCV.grabFrame();
-                        // convert and show the frame
-                        Image imageToShow = UtilsOCV.mat2Image(frame);
-                        callCV.updateImageView(currentFrame, imageToShow);
-                    }
-                };
-
-                callCV.timer = Executors.newSingleThreadScheduledExecutor();
-                callCV.timer.scheduleAtFixedRate(frameGrabber, 0, 60, TimeUnit.MILLISECONDS);
-
-                // update the button content
-                this.btnStart.setDisable(true);
-                this.btnStart.setText("Opening...");
-            }
-            else { System.err.println("Failed to open the camera connection..."); }
-        }
-        else {
-            turnOffCamera();
-        }
-
-    }
 
     @FXML
     void clickClose(MouseEvent event) {
-        callCV.setClosed();
+//        callCV.setClosed();
         ((Stage) btnClose.getScene().getWindow()).close();
     }
 
@@ -341,8 +198,6 @@ public class Primary implements Initializable
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        callCV.init();
         displaySignIn();
     }
 }

@@ -49,7 +49,7 @@ public class SignIn implements Initializable {
     @FXML
     void makeLogin(ActionEvent event) {
         Primary.dialog.close();
-        Primary.getInstance().utility(true);
+        Primary.getInstance().header.setVisible(true);
 
     }
 
