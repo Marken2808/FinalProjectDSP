@@ -87,6 +87,7 @@ public class ScreenCamera implements Initializable {
     @FXML
     void dropImage(DragEvent event) throws FileNotFoundException {
 //        System.out.println("Dropping.............");
+        currentFrame.setVisible(true);
         this.btnInsert.setText("Dropping...");
         File selectedFile = event.getDragboard().getFiles().get(0);
         currentFrame.setImage(new Image(new FileInputStream(selectedFile)));
@@ -104,6 +105,7 @@ public class ScreenCamera implements Initializable {
 
     @FXML
     void insertImage(ActionEvent event) {
+        currentFrame.setVisible(true);
         this.btnInsert.setText("Inserting...");
         FileChooser fileChooser = new FileChooser();
         File selectedFile = fileChooser.showOpenDialog(null);
@@ -119,8 +121,6 @@ public class ScreenCamera implements Initializable {
     @FXML
     void startCamera(ActionEvent event) {
 
-        currentFrame.fitWidthProperty().bind(ScreenPrimary.getInstance().mainStackPane.widthProperty());
-        currentFrame.fitHeightProperty().bind(ScreenPrimary.getInstance().mainStackPane.heightProperty());
 //        currentFrame.fitWidthProperty().bind(stackPane.widthProperty());
 //        currentFrame.fitHeightProperty().bind(stackPane.heightProperty());
         if (!this.cameraActive) {
@@ -174,6 +174,7 @@ public class ScreenCamera implements Initializable {
             callCV.stopAcquisition();
             // the camera is not active at this point
             this.cameraActive = false;
+            this.currentFrame.setImage(null);   // add later
             this.currentFrame.setVisible(false);
             // update again the button content
             this.btnStart.setText("Start Camera");
@@ -185,6 +186,10 @@ public class ScreenCamera implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         callCV.init();
+        currentFrame.fitWidthProperty().bind(ScreenPrimary.getInstance().mainStackPane.widthProperty());
+        currentFrame.fitHeightProperty().bind(ScreenPrimary.getInstance().mainStackPane.heightProperty());
+
     }
 }

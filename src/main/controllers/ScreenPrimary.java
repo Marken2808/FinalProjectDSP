@@ -52,7 +52,7 @@ public class ScreenPrimary implements Initializable {
 
     private String SignInScreen     = "/main/views/PopupSignIn.fxml";
     private String DrawerScreen     = "/main/views/DrawerMenu.fxml";
-    private String DashboardScreen  = "/main/views/DashboardScreen.fxml";
+    private String DashboardScreen  = "/main/views/ScreenDashboard.fxml";
     private String CameraScreen     = "/main/views/ScreenCamera.fxml";
 //----------------------------instance--------------------
 

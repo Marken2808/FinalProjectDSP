@@ -17,7 +17,6 @@ import javafx.scene.text.Font;
 import main.models.ModuleDAO;
 import main.models.Subject;
 import main.utils.CircleChart;
-import main.utils.PopUp;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -39,7 +38,7 @@ public class DrawerViewStudent implements Initializable {
     private StackPane doughnutPane;
 
     private int id = TabStudent.id;
-    public double[] moduleLists;
+    String AttendanceScreen = "/main/views/ComponentAttendStats.fxml";
 
     public void drawDoughnutChart(){
         StackPane stackPane = new StackPane();
@@ -90,9 +89,8 @@ public class DrawerViewStudent implements Initializable {
         btnPane.setOnMouseClicked(event -> {
             Platform.runLater(() -> {
                 System.out.println("Clicked: "+ name);
-                String AttendanceScreen = "/main/views/ComponentAttendStats.fxml";
-                PopUp test = new PopUp(AttendanceScreen, true, stackPanehere);
-                test.showPopUp();
+
+                ScreenPrimary.getInstance().popUp(AttendanceScreen, true);
             });
         });
     }
