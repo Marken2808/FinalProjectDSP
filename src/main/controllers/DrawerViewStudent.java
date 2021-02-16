@@ -14,17 +14,12 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import main.models.Module;
 import main.models.ModuleDAO;
-import main.models.Student;
 import main.models.Subject;
 import main.utils.CircleChart;
-import main.utils.DBbean;
 import main.utils.PopUp;
 
 import java.net.URL;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class DrawerViewStudent implements Initializable {
@@ -95,7 +90,7 @@ public class DrawerViewStudent implements Initializable {
         btnPane.setOnMouseClicked(event -> {
             Platform.runLater(() -> {
                 System.out.println("Clicked: "+ name);
-                String AttendanceScreen = "/main/views/AttendanceScreen.fxml";
+                String AttendanceScreen = "/main/views/ComponentAttendStats.fxml";
                 PopUp test = new PopUp(AttendanceScreen, true, stackPanehere);
                 test.showPopUp();
             });

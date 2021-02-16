@@ -10,9 +10,11 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXDrawer;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
@@ -86,7 +88,6 @@ public class Primary implements Initializable
     private String SignInScreen     = "/main/views/SignInScreen.fxml";
     private String SignUpScreen     = "/main/views/SignUpScreen.fxml";
     private String DrawerScreen     = "/main/views/DrawerMenu.fxml";
-    private String CalendarScreen   = "/main/views/ComponentCalendar.fxml";
     private String DashboardScreen  = "/main/views/DashboardScreen.fxml";
 //----------------------------instance--------------------
     private OpenCV callCV = OpenCV.getInstance();
@@ -181,18 +182,24 @@ public class Primary implements Initializable
 
     public void showElements(VBox menuLeft) throws IOException {
 //        AnchorPane home = FXMLLoader.load(getClass().getResource("/main/views/PrimaryScreen.fxml"));
-//        StackPane setting = FXMLLoader.load(getClass().getResource(CalendarScreen));
         StackPane dashboard = FXMLLoader.load(getClass().getResource(DashboardScreen));
+//        StackPane camera    = FXMLLoader.load(getClass().getResource(""));
 
-        for (Node node : menuLeft.getChildren()) {
+        ObservableList<Node> DrawerMenu = menuLeft.getChildren();
+        ObservableList<Node> DrawerBoxes = ((VBox) DrawerMenu.get(2)).getChildren();
+
+        for (Node node : DrawerBoxes) {
             if (node.getAccessibleText() != null) {
                 node.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
                     switch (node.getAccessibleText()) {
                         case "Home":
                             displayComponent(node, null);
                             break;
-                        case "Setting":
-                            displayComponent(node,null);
+                        case "Settings":
+//                            displayComponent(node,null);
+                            break;
+                        case "Camera":
+//                            displayComponent(node,null);
                             break;
                         case "Dashboard":
                             displayComponent(node, dashboard);
@@ -215,19 +222,6 @@ public class Primary implements Initializable
         this.btnStart.setDisable(false);
         // stop the timer
     }
-
-//    @FXML
-//    void drawerExit(MouseEvent event) throws IOException {
-//        if(drawerPane.isOpened() || drawerPane.isOpening()) {
-//            drawerPane.close();
-//            btnMenu.setGraphic(new ImageView(new Image("/resources/images/icon/menu.png")));
-//        }
-//        // set Drawer always hide away from main scene;
-//        stackPane.clearConstraints(drawerPane);
-//        displayDrawer();
-//    }
-
-
 
     @FXML
     void takeShot(ActionEvent event) {
@@ -260,9 +254,6 @@ public class Primary implements Initializable
         event.consume();
 
         callCV.detectImage(selectedFile, currentFrame);
-
-
-
 
 //        System.out.println(test);
         this.btnInsert.setText("Insert Image");

@@ -10,7 +10,7 @@ import javafx.scene.layout.AnchorPane;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AttendancePop implements Initializable {
+public class ComponentAttendStats implements Initializable {
 
     @FXML
     private AnchorPane previewPane;

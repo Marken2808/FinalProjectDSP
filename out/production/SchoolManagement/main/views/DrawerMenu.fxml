@@ -5,13 +5,14 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="drawerPane" alignment="TOP_CENTER" prefWidth="200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.DrawerMenu">
+
+<VBox fx:id="drawerPane" alignment="CENTER" spacing="5.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.DrawerMenu">
    <children>
-      <ImageView fx:id="picAvatar" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true">
+      <ImageView fx:id="picAvatar" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" VBox.vgrow="ALWAYS">
          <image>
             <Image url="@../../resources/images/icon/alert-circle.png" />
          </image>
@@ -19,101 +20,116 @@
             <Insets />
          </VBox.margin>
       </ImageView>
-      <JFXButton alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" minHeight="-Infinity" prefHeight="50.0" prefWidth="200.0" text="&lt;User&gt;">
+      <JFXButton alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="50.0" text="&lt;User&gt;">
          <graphic>
-            <HBox alignment="CENTER_LEFT">
+            <StackPane>
                <children>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" opacity="0.8" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER_LEFT">
                      <image>
                         <Image url="@../../resources/images/icon/user.png" />
                      </image>
                   </ImageView>
-                  <HBox alignment="CENTER" prefHeight="41.0" prefWidth="135.0">
+                  <Label fx:id="lableName" alignment="CENTER" contentDisplay="CENTER" text="User" StackPane.alignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </StackPane>
+         </graphic>
+      </JFXButton>
+      <VBox accessibleText="DrawerBox" alignment="TOP_CENTER" spacing="5.0" VBox.vgrow="ALWAYS">
+         <children>
+            <JFXButton fx:id="btnHome" accessibleText="Home" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" onMouseClicked="#isHomeClicked" prefHeight="50.0" text="&lt;Home&gt;">
+               <graphic>
+                  <StackPane>
                      <children>
-                        <Label fx:id="lableName" alignment="CENTER" contentDisplay="CENTER" text="User">
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" opacity="0.8" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER_LEFT">
+                           <image>
+                              <Image url="@../../resources/images/icon/home.png" />
+                           </image>
+                        </ImageView>
+                        <Label text="Home" StackPane.alignment="CENTER">
                            <font>
-                              <Font name="Segoe UI Bold" size="16.0" />
+                              <Font size="14.0" />
                            </font>
                         </Label>
                      </children>
-                  </HBox>
-               </children>
-            </HBox>
-         </graphic>
-      </JFXButton>
-      <JFXButton fx:id="btnHome" accessibleText="Home" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="-Infinity" minHeight="-Infinity" onMouseClicked="#isHomeClicked" prefHeight="50.0" prefWidth="200.0" text="&lt;Home&gt;">
+                  </StackPane>
+               </graphic>
+            </JFXButton>
+            <JFXButton accessibleText="Settings" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="50.0" text="&lt;Settings&gt;">
+               <graphic>
+                  <StackPane>
+                     <children>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" opacity="0.8" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER_LEFT">
+                           <image>
+                              <Image url="@../../resources/images/icon/settings.png" />
+                           </image>
+                        </ImageView>
+                        <Label text="Settings" StackPane.alignment="CENTER">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </StackPane>
+               </graphic>
+            </JFXButton>
+            <JFXButton fx:id="btnCamera" accessibleText="Camera" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="50.0" text="&lt;Camera&gt;">
+               <graphic>
+                  <StackPane>
+                     <children>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" opacity="0.8" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER_LEFT">
+                           <image>
+                              <Image url="@../../resources/images/icon/camera.png" />
+                           </image>
+                        </ImageView>
+                        <Label text="Camera" StackPane.alignment="CENTER">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </StackPane>
+               </graphic>
+            </JFXButton>
+            <JFXButton fx:id="btnDashboard" accessibleText="Dashboard" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="50.0" text="&lt;Dashboard&gt;">
+               <graphic>
+                  <StackPane>
+                     <children>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" opacity="0.8" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER_LEFT">
+                           <image>
+                              <Image url="@../../resources/images/icon/activity.png" />
+                           </image>
+                        </ImageView>
+                        <Label text="Dashboard" StackPane.alignment="CENTER">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </StackPane>
+               </graphic>
+            </JFXButton>
+         </children>
+      </VBox>
+      <JFXButton fx:id="btnSignOut" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" onMouseClicked="#makeLogOut" prefHeight="50.0" text="&lt; Log out&gt;" textAlignment="CENTER">
          <graphic>
-            <HBox alignment="CENTER_LEFT">
+            <StackPane>
                <children>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../resources/images/icon/home.png" />
-                     </image>
-                  </ImageView>
-                  <Label text="Home">
-                     <HBox.margin>
-                        <Insets left="50.0" />
-                     </HBox.margin>
-                  </Label>
-               </children>
-            </HBox>
-         </graphic>
-      </JFXButton>
-      <JFXButton accessibleText="Setting" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" prefWidth="200.0" text="&lt;Setting&gt;">
-         <graphic>
-            <HBox alignment="CENTER_LEFT">
-               <children>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../resources/images/icon/settings.png" />
-                     </image>
-                  </ImageView>
-                  <Label text="Setting">
-                     <HBox.margin>
-                        <Insets left="50.0" />
-                     </HBox.margin>
-                  </Label>
-               </children>
-            </HBox>
-         </graphic>
-      </JFXButton>
-      <JFXButton fx:id="btnDashboard" accessibleText="Dashboard" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" prefWidth="200.0" text="&lt;Dashboard&gt;" VBox.vgrow="ALWAYS">
-         <graphic>
-            <HBox alignment="CENTER_LEFT">
-               <children>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../resources/images/icon/activity.png" />
-                     </image>
-                  </ImageView>
-                  <Label text="Dashboard">
-                     <HBox.margin>
-                        <Insets left="40.0" />
-                     </HBox.margin>
-                  </Label>
-               </children>
-            </HBox>
-         </graphic>
-      </JFXButton>
-      <JFXButton fx:id="btnSignOut" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="-Infinity" minHeight="-Infinity" onMouseClicked="#makeLogOut" prefHeight="50.0" prefWidth="200.0" text="&lt; Log out&gt;" textAlignment="CENTER" VBox.vgrow="ALWAYS">
-         <graphic>
-            <HBox alignment="CENTER_LEFT">
-               <children>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="20.0" fitWidth="20.0" opacity="0.8" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER_LEFT">
                      <image>
                         <Image url="@../../resources/images/icon/log-out.png" />
                      </image>
                   </ImageView>
-                  <Label text="Log out">
-                     <HBox.margin>
-                        <Insets left="50.0" />
-                     </HBox.margin>
+                  <Label text="Log out" StackPane.alignment="CENTER">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
                   </Label>
                </children>
-            </HBox>
+            </StackPane>
          </graphic>
          <VBox.margin>
             <Insets />

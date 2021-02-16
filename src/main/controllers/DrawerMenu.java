@@ -27,6 +27,9 @@ public class DrawerMenu implements Initializable {
     private JFXButton btnHome;
 
     @FXML
+    private JFXButton btnCamera;
+
+    @FXML
     private JFXButton btnDashboard;
 
     @FXML

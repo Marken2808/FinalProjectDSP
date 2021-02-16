@@ -37,6 +37,8 @@ public class ComponentCalendar implements Initializable{
 
     private Calendar currentMonth;
 
+    private int id = TabStudent.id;
+
     public static ComponentCalendar instance;
     public ComponentCalendar(){
         instance = this;
@@ -59,24 +61,8 @@ public class ComponentCalendar implements Initializable{
         labelTitle.setText(monthString + ", " + yearString);
     }
 
-    public void displayCell_Preview (Label text) throws IOException {
-//        AnchorPane an = FXMLLoader.load(getClass().getResource("/main/views/PreviewScreen.fxml"));
-//        text.setGraphic(an);
-//        text.setContentDisplay(ContentDisplay.BOTTOM);
-//
-//        Random rand = new Random();
-//        labelTotal.setText("10");   //change total here
-//        int total = Integer.parseInt(labelTotal.getText());
-//        int on = (rand.nextInt(total+1));
-//        Preview.getInstance().showAbsence(on,total);
-    }
-
-
     public void displayCell_Action (Label text){
-        text.setOnMouseClicked(event -> {
-            String AttendanceScreen = "/main/views/AttendanceScreen.fxml";
-            Primary.getInstance().popUp(AttendanceScreen,true);
-        });
+
     }
 
     public Node displayCell_Basement (String value) {
@@ -95,9 +81,6 @@ public class ComponentCalendar implements Initializable{
         return text;
 
     }
-
-    SimpleDateFormat formatter = new SimpleDateFormat("d M yyyy");
-    private int id = TabStudent.id;
 
     public Border handleBorder(boolean isCurDate) {
         return new Border(new BorderStroke(
@@ -133,7 +116,7 @@ public class ComponentCalendar implements Initializable{
         
         ArrayList<LocalDate> allDate = new ArrayList<>();
         try {
-            Date sqlDate = new Date(formatter.parse(value).getTime());
+            Date sqlDate = new Date(new SimpleDateFormat("d M yyyy").parse(value).getTime());
             allDate.add(sqlDate.toLocalDate());
             ArrayList<Attendance> testAll= new Attendance().getAllDate(id, allDate);
 
@@ -150,6 +133,11 @@ public class ComponentCalendar implements Initializable{
                                             :Color.rgb(255, 199, 199, 0.3)
                             ))
                     );
+
+                    text.setOnMouseClicked(event -> {
+                        String AttendanceScreen = "/main/views/ComponentAttendStats.fxml";
+                        Primary.getInstance().popUp(AttendanceScreen,true);
+                    });
 
                 }
             }
