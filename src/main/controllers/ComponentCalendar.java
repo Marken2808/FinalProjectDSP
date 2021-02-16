@@ -130,8 +130,7 @@ public class ComponentCalendar implements Initializable{
         text.cursorProperty().bind(Bindings.when(text.pressedProperty())
                 .then(Cursor.WAIT).otherwise(Cursor.HAND)
         );
-
-
+        
         ArrayList<LocalDate> allDate = new ArrayList<>();
         try {
             Date sqlDate = new Date(formatter.parse(value).getTime());
