@@ -11,7 +11,7 @@ import javafx.scene.input.MouseEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class InforController implements Initializable {
+public class PopupInfor implements Initializable {
     @FXML
     private JFXButton btnType;
 
@@ -24,22 +24,22 @@ public class InforController implements Initializable {
     @FXML
     private ImageView imgType;
 
-    public static InforController instance;
-    public InforController(){
+    public static PopupInfor instance;
+    public PopupInfor(){
         instance = this;
     }
-    public static InforController getInstance() {
+    public static PopupInfor getInstance() {
         if(instance == null){
-            instance = new InforController();
+            instance = new PopupInfor();
         }
         return instance;
     }
 
     @FXML
     void clickBtn(MouseEvent event) {
-        Primary.dialog.close();
-        String CaptureScreen    = "/main/views/CapturedScreen.fxml";
-        Primary.getInstance().popUp(CaptureScreen,true);
+        ScreenPrimary.dialog.close();
+        String CaptureScreen    = "/main/views/PopupCaptured.fxml";
+        ScreenPrimary.getInstance().popUp(CaptureScreen,true);
     }
 
     public void setDialog(String title, String content, String img, String type){

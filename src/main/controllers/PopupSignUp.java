@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 
 //import static resources.controllers.functions.duplicatedForms.*;
 
-public class SignUp implements Initializable {
+public class PopupSignUp implements Initializable {
 
     @FXML
     private JFXTextField fieldUsername;
@@ -67,8 +67,8 @@ public class SignUp implements Initializable {
 //        catch ( Exception e){
 //            //JOptionPane.showMessageDialog(null,e);
 //        }
-        Primary.dialog.close();
-        Primary.getInstance().displaySignIn();
+        ScreenPrimary.dialog.close();
+        ScreenPrimary.getInstance().displaySignIn();
     }
 
     @FXML

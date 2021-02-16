@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <VBox fx:id="drawerPane" alignment="CENTER" spacing="5.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.DrawerMenu">
    <children>
       <ImageView fx:id="picAvatar" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" VBox.vgrow="ALWAYS">
@@ -94,7 +93,7 @@
                   </StackPane>
                </graphic>
             </JFXButton>
-            <JFXButton fx:id="btnDashboard" accessibleText="Dashboard" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="50.0" text="&lt;Dashboard&gt;">
+            <JFXButton fx:id="btnDashboard" accessibleText="Dashboard" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="50.0" text="&lt;Dashboard&gt;">
                <graphic>
                   <StackPane>
                      <children>

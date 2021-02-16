@@ -29,7 +29,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
 
-public class Captured implements Initializable {
+public class PopupCaptured implements Initializable {
 
     @FXML
     private ImageView captImg;
@@ -103,7 +103,7 @@ public class Captured implements Initializable {
                         );
                     }
 
-                    Primary.dialog.close();
+                    ScreenPrimary.dialog.close();
                 } catch (IOException e) {
                     System.out.println("Catch here");
 
@@ -118,9 +118,9 @@ public class Captured implements Initializable {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                String InforScreen    = "/main/views/InforScreen.fxml";
-                Primary.getInstance().popUp(InforScreen,true);
-                InforController.getInstance().setDialog(title,content,img,type);
+                String InforScreen    = "/main/views/PopupInfor.fxml";
+                ScreenPrimary.getInstance().popUp(InforScreen,true);
+                PopupInfor.getInstance().setDialog(title,content,img,type);
             }
         });
     }

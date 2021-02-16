@@ -42,7 +42,7 @@ public class DrawerMenu implements Initializable {
 
     @FXML
     void makeLogOut(MouseEvent event) throws IOException {
-//        letMake(signOut, "SignInScreen.fxml");
+//        letMake(signOut, "PopupSignIn.fxml");
     }
 
     @Override

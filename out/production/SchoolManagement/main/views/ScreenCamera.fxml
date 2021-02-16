@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.Camera">
+<StackPane fx:id="stackPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ScreenCamera">
    <children>
-      <AnchorPane fx:id="anchorPane" StackPane.alignment="CENTER">
+      <AnchorPane StackPane.alignment="CENTER">
          <children>
             <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
@@ -20,7 +20,7 @@
                   </ImageView>
                </children>
             </StackPane>
-            <HBox fx:id="boxFooter" alignment="CENTER" prefHeight="45.0" spacing="100.0" style="-fx-background-color: #404040;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <HBox fx:id="boxFooter" alignment="CENTER" prefHeight="40.0" spacing="100.0" style="-fx-background-color: #404040;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
                   <JFXButton fx:id="btnStart" buttonType="RAISED" onAction="#startCamera" style="-fx-background-color: white;" text="Start Camera" />
                   <JFXButton fx:id="btnShot" buttonType="RAISED" disable="true" onAction="#takeShot" style="-fx-background-color: white;" text="Shot" />

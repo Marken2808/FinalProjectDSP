@@ -1,45 +1,34 @@
 package main.controllers;
 
-import java.io.*;
-import java.net.URL;
-import java.util.*;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXDrawer;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
-import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
-import javafx.scene.layout.*;
-import javafx.stage.FileChooser;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import main.utils.OpenCV;
-import main.utils.UtilsOCV;
-import org.opencv.core.*;
 
-import javafx.fxml.FXML;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 
-public class Primary implements Initializable {
+public class ScreenPrimary implements Initializable {
 
     @FXML
-    private AnchorPane anchorPane;
+    private AnchorPane mainAnchorPane;
 
     @FXML
-    public StackPane stackPane;
+    public StackPane mainStackPane;
 
     @FXML
     public StackPane header;
@@ -61,21 +50,19 @@ public class Primary implements Initializable {
 
     public static JFXDialog dialog;
 
-    private String CaptureScreen    = "/main/views/CapturedScreen.fxml";
-    private String SignInScreen     = "/main/views/SignInScreen.fxml";
-    private String SignUpScreen     = "/main/views/SignUpScreen.fxml";
+    private String SignInScreen     = "/main/views/PopupSignIn.fxml";
     private String DrawerScreen     = "/main/views/DrawerMenu.fxml";
     private String DashboardScreen  = "/main/views/DashboardScreen.fxml";
     private String CameraScreen     = "/main/views/ScreenCamera.fxml";
 //----------------------------instance--------------------
 
-    public static Primary instance;
-    public Primary(){
+    public static ScreenPrimary instance;
+    public ScreenPrimary(){
         instance = this;
     }
-    public static Primary getInstance() {
+    public static ScreenPrimary getInstance() {
         if(instance == null){
-            instance = new Primary();
+            instance = new ScreenPrimary();
         }
         return instance;
     }
@@ -83,22 +70,21 @@ public class Primary implements Initializable {
 
     public void popUp(String screen, boolean canClose){
         try {
-            FXMLLoader loader = new FXMLLoader(Primary.class.getResource(screen));
+            FXMLLoader loader = new FXMLLoader(ScreenPrimary.class.getResource(screen));
             Parent Root = loader.load();
             JFXDialogLayout content = new JFXDialogLayout();
             content.setBody(Root);
-            dialog = new JFXDialog(stackPane, content , JFXDialog.DialogTransition.CENTER);
+            dialog = new JFXDialog(mainStackPane, content , JFXDialog.DialogTransition.CENTER);
             dialog.setOverlayClose(canClose);
             dialog.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     @FXML
     void isMenuClicked(MouseEvent event) throws IOException {
-        if(Camera.getInstance().isCameraActive()) {     // grant turn off to use drawer
+        if(ScreenCamera.getInstance().isCameraActive()) {     // grant turn off to use drawer
             displayDrawer(0.0, 30.0, 0.0, 0.0);
             drawerPane.open();
             drawerPane.setVisible(true);
@@ -112,14 +98,14 @@ public class Primary implements Initializable {
 
     public void displayDrawer(Double left,Double top,Double right,Double bottom) {
         try {
-            anchorPane.setLeftAnchor(drawerPane, left);
-            anchorPane.setTopAnchor(drawerPane, top);
-            anchorPane.setRightAnchor(drawerPane, right);
-            anchorPane.setBottomAnchor(drawerPane,bottom);
+            mainAnchorPane.setLeftAnchor(drawerPane, left);
+            mainAnchorPane.setTopAnchor(drawerPane, top);
+            mainAnchorPane.setRightAnchor(drawerPane, right);
+            mainAnchorPane.setBottomAnchor(drawerPane,bottom);
 
             VBox menuLeft = FXMLLoader.load(getClass().getResource(DrawerScreen));
             drawerPane.setSidePane(menuLeft);
-            drawerPane.setDefaultDrawerSize(anchorPane.getWidth()*0.25);
+            drawerPane.setDefaultDrawerSize(mainAnchorPane.getWidth()*0.25);
             showElements(menuLeft);
         } catch (IOException e) {
             e.printStackTrace();
@@ -131,16 +117,11 @@ public class Primary implements Initializable {
         popUp(SignInScreen,false);
     }
 
-    public void displaySignUp(){
-        header.setVisible(false);
-        popUp(SignUpScreen,false);
-    }
-
     public void displayComponent(Node node, StackPane componentPane){
 
         String title = node.getAccessibleText().toUpperCase();
         labelTitle.setText(title);
-        stackPane.getChildren().setAll(componentPane);
+        mainStackPane.getChildren().setAll(componentPane);
 
     }
 
@@ -171,12 +152,9 @@ public class Primary implements Initializable {
         }
     }
 
-
-
-
     @FXML
     void clickClose(MouseEvent event) {
-//        callCV.setClosed();
+        ScreenCamera.getInstance().turnOffCamera();
         ((Stage) btnClose.getScene().getWindow()).close();
     }
 

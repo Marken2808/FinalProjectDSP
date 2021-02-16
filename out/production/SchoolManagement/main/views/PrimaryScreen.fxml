@@ -12,13 +12,14 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane style="-fx-background-radius: 10; -fx-background-color: #1a1a1a;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.Primary">
+<AnchorPane style="-fx-background-radius: 10; -fx-background-color: #1a1a1a;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ScreenPrimary">
    <children>
-      <AnchorPane fx:id="anchorPane" layoutX="15.0" layoutY="11.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="8.0">
+      <AnchorPane fx:id="mainAnchorPane" layoutX="15.0" layoutY="11.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="8.0">
          <children>
+            <StackPane fx:id="mainStackPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="875.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
             <StackPane fx:id="header" layoutY="-11.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <JFXButton fx:id="btnMenu" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" graphicTextGap="0.0" maxWidth="-Infinity" minWidth="-Infinity" onMouseClicked="#isMenuClicked" prefHeight="30.0" prefWidth="30.0" style="-fx-background-radius: 50;" StackPane.alignment="CENTER_LEFT">
+                  <JFXButton fx:id="btnMenu" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" graphicTextGap="0.0" onMouseClicked="#isMenuClicked" prefHeight="30.0" prefWidth="30.0" style="-fx-background-radius: 50;" StackPane.alignment="CENTER_LEFT">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -40,7 +41,6 @@
                   </Label>
                </children>
             </StackPane>
-            <StackPane fx:id="stackPane" prefHeight="650.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
             <JFXDrawer fx:id="drawerPane" defaultDrawerSize="0.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0" />
          </children>
       </AnchorPane>

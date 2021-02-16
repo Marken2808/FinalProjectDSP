@@ -16,9 +16,8 @@ import javafx.scene.input.MouseEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-//import static resources.controllers.functions.duplicatedForms.*;
 
-public class SignIn implements Initializable {
+public class PopupSignIn implements Initializable {
 
     @FXML
     private JFXTextField filedUsername;
@@ -41,6 +40,8 @@ public class SignIn implements Initializable {
     @FXML
     private JFXButton btnSignUp;
 
+    private String SignUpScreen     = "/main/views/PopupSignUp.fxml";
+
     @FXML
     void autoFill(MouseEvent event) {
         btnSignIn.setDisable(false);
@@ -48,15 +49,15 @@ public class SignIn implements Initializable {
 
     @FXML
     void makeLogin(ActionEvent event) {
-        Primary.dialog.close();
-        Primary.getInstance().header.setVisible(true);
+        ScreenPrimary.dialog.close();
+        ScreenPrimary.getInstance().header.setVisible(true);
 
     }
 
     @FXML
     void letRegister(ActionEvent event) {
-        Primary.dialog.close();
-        Primary.getInstance().displaySignUp();
+        ScreenPrimary.dialog.close();
+        ScreenPrimary.getInstance().popUp(SignUpScreen,false);
     }
 
     @FXML

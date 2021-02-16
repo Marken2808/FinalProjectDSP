@@ -15,7 +15,7 @@ import java.util.function.Function;
 
 
 
-public class Dashboard implements Initializable {
+public class ScreenDashboard implements Initializable {
 
     @FXML
     private LineChart<Double, Double> lineGraph;

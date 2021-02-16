@@ -8,8 +8,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import main.utils.OpenCV;
 import main.utils.UtilsOCV;
@@ -23,10 +23,10 @@ import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public class Camera implements Initializable {
+public class ScreenCamera implements Initializable {
 
     @FXML
-    private AnchorPane anchorPane;
+    private StackPane stackPane;
 
     @FXML
     private ImageView currentFrame;
@@ -47,15 +47,16 @@ public class Camera implements Initializable {
 
     private OpenCV callCV = OpenCV.getInstance();
 
+    private String CaptureScreen    = "/main/views/PopupCaptured.fxml";
 //----------------------------instance--------------------
 
-    public static Camera instance;
-    public Camera(){
+    public static ScreenCamera instance;
+    public ScreenCamera(){
         instance = this;
     }
-    public static Camera getInstance() {
+    public static ScreenCamera getInstance() {
         if(instance == null){
-            instance = new Camera();
+            instance = new ScreenCamera();
         }
         return instance;
     }
@@ -69,7 +70,7 @@ public class Camera implements Initializable {
         this.btnStart.setDisable(false);
         this.btnStart.setText("Continue");
 
-//        popUp(CaptureScreen, true);
+        ScreenPrimary.getInstance().popUp(CaptureScreen, true);
 
     }
 
@@ -118,8 +119,10 @@ public class Camera implements Initializable {
     @FXML
     void startCamera(ActionEvent event) {
 
-        currentFrame.fitWidthProperty().bind(Primary.getInstance().stackPane.widthProperty());
-        currentFrame.fitHeightProperty().bind(Primary.getInstance().stackPane.heightProperty());
+        currentFrame.fitWidthProperty().bind(ScreenPrimary.getInstance().mainStackPane.widthProperty());
+        currentFrame.fitHeightProperty().bind(ScreenPrimary.getInstance().mainStackPane.heightProperty());
+//        currentFrame.fitWidthProperty().bind(stackPane.widthProperty());
+//        currentFrame.fitHeightProperty().bind(stackPane.heightProperty());
         if (!this.cameraActive) {
             this.btnShot.setDisable(false);
             this.btnInsert.setDisable(true);
