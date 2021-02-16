@@ -1,8 +1,10 @@
 package main.controllers;
 
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
@@ -27,29 +29,13 @@ import static java.lang.Integer.MAX_VALUE;
 
 public class ComponentCalendar implements Initializable{
 
-
-
     @FXML
     private GridPane gpBody;
 
     @FXML
     private Label labelTitle;
 
-    Label labelTotal = new Label();
-
     private Calendar currentMonth;
-
-    private String currentDate = new SimpleDateFormat("d M yyyy").format(new java.util.Date());
-
-
-
-    String basement = "-fx-background-color: rgba(242,242,242,1)";
-    String ground   = "-fx-background-color: rgba(255,255,255,1)";
-    String floor    = "-fx-background-color: rgba(204,242,255,0.25)";
-    String absent   = "-fx-background-color: rgba(255,199,199,0.25)";
-    String present  = "-fx-background-color: rgba(186,227,186,0.25)";
-    String clickable= "-fx-background-color: rgba(48,173,255,0.5)";
-
 
     public static ComponentCalendar instance;
     public ComponentCalendar(){
@@ -85,55 +71,18 @@ public class ComponentCalendar implements Initializable{
 //        Preview.getInstance().showAbsence(on,total);
     }
 
-//    public void displayCell_Presented (Label text, String buildDate) throws ParseException, IOException {
-//        SimpleDateFormat sdf = new SimpleDateFormat("dd M yyyy");
-//        if(!sdf.parse(buildDate).after(sdf.parse(currentDate))) {
-//            displayCell_Action(text);
-//            displayCell_Preview(text);
-//        }
-//    }
 
     public void displayCell_Action (Label text){
-        text.setCursor(Cursor.HAND);
-        text.setOnMousePressed(event ->{
-            text.setCursor(Cursor.WAIT);
-            text.setStyle(clickable);
-        });
-        text.setOnMouseReleased(event -> {
-            text.setCursor(Cursor.HAND);
-            text.setStyle(floor);
-        });
         text.setOnMouseClicked(event -> {
             String AttendanceScreen = "/main/views/AttendanceScreen.fxml";
             Primary.getInstance().popUp(AttendanceScreen,true);
         });
     }
 
-    public void displayCell_CurrentDate (Label text, String buildDate){
-        if(currentDate.equals(buildDate)){
-            text.setBorder(new Border(new BorderStroke(
-                    Color.BLACK,
-                    BorderStrokeStyle.DOTTED,
-                    new CornerRadii(2),
-                    new BorderWidths(1)
-            )));
-
-            text.setBackground(new Background(new BackgroundFill(
-                    Color.rgb(204,242,255,0.25),
-                    new CornerRadii(2),
-                    null
-            )));
-
-        }
-    }
-
     public Node displayCell_Basement (String value) {
         String showDay = value.split("\\ ")[0];
         Label text = new Label(showDay);
         text.setDisable(true);
-        text.setMaxWidth(MAX_VALUE);
-        text.setMaxHeight(MAX_VALUE);
-        text.setAlignment(Pos.CENTER);
 
         return text;
     }
@@ -141,9 +90,6 @@ public class ComponentCalendar implements Initializable{
     public Node displayCell_Ground (String value) {
         String showDay = value.split("\\ ")[0];
         Label text = new Label(showDay);
-        text.setMaxWidth(MAX_VALUE);
-        text.setMaxHeight(MAX_VALUE);
-        text.setAlignment(Pos.CENTER);
         text.setFont(Font.font("System",FontWeight.BOLD,12));
 
         return text;
@@ -153,61 +99,71 @@ public class ComponentCalendar implements Initializable{
     SimpleDateFormat formatter = new SimpleDateFormat("d M yyyy");
     private int id = TabStudent.id;
 
-    public ArrayList<Attendance> showAttendance (String value) {
+    public Border handleBorder(boolean isCurDate) {
+        return new Border(new BorderStroke(
+                isCurDate?Color.BLACK : Color.valueOf("#b3b3b3"),
+                isCurDate?BorderStrokeStyle.DOTTED : BorderStrokeStyle.SOLID,
+                isCurDate?null : new CornerRadii(20),
+                isCurDate?new BorderWidths(1) : new BorderWidths(0.5)
+        ));
+    }
 
-
-        return null;
+    public Background handleBackground(Color color){
+        return new Background(new BackgroundFill(
+                color, new CornerRadii(20), new Insets(3)
+        ));
     }
 
     public Node displayCell_Floor (String value) {
 
         String showDay = value.split("\\ ")[0];
         Label text = new Label(showDay);
+        text.setFont(new Font(15));
         text.setMaxWidth(MAX_VALUE);
         text.setMaxHeight(MAX_VALUE);
         text.setAlignment(Pos.CENTER);
-        text.setFont(new Font(14));
 
-        displayCell_CurrentDate(text, value);
+        text.borderProperty().bind(Bindings.when(text.hoverProperty())
+                .then(handleBorder(false)).otherwise(Border.EMPTY)
+        );
+
+        text.cursorProperty().bind(Bindings.when(text.pressedProperty())
+                .then(Cursor.WAIT).otherwise(Cursor.HAND)
+        );
 
 
         ArrayList<LocalDate> allDate = new ArrayList<>();
         try {
             Date sqlDate = new Date(formatter.parse(value).getTime());
             allDate.add(sqlDate.toLocalDate());
-
             ArrayList<Attendance> testAll= new Attendance().getAllDate(id, allDate);
 
-            for (Attendance a : testAll){
-//                System.out.println("from db: "+a.getAttDate());
-//                System.out.println("from ca: "+sqlDate);
+            for (Attendance a : testAll) {
+                if (sqlDate.equals(a.getAttDate())) {
+                    text.backgroundProperty().bind(Bindings.when(text.pressedProperty())
+                            .then(handleBackground( a.getAttStatus().equals("P")
+                                            ?Color.rgb(186, 227, 186, 0.15)
+                                            :Color.rgb(255, 199, 199, 0.15)
+                                    )
+                            )
+                            .otherwise(handleBackground( a.getAttStatus().equals("P")
+                                            ?Color.rgb(186, 227, 186, 0.3)
+                                            :Color.rgb(255, 199, 199, 0.3)
+                            ))
+                    );
 
-                if(sqlDate.equals(a.getAttDate())){
-                    switch (a.getAttStatus()){
-                        case "P":
-                            text.setStyle(present);
-                            break;
-                        case "A":
-                            text.setStyle(absent);
-                            break;
-                    }
                 }
             }
 
+            if(sqlDate.toLocalDate().equals(LocalDate.now())){
+                text.borderProperty().bind(Bindings.when(text.hoverProperty())
+                        .then(new Border(new BorderStroke(null,BorderStrokeStyle.DASHED,null,null)))
+                        .otherwise(handleBorder(true))
+                );
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-
-
-//        switch (level) {
-//            case "absent":
-//                displayCell_Level(text, absent);
-//                break;
-//            case "present":
-//                displayCell_Level(text, present);
-//                break;
-//        }
         return text;
     }
 

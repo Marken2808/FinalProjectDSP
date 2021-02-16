@@ -6,3 +6,21 @@
 
 .darkgreen
     -fx-text-fill: #069b06;
+
+.basement
+    -fx-background-color: rgba(242,242,242,1);
+
+.ground
+    -fx-background-color: rgba(255,255,255,1);
+
+.floor
+    "-fx-background-color: rgba(204,242,255,0.25);
+
+.absent
+    "-fx-background-color: rgba(255,199,199,0.25);
+
+.present
+    "-fx-background-color: rgba(186,227,186,0.25);
+
+.clickable
+    "-fx-background-color: rgba(48,173,255,0.5);

@@ -86,7 +86,7 @@ public class DrawerControlStudent implements Initializable {
         }
         masonryPane[0].getChildren().addAll(
                 setCard("Student ID",    40,false),
-                setCard("Student Name", 120,true)
+                setCard("Student Name", 160,true)
         );
 
         masonryPane[1].getChildren().addAll(
