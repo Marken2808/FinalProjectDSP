@@ -7,8 +7,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static main.utils.DBbean.conn;
-import static main.utils.DBbean.pstmt;
 
 public class AttendanceDAO {
 
@@ -42,7 +40,7 @@ public class AttendanceDAO {
         return null;
     }
 
-    public void insertAttendance(Attendance attendance){
+    public void insert(Attendance attendance){
 
         Date date = Date.valueOf(LocalDate.now());
 
@@ -56,8 +54,8 @@ public class AttendanceDAO {
             pstmt.execute();
             System.out.println("attendance inserted......");
         } catch (SQLException e) {
-            System.out.println("attendance failed......");
-            e.printStackTrace();
+            System.out.println("attendance today already exist......");
+
         }
     }
 

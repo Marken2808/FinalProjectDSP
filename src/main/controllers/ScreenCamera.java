@@ -11,6 +11,8 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
+import main.models.Attendance;
+import main.models.AttendanceDAO;
 import main.utils.OpenCV;
 import main.utils.UtilsOCV;
 import org.opencv.core.Mat;
@@ -19,7 +21,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
@@ -118,12 +120,26 @@ public class ScreenCamera implements Initializable {
 
     }
 
+    public Set<Integer> getMostRecognise(ArrayList<Integer> arrDuplicates)
+    {
+        final Set<Integer> mostDuplicates = new HashSet<>();
+        final Set<Integer> tempSet = new HashSet<>();
+
+        for (Integer mostID : arrDuplicates) {
+            if (!tempSet.add(mostID)) {
+                mostDuplicates.add(mostID);
+            }
+        }
+        return mostDuplicates;
+    }
+
     @FXML
     void startCamera(ActionEvent event) {
 
 //        currentFrame.fitWidthProperty().bind(stackPane.widthProperty());
 //        currentFrame.fitHeightProperty().bind(stackPane.heightProperty());
         if (!this.cameraActive) {
+            ArrayList<Integer> arrID = new ArrayList<>();
             this.btnShot.setDisable(false);
             this.btnInsert.setDisable(true);
             // start the video capture
@@ -142,8 +158,22 @@ public class ScreenCamera implements Initializable {
                         Image imageToShow = UtilsOCV.mat2Image(frame);
                         callCV.updateImageView(currentFrame, imageToShow);
                         currentFrame.setVisible(true);
+
+//                        System.out.println("this id: "+callCV.predictionID);
+                        arrID.add(callCV.predictionID);
+//                        System.out.println("arr: "+arrID);
+//                        System.out.println("test size: "+arrID.size());
+                        while (arrID.size()==50){
+                            System.out.println("most: "+getMostRecognise(arrID));
+                            for(int i: getMostRecognise(arrID)){
+                                System.out.println("add: "+i);
+                                new AttendanceDAO().insert(new Attendance("P", i));
+                            }
+                            break;
+                        }
                     }
                 };
+
 
                 callCV.timer = Executors.newSingleThreadScheduledExecutor();
                 callCV.timer.scheduleAtFixedRate(frameGrabber, 0, 60, TimeUnit.MILLISECONDS);
@@ -171,16 +201,17 @@ public class ScreenCamera implements Initializable {
 
     public void turnOffCamera(){
 
-            callCV.stopAcquisition();
-            // the camera is not active at this point
-            this.cameraActive = false;
-            this.currentFrame.setImage(null);   // add later
-            this.currentFrame.setVisible(false);
-            // update again the button content
-            this.btnStart.setText("Start Camera");
-            this.btnInsert.setDisable(false);
-            this.btnShot.setDisable(true);
-            this.btnStart.setDisable(false);
+
+        callCV.stopAcquisition();
+        // the camera is not active at this point
+        this.cameraActive = false;
+        this.currentFrame.setVisible(false);
+        // update again the button content
+        this.btnStart.setText("Start Camera");
+        this.btnInsert.setDisable(false);
+        this.btnShot.setDisable(true);
+        this.btnStart.setDisable(false);
+        this.currentFrame.setImage(null);   // add later
 
     }
 

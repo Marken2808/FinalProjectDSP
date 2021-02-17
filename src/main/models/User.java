@@ -26,8 +26,10 @@ public class User {
     public void insertStudentData(Student student, Face face) throws SQLException {
 
         new StudentDAO().insert(student);
-        new ModuleDAO().insert(student);
         new FaceDAO().insert(face);
+        new ModuleDAO().insert(student);
+        //temp
+        new AttendanceDAO().insert(new Attendance("P",student.getStudentId()));
     }
 
 }

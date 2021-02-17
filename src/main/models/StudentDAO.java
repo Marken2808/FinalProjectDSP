@@ -75,7 +75,6 @@ public class StudentDAO {
             //Executing the statement
             pstmt.execute();
             System.out.println("student inserted......");
-//            insertModule(student.getStudentId());
         } catch (SQLException e) {
             System.out.println("student already exist......");
         }

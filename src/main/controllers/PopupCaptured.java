@@ -247,5 +247,7 @@ public class PopupCaptured implements Initializable {
         isFulfill();
         hboxInfor.setVisible(false);
 
+
+
     }
 }
