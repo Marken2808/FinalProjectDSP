@@ -2,25 +2,30 @@ package main.models;
 
 public class Teacher extends User{
 
-    private int teacherID;
+    private int teacherId;
     private String teacherName;
     private String teacherUsername;
     private String teacherPassword;
 
-    public Teacher(int teacherID, String teacherName, String teacherUsername, String teacherPassword) {
+    public Teacher(String teacherName, String teacherUsername, String teacherPassword) {
         super(teacherUsername, teacherPassword);
-        this.teacherID = teacherID;
         this.teacherName = teacherName;
         this.teacherUsername = teacherUsername;
         this.teacherPassword = teacherPassword;
     }
 
+    public Teacher(String teacherUsername, String teacherPassword) {
+        super(teacherUsername, teacherPassword);
+        this.teacherUsername = teacherUsername;
+        this.teacherPassword = teacherPassword;
+    }
+
     public int getTeacherID() {
-        return teacherID;
+        return teacherId;
     }
 
     public void setTeacherID(int teacherID) {
-        this.teacherID = teacherID;
+        this.teacherId = teacherID;
     }
 
     public String getTeacherName() {

@@ -85,7 +85,7 @@ public class ScreenPrimary implements Initializable {
     @FXML
     void isMenuClicked(MouseEvent event) throws IOException {
         if(ScreenCamera.getInstance().isCameraActive()) {     // grant turn off to use drawer
-            displayDrawer(0.0, 30.0, 0.0, 0.0);
+            displayDrawer(0.0, 40.0, 0.0, 0.0);
             drawerPane.open();
             drawerPane.setVisible(true);
 
@@ -154,7 +154,7 @@ public class ScreenPrimary implements Initializable {
 
     @FXML
     void clickClose(MouseEvent event) {
-        ScreenCamera.getInstance().turnOffCamera();
+        ScreenCamera.getInstance().isCameraActive();
         ((Stage) btnClose.getScene().getWindow()).close();
     }
 

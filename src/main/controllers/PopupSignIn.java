@@ -11,16 +11,29 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import main.models.Teacher;
+import main.models.TeacherDAO;
 //import resources.mySQLconnection;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.SecretKeySpec;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.security.InvalidKeyException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.ResourceBundle;
 
 
 public class PopupSignIn implements Initializable {
 
     @FXML
-    private JFXTextField filedUsername;
+    private JFXTextField fieldUsername;
 
     @FXML
     private Label textInfor;
@@ -44,13 +57,27 @@ public class PopupSignIn implements Initializable {
 
     @FXML
     void autoFill(MouseEvent event) {
-        btnSignIn.setDisable(false);
+
+        ScreenPrimary.dialog.close();
+        ScreenPrimary.getInstance().header.setVisible(true);
+
     }
 
     @FXML
     void makeLogin(ActionEvent event) {
-        ScreenPrimary.dialog.close();
-        ScreenPrimary.getInstance().header.setVisible(true);
+
+
+        System.out.println("username: "+fieldUsername.getText());
+        System.out.println("password: "+fieldPassword.getText());
+
+        boolean verify = new TeacherDAO().authenticate(new Teacher(fieldUsername.getText(), fieldPassword.getText()));
+
+        if(verify){
+            ScreenPrimary.dialog.close();
+            ScreenPrimary.getInstance().header.setVisible(true);
+        } else {
+            textInfor.setDisable(false);
+        }
 
     }
 
@@ -60,45 +87,18 @@ public class PopupSignIn implements Initializable {
         ScreenPrimary.getInstance().popUp(SignUpScreen,false);
     }
 
-    @FXML
-    void isEmpty(KeyEvent event) {
+
+    void isEmpty() {
 //        Boolean isEmptyUser = isEmptyField(user,userWarning,userWarningImg);
 //        Boolean isEmptyPass = isEmptyField(pass,passWarning,passWarningImg);
 //        Boolean loadButton = isEmptyUser && isEmptyPass;
 //        isAllDone(loadButton,signIn);
     }
 
-
-//    public ArrayList<String> createConnectionWithRole(){
-//        String userDB = user.getText() ;
-//        String passDB = pass.getText() ;
-//
-//        Connection connection = mySQLconnection.ConnectDataBase();
-//        String query = "Select * from users where username = ? and password = ?";
-//        try{
-//            PreparedStatement pst = connection.prepareStatement(query);
-//            pst.setString(1,userDB);
-//            pst.setString(2,passDB);
-//            ResultSet rs = pst.executeQuery();
-//            if(rs.next()) {
-//                ArrayList<String> objToken = new ArrayList<>();
-//
-//                objToken.add(rs.getString("role"));
-//                objToken.add(rs.getString("username"));
-//                objToken.add(rs.getString("password"));
-//                objToken.add(rs.getString("profilename"));
-//
-//                return objToken;
-//            }
-//        }
-//        catch ( Exception e){
-//            //JOptionPane.showMessageDialog(null,e);
-//        }
-//        return null;
-//    }
-//
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+
 
     }
 }

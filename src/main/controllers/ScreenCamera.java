@@ -163,7 +163,7 @@ public class ScreenCamera implements Initializable {
                         arrID.add(callCV.predictionID);
 //                        System.out.println("arr: "+arrID);
 //                        System.out.println("test size: "+arrID.size());
-                        while (arrID.size()==20){
+                        while (arrID.size()==50){
                             System.out.println("most: "+getMostRecognise(arrID));
                             for(int i: getMostRecognise(arrID)){
                                 System.out.println("add: "+i);
@@ -176,7 +176,7 @@ public class ScreenCamera implements Initializable {
 
 
                 callCV.timer = Executors.newSingleThreadScheduledExecutor();
-                callCV.timer.scheduleAtFixedRate(frameGrabber, 0, 60, TimeUnit.MILLISECONDS);
+                callCV.timer.scheduleAtFixedRate(frameGrabber, 0, 10, TimeUnit.MILLISECONDS);
 
                 // update the button content
                 this.btnStart.setDisable(true);

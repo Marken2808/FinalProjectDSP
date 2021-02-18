@@ -10,6 +10,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
@@ -24,7 +25,7 @@
                   <Font name="Segoe UI" size="28.0" />
                </font>
                <VBox.margin>
-                  <Insets bottom="20.0" />
+                  <Insets bottom="10.0" />
                </VBox.margin>
             </Label>
             <VBox alignment="CENTER" spacing="5.0">
@@ -81,21 +82,24 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox alignment="CENTER">
+            <AnchorPane>
                <children>
-                  <JFXDatePicker fx:id="pickDate" editable="false" minWidth="365.0" onAction="#checkingAge" promptText="Birthday">
+                  <JFXDatePicker fx:id="pickDate" cacheShape="false" centerShape="false" defaultColor="BLACK" editable="false" focusTraversable="false" onAction="#checkingAge" promptText="Birthday" scaleShape="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin></JFXDatePicker>
+                  </JFXDatePicker>
+                  <JFXSlider fx:id="sliderAge" indicatorPosition="RIGHT" majorTickUnit="10.0" max="65.0" min="5.0" minorTickCount="1" showTickLabels="true" value="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="26.0">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXSlider>
                </children>
-            </VBox>
+            </AnchorPane>
             <HBox alignment="CENTER">
                <children>
                   <JFXButton fx:id="btnSignUp" buttonType="RAISED" onAction="#makeRegister" style="-fx-background-color: #00ffaa;" text="Sign Up" />
-                  <JFXButton fx:id="btnSignUp1" buttonType="RAISED" onAction="#makeRegister" text="Cancel" />
+                  <JFXButton buttonType="RAISED" onAction="#goBack" text="Cancel" />
                </children>
                <VBox.margin>
                   <Insets top="30.0" />
@@ -103,13 +107,5 @@
             </HBox>
          </children>
       </VBox>
-      <JFXSlider fx:id="sliderAge" disable="true" indicatorPosition="RIGHT" majorTickUnit="10.0" max="65.0" min="5.0" minorTickCount="1" showTickLabels="true" value="1.0">
-         <StackPane.margin>
-            <Insets right="35.0" top="200.0" />
-         </StackPane.margin>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </JFXSlider>
    </children>
 </StackPane>

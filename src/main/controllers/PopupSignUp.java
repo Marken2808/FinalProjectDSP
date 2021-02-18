@@ -7,6 +7,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import main.models.Teacher;
+import main.models.TeacherDAO;
 //import resources.mySQLconnection;
 
 import java.net.URL;
@@ -14,7 +16,6 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.ResourceBundle;
 
-//import static resources.controllers.functions.duplicatedForms.*;
 
 public class PopupSignUp implements Initializable {
 
@@ -54,19 +55,16 @@ public class PopupSignUp implements Initializable {
 
     @FXML
     void makeRegister(ActionEvent event) {
-//        ResultSet rs = null;
-//        Connection connection = mySQLconnection.ConnectDataBase();
-//        String query = "insert into users (username,password) values (?,?)";
-//        try{
-//            PreparedStatement pst = connection.prepareStatement(query);
-//            pst.setString(1,new_user.getText());
-//            pst.setString(2,new_pass.getText());
-//            pst.execute();
-//            JOptionPane.showMessageDialog(null,"Saved");
-//        }
-//        catch ( Exception e){
-//            //JOptionPane.showMessageDialog(null,e);
-//        }
+
+        if(fieldPassword.getText().equals(fieldConfirm.getText()) && !fieldPassword.getText().isEmpty()){
+            new TeacherDAO().insert(new Teacher("ABC",fieldUsername.getText(),fieldPassword.getText()));
+            goBack(event);
+        }
+
+    }
+
+    @FXML
+    void goBack(ActionEvent event) {
         ScreenPrimary.dialog.close();
         ScreenPrimary.getInstance().displaySignIn();
     }
