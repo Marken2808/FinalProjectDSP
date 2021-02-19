@@ -120,17 +120,56 @@ public class ScreenCamera implements Initializable {
 
     }
 
-    public Set<Integer> getMostRecognise(ArrayList<Integer> arrDuplicates)
+    public int getMostRecognise(ArrayList<Integer> arrDuplicates)
     {
         final Set<Integer> mostDuplicates = new HashSet<>();
         final Set<Integer> tempSet = new HashSet<>();
+        Map<Integer, Integer> test = new HashMap<>();
+        ArrayList<Integer> res = new ArrayList<>();
+
 
         for (Integer mostID : arrDuplicates) {
             if (!tempSet.add(mostID)) {
-                mostDuplicates.add(mostID);
+//                mostDuplicates.add(mostID);
+                if (test.containsKey(mostID)){
+                    test.put(mostID,test.get(mostID)+1);
+                } else {
+                    test.put(mostID,1);
+                }
             }
         }
-        return mostDuplicates;
+
+
+        Iterator<Integer> iter = test.values().iterator();
+//        int[] arrTemp = new int[1];
+        int temp = 0;
+        while (iter.hasNext()) {
+            int max = iter.next();
+            if (max > temp) {
+                temp = max;
+//                arrTemp[0] = temp;
+            }
+        }
+
+//        for (Map.Entry<Integer, Integer> entry : test.entrySet()) {
+//            if (entry.getValue().equals(temp)) {
+//                System.out.println(entry.getKey());
+//            }
+//        }
+
+//        int finalTemp = temp;
+//        test.entrySet().stream().filter(entry -> entry.getValue().equals(finalTemp))
+//                .forEach(entry -> System.out.println(entry.getKey()));
+
+        for (int key : test.keySet()) {
+            if (test.get(key) == temp) {
+                res.add(key);
+            }
+        }
+
+        System.out.println("res: "+res);
+
+        return temp;
     }
 
     @FXML
@@ -165,10 +204,11 @@ public class ScreenCamera implements Initializable {
 //                        System.out.println("test size: "+arrID.size());
                         while (arrID.size()==50){
                             System.out.println("most: "+getMostRecognise(arrID));
-                            for(int i: getMostRecognise(arrID)){
-                                System.out.println("add: "+i);
-                                new AttendanceDAO().insert(new Attendance("P", i));
-                            }
+                            System.out.println("got: "+callCV.facesArray.length);
+//                            for(int i: getMostRecognise(arrID)){
+//                                System.out.println("add: "+i);
+//                                new AttendanceDAO().insert(new Attendance("P", i));
+//                            }
                             break;
                         }
                     }
@@ -176,7 +216,7 @@ public class ScreenCamera implements Initializable {
 
 
                 callCV.timer = Executors.newSingleThreadScheduledExecutor();
-                callCV.timer.scheduleAtFixedRate(frameGrabber, 0, 10, TimeUnit.MILLISECONDS);
+                callCV.timer.scheduleAtFixedRate(frameGrabber, 0, 33, TimeUnit.MILLISECONDS);
 
                 // update the button content
                 this.btnStart.setDisable(true);

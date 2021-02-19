@@ -1,6 +1,5 @@
 package main.models;
 
-import java.io.Serializable;
 import java.sql.SQLException;
 
 public class User {

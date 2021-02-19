@@ -35,7 +35,7 @@ public class OpenCV {
 
     public ArrayList<Mat> listRez;
     public ArrayList<Mat> listCrop;
-
+    public Rect[] facesArray;
 
     public String basePath      = System.getProperty("user.dir").concat("\\src\\resources\\");
     public String outputPath    = basePath+"images/output/";
@@ -152,7 +152,7 @@ public class OpenCV {
         if (this.absoluteFaceSize == 0)
         {
             int height = grayFrame.rows();
-            if (Math.round(height * 0.2f) > 0)
+            if (Math.round(height * 0.01f) > 0)
             {
                 this.absoluteFaceSize = Math.round(height * 0.01f);
             }
@@ -165,7 +165,7 @@ public class OpenCV {
         this.listRez = new ArrayList<>();
         Mat resizeImage ;
         Mat croppedImage ;
-        Rect[] facesArray = faces.toArray();
+        facesArray = faces.toArray();
         for (Rect face : facesArray) {
 
             Mat org_frame = frame.clone();
