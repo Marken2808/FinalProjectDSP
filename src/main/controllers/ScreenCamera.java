@@ -120,56 +120,62 @@ public class ScreenCamera implements Initializable {
 
     }
 
-    public int getMostRecognise(ArrayList<Integer> arrDuplicates)
+    public ArrayList<Integer> sortValue(Iterator<Integer> iter){
+        ArrayList<Integer> orderMax = new ArrayList<>();
+        while (iter.hasNext()) {
+            orderMax.add(iter.next());
+        }
+        Collections.sort(orderMax);
+        System.out.println("sortValue: " + orderMax);
+
+        return orderMax;
+    }
+
+    public ArrayList<Integer> listMaxValue(int total, ArrayList<Integer> orderMax) {
+        ArrayList<Integer> arrPos = new ArrayList<>();
+        for(int i=0; i<total; i++){
+            arrPos.add(orderMax.get(orderMax.size()-i-1));
+        }
+        System.out.println("listMaxValue: " + arrPos);
+
+        return arrPos;
+    }
+
+    public ArrayList<Integer> listKeyRecognise(ArrayList<Integer> arrDuplicates)
     {
-        final Set<Integer> mostDuplicates = new HashSet<>();
-        final Set<Integer> tempSet = new HashSet<>();
-        Map<Integer, Integer> test = new HashMap<>();
-        ArrayList<Integer> res = new ArrayList<>();
+        Set<Integer> set = new HashSet<>();
+        Map<Integer, Integer> map = new HashMap<>();
+        ArrayList<Integer> listKey = new ArrayList<>();
 
 
         for (Integer mostID : arrDuplicates) {
-            if (!tempSet.add(mostID)) {
-//                mostDuplicates.add(mostID);
-                if (test.containsKey(mostID)){
-                    test.put(mostID,test.get(mostID)+1);
+            if (!set.add(mostID)) {
+                if (map.containsKey(mostID)){
+                    map.put(mostID,map.get(mostID)+1);
                 } else {
-                    test.put(mostID,1);
+                    map.put(mostID,1);
                 }
             }
         }
 
 
-        Iterator<Integer> iter = test.values().iterator();
-//        int[] arrTemp = new int[1];
-        int temp = 0;
-        while (iter.hasNext()) {
-            int max = iter.next();
-            if (max > temp) {
-                temp = max;
-//                arrTemp[0] = temp;
+        System.out.println("Map init: "+map);
+        Iterator<Integer> iter = map.values().iterator();
+
+
+
+        ArrayList<Integer> listValue = listMaxValue(callCV.facesArray.length, sortValue(iter));
+
+
+        for (int key : map.keySet()) {
+            if (listValue.contains(map.get(key))) {
+                listKey.add(key);
             }
         }
 
-//        for (Map.Entry<Integer, Integer> entry : test.entrySet()) {
-//            if (entry.getValue().equals(temp)) {
-//                System.out.println(entry.getKey());
-//            }
-//        }
+        System.out.println("listKey: "+listKey);
 
-//        int finalTemp = temp;
-//        test.entrySet().stream().filter(entry -> entry.getValue().equals(finalTemp))
-//                .forEach(entry -> System.out.println(entry.getKey()));
-
-        for (int key : test.keySet()) {
-            if (test.get(key) == temp) {
-                res.add(key);
-            }
-        }
-
-        System.out.println("res: "+res);
-
-        return temp;
+        return listKey;
     }
 
     @FXML
@@ -198,17 +204,15 @@ public class ScreenCamera implements Initializable {
                         callCV.updateImageView(currentFrame, imageToShow);
                         currentFrame.setVisible(true);
 
-//                        System.out.println("this id: "+callCV.predictionID);
                         arrID.add(callCV.predictionID);
-//                        System.out.println("arr: "+arrID);
-//                        System.out.println("test size: "+arrID.size());
+
                         while (arrID.size()==50){
-                            System.out.println("most: "+getMostRecognise(arrID));
-                            System.out.println("got: "+callCV.facesArray.length);
-//                            for(int i: getMostRecognise(arrID)){
-//                                System.out.println("add: "+i);
+
+                            System.out.println("got "+ callCV.facesArray.length + " face");
+                            for(int i: listKeyRecognise(arrID)){
+                                System.out.println("add: "+i);
 //                                new AttendanceDAO().insert(new Attendance("P", i));
-//                            }
+                            }
                             break;
                         }
                     }
