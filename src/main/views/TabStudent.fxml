@@ -8,12 +8,12 @@
 
 <AnchorPane fx:id="anchorPane" nodeOrientation="LEFT_TO_RIGHT" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.TabStudent">
    <children>
-      <TableView fx:id="tableSTUDENT" editable="true" onMouseClicked="#clickOnTable" onMouseMoved="#testMove" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+      <TableView fx:id="tableSTUDENT" editable="true" onMouseClicked="#clickOnTable" onMouseMoved="#testMove" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columns>
-            <TableColumn fx:id="colSID" text="Student ID" />
-          <TableColumn fx:id="colSNAME" editable="false" text="Student Name" />
-            <TableColumn fx:id="colMarked" text="Marked All" />
-            <TableColumn fx:id="colLast5Days" prefWidth="160.0" text="Last 5 days" />
+            <TableColumn fx:id="colSID" maxWidth="1.7976931348623157E308" minWidth="-1.0" text="Student ID" />
+          <TableColumn fx:id="colSNAME" editable="false" maxWidth="1.7976931348623157E308" minWidth="-1.0" text="Student Name" />
+            <TableColumn fx:id="colMarked" maxWidth="1.7976931348623157E308" minWidth="-1.0" text="Marked All" />
+            <TableColumn fx:id="colLast5Days" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="160.0" text="Last 5 days" />
         </columns>
          <cursor>
             <Cursor fx:constant="DEFAULT" />

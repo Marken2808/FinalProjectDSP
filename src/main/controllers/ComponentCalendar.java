@@ -61,10 +61,6 @@ public class ComponentCalendar implements Initializable{
         labelTitle.setText(monthString + ", " + yearString);
     }
 
-    public void displayCell_Action (Label text){
-
-    }
-
     public Node displayCell_Basement (String value) {
         String showDay = value.split("\\ ")[0];
         Label text = new Label(showDay);

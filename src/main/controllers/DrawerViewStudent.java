@@ -62,7 +62,7 @@ public class DrawerViewStudent implements Initializable {
         doughnutPane.getChildren().add(stackPane);
     }
 
-    public void drawSemiCircleChart(String name, double achieve){
+    public void setSemiCircleChart(String name, double achieve){
         StackPane stackPane = new StackPane();
         JFXButton btnPane = new JFXButton();
         VBox vBox = new VBox();
@@ -95,19 +95,19 @@ public class DrawerViewStudent implements Initializable {
         });
     }
 
-    public void displaySeCiChart(){
+    public void drawSemiCircleChart(){
 
         Subject[] subjectData = new ModuleDAO().retrieveSubjectData(id);
 
         for(Subject s: subjectData) {
-            drawSemiCircleChart(s.getSubjectName(), s.getSubjectMark());
+            setSemiCircleChart(s.getSubjectName(), s.getSubjectMark());
         }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        displaySeCiChart();
+        drawSemiCircleChart();
         drawDoughnutChart();
 
     }

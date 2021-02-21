@@ -87,22 +87,6 @@ public class TabStudent implements Initializable {
 
 
     @FXML
-    void closeViewPane(MouseEvent event) {
-//        System.out.println("View clicked");
-        setCloseDrawer(
-                drawerViewPane
-        );
-    }
-
-    @FXML
-    void closeControlPane(MouseEvent event) {
-//        System.out.println("Control clicked");
-        setCloseDrawer(
-                drawerControlPane
-        );
-    }
-
-    @FXML
     void testMove(MouseEvent event) {
         if(event.getTarget().toString().contains("null")){
             tableSTUDENT.setCursor(Cursor.DEFAULT);
@@ -113,8 +97,6 @@ public class TabStudent implements Initializable {
 
     @FXML
     void clickOnTable(MouseEvent event) {
-        closeViewPane(event);
-        closeControlPane(event);
 
         Student selectedStudent = tableSTUDENT.getSelectionModel().getSelectedItem();
         if(!tableSTUDENT.getSelectionModel().isEmpty()){
@@ -137,31 +119,14 @@ public class TabStudent implements Initializable {
 
     public void isDrawerClick(boolean check) {
         if(check) { // right click on selected row
-
-            setOpenDrawer(
-                    DrawerControlStudent,
-                    drawerControlPane,
-                    new double[]{5, 5, 0, 5}
-                    );
-            setCloseDrawer(
-                    drawerViewPane
-                    );
-
+            setOpenDrawer( DrawerControlStudent, drawerControlPane );
         } else {    // left click on selected row
-            setOpenDrawer(
-                    DrawerViewStudent,
-                    drawerViewPane,
-                    new double[]{5, 5, 5, 0}
-                    );
-            setCloseDrawer(
-                    drawerControlPane
-                    );
+            setOpenDrawer( DrawerViewStudent, drawerViewPane );
         }
-
     }
 
-    public void setOpenDrawer(String scene, JFXDrawer pane, double[] sides) {
-        setDrawer(scene, pane, sides);
+    public void setOpenDrawer(String scene, JFXDrawer pane) {
+        setDrawer(scene, pane);
         pane.open();
         pane.setOnDrawerOpened(jfxDrawerEvent -> {
             pane.setVisible(true);
@@ -169,19 +134,12 @@ public class TabStudent implements Initializable {
 
     }
 
-    public void setCloseDrawer(JFXDrawer pane) {
-        pane.close();
-        pane.setOnDrawerClosing(jfxDrawerEvent -> {
-            pane.setVisible(false);
-        });
-    }
-
-    public void setDrawer(String scene, JFXDrawer pane, double[] sides) {
+    public void setDrawer(String scene, JFXDrawer pane) {
         try {
-            anchorPane.setLeftAnchor(pane, sides[0]);
-            anchorPane.setTopAnchor(pane, sides[1]);
-            anchorPane.setRightAnchor(pane, sides[2]);
-            anchorPane.setBottomAnchor(pane, sides[3]);
+            anchorPane.setLeftAnchor(pane, 0.0);
+            anchorPane.setTopAnchor(pane, 0.0);
+            anchorPane.setRightAnchor(pane, 0.0);
+            anchorPane.setBottomAnchor(pane, 0.0);
 
             AnchorPane sBottom = FXMLLoader.load(getClass().getResource(scene));
             pane.setSidePane(sBottom);
