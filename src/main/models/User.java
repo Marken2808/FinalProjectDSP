@@ -28,7 +28,7 @@ public class User {
         new FaceDAO().insert(face);
         new ModuleDAO().insert(student);
         //temp
-        new AttendanceDAO().insert(new Attendance("P",student.getStudentId()));
+//        new AttendanceDAO().insert(new Attendance("P",student.getStudentId()));
     }
 
 }

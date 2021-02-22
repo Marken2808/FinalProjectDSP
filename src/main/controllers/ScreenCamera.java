@@ -210,8 +210,8 @@ public class ScreenCamera implements Initializable {
 
                             System.out.println("got "+ callCV.facesArray.length + " face");
                             for(int i: listKeyRecognise(arrID)){
-                                System.out.println("add: "+i);
-//                                new AttendanceDAO().insert(new Attendance("P", i));
+                                System.out.println("add studentID "+i+"'s attendance into db");
+                                new AttendanceDAO().insert(new Attendance("P", i));
                             }
                             break;
                         }

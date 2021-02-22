@@ -98,6 +98,9 @@ public class TabStudent implements Initializable {
     @FXML
     void clickOnTable(MouseEvent event) {
 
+        setCloseDrawer(drawerControlPane);
+        setCloseDrawer(drawerViewPane);
+
         Student selectedStudent = tableSTUDENT.getSelectionModel().getSelectedItem();
         if(!tableSTUDENT.getSelectionModel().isEmpty()){
             id = selectedStudent.getStudentId();
@@ -132,6 +135,13 @@ public class TabStudent implements Initializable {
             pane.setVisible(true);
         });
 
+    }
+
+    public void setCloseDrawer(JFXDrawer pane) {
+        pane.close();
+        pane.setOnDrawerClosing(jfxDrawerEvent -> {
+            pane.setVisible(false);
+        });
     }
 
     public void setDrawer(String scene, JFXDrawer pane) {
