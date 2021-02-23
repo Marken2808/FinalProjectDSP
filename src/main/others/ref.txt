@@ -3,8 +3,9 @@ https://docs.opencv.org/2.4/modules/contrib/doc/facerec/facerec_tutorial.html#fi
 https://clockify.me/blog/business/tracking-checking-attendance/
 https://www.lovelycoding.org/attendence-management-system/
 
-
-
+https://towardsdatascience.com/face-recognition-how-lbph-works-90ec258c3d6b
+https://medium.com/dev-genius/face-recognition-based-on-lbph-algorithm-17acd65ca5f7
+https://www.superdatascience.com/blogs/opencv-face-detection/
 
 
 

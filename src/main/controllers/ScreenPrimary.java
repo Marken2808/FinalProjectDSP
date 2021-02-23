@@ -10,22 +10,33 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.chart.AreaChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import main.models.Attendance;
+import main.models.AttendanceDAO;
+import main.utils.MyGraph;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ResourceBundle;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.*;
+import java.text.SimpleDateFormat;
 
 
 public class ScreenPrimary implements Initializable {
 
     @FXML
     private AnchorPane mainAnchorPane;
+
+    @FXML
+    private AreaChart<?,?> areaChart;
 
     @FXML
     public StackPane mainStackPane;
@@ -176,6 +187,61 @@ public class ScreenPrimary implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         displaySignIn();
+
+
+        XYChart.Series series = new XYChart.Series();
+
+        ArrayList<LocalDate> last5days = new ArrayList<>();
+        last5days.add(LocalDate.now());
+        for (int i = 1; i < 5; i++) {
+            last5days.add(last5days.get(i - 1).minusDays(1));
+        }
+
+
+        ArrayList<Attendance> temp = new AttendanceDAO().retrieveAttendance();
+        ArrayList<LocalDate> testDate = new ArrayList<>();
+        for (int i = 0; i < temp.size(); i++) {
+            if(temp.get(i).getAttStatus().equals("P")){
+                System.out.println(temp.get(i).getAttDate());
+                testDate.add(temp.get(i).getAttDate().toLocalDate());
+            }
+        }
+
+
+        System.out.println(testDate);
+
+//        series.getData().add(new XYChart.Data());
+
+
+        System.out.println(dup(testDate));
+        for (int i=0; i<last5days.size(); i++){
+            int total = dup(testDate).get(last5days.get(i));
+            series.getData().add(new XYChart.Data(last5days.get(i).toString(), total));
+        }
+
+
+        areaChart.getData().add(series);
+
+    }
+
+    public Map<LocalDate, Integer> dup(ArrayList<LocalDate> testDate) {
+        Set<LocalDate> set = new HashSet<>();
+        Map<LocalDate, Integer> map = new HashMap<>();
+
+        for (LocalDate d : testDate) {
+            if (!set.add(d)) {
+                if (map.containsKey(d)){
+                    map.put(d,map.get(d)+1);
+                }
+            } else {
+                map.put(d,1);
+            }
+
+        }
+
+        return map;
+
     }
 }

@@ -29,16 +29,44 @@ public class AttendanceDAO {
                         rs.getDate(1),
                         rs.getString(2),
                         rs.getInt(3)
-                ));
+                        )
+                );
 //                System.out.println(rs.getDate(1) + " - " + rs.getString(2) + " - "+ rs.getInt(3));
             }
-//            System.out.println("accessed successfully");
+            System.out.println("accessed successfully");
             return test;
         } catch (SQLException throwables) {
-//            System.out.println("cannot access student table");
+            System.out.println("cannot access student table");
         }
         return null;
     }
+
+//    public HashMap<LocalDate, String> countInDay(ArrayList<LocalDate> last5Days){
+//        try {
+//            pstmt = conn.prepareStatement("Select * from Attendance");
+//            ResultSet rs = pstmt.executeQuery();
+//            ArrayList<HashMap<LocalDate, String>> test = new ArrayList<>();
+//            HashMap<LocalDate, String> map = new HashMap<>();
+//
+//            while (rs.next()){
+//                    map.put(rs.getDate(1).toLocalDate(), rs.getString(2));
+//                    test.add(map);
+//            }
+//
+//            for (int i = 0; i < last5Days.size(); i++) {
+//                System.out.println(last5Days.get(i) + " : " + map.get(last5Days.get(i)));
+//
+//            }
+//
+//            System.out.println("Test: "+test);
+//
+//            System.out.println("accessed successfully");
+//            return map;
+//        } catch (SQLException throwables) {
+//            System.out.println("cannot access student table");
+//        }
+//        return null;
+//    }
 
     public void insert(Attendance attendance){
 

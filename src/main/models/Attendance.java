@@ -7,13 +7,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static main.utils.DBbean.*;
 
 public class Attendance {
 
     private Date attDate;
     private String attStatus;
     private int studentID;
+
 
     public Attendance() {
     }
