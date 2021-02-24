@@ -6,11 +6,13 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import main.models.Teacher;
 import main.models.TeacherDAO;
 //import resources.mySQLconnection;
@@ -20,6 +22,7 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.security.InvalidKeyException;
@@ -60,7 +63,7 @@ public class PopupSignIn implements Initializable {
 
         ScreenPrimary.dialog.close();
         ScreenPrimary.getInstance().header.setVisible(true);
-
+        ScreenPrimary.getInstance().displayScreen("Overview","/main/views/ScreenOverview.fxml");
     }
 
     @FXML
@@ -84,7 +87,7 @@ public class PopupSignIn implements Initializable {
     @FXML
     void letRegister(ActionEvent event) {
         ScreenPrimary.dialog.close();
-        ScreenPrimary.getInstance().popUp(SignUpScreen,false);
+        ScreenPrimary.getInstance().displayPopup(SignUpScreen,false);
     }
 
 

@@ -132,7 +132,7 @@ public class ComponentCalendar implements Initializable{
 
                     text.setOnMouseClicked(event -> {
                         String AttendanceScreen = "/main/views/ComponentAttendStats.fxml";
-                        ScreenPrimary.getInstance().popUp(AttendanceScreen,true);
+                        ScreenPrimary.getInstance().displayPopup(AttendanceScreen,true);
                     });
 
                 }

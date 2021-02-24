@@ -36,9 +36,6 @@ public class ScreenPrimary implements Initializable {
     private AnchorPane mainAnchorPane;
 
     @FXML
-    private AreaChart<?,?> areaChart;
-
-    @FXML
     public StackPane mainStackPane;
 
     @FXML
@@ -61,10 +58,11 @@ public class ScreenPrimary implements Initializable {
 
     public static JFXDialog dialog;
 
-    private String SignInScreen     = "/main/views/PopupSignIn.fxml";
-    private String DrawerScreen     = "/main/views/DrawerMenu.fxml";
+    private String SignInPopup      = "/main/views/PopupSignIn.fxml";
+    private String DrawerMenu       = "/main/views/DrawerMenu.fxml";
     private String DashboardScreen  = "/main/views/ScreenDashboard.fxml";
     private String CameraScreen     = "/main/views/ScreenCamera.fxml";
+    private String OverviewScreen   = "/main/views/ScreenOverview.fxml";
 //----------------------------instance--------------------
 
     public static ScreenPrimary instance;
@@ -79,7 +77,7 @@ public class ScreenPrimary implements Initializable {
     }
 //---------------------------------------------------------
 
-    public void popUp(String screen, boolean canClose){
+    public void displayPopup(String screen, boolean canClose){
         try {
             FXMLLoader loader = new FXMLLoader(ScreenPrimary.class.getResource(screen));
             Parent Root = loader.load();
@@ -114,7 +112,7 @@ public class ScreenPrimary implements Initializable {
             mainAnchorPane.setRightAnchor(drawerPane, right);
             mainAnchorPane.setBottomAnchor(drawerPane,bottom);
 
-            VBox menuLeft = FXMLLoader.load(getClass().getResource(DrawerScreen));
+            VBox menuLeft = FXMLLoader.load(getClass().getResource(DrawerMenu));
             drawerPane.setSidePane(menuLeft);
             drawerPane.setDefaultDrawerSize(mainAnchorPane.getWidth()*0.25);
             showElements(menuLeft);
@@ -123,22 +121,23 @@ public class ScreenPrimary implements Initializable {
         }
     }
 
+    public void displayScreen(String title, String screen){
+        mainStackPane.getChildren().clear();
+        try {
+            StackPane screenPane = FXMLLoader.load(getClass().getResource(screen));
+            labelTitle.setText(title);
+            mainStackPane.getChildren().add(screenPane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void displaySignIn(){
         header.setVisible(false);
-        popUp(SignInScreen,false);
+        displayPopup(SignInPopup,false);
     }
 
-    public void displayComponent(Node node, StackPane componentPane){
-
-        String title = node.getAccessibleText().toUpperCase();
-        labelTitle.setText(title);
-        mainStackPane.getChildren().setAll(componentPane);
-
-    }
-
-    public void showElements(VBox menuLeft) throws IOException {
-        StackPane dashboard = FXMLLoader.load(getClass().getResource(DashboardScreen));
-        StackPane camera    = FXMLLoader.load(getClass().getResource(CameraScreen));
+    public void showElements(VBox menuLeft) {
 
         ObservableList<Node> DrawerMenu = menuLeft.getChildren();
         ObservableList<Node> DrawerBoxes = ((VBox) DrawerMenu.get(2)).getChildren();
@@ -148,14 +147,15 @@ public class ScreenPrimary implements Initializable {
                 node.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
                     switch (node.getAccessibleText()) {
                         case "Home":
+                            displayScreen("Overview", OverviewScreen);
                             break;
                         case "Settings":
                             break;
                         case "Camera":
-                            displayComponent(node,camera);
+                            displayScreen("Attendance", CameraScreen);
                             break;
                         case "Dashboard":
-                            displayComponent(node, dashboard);
+                            displayScreen("Dashboard", DashboardScreen);
                             break;
                     }
                 });
@@ -187,61 +187,9 @@ public class ScreenPrimary implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         displaySignIn();
 
-
-        XYChart.Series series = new XYChart.Series();
-
-        ArrayList<LocalDate> last5days = new ArrayList<>();
-        last5days.add(LocalDate.now());
-        for (int i = 1; i < 5; i++) {
-            last5days.add(last5days.get(i - 1).minusDays(1));
-        }
-
-
-        ArrayList<Attendance> temp = new AttendanceDAO().retrieveAttendance();
-        ArrayList<LocalDate> testDate = new ArrayList<>();
-        for (int i = 0; i < temp.size(); i++) {
-            if(temp.get(i).getAttStatus().equals("P")){
-                System.out.println(temp.get(i).getAttDate());
-                testDate.add(temp.get(i).getAttDate().toLocalDate());
-            }
-        }
-
-
-        System.out.println(testDate);
-
-//        series.getData().add(new XYChart.Data());
-
-
-        System.out.println(dup(testDate));
-        for (int i=0; i<last5days.size(); i++){
-            int total = dup(testDate).get(last5days.get(i));
-            series.getData().add(new XYChart.Data(last5days.get(i).toString(), total));
-        }
-
-
-        areaChart.getData().add(series);
-
     }
 
-    public Map<LocalDate, Integer> dup(ArrayList<LocalDate> testDate) {
-        Set<LocalDate> set = new HashSet<>();
-        Map<LocalDate, Integer> map = new HashMap<>();
 
-        for (LocalDate d : testDate) {
-            if (!set.add(d)) {
-                if (map.containsKey(d)){
-                    map.put(d,map.get(d)+1);
-                }
-            } else {
-                map.put(d,1);
-            }
-
-        }
-
-        return map;
-
-    }
 }

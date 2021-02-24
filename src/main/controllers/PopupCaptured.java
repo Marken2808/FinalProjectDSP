@@ -119,7 +119,7 @@ public class PopupCaptured implements Initializable {
             @Override
             public void run() {
                 String InforScreen    = "/main/views/PopupInfor.fxml";
-                ScreenPrimary.getInstance().popUp(InforScreen,true);
+                ScreenPrimary.getInstance().displayPopup(InforScreen,true);
                 PopupInfor.getInstance().setDialog(title,content,img,type);
             }
         });

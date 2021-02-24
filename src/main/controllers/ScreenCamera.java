@@ -72,7 +72,7 @@ public class ScreenCamera implements Initializable {
         this.btnStart.setDisable(false);
         this.btnStart.setText("Continue");
 
-        ScreenPrimary.getInstance().popUp(CaptureScreen, true);
+        ScreenPrimary.getInstance().displayPopup(CaptureScreen, true);
 
     }
 

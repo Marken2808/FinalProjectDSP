@@ -39,7 +39,7 @@ public class PopupInfor implements Initializable {
     void clickBtn(MouseEvent event) {
         ScreenPrimary.dialog.close();
         String CaptureScreen    = "/main/views/PopupCaptured.fxml";
-        ScreenPrimary.getInstance().popUp(CaptureScreen,true);
+        ScreenPrimary.getInstance().displayPopup(CaptureScreen,true);
     }
 
     public void setDialog(String title, String content, String img, String type){

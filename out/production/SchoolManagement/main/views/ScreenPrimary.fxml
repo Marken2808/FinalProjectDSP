@@ -3,9 +3,6 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXDrawer?>
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.chart.AreaChart?>
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.image.Image?>
@@ -46,17 +43,7 @@
                         </Label>
                      </children>
                   </StackPane>
-                  <StackPane fx:id="mainStackPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="875.0" VBox.vgrow="ALWAYS">
-                     <children>
-                        <AreaChart fx:id="areaChart" style="-fx-background-color: white;">
-                          <xAxis>
-                            <CategoryAxis side="BOTTOM" />
-                          </xAxis>
-                          <yAxis>
-                            <NumberAxis side="LEFT" />
-                          </yAxis>
-                        </AreaChart>
-                     </children></StackPane>
+                  <StackPane fx:id="mainStackPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="875.0" VBox.vgrow="ALWAYS" />
                </children>
             </VBox>
          </children>
