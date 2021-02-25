@@ -256,7 +256,7 @@ public class ComponentCalendar implements Initializable{
     }
 
     @FXML
-    void next(ActionEvent event) throws IOException, ParseException {
+    void next(ActionEvent event) {
         gpBody.getChildren().clear();
         currentMonth = getNextMonth(currentMonth);
         drawCalendar();
@@ -264,14 +264,13 @@ public class ComponentCalendar implements Initializable{
     }
 
     @FXML
-    void previous(ActionEvent event) throws IOException, ParseException {
+    void previous(ActionEvent event) {
         gpBody.getChildren().clear();
         currentMonth = getPreviousMonth(currentMonth);
         drawCalendar();
     }
 
     private GregorianCalendar getPreviousMonth(Calendar cal) {
-
         int cMonth = cal.get(Calendar.MONTH);
         int pMonth = cMonth == 0 ? 11 : cMonth - 1;
         int pYear = cMonth == 0 ? cal.get(Calendar.YEAR) - 1 : cal.get(Calendar.YEAR);
@@ -318,9 +317,9 @@ public class ComponentCalendar implements Initializable{
         return monthNames[n];
     }
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         currentMonth = new GregorianCalendar();
         currentMonth.set(Calendar.DAY_OF_MONTH, 1);
 
