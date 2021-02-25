@@ -1,18 +1,25 @@
 package main.controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import main.models.Attendance;
 import main.models.AttendanceDAO;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.*;
 
 public class ScreenOverview implements Initializable {
 
+
+    @FXML
+    private StackPane CalendarSide;
 
     @FXML
     private AreaChart<?, ?> areaChart;
@@ -67,5 +74,12 @@ public class ScreenOverview implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         areaChart.getData().add(dataChart());
+
+        try {
+            AnchorPane calendarTab = FXMLLoader.load(getClass().getResource("/main/views/ComponentCalendar.fxml"));
+            CalendarSide.getChildren().add(calendarTab);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

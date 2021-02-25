@@ -87,7 +87,21 @@ public class ComponentCalendar implements Initializable{
         ));
     }
 
-    public Background handleBackground(Color color){
+    public Background handleBackground(String status, boolean isPress){
+
+        Color color = null;
+        switch (status) {
+            case "P":
+                color = isPress ? Color.rgb(186, 227, 186, 0.15) : Color.rgb(186, 227, 186, 0.3);
+                break;
+            case "A":
+                color = isPress ? Color.rgb(255, 199, 199, 0.15) : Color.rgb(255, 199, 199, 0.3);
+                break;
+            case "O":
+                color = isPress ? Color.rgb(203, 204, 205, 0.15) : Color.rgb(203, 204, 205, 0.3);
+                break;
+        }
+
         return new Background(new BackgroundFill(
                 color, new CornerRadii(20), new Insets(3)
         ));
@@ -119,15 +133,8 @@ public class ComponentCalendar implements Initializable{
             for (Attendance a : testAll) {
                 if (sqlDate.equals(a.getAttDate())) {
                     text.backgroundProperty().bind(Bindings.when(text.pressedProperty())
-                            .then(handleBackground( a.getAttStatus().equals("P")
-                                            ?Color.rgb(186, 227, 186, 0.15)
-                                            :Color.rgb(255, 199, 199, 0.15)
-                                    )
-                            )
-                            .otherwise(handleBackground( a.getAttStatus().equals("P")
-                                            ?Color.rgb(186, 227, 186, 0.3)
-                                            :Color.rgb(255, 199, 199, 0.3)
-                            ))
+                            .then( handleBackground(a.getAttStatus(), true))
+                            .otherwise( handleBackground(a.getAttStatus(), false))
                     );
 
                     text.setOnMouseClicked(event -> {

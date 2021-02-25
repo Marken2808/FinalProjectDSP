@@ -231,12 +231,24 @@ public class TabStudent implements Initializable {
                     tooltip.setShowDelay(Duration.ZERO);
                     tooltip.setText(dateFormat.format(a.getAttDate()));
 
-                    Color color = a.getAttStatus().equals("P") ? (Color.FORESTGREEN) : (Color.ORANGERED);
+                    Color color;
+                    switch (a.getAttStatus()){
+                        case "P":
+                            color = (Color.FORESTGREEN);
+                            break;
+                        case "A":
+                            color = (Color.ORANGERED);
+                            break;
+                        default:
+                            color = (Color.GRAY);
+                            break;
+                    }
+
                     JFXButton btn = new JFXButton(a.getAttStatus());
                     btn.setBorder(new Border(new BorderStroke(color, BorderStrokeStyle.SOLID, corn, BorderWidths.DEFAULT)));
                     btn.setTooltip(tooltip);
                     hoverBtn(btn, color, corn);
-                    
+
                     hBox.setSpacing(5);
                     hBox.setAlignment(Pos.CENTER);
                     hBox.getChildren().add(btn);

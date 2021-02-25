@@ -4,16 +4,16 @@
 <?import javafx.scene.chart.AreaChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
 <StackPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ScreenOverview">
    <children>
-      <VBox alignment="CENTER" StackPane.alignment="CENTER">
+      <VBox alignment="CENTER" spacing="10.0" StackPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
+            <HBox alignment="CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
                <children>
                   <AreaChart fx:id="areaChart" style="-fx-background-color: white;" title="Attendance" HBox.hgrow="ALWAYS">
                     <xAxis>
@@ -23,16 +23,18 @@
                       <NumberAxis side="LEFT" />
                     </yAxis>
                   </AreaChart>
-                  <AnchorPane prefWidth="200.0" style="-fx-background-color: red;" />
-                  <AnchorPane prefWidth="200.0" style="-fx-background-color: green;" />
-                  <AnchorPane prefWidth="200.0" style="-fx-background-color: yellow;" />
+                  <StackPane fx:id="CalendarSide" />
                </children>
             </HBox>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: pink;" />
+            <StackPane prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: pink;">
+               <children>
+                  <Label text="Update Later" />
+               </children>
+            </StackPane>
          </children>
       </VBox>
    </children>
    <padding>
-      <Insets bottom="10.0" top="10.0" />
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
    </padding>
 </StackPane>

@@ -152,7 +152,7 @@ public class ScreenPrimary implements Initializable {
                         case "Settings":
                             break;
                         case "Camera":
-                            displayScreen("Attendance", CameraScreen);
+                            displayScreen("Live Camera", CameraScreen);
                             break;
                         case "Dashboard":
                             displayScreen("Dashboard", DashboardScreen);
