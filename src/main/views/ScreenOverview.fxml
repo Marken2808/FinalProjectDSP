@@ -23,14 +23,37 @@
                       <NumberAxis side="LEFT" />
                     </yAxis>
                   </AreaChart>
-                  <StackPane fx:id="CalendarSide" />
+                  <VBox spacing="10.0">
+                     <children>
+                        <StackPane style="-fx-background-color: orange;" VBox.vgrow="ALWAYS">
+                           <children>
+                              <Label text="Attendance Code" />
+                           </children>
+                        </StackPane>
+                        <StackPane fx:id="calendarPane" style="-fx-background-color: green;" />
+                        <StackPane style="-fx-background-color: lime;" VBox.vgrow="ALWAYS">
+                           <children>
+                              <Label text="Total" />
+                           </children>
+                        </StackPane>
+                     </children>
+                  </VBox>
                </children>
             </HBox>
-            <StackPane prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: pink;">
+            <HBox spacing="10.0">
                <children>
-                  <Label text="Update Later" />
+                  <StackPane prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: pink;">
+                     <children>
+                        <Label text="Update Later" />
+                     </children>
+                  </StackPane>
+                  <StackPane style="-fx-background-color: yellow;" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label text="Update Later" />
+                     </children>
+                  </StackPane>
                </children>
-            </StackPane>
+            </HBox>
          </children>
       </VBox>
    </children>

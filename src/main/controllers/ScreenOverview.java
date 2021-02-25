@@ -1,12 +1,13 @@
 package main.controllers;
 
+import com.jfoenix.animation.alert.CenterTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import main.models.Attendance;
 import main.models.AttendanceDAO;
 
@@ -19,7 +20,7 @@ public class ScreenOverview implements Initializable {
 
 
     @FXML
-    private StackPane CalendarSide;
+    private StackPane calendarPane;
 
     @FXML
     private AreaChart<?, ?> areaChart;
@@ -77,7 +78,8 @@ public class ScreenOverview implements Initializable {
 
         try {
             AnchorPane calendarTab = FXMLLoader.load(getClass().getResource("/main/views/ComponentCalendar.fxml"));
-            CalendarSide.getChildren().add(calendarTab);
+            calendarPane.getChildren().add(calendarTab);
+            calendarPane.setAlignment(Pos.CENTER);
         } catch (IOException e) {
             e.printStackTrace();
         }
