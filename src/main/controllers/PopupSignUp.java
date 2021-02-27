@@ -35,7 +35,7 @@ public class PopupSignUp implements Initializable {
     private JFXPasswordField fieldConfirm;
 
     @FXML
-    private JFXDatePicker pickDate;
+    private JFXDatePicker fieldDob;
 
     @FXML
     private JFXSlider sliderAge;
@@ -45,7 +45,7 @@ public class PopupSignUp implements Initializable {
 
     @FXML
     void checkingAge(ActionEvent event) {
-        LocalDate date = pickDate.getValue();
+        LocalDate date = fieldDob.getValue();
         LocalDate today = LocalDate.now();
         Period p = Period.between(date,today);
         double age = p.getYears();

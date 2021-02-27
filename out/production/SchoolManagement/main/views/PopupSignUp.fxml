@@ -84,18 +84,21 @@
             </VBox>
             <AnchorPane>
                <children>
-                  <JFXDatePicker fx:id="pickDate" cacheShape="false" centerShape="false" defaultColor="BLACK" editable="false" focusTraversable="false" onAction="#checkingAge" promptText="Birthday" scaleShape="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <JFXDatePicker fx:id="fieldDob" cacheShape="false" centerShape="false" defaultColor="BLACK" editable="false" focusTraversable="false" onAction="#checkingAge" promptText="Birthday" scaleShape="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </JFXDatePicker>
-                  <JFXSlider fx:id="sliderAge" indicatorPosition="RIGHT" majorTickUnit="10.0" max="65.0" min="5.0" minorTickCount="1" showTickLabels="true" value="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="26.0">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </JFXSlider>
                </children>
             </AnchorPane>
+            <JFXSlider fx:id="sliderAge" disable="true" indicatorPosition="RIGHT" majorTickUnit="10.0" max="65.0" min="5.0" minorTickCount="1" pickOnBounds="false" showTickLabels="true" value="1.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <VBox.margin>
+                  <Insets left="-5.0" top="-5.0" />
+               </VBox.margin>
+            </JFXSlider>
             <HBox alignment="CENTER">
                <children>
                   <JFXButton fx:id="btnSignUp" buttonType="RAISED" onAction="#makeRegister" style="-fx-background-color: #00ffaa;" text="Sign Up" />

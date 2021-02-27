@@ -1,8 +1,6 @@
 package main.controllers;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -12,12 +10,20 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import main.models.*;
 import main.utils.OpenCV;
@@ -35,22 +41,24 @@ public class PopupCaptured implements Initializable {
     private ImageView captImg;
 
     @FXML
-    private JFXTextField fieldName;
-
-    @FXML
-    private JFXButton btnClear;
-
-    @FXML
-    private JFXButton btnSubmit;
-
-    @FXML
     private JFXComboBox<?> comboPic;
 
     @FXML
-    private JFXComboBox<Integer> boxID;
+    private VBox boxData;
+
+
+    JFXComboBox boxId = new JFXComboBox();
+
+    JFXTextField fieldName = new JFXTextField();
+
+    JFXComboBox boxSet = new JFXComboBox();
+
+    JFXTextField fieldPhone = new JFXTextField();
+
+    JFXDatePicker fieldDob = new JFXDatePicker();
 
     @FXML
-    private JFXComboBox<Integer> boxSet;
+    private JFXButton btnSubmit;
 
     @FXML
     public HBox hboxInfor;
@@ -61,19 +69,20 @@ public class PopupCaptured implements Initializable {
     @FXML
     private ImageView picInfor;
 
+    private JFXTreeView<?> treeviewSub = new JFXTreeView();
+
     String imgPath;
     OpenCV callCV = OpenCV.getInstance();
     StringBuilder sb = new StringBuilder();
 
-    @FXML
-    public void submitNew(ActionEvent event) {
+    public void submitNew() {
         isFulfill();
 
         Timeline timeline = new Timeline( new KeyFrame( Duration.millis(200), ae -> {
             if (isFulfill()) {
                 try {
 //                    write image on file
-                    int id = Integer.parseInt(String.valueOf(boxID.getValue()));
+                    int id = Integer.parseInt(String.valueOf(boxId.getValue()));
                     String name = fieldName.getText();
                     int set = Integer.parseInt(String.valueOf(boxSet.getValue()));
                     Student student = new Student(id,name);
@@ -148,34 +157,25 @@ public class PopupCaptured implements Initializable {
             pic.setImage(new Image("/resources/images/icon/alert-circle_red.png"));
         }
     }
-    public boolean isFulfill(){
+    public boolean isFulfill() {
 
-        if((!isEmpty(fieldName) && !isEmpty(boxID) && !isEmpty(boxSet))){    // true: not empty
+        if ((!isEmpty(fieldName) && !isEmpty(boxId) && !isEmpty(boxSet))) {    // true: not empty
 //            System.out.println("all filled: " + !isEmpty(boxID)+!isEmpty(fieldName) + !isEmpty(boxSet));
-            lineInfor(textInfor,picInfor,"Success");
+            lineInfor(textInfor, picInfor, "Success");
             return true;
         } else {
 //            System.out.println("empty: " + !isEmpty(boxID)+!isEmpty(fieldName) + !isEmpty(boxSet));
-            lineInfor(textInfor,picInfor,"Fail");
+            lineInfor(textInfor, picInfor, "Fail");
             return false;
         }
     }
 
-    @FXML
-    void clearDataset(ActionEvent event) {
+    public void clear(){
         sb.setLength(0);
-        clear(boxID);
-        clear(fieldName);
-        clear(boxSet);
+        boxId.setValue("");
+        fieldName.setText("");
+        boxSet.setValue("");
         isFulfill();
-    }
-
-    public void clear(Object obj){
-        if (obj instanceof JFXComboBox){
-            ((JFXComboBox) obj).setValue("");
-        } else if( obj instanceof JFXTextField){
-            ((JFXTextField) obj).setText("");
-        }
     }
 
     @FXML
@@ -213,6 +213,107 @@ public class PopupCaptured implements Initializable {
         return null;
     }
 
+    public Node display_mainView() {
+        boxId.setPromptText("ID");
+        boxId.setLabelFloat(true);
+        boxId.setEditable(true);
+        boxId.setPrefWidth(70);
+
+        fieldName.setLabelFloat(true);
+        fieldName.setPromptText("Name");
+        fieldName.setAlignment(Pos.CENTER);
+
+        boxSet.setPromptText("Set");
+        boxSet.setLabelFloat(true);
+        boxSet.setEditable(true);
+        boxSet.setPrefWidth(50);
+
+        JFXButton btnClear = new JFXButton();
+        ImageView img = new ImageView(new Image("resources/images/icon/x.png"));
+        img.setFitWidth(15); img.setFitHeight(15);
+        btnClear.setGraphic(img);
+        btnClear.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+        btnClear.setOnMouseClicked(event -> { clear(); });
+
+        HBox mainBox = new HBox();
+        mainBox.getChildren().addAll(boxId, fieldName, boxSet, btnClear);
+        mainBox.setSpacing(5);
+        mainBox.setPadding(new Insets(5,0,5,0));
+        mainBox.setAlignment(Pos.BOTTOM_LEFT);
+
+        return mainBox;
+    }
+
+    public Node display_detailsView() {
+        fieldPhone.setPromptText("Phone");
+        fieldPhone.setLabelFloat(true);
+        fieldPhone.setEditable(true);
+        fieldPhone.setAlignment(Pos.CENTER);
+
+        fieldDob.setPromptText("Birthday");
+        fieldDob.setPrefWidth(160);
+
+        HBox detailsBox = new HBox();
+        detailsBox.getChildren().addAll(fieldPhone, fieldDob);
+        detailsBox.setSpacing(5);
+        detailsBox.setPadding(new Insets(5,0,5,0));
+        detailsBox.setAlignment(Pos.BOTTOM_LEFT);
+
+        return detailsBox;
+    }
+
+    public void displaySubTreeView() {
+
+
+
+
+        JFXTextField username = new JFXTextField();
+        username.setPromptText("USERNAME");
+        username.setLabelFloat(true);
+        username.setEditable(true);
+
+        JFXTextField password = new JFXTextField();
+        password.setPromptText("Password");
+        password.setLabelFloat(true);
+        password.setEditable(true);
+
+
+
+
+
+        HBox accountBox = new HBox();
+        accountBox.getChildren().addAll(username,password);
+        accountBox.setSpacing(10);
+
+
+        TreeItem main = new TreeItem("Main");
+        main.getChildren().addAll(new TreeItem(display_mainView()));
+        main.setExpanded(true);
+
+        TreeItem sub = new TreeItem("Sub");
+        sub.getChildren().addAll(new TreeItem(display_detailsView()));
+        sub.setExpanded(false);
+
+        TreeItem acc = new TreeItem("Account");
+        acc.getChildren().addAll(new TreeItem(accountBox));
+        acc.setExpanded(false);
+
+        TreeItem rootItem = new TreeItem();
+        rootItem.getChildren().addAll(main, sub, acc);
+
+        treeviewSub.setRoot(rootItem);
+        treeviewSub.setShowRoot(false);
+
+        treeviewSub.setStyle("-fx-box-border: transparent");
+
+
+        JFXButton btnSubmit = new JFXButton("Submit");
+        btnSubmit.setOnMouseClicked(event -> { submitNew(); });
+
+        boxData.getChildren().addAll(treeviewSub, btnSubmit);
+
+    }
+
 
     ObservableList<Integer> observableList = FXCollections.observableList(getListSet(callCV.predictionID));
 
@@ -222,7 +323,7 @@ public class PopupCaptured implements Initializable {
         if(callCV.listRez.size()==1){
             comboPic.setPromptText("This Image");
             comboPic.setDisable(true);
-            boxID.setValue(callCV.predictionID);
+            boxId.setValue(callCV.predictionID);
             fieldName.setText(String.valueOf(callCV.namesMap.get(callCV.predictionID)));
             boxSet.setItems(observableList);
             boxSet.setValue(0);
@@ -246,7 +347,7 @@ public class PopupCaptured implements Initializable {
 
         isFulfill();
         hboxInfor.setVisible(false);
-
+        displaySubTreeView();
 
 
     }
