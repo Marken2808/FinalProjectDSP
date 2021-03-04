@@ -27,9 +27,13 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import main.models.*;
 import main.utils.OpenCV;
+import main.utils.UtilsOCV;
+import org.opencv.core.Mat;
+import org.opencv.imgcodecs.Imgcodecs;
 
 import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageOutputStream;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
 import java.sql.SQLException;
@@ -80,43 +84,45 @@ public class PopupCaptured implements Initializable {
 
         Timeline timeline = new Timeline( new KeyFrame( Duration.millis(200), ae -> {
             if (isFulfill()) {
+                //                    write image on file
+                int id = Integer.parseInt(String.valueOf(boxId.getValue()));
+                String name = fieldName.getText();
+                int set = Integer.parseInt(String.valueOf(boxSet.getValue()));
+                Student student = new Student(id,name);
+                Face face = new Face(imgPath,set,student);
+//                String imgPath = callCV.datasetPath + id + "-" + name + "_" + set + ".jpg";
+
+                Imgcodecs.imwrite(
+                    callCV.datasetPath + id + "-" + name + "_" + set + ".jpg",
+                    UtilsOCV.bufferedImageToMat(
+                            SwingFXUtils.fromFXImage(this.captImg.getImage(), null)
+                    )
+                );
+
+//                    ImageIO.write(
+//                            SwingFXUtils.fromFXImage( this.captImg.getImage(), null),
+//                            "jpg",
+//                            new FileImageOutputStream(new File(imgPath))
+//                    );
+
                 try {
-//                    write image on file
-                    int id = Integer.parseInt(String.valueOf(boxId.getValue()));
-                    String name = fieldName.getText();
-                    int set = Integer.parseInt(String.valueOf(boxSet.getValue()));
-                    Student student = new Student(id,name);
-                    Face face = new Face(imgPath,set,student);
-                    String imgPath = callCV.datasetPath + id + "-" + name + "_" + set + ".jpg";
-
-                    ImageIO.write(
-                            SwingFXUtils.fromFXImage( this.captImg.getImage(), null),
-                            "jpg",
-                            new FileImageOutputStream(new File(imgPath))
+                    new User().insertStudentData(student, face);
+                    handlePopup(
+                            "Success",
+                            "Face Inserted",
+                            "resources/images/icon/check-circle_green.png",
+                            "OK"
                     );
-
-                    try {
-                        new User().insertStudentData(student, face);
-                        handlePopup(
-                                "Success",
-                                "Face Inserted",
-                                "resources/images/icon/check-circle_green.png",
-                                "OK"
-                        );
-                    } catch (SQLException e) {
-                        handlePopup(
-                                "Fail",
-                                "Face Exist",
-                                "resources/images/icon/alert-circle_red.png",
-                                "Close"
-                        );
-                    }
-
-                    ScreenPrimary.dialog.close();
-                } catch (IOException e) {
-                    System.out.println("Catch here");
-
+                } catch (SQLException e) {
+                    handlePopup(
+                            "Fail",
+                            "Face Exist",
+                            "resources/images/icon/alert-circle_red.png",
+                            "Close"
+                    );
                 }
+
+                ScreenPrimary.dialog.close();
             }
         }));
         timeline.play();
@@ -264,9 +270,6 @@ public class PopupCaptured implements Initializable {
 
     public void displaySubTreeView() {
 
-
-
-
         JFXTextField username = new JFXTextField();
         username.setPromptText("USERNAME");
         username.setLabelFloat(true);
@@ -276,11 +279,7 @@ public class PopupCaptured implements Initializable {
         password.setPromptText("Password");
         password.setLabelFloat(true);
         password.setEditable(true);
-
-
-
-
-
+        
         HBox accountBox = new HBox();
         accountBox.getChildren().addAll(username,password);
         accountBox.setSpacing(10);

@@ -189,19 +189,16 @@ public class OpenCV {
             Rect rectCrop = new Rect(face.tl(), face.br());
             croppedImage = new Mat(org_frame, rectCrop);
             resizeImage = new Mat();
-            this.listCrop.add(croppedImage);         //for multi pics
-            this.listRez.add(resizeImage);
 
-            for(int i=0; i<this.listCrop.size();i++){
-                Imgcodecs.imwrite( testPath+"0-new_"+i+".jpg", this.listCrop.get(i));
-            }
+            this.listCrop.add(croppedImage);         //for multi pics
+
 
             Imgproc.cvtColor(croppedImage, croppedImage, Imgproc.COLOR_BGR2GRAY);
             Imgproc.equalizeHist(croppedImage, croppedImage);
-            Size size = new Size(250,250);
+            Size size = new Size(150,150);
             Imgproc.resize(croppedImage, resizeImage, size, 0,0, INTER_AREA);
 
-            double[] returnedResults = faceRecognition(resizeImage);
+            double[] returnedResults = faceRecognition(croppedImage);
             predictionID = ((int) returnedResults[0]);
             double confidence = returnedResults[1];
             String name;
@@ -212,6 +209,10 @@ public class OpenCV {
                 name = "Unknown";
             }
 
+            this.listRez.add(resizeImage);
+            for(int i=0; i<this.listRez.size();i++){
+                Imgcodecs.imwrite( testPath+"0-new_"+i+".jpg", this.listRez.get(i));
+            }
 
             String box_text = name + " : " + confidence + "%";
             double pos_x = face.x - 10;

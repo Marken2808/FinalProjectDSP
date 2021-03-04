@@ -2,6 +2,8 @@ package main.utils;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
@@ -10,6 +12,10 @@ import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
+import org.opencv.core.MatOfByte;
+import org.opencv.imgcodecs.Imgcodecs;
+
+import javax.imageio.ImageIO;
 
 
 public class UtilsOCV
@@ -74,9 +80,12 @@ public class UtilsOCV
     }
 
     public static Mat bufferedImageToMat(BufferedImage bi) {
-        Mat mat = new Mat(bi.getHeight(), bi.getWidth(), CvType.CV_8UC3);
-        byte[] data = ((DataBufferByte) bi.getRaster().getDataBuffer()).getData();
+        BufferedImage image = new BufferedImage(bi.getWidth(), bi.getHeight(), BufferedImage.TYPE_BYTE_GRAY);
+        image.getGraphics().drawImage(bi, 0, 0, null);
+        Mat mat = new Mat(image.getHeight(), image.getWidth(), CvType.CV_8UC1);
+        byte[] data = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
         mat.put(0, 0, data);
         return mat;
     }
+
 }
