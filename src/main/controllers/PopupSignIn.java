@@ -69,7 +69,6 @@ public class PopupSignIn implements Initializable {
     @FXML
     void makeLogin(ActionEvent event) {
 
-
         System.out.println("username: "+fieldUsername.getText());
         System.out.println("password: "+fieldPassword.getText());
 

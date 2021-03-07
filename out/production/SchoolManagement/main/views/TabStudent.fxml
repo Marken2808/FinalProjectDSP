@@ -36,7 +36,7 @@
                   <Insets right="5.0" />
                </HBox.margin>
             </ImageView>
-            <JFXTextField fx:id="fieldSearch" focusColor="#405aa800" onKeyReleased="#onSearchStudent" promptText="Search..." unFocusColor="#4d4d4d00">
+            <JFXTextField fx:id="fieldSearch" focusColor="#405aa800" onKeyPressed="#onSuggestStudent" onKeyReleased="#onSearchStudent" promptText="Search..." unFocusColor="#4d4d4d00">
                <font>
                   <Font size="10.0" />
                </font>

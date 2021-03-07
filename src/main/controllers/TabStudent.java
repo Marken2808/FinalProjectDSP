@@ -1,13 +1,12 @@
 package main.controllers;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDrawer;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.EventTarget;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -124,7 +123,6 @@ public class TabStudent implements Initializable {
         tableSTUDENT.refresh();
         studentLists = new StudentDAO().showStudentTable();
         tableSTUDENT.setItems(studentLists);
-
 
         filterData = new FilteredList<>(studentLists, e-> true);
         tableSTUDENT.setItems(filterData);
@@ -280,15 +278,33 @@ public class TabStudent implements Initializable {
     void onSearchStudent(KeyEvent event) {
 
         fieldSearch.textProperty().addListener((obsVal, oldVal, newVal) -> {
+
             filterData.setPredicate((Student s) -> {
-                String nv = newVal.toUpperCase();
-                return s.getStudentName().toUpperCase().contains(nv)
-                        || String.valueOf(s.getStudentId()).contains(nv) ;
+
+                return      s.getStudentName().toUpperCase().contains(newVal.toUpperCase())
+                        ||  String.valueOf(s.getStudentId()).contains(newVal.toUpperCase()) ;
             });
+
             tableSTUDENT.refresh();
         });
 
+    }
 
+    @FXML
+    void onSuggestStudent(KeyEvent event) {
+
+        JFXAutoCompletePopup<Student> auto = new JFXAutoCompletePopup<>();
+        auto.setSelectionHandler(e -> fieldSearch.setText(e.getObject().getStudentName().toUpperCase()));
+        auto.getSuggestions().addAll(studentLists);
+
+        fieldSearch.textProperty().addListener((obsVal, oldVal, newVal) ->{
+            auto.filter(s -> s.getStudentName().toUpperCase().contains(newVal.toUpperCase())
+                          || String.valueOf(s.getStudentId()).contains(newVal.toUpperCase())
+            );
+            if(auto.getFilteredSuggestions().isEmpty() || newVal.isBlank()){ auto.hide(); }
+            else{ auto.show(fieldSearch); }
+        });
+//        System.out.println(fieldSearch.getText().isBlank());
     }
 
     @Override

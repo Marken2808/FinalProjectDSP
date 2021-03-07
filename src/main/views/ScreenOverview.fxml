@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.AreaChart?>
 <?import javafx.scene.chart.CategoryAxis?>
@@ -8,6 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <StackPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ScreenOverview">
    <children>
@@ -25,9 +28,27 @@
                   </AreaChart>
                   <VBox spacing="10.0">
                      <children>
-                        <StackPane style="-fx-background-color: orange;" VBox.vgrow="ALWAYS">
+                        <StackPane prefHeight="100.0" style="-fx-background-color: orange;">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
                            <children>
-                              <Label text="Attendance Code" />
+                              <JFXTextField fx:id="fieldCode" alignment="CENTER" focusColor="#425ba600" focusTraversable="false" labelFloat="true" maxWidth="150.0" promptText="Attendance Code" style="-fx-background-color: white;" unFocusColor="#4d4d4d00" StackPane.alignment="CENTER">
+                                 <font>
+                                    <Font name="System Bold" size="16.0" />
+                                 </font>
+                                 <StackPane.margin>
+                                    <Insets bottom="5.0" />
+                                 </StackPane.margin>
+                                 <padding>
+                                    <Insets top="-1.0" />
+                                 </padding>
+                              </JFXTextField>
+                              <JFXButton onMouseClicked="#onGenerate" style="-fx-background-color: white;" text="Generate" StackPane.alignment="BOTTOM_CENTER">
+                                 <StackPane.margin>
+                                    <Insets bottom="5.0" />
+                                 </StackPane.margin>
+                              </JFXButton>
                            </children>
                         </StackPane>
                         <StackPane fx:id="calendarPane" style="-fx-background-color: green;" />

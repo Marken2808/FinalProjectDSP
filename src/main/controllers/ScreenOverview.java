@@ -1,12 +1,14 @@
 package main.controllers;
 
 import com.jfoenix.animation.alert.CenterTransition;
+import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import main.models.Attendance;
 import main.models.AttendanceDAO;
@@ -18,6 +20,8 @@ import java.util.*;
 
 public class ScreenOverview implements Initializable {
 
+    @FXML
+    private JFXTextField fieldCode;
 
     @FXML
     private StackPane calendarPane;
@@ -62,7 +66,6 @@ public class ScreenOverview implements Initializable {
             }
         }
 
-
         for (int i=0; i<numOfDays(8).size(); i++){
             int total = dup(arrDays).get(numOfDays(8).get(i));
             present.getData().add(new XYChart.Data(numOfDays(8).get(i).toString(), total));
@@ -71,6 +74,35 @@ public class ScreenOverview implements Initializable {
         return present;
     }
 
+    public String getAlphaNumericString(int n)
+    {
+
+        // chose a Character random from this String
+        String s = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+        // create StringBuffer size of AlphaNumericString
+        StringBuilder strCode = new StringBuilder(n);
+
+        for (int i = 0; i < n; i++) {
+
+            int index = (int)(s.length()* Math.random());
+
+            // add Character one by one in end of sb
+            if(i%2==0 && i!=0) {
+                strCode.append("-");
+            }
+            strCode.append(s.charAt(index));
+        }
+        return strCode.toString();
+    }
+
+
+
+
+    @FXML
+    void onGenerate(MouseEvent event) {
+        fieldCode.setText(getAlphaNumericString(6));
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -83,5 +115,7 @@ public class ScreenOverview implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
     }
 }

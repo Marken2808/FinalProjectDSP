@@ -90,7 +90,6 @@ public class PopupCaptured implements Initializable {
                 int set = Integer.parseInt(String.valueOf(boxSet.getValue()));
                 Student student = new Student(id,name);
                 Face face = new Face(imgPath,set,student);
-//                String imgPath = callCV.datasetPath + id + "-" + name + "_" + set + ".jpg";
 
                 Imgcodecs.imwrite(
                     callCV.datasetPath + id + "-" + name + "_" + set + ".jpg",
@@ -98,12 +97,6 @@ public class PopupCaptured implements Initializable {
                             SwingFXUtils.fromFXImage(this.captImg.getImage(), null)
                     )
                 );
-
-//                    ImageIO.write(
-//                            SwingFXUtils.fromFXImage( this.captImg.getImage(), null),
-//                            "jpg",
-//                            new FileImageOutputStream(new File(imgPath))
-//                    );
 
                 try {
                     new User().insertStudentData(student, face);
@@ -133,7 +126,7 @@ public class PopupCaptured implements Initializable {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                String InforScreen    = "/main/views/PopupInfor.fxml";
+                String InforScreen = "/main/views/PopupInfor.fxml";
                 ScreenPrimary.getInstance().displayPopup(InforScreen,true);
                 PopupInfor.getInstance().setDialog(title,content,img,type);
             }
