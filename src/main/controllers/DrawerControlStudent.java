@@ -113,7 +113,7 @@ public class DrawerControlStudent implements Initializable {
             new ModuleDAO().update(id, map);
 
             refresh();
-            TabStudent.getInstance().refresh();
+            TabStudent.getInstance().updateTable();
         });
 
         JFXTreeView treeView = new JFXTreeView();

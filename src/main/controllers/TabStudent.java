@@ -2,10 +2,12 @@ package main.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawer;
+import com.jfoenix.controls.JFXTextField;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.EventTarget;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +18,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.PickResult;
@@ -46,6 +49,9 @@ public class TabStudent implements Initializable {
 
     @FXML
     private AnchorPane anchorPane;
+
+    @FXML
+    private JFXTextField fieldSearch;
 
     @FXML
     private JFXDrawer drawerViewPane;
@@ -80,6 +86,7 @@ public class TabStudent implements Initializable {
     }
 
     ObservableList<Student> studentLists = FXCollections.observableArrayList();
+    FilteredList<Student> filterData;
 
     public static int id;
     String DrawerViewStudent = "/main/views/DrawerViewStudent.fxml";
@@ -108,16 +115,19 @@ public class TabStudent implements Initializable {
                 isDrawerClick(event.getButton().equals(MouseButton.SECONDARY));
             }
             tableSTUDENT.getSelectionModel().clearSelection(tableSTUDENT.getSelectionModel().getSelectedIndex());
-
-            refresh();
+//            updateTable();
         }
     }
 
-    public void refresh(){
+    public void updateTable(){
         // refresh
         tableSTUDENT.refresh();
         studentLists = new StudentDAO().showStudentTable();
         tableSTUDENT.setItems(studentLists);
+
+
+        filterData = new FilteredList<>(studentLists, e-> true);
+        tableSTUDENT.setItems(filterData);
     }
 
     public void isDrawerClick(boolean check) {
@@ -260,6 +270,27 @@ public class TabStudent implements Initializable {
         });
     }
 
+    @FXML
+    void onClear(MouseEvent event) {
+        fieldSearch.clear();
+        tableSTUDENT.refresh();
+    }
+
+    @FXML
+    void onSearchStudent(KeyEvent event) {
+
+        fieldSearch.textProperty().addListener((obsVal, oldVal, newVal) -> {
+            filterData.setPredicate((Student s) -> {
+                String nv = newVal.toUpperCase();
+                return s.getStudentName().toUpperCase().contains(nv)
+                        || String.valueOf(s.getStudentId()).contains(nv) ;
+            });
+            tableSTUDENT.refresh();
+        });
+
+
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -268,10 +299,7 @@ public class TabStudent implements Initializable {
         callbackCell_StudentMarked();
         callbackCell_Last5Days();
 
-        refresh();
-
-
-//        new AttendanceDAO().insertAttendance(new Attendance("Z", 5));
+        updateTable();
 
     }
 
