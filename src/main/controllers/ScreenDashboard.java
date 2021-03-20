@@ -4,7 +4,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.chart.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.*;
 import main.utils.MyGraph;
 
@@ -17,6 +21,10 @@ import java.util.function.Function;
 
 public class ScreenDashboard implements Initializable {
 
+
+    @FXML
+    private TabPane DashboardTab = new TabPane();
+
     @FXML
     private LineChart<Double, Double> lineGraph;
 
@@ -26,8 +34,7 @@ public class ScreenDashboard implements Initializable {
     @FXML
     private AnchorPane CalendarPane;
 
-    @FXML
-    private AnchorPane StudentPane;
+
 
 
     private MyGraph mathsGraph;
@@ -44,19 +51,41 @@ public class ScreenDashboard implements Initializable {
 //        return instance;
 //    }
 
-    public void StudentView(){
+    public Node StudentView(){
         try {
             AnchorPane studentTab = FXMLLoader.load(getClass().getResource("/main/views/TabStudent.fxml"));
-            StudentPane.getChildren().addAll(studentTab);
-            StudentPane.setTopAnchor(studentTab,0.0);
-            StudentPane.setBottomAnchor(studentTab,0.0);
-            StudentPane.setRightAnchor(studentTab,0.0);
-            StudentPane.setLeftAnchor(studentTab,0.0);
+//            StudentPane.getChildren().addAll(studentTab);
+//            StudentPane.setTopAnchor(studentTab,0.0);
+//            StudentPane.setBottomAnchor(studentTab,0.0);
+//            StudentPane.setRightAnchor(studentTab,0.0);
+//            StudentPane.setLeftAnchor(studentTab,0.0);
+            return studentTab;
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
+    public Node TeacherView(){
+        try {
+            AnchorPane teacherTab = FXMLLoader.load(getClass().getResource("/main/views/TabTeacher.fxml"));
+            return teacherTab;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    public Node UserView(){
+        try {
+            AnchorPane userTab = FXMLLoader.load(getClass().getResource("/main/views/TabUser.fxml"));
+            return userTab;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public void CalendarView(){
         try {
@@ -77,13 +106,20 @@ public class ScreenDashboard implements Initializable {
 
     @Override
     public void initialize(final URL url, final ResourceBundle rb) {
+
+        Tab studentTab = new Tab("Student", StudentView());
+        Tab teacherTab = new Tab("Teacher", TeacherView());
+        Tab userTab    = new Tab("User", UserView());
+        DashboardTab.getTabs().addAll(studentTab, teacherTab, userTab);
+
         mathsGraph = new MyGraph(lineGraph, 10);
         areaMathsGraph = new MyGraph(areaGraph, 10);
 
 //        -----------------
         CalendarView();
-        StudentView();
 //        -----------------
+
+
     }
 
 //    -----------------------------EX----------------------------

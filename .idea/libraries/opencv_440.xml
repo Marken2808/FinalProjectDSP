@@ -7,8 +7,6 @@
     <NATIVE>
       <root url="file://$PROJECT_DIR$/lib/openCV" />
     </NATIVE>
-    <SOURCES>
-      <root url="jar://$PROJECT_DIR$/lib/openCV/opencv-440.jar!/" />
-    </SOURCES>
+    <SOURCES />
   </library>
 </component>

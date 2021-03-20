@@ -58,6 +58,8 @@ public class ScreenOverview implements Initializable {
 
     public XYChart.Series dataChart(){
         XYChart.Series present = new XYChart.Series();
+        present.setName("Total Attendance");
+
         ArrayList<Attendance> temp = new AttendanceDAO().retrieveAttendance();
         ArrayList<LocalDate> arrDays = new ArrayList<>();
         for (int i = 0; i < temp.size(); i++) {
@@ -66,9 +68,9 @@ public class ScreenOverview implements Initializable {
             }
         }
 
-        for (int i=0; i<numOfDays(8).size(); i++){
-            int total = dup(arrDays).get(numOfDays(8).get(i));
-            present.getData().add(new XYChart.Data(numOfDays(8).get(i).toString(), total));
+        for (int i=0; i<numOfDays(20).size(); i++){
+            int total = dup(arrDays).get(numOfDays(20).get(i));
+            present.getData().add(new XYChart.Data(numOfDays(20).get(i).toString(), total));
         }
 
         return present;

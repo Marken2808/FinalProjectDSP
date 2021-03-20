@@ -18,7 +18,7 @@
       <TableView fx:id="tableSTUDENT" editable="true" onMouseClicked="#clickOnTable" onMouseMoved="#testMove" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columns>
             <TableColumn fx:id="colSID" maxWidth="1.7976931348623157E308" minWidth="-1.0" text="Student ID" />
-          <TableColumn fx:id="colSNAME" editable="false" maxWidth="1.7976931348623157E308" minWidth="-1.0" text="Student Name" />
+          <TableColumn fx:id="colSNAME" maxWidth="1.7976931348623157E308" minWidth="-1.0" text="Student Name" />
             <TableColumn fx:id="colMarked" maxWidth="1.7976931348623157E308" minWidth="-1.0" text="Marked All" />
             <TableColumn fx:id="colLast5Days" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="160.0" text="Last 5 days" />
         </columns>

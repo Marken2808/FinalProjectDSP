@@ -7,6 +7,8 @@
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
@@ -28,22 +30,36 @@
                   </AreaChart>
                   <VBox spacing="10.0">
                      <children>
-                        <StackPane prefHeight="100.0" style="-fx-background-color: orange;">
+                        <StackPane prefHeight="100.0" style="-fx-background-color: #d9d9d9;">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
                            <children>
-                              <JFXTextField fx:id="fieldCode" alignment="CENTER" focusColor="#425ba600" focusTraversable="false" labelFloat="true" maxWidth="150.0" promptText="Attendance Code" style="-fx-background-color: white;" unFocusColor="#4d4d4d00" StackPane.alignment="CENTER">
-                                 <font>
-                                    <Font name="System Bold" size="16.0" />
-                                 </font>
+                              <HBox alignment="CENTER" StackPane.alignment="CENTER">
                                  <StackPane.margin>
                                     <Insets bottom="5.0" />
                                  </StackPane.margin>
-                                 <padding>
-                                    <Insets top="-1.0" />
-                                 </padding>
-                              </JFXTextField>
+                                 <children>
+                                    <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../resources/images/icon/refresh-cw.png" />
+                                       </image>
+                                    </ImageView>
+                                    <JFXTextField fx:id="fieldCode" alignment="CENTER" cacheShape="false" centerShape="false" editable="false" focusColor="#425ba600" focusTraversable="false" labelFloat="true" maxWidth="150.0" promptText="Attendance Code" scaleShape="false" style="-fx-background-color: white;" unFocusColor="#4d4d4d00">
+                                       <font>
+                                          <Font name="System Bold" size="16.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets top="-1.0" />
+                                       </padding>
+                                    </JFXTextField>
+                                    <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../resources/images/icon/copy.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
                               <JFXButton onMouseClicked="#onGenerate" style="-fx-background-color: white;" text="Generate" StackPane.alignment="BOTTOM_CENTER">
                                  <StackPane.margin>
                                     <Insets bottom="5.0" />

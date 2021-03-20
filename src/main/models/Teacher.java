@@ -7,6 +7,11 @@ public class Teacher extends User{
     private String teacherUsername;
     private String teacherPassword;
 
+    public Teacher(int teacherId, String teacherName){
+        this.teacherId = teacherId;
+        this.teacherName = teacherName;
+    }
+
     public Teacher(String teacherName, String teacherUsername, String teacherPassword) {
         super(teacherUsername, teacherPassword);
         this.teacherName = teacherName;

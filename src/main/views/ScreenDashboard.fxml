@@ -14,13 +14,8 @@
 
 <StackPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ScreenDashboard">
    <children>
-      <TabPane style="-fx-background-color: white;" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="DashboardTab" style="-fx-background-color: white;" tabClosingPolicy="UNAVAILABLE">
          <tabs>
-            <Tab text="Student">
-              <content>
-                <AnchorPane fx:id="StudentPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-              </content>
-            </Tab>
             <Tab text="Calendar">
                <content>
                   <AnchorPane fx:id="CalendarPane" />
@@ -71,11 +66,6 @@
                         </AnchorPane>
                      </children>
                   </AnchorPane>
-               </content>
-            </Tab>
-            <Tab text="Module">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                </content>
             </Tab>
          </tabs>

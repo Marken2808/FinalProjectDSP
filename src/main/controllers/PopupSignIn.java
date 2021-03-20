@@ -15,6 +15,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import main.models.Teacher;
 import main.models.TeacherDAO;
+import main.models.User;
+import main.models.UserDAO;
 //import resources.mySQLconnection;
 
 import javax.crypto.BadPaddingException;
@@ -72,7 +74,7 @@ public class PopupSignIn implements Initializable {
         System.out.println("username: "+fieldUsername.getText());
         System.out.println("password: "+fieldPassword.getText());
 
-        boolean verify = new TeacherDAO().authenticate(new Teacher(fieldUsername.getText(), fieldPassword.getText()));
+        boolean verify = new UserDAO().authenticate(new User(fieldUsername.getText(), fieldPassword.getText()));
 
         if(verify){
             ScreenPrimary.dialog.close();

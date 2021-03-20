@@ -9,6 +9,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import main.models.Teacher;
 import main.models.TeacherDAO;
+import main.models.User;
+import main.models.UserDAO;
 //import resources.mySQLconnection;
 
 import java.net.URL;
@@ -57,7 +59,7 @@ public class PopupSignUp implements Initializable {
     void makeRegister(ActionEvent event) {
 
         if(fieldPassword.getText().equals(fieldConfirm.getText()) && !fieldPassword.getText().isEmpty()){
-            new TeacherDAO().insert(new Teacher("ABC",fieldUsername.getText(),fieldPassword.getText()));
+            new UserDAO().insert(new User(fieldUsername.getText(),fieldPassword.getText()));
             goBack(event);
         }
 
