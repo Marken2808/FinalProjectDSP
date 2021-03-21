@@ -11,34 +11,34 @@
 
 <VBox fx:id="drawerPane" alignment="CENTER" spacing="5.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.DrawerMenu">
    <children>
-      <ImageView fx:id="picAvatar" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" VBox.vgrow="ALWAYS">
+      <ImageView fx:id="picAvatar" fitHeight="125.0" fitWidth="125.0" pickOnBounds="true" VBox.vgrow="ALWAYS">
          <image>
-            <Image url="@../../resources/images/icon/alert-circle.png" />
+            <Image url="@../../resources/images/icon/person-black.png" />
          </image>
          <VBox.margin>
-            <Insets />
+            <Insets left="15.0" right="15.0" top="15.0" />
          </VBox.margin>
       </ImageView>
-      <JFXButton alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="50.0" text="&lt;User&gt;">
-         <graphic>
-            <StackPane>
-               <children>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" opacity="0.8" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER_LEFT">
-                     <image>
-                        <Image url="@../../resources/images/icon/user.png" />
-                     </image>
-                  </ImageView>
-                  <Label fx:id="lableName" alignment="CENTER" contentDisplay="CENTER" text="User" StackPane.alignment="CENTER">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                  </Label>
-               </children>
-            </StackPane>
-         </graphic>
-      </JFXButton>
       <VBox accessibleText="DrawerBox" alignment="TOP_CENTER" spacing="5.0" VBox.vgrow="ALWAYS">
          <children>
+            <JFXButton accessibleText="Profile" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="50.0" text="&lt;User&gt;">
+               <graphic>
+                  <StackPane>
+                     <children>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" opacity="0.8" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER_LEFT">
+                           <image>
+                              <Image url="@../../resources/images/icon/user.png" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="labelName" alignment="CENTER" contentDisplay="CENTER" text="User" StackPane.alignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </StackPane>
+               </graphic>
+            </JFXButton>
             <JFXButton fx:id="btnHome" accessibleText="Home" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" onMouseClicked="#isHomeClicked" prefHeight="50.0" text="&lt;Home&gt;">
                <graphic>
                   <StackPane>

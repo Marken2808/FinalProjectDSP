@@ -114,7 +114,7 @@ public class ScreenPrimary implements Initializable {
 
             VBox menuLeft = FXMLLoader.load(getClass().getResource(DrawerMenu));
             drawerPane.setSidePane(menuLeft);
-            drawerPane.setDefaultDrawerSize(mainAnchorPane.getWidth()*0.25);
+            drawerPane.setDefaultDrawerSize(mainAnchorPane.getWidth()*0.2);
             showElements(menuLeft);
         } catch (IOException e) {
             e.printStackTrace();
@@ -140,16 +140,20 @@ public class ScreenPrimary implements Initializable {
     public void showElements(VBox menuLeft) {
 
         ObservableList<Node> DrawerMenu = menuLeft.getChildren();
-        ObservableList<Node> DrawerBoxes = ((VBox) DrawerMenu.get(2)).getChildren();
+        ObservableList<Node> DrawerBoxes = ((VBox) DrawerMenu.get(1)).getChildren();
 
         for (Node node : DrawerBoxes) {
             if (node.getAccessibleText() != null) {
                 node.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
                     switch (node.getAccessibleText()) {
+                        case "Profile" :
+                            System.out.println("go to profile");
+                            break;
                         case "Home":
                             displayScreen("Overview", OverviewScreen);
                             break;
                         case "Settings":
+                            System.out.println("go to settings");
                             break;
                         case "Camera":
                             displayScreen("Live Camera", CameraScreen);

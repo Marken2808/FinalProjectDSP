@@ -10,6 +10,7 @@
         <columns>
           <TableColumn fx:id="colTID" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="100.0" text="TeacherID" />
           <TableColumn fx:id="colTNAME" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="100.0" text="TeacherName" />
+            <TableColumn fx:id="colTUID" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="100.0" text="UID" />
         </columns>
       </TableView>
    </children>

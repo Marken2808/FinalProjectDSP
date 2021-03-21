@@ -4,33 +4,27 @@ public class Teacher extends User{
 
     private int teacherId;
     private String teacherName;
-    private String teacherUsername;
-    private String teacherPassword;
+    private int teacherUserId;
 
-    public Teacher(int teacherId, String teacherName){
+    public Teacher(){
+
+    }
+
+    public Teacher(int teacherId, String teacherName, int teacherUserId){
+        super(teacherUserId);
         this.teacherId = teacherId;
         this.teacherName = teacherName;
+        this.teacherUserId = teacherUserId;
     }
 
-    public Teacher(String teacherName, String teacherUsername, String teacherPassword) {
-        super(teacherUsername, teacherPassword);
-        this.teacherName = teacherName;
-        this.teacherUsername = teacherUsername;
-        this.teacherPassword = teacherPassword;
-    }
 
-    public Teacher(String teacherUsername, String teacherPassword) {
-        super(teacherUsername, teacherPassword);
-        this.teacherUsername = teacherUsername;
-        this.teacherPassword = teacherPassword;
-    }
 
-    public int getTeacherID() {
+    public int getTeacherId() {
         return teacherId;
     }
 
-    public void setTeacherID(int teacherID) {
-        this.teacherId = teacherID;
+    public void setTeacherId(int teacherId) {
+        this.teacherId = teacherId;
     }
 
     public String getTeacherName() {
@@ -41,19 +35,16 @@ public class Teacher extends User{
         this.teacherName = teacherName;
     }
 
-    public String getTeacherUsername() {
-        return teacherUsername;
-    }
+//    public int getTeacherUserId() {
+//        return teacherUserId;
+//    }
+//
+//    public void setTeacherUserId(int teacherUserId) {
+//        this.teacherUserId = teacherUserId;
+//    }
 
-    public void setTeacherUsername(String teacherUsername) {
-        this.teacherUsername = teacherUsername;
-    }
 
-    public String getTeacherPassword() {
-        return teacherPassword;
-    }
 
-    public void setTeacherPassword(String teacherPassword) {
-        this.teacherPassword = teacherPassword;
-    }
+
+
 }

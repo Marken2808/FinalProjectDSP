@@ -27,7 +27,7 @@ public class DrawerMenu implements Initializable {
     private ImageView picAvatar;
 
     @FXML
-    private Label lableName;
+    private Label labelName;
 
     @FXML
     private JFXButton btnHome;
@@ -68,11 +68,7 @@ public class DrawerMenu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-//        Users.checkProfileName(typeUser);
-//        if (Users.checkRole().equals("Admin")) {
-//            dashboard.setVisible(true);
-//        } else {
-//            dashboard.setVisible(false);
-//        }
+
+        labelName.setText(PopupSignIn.name);
     }
 }

@@ -41,8 +41,8 @@
             <JFXToggleButton fx:id="btnAuto" contentDisplay="RIGHT" graphicTextGap="10.0" onMouseClicked="#autoFill" size="7.0" text="Auto" toggleColor="#00ffaa" toggleLineColor="#42c3c3ab" />
             <HBox alignment="CENTER">
                <children>
-                  <JFXButton fx:id="btnSignIn" buttonType="RAISED" onAction="#makeLogin" style="-fx-background-color: #00ffaa;" text="Sign In" />
-                  <JFXButton fx:id="btnSignUp" onAction="#letRegister" text="Sign Up" />
+                  <JFXButton fx:id="btnSignIn" buttonType="RAISED" onMouseClicked="#onLogin" style="-fx-background-color: #00ffaa;" text="Sign In" />
+                  <JFXButton fx:id="btnSignUp" onMouseClicked="#onRegister" text="Sign Up" />
                </children>
                <VBox.margin>
                   <Insets />

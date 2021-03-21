@@ -2,6 +2,8 @@ package main.models;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 import main.utils.DBbean;
 
 import java.sql.Connection;
@@ -12,8 +14,8 @@ import java.util.HashMap;
 
 public class UserDAO {
 
-    private Connection conn;
-    private PreparedStatement pstmt;
+    private static Connection conn;
+    private static PreparedStatement pstmt;
 
     public UserDAO() {
         this.conn = DBbean.getConnection();
@@ -36,6 +38,7 @@ public class UserDAO {
                         rs.getString("uStatus"),
                         rs.getString("uRole")
                 ));
+
             }
 //            System.out.println("accessed successfully");
         } catch (SQLException throwables) {
@@ -44,19 +47,48 @@ public class UserDAO {
         return userLists;
     }
 
-    public boolean authenticate (User user) {
+//    public void retrieveUserByID(int uid){
+//
+//        try {
+//            pstmt = conn.prepareStatement("Select * from User where uId = " + uid);
+//            ResultSet rs = pstmt.executeQuery();
+//            while (rs.next()){
+//                new User(
+//                    rs.getInt("uId"),
+//                    rs.getString("uUsername"),
+//                    rs.getString("uPassword"),
+//                    rs.getString("uStatus"),
+//                    rs.getString("uRole")
+//                );
+//
+//            }
+//            System.out.println("accessed successfully");
+//        } catch (SQLException throwables) {
+//            System.out.println("cannot access user table");
+//        }
+//    }
+
+    public static User authenticate (User user) {
 
         try {
             pstmt = conn.prepareStatement("SELECT * FROM user " +
                     "WHERE uUsername= '" + user.getUsername() + "'" +
                     "AND uPassword= '" + user.getPassword() +"'" +
                     "AND uStatus= 'Active'");
-            return pstmt.executeQuery().next();
-
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()){
+                return new User(
+                    rs.getInt("uId"),
+                    rs.getString("uUsername"),
+                    rs.getString("uPassword"),
+                    rs.getString("uStatus"),
+                    rs.getString("uRole")
+                );
+            }
         } catch (SQLException e) {
             System.out.println("No user found");
         }
-        return false;
+        return null;
     }
 
     public void insert(User user){
@@ -74,25 +106,31 @@ public class UserDAO {
         }
     }
 
-//    public void update(int uid){
-//        try {
-//
-//            String sql= "UPDATE `module` " +
-//                    "SET mMath      = '" + map.get("Math"       ) + "' ," +
-//                    "    mPhysics   = '" + map.get("Physics"    ) + "' ," +
-//                    "    mChemistry = '" + map.get("Chemistry"  ) + "' ," +
-//                    "    mEnglish   = '" + map.get("English"    ) + "' ," +
-//                    "    mHistory   = '" + map.get("History"    ) + "' ," +
-//                    "    mBiology   = '" + map.get("Biology"    ) + "' ," +
-//                    "    mGeography = '" + map.get("Geography"  ) + "'  " +
-//                    "WHERE m_sid = " + sid;
-//            PreparedStatement pst = conn.prepareStatement(sql);
-//            pst.executeUpdate();
-//            System.out.println("module updated......");
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public void delete(User user){
+        try {
+            pstmt = conn.prepareStatement("DELETE FROM user where uId = ?");
+            pstmt.setInt(1, user.getUserID());
+            pstmt.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void update(User user){
+        try {
+            String sql= "UPDATE `user` " +
+                    "SET uUsername  = '" + user.getUsername() + "' ," +
+                    "    uPassword  = '" + user.getPassword() + "' ," +
+                    "    uStatus    = '" + user.getStatus()   + "' ," +
+                    "    uRole      = '" + user.getRole()     + "'  " +
+                    "WHERE uId = " + user.getUserID();
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.executeUpdate();
+            System.out.println("user updated......");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 

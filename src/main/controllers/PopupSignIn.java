@@ -13,10 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
-import main.models.Teacher;
-import main.models.TeacherDAO;
-import main.models.User;
-import main.models.UserDAO;
+import main.models.*;
 //import resources.mySQLconnection;
 
 import javax.crypto.BadPaddingException;
@@ -60,33 +57,49 @@ public class PopupSignIn implements Initializable {
 
     private String SignUpScreen     = "/main/views/PopupSignUp.fxml";
 
+    public static User authUser;
+    public static String name;
     @FXML
     void autoFill(MouseEvent event) {
-
+        name = "Admin";
         ScreenPrimary.dialog.close();
         ScreenPrimary.getInstance().header.setVisible(true);
         ScreenPrimary.getInstance().displayScreen("Overview","/main/views/ScreenOverview.fxml");
     }
 
+
+
     @FXML
-    void makeLogin(ActionEvent event) {
+    void onLogin(MouseEvent event) {
+//
+//        System.out.println("username: "+fieldUsername.getText());
+//        System.out.println("password: "+fieldPassword.getText());
 
-        System.out.println("username: "+fieldUsername.getText());
-        System.out.println("password: "+fieldPassword.getText());
+        authUser = new UserDAO().authenticate(new User(fieldUsername.getText(), fieldPassword.getText()));
 
-        boolean verify = new UserDAO().authenticate(new User(fieldUsername.getText(), fieldPassword.getText()));
+        if(authUser != null){
+            autoFill(event);
+            System.out.println("Successful");
+            System.out.println("ID: "+authUser.getUserID());
 
-        if(verify){
-            ScreenPrimary.dialog.close();
-            ScreenPrimary.getInstance().header.setVisible(true);
+            switch (authUser.getRole()){
+                case "Teacher" :
+                    Teacher teacher = new TeacherDAO().retrieve(authUser.getUserID());
+                    name = teacher.getTeacherName();
+                    break;
+                case "Student" :
+
+                    break;
+
+            }
         } else {
-            textInfor.setDisable(false);
+            System.out.println("Fail");
         }
 
     }
 
     @FXML
-    void letRegister(ActionEvent event) {
+    void onRegister(MouseEvent event) {
         ScreenPrimary.dialog.close();
         ScreenPrimary.getInstance().displayPopup(SignUpScreen,false);
     }
