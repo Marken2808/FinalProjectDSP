@@ -1,5 +1,6 @@
 package main.controllers;
 
+import com.jfoenix.controls.JFXTabPane;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,7 +24,7 @@ public class ScreenDashboard implements Initializable {
 
 
     @FXML
-    private TabPane DashboardTab = new TabPane();
+    private JFXTabPane DashboardTab = new JFXTabPane();
 
     @FXML
     private LineChart<Double, Double> lineGraph;
