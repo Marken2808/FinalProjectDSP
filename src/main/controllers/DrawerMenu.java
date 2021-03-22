@@ -13,6 +13,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import main.models.Student;
+import main.models.Teacher;
+import main.models.TeacherDAO;
+import main.models.User;
 
 import java.io.IOException;
 import java.net.URL;
@@ -41,6 +45,8 @@ public class DrawerMenu implements Initializable {
     @FXML
     private JFXButton btnSignOut;
 
+    private User user = PopupSignIn.authUser;
+
     @FXML
     void isHomeClicked(MouseEvent event) {
         //System.out.println("Home click");
@@ -66,9 +72,20 @@ public class DrawerMenu implements Initializable {
         }
     }
 
+    public String accessedName(){
+        switch (user.getRole()){
+            case "Teacher" :
+                return user.getTeacher().getTeacherName();
+            case "Student" :
+                return user.getStudent().getStudentName();
+            case "Admin" :
+                return user.getRole();
+        }
+        return null;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        labelName.setText(PopupSignIn.name);
+        labelName.setText(accessedName());
     }
 }

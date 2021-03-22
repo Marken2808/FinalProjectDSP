@@ -1,8 +1,11 @@
 CREATE TABLE IF NOT EXISTS `student` (
   `sId` int NOT NULL,
   `sName` varchar(20) NOT NULL,
-  PRIMARY KEY (`sId`)
-);
+  `s_uId` int NOT NULL,
+  PRIMARY KEY (`sId`),
+  UNIQUE KEY `s_uId_UNIQUE` (`s_uId`),
+  CONSTRAINT `s_uId` FOREIGN KEY (`s_uId`) REFERENCES `user` (`uId`)
+)
 
 INSERT INTO `student`(`sId`,`sName`)
                 VALUES ('1', 'linh');

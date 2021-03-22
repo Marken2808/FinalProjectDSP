@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS `attendance` (
   CONSTRAINT `a_sid` FOREIGN KEY (`a_sId`) REFERENCES `student` (`sId`)
 )
 
+
 INSERT INTO `attendance` (`aDate`,`aStatus`,`a_sId`)
                                                     VALUES ('2021-02-06', 'A', '1');
 INSERT INTO `attendance` (`aDate`,`aStatus`,`a_sId`)

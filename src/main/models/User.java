@@ -26,6 +26,9 @@ public class User {
     private String password;
     private String status;
     private String role;
+
+    private Teacher teacher;
+    private Student student;
     private HBox action = new HBox();
 
     public User() {
@@ -171,6 +174,22 @@ public class User {
 
     public void setAction(HBox action) {
         this.action = action;
+    }
+
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
     //    ------------------------------------------------

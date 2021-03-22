@@ -63,6 +63,7 @@ public class ScreenPrimary implements Initializable {
     private String DashboardScreen  = "/main/views/ScreenDashboard.fxml";
     private String CameraScreen     = "/main/views/ScreenCamera.fxml";
     private String OverviewScreen   = "/main/views/ScreenOverview.fxml";
+    private String ProfileScreen    = "/main/views/ScreenProfile.fxml";
 //----------------------------instance--------------------
 
     public static ScreenPrimary instance;
@@ -147,7 +148,7 @@ public class ScreenPrimary implements Initializable {
                 node.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
                     switch (node.getAccessibleText()) {
                         case "Profile" :
-                            System.out.println("go to profile");
+                            displayScreen("Profile", ProfileScreen);
                             break;
                         case "Home":
                             displayScreen("Overview", OverviewScreen);

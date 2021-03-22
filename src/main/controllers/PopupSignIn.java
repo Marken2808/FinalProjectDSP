@@ -58,16 +58,14 @@ public class PopupSignIn implements Initializable {
     private String SignUpScreen     = "/main/views/PopupSignUp.fxml";
 
     public static User authUser;
-    public static String name;
+
     @FXML
     void autoFill(MouseEvent event) {
-        name = "Admin";
+        authUser = new UserDAO().authenticate(new User("admin","admin"));
         ScreenPrimary.dialog.close();
         ScreenPrimary.getInstance().header.setVisible(true);
         ScreenPrimary.getInstance().displayScreen("Overview","/main/views/ScreenOverview.fxml");
     }
-
-
 
     @FXML
     void onLogin(MouseEvent event) {
@@ -84,17 +82,20 @@ public class PopupSignIn implements Initializable {
 
             switch (authUser.getRole()){
                 case "Teacher" :
-                    Teacher teacher = new TeacherDAO().retrieve(authUser.getUserID());
-                    name = teacher.getTeacherName();
+                    Teacher imTeacher = new TeacherDAO().retrieve(authUser.getUserID());
+                    authUser.setTeacher(imTeacher);
                     break;
                 case "Student" :
-
+                    break;
+                case "Admin" :
+                    authUser.setRole("Admin");
                     break;
 
             }
         } else {
             System.out.println("Fail");
         }
+
 
     }
 
