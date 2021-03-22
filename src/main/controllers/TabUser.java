@@ -1,4 +1,4 @@
-package main.controllers;
+package controllers;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,7 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
-import main.models.*;
+import models.*;
 
 import java.net.URL;
 import java.util.ResourceBundle;

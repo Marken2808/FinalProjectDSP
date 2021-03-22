@@ -1,4 +1,4 @@
-package main.controllers;
+package controllers;
 
 import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
@@ -13,10 +13,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import main.models.Student;
-import main.models.Teacher;
-import main.models.TeacherDAO;
-import main.models.User;
+import models.Student;
+import models.Teacher;
+import models.TeacherDAO;
+import models.User;
 
 import java.io.IOException;
 import java.net.URL;
@@ -56,7 +56,7 @@ public class DrawerMenu implements Initializable {
     void makeLogOut(MouseEvent event) {
 
         btnSignOut.getScene().getWindow().hide();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/views/ScreenPrimary.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ScreenPrimary.fxml"));
 
         try {
             Parent root = loader.load();

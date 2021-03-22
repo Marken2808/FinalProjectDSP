@@ -1,4 +1,4 @@
-package main.controllers;
+package controllers;
 
 import com.jfoenix.controls.*;
 import javafx.fxml.FXML;
@@ -10,7 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import main.models.*;
+import models.*;
 
 import java.io.IOException;
 import java.net.URL;

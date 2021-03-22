@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDrawer?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="anchorPane" nodeOrientation="LEFT_TO_RIGHT" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TabStudent">
+   <children>
+      <TableView fx:id="tableSTUDENT" editable="true" onMouseClicked="#clickOnTable" onMouseMoved="#testMove" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columns>
+            <TableColumn fx:id="colSID" maxWidth="1.7976931348623157E308" minWidth="-1.0" text="Student ID" />
+          <TableColumn fx:id="colSNAME" maxWidth="1.7976931348623157E308" minWidth="-1.0" text="Student Name" />
+            <TableColumn fx:id="colMarked" maxWidth="1.7976931348623157E308" minWidth="-1.0" text="Marked All" />
+            <TableColumn fx:id="colLast5Days" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="160.0" text="Last 5 days" />
+        </columns>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+      </TableView>
+      <HBox alignment="CENTER" layoutX="253.3333282470703" style="-fx-border-color: black; -fx-border-radius: 5; -fx-border-width: 0.5; -fx-background-color: white; -fx-background-radius: 5;" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/icon/search.png" />
+               </image>
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin>
+            </ImageView>
+            <JFXTextField fx:id="fieldSearch" focusColor="#405aa800" onKeyPressed="#onSuggestStudent" onKeyReleased="#onSearchStudent" promptText="Search..." unFocusColor="#4d4d4d00">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </JFXTextField>
+            <JFXButton contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" onMouseClicked="#onClear">
+               <graphic>
+                  <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/icon/x.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+         </children>
+         <padding>
+            <Insets left="5.0" />
+         </padding>
+      </HBox>
+      <JFXDrawer fx:id="drawerViewPane" alignment="BOTTOM_CENTER" defaultDrawerSize="0.0" direction="BOTTOM" resizableOnDrag="true" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <JFXDrawer fx:id="drawerControlPane" alignment="CENTER_RIGHT" defaultDrawerSize="0.0" direction="RIGHT" resizableOnDrag="true" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+   </children>
+</AnchorPane>

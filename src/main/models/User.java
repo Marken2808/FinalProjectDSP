@@ -1,4 +1,4 @@
-package main.models;
+package models;
 
 import com.jfoenix.controls.JFXButton;
 import javafx.collections.ObservableList;
@@ -13,8 +13,8 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import main.controllers.TabTeacher;
-import main.controllers.TabUser;
+import controllers.TabTeacher;
+import controllers.TabUser;
 
 import java.awt.*;
 import java.sql.SQLException;
@@ -63,7 +63,7 @@ public class User {
     }
 
     public JFXButton updateAction(){
-        ImageView imgUpdate = new ImageView(new Image("/resources/images/icon/check.png"));
+        ImageView imgUpdate = new ImageView(new Image("/images/icon/check.png"));
         imgUpdate.setFitWidth(15);
         imgUpdate.setFitHeight(15);
 
@@ -96,7 +96,7 @@ public class User {
     }
 
     public JFXButton deleteAction(){
-        ImageView imgDelete = new ImageView(new Image("/resources/images/icon/x.png"));
+        ImageView imgDelete = new ImageView(new Image("/images/icon/x.png"));
         imgDelete.setFitWidth(15);
         imgDelete.setFitHeight(15);
 
@@ -115,7 +115,7 @@ public class User {
     }
 
     public JFXButton resetAction(){
-        ImageView imgReset = new ImageView(new Image("/resources/images/icon/rotate-ccw.png"));
+        ImageView imgReset = new ImageView(new Image("/images/icon/rotate-ccw.png"));
         imgReset.setFitWidth(15);
         imgReset.setFitHeight(15);
 

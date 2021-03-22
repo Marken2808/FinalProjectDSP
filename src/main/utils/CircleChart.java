@@ -1,4 +1,4 @@
-package main.utils;
+package utils;
 
 import java.util.List;
 import javafx.event.EventHandler;

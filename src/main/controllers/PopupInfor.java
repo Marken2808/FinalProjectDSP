@@ -1,4 +1,4 @@
-package main.controllers;
+package controllers;
 
 import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
@@ -38,7 +38,7 @@ public class PopupInfor implements Initializable {
     @FXML
     void clickBtn(MouseEvent event) {
         ScreenPrimary.dialog.close();
-        String CaptureScreen    = "/main/views/PopupCaptured.fxml";
+        String CaptureScreen    = "/views/PopupCaptured.fxml";
         ScreenPrimary.getInstance().displayPopup(CaptureScreen,true);
     }
 

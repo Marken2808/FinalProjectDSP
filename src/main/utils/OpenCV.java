@@ -1,4 +1,4 @@
-package main.utils;
+package utils;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -37,15 +37,15 @@ public class OpenCV {
     public ArrayList<Mat> listCrop;
     public Rect[] facesArray;
 
-    public String basePath      = System.getProperty("user.dir").concat("\\src\\resources\\");
-    public String outputPath    = basePath+"images/output/";
-    public String inputPath     = basePath+"images/input/";
-    public String testPath      = basePath+"images/test/";
-    public String datasetPath   = basePath+"images/dataset/";
+    public String resPath      = System.getProperty("user.dir").concat("\\src\\resources\\");
+    public String outputPath    = resPath + "images/output/";
+    public String inputPath     = resPath + "images/input/";
+    public String testPath      = resPath + "images/test/";
+    public String datasetPath   = resPath + "images/dataset/";
     public String outImg;
     public String inImg;
-    public String haarFace      = basePath+"haarcascades/haarcascade_frontalface_alt2.xml";
-    public String haarEyes      = basePath+"haarcascades/haarcascade_eye_tree_eyeglasses.xml";
+    public String haarFace      = resPath + "haarcascades/haarcascade_frontalface_alt2.xml";
+    public String haarEyes      = resPath + "haarcascades/haarcascade_eye_tree_eyeglasses.xml";
 
     // Names of the people from the training set
     public HashMap<Integer, String> namesMap = new HashMap<>();
@@ -76,7 +76,6 @@ public class OpenCV {
      * Init the controller, at start time
      */
     public void init() {
-
         this.capture = new VideoCapture();
         this.faceCascade.load(haarFace);
         this.eyesCascade.load(haarEyes);
@@ -113,7 +112,8 @@ public class OpenCV {
 
     public Image detectImage (File file, ImageView currentFrame){
 
-        inImg = inputPath + file.getName();
+        inImg = file.getPath();
+//        inImg = inputPath + file.getName();
         outImg = outputPath + file.getName().replace(".jpg","_add.jpg");
 
         Mat src = Imgcodecs.imread(inImg);

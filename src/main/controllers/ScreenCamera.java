@@ -1,4 +1,4 @@
-package main.controllers;
+package controllers;
 
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
@@ -11,10 +11,10 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
-import main.models.Attendance;
-import main.models.AttendanceDAO;
-import main.utils.OpenCV;
-import main.utils.UtilsOCV;
+import models.Attendance;
+import models.AttendanceDAO;
+import utils.OpenCV;
+import utils.UtilsOCV;
 import org.opencv.core.Mat;
 
 import java.io.File;
@@ -49,7 +49,7 @@ public class ScreenCamera implements Initializable {
 
     private OpenCV callCV = OpenCV.getInstance();
 
-    private String CaptureScreen    = "/main/views/PopupCaptured.fxml";
+    private String CaptureScreen    = "/views/PopupCaptured.fxml";
 //----------------------------instance--------------------
 
     public static ScreenCamera instance;
@@ -141,8 +141,7 @@ public class ScreenCamera implements Initializable {
         return arrPos;
     }
 
-    public ArrayList<Integer> listKeyRecognise(ArrayList<Integer> arrDuplicates)
-    {
+    public ArrayList<Integer> listKeyRecognise(ArrayList<Integer> arrDuplicates) {
         Set<Integer> set = new HashSet<>();
         Map<Integer, Integer> map = new HashMap<>();
         ArrayList<Integer> listKey = new ArrayList<>();

@@ -1,4 +1,4 @@
-package main.controllers;
+package controllers;
 
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -14,7 +14,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.Callback;
-import main.models.*;
+import models.*;
 
 import java.net.URL;
 import java.util.ResourceBundle;

@@ -1,4 +1,4 @@
-package main.controllers;
+package controllers;
 
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
@@ -15,7 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import main.models.Attendance;
+import models.Attendance;
 
 import java.io.IOException;
 import java.net.URL;

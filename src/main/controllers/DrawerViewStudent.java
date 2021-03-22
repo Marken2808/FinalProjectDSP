@@ -1,4 +1,4 @@
-package main.controllers;
+package controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXMasonryPane;
@@ -14,9 +14,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import main.models.ModuleDAO;
-import main.models.Subject;
-import main.utils.CircleChart;
+import models.ModuleDAO;
+import models.Subject;
+import utils.CircleChart;
 
 import java.net.URL;
 import java.util.ResourceBundle;

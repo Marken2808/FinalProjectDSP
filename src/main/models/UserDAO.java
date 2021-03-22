@@ -1,10 +1,10 @@
-package main.models;
+package models;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
-import main.utils.DBbean;
+import utils.DBbean;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

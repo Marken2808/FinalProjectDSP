@@ -1,4 +1,4 @@
-package main.controllers;
+package controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
@@ -13,7 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
-import main.models.*;
+import models.*;
 //import resources.mySQLconnection;
 
 import javax.crypto.BadPaddingException;
@@ -55,7 +55,7 @@ public class PopupSignIn implements Initializable {
     @FXML
     private JFXButton btnSignUp;
 
-    private String SignUpScreen     = "/main/views/PopupSignUp.fxml";
+    private String SignUpScreen     = "/views/PopupSignUp.fxml";
 
     public static User authUser;
 
@@ -64,7 +64,7 @@ public class PopupSignIn implements Initializable {
         authUser = new UserDAO().authenticate(new User("admin","admin"));
         ScreenPrimary.dialog.close();
         ScreenPrimary.getInstance().header.setVisible(true);
-        ScreenPrimary.getInstance().displayScreen("Overview","/main/views/ScreenOverview.fxml");
+        ScreenPrimary.getInstance().displayScreen("Overview","/views/ScreenOverview.fxml");
     }
 
     @FXML

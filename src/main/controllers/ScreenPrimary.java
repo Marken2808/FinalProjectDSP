@@ -1,4 +1,4 @@
-package main.controllers;
+package controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
@@ -18,9 +18,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import main.models.Attendance;
-import main.models.AttendanceDAO;
-import main.utils.MyGraph;
+import models.Attendance;
+import models.AttendanceDAO;
+import utils.MyGraph;
 
 import java.io.IOException;
 import java.net.URL;
@@ -58,12 +58,12 @@ public class ScreenPrimary implements Initializable {
 
     public static JFXDialog dialog;
 
-    private String SignInPopup      = "/main/views/PopupSignIn.fxml";
-    private String DrawerMenu       = "/main/views/DrawerMenu.fxml";
-    private String DashboardScreen  = "/main/views/ScreenDashboard.fxml";
-    private String CameraScreen     = "/main/views/ScreenCamera.fxml";
-    private String OverviewScreen   = "/main/views/ScreenOverview.fxml";
-    private String ProfileScreen    = "/main/views/ScreenProfile.fxml";
+    private String SignInPopup      = "/views/PopupSignIn.fxml";
+    private String DrawerMenu       = "/views/DrawerMenu.fxml";
+    private String DashboardScreen  = "/views/ScreenDashboard.fxml";
+    private String CameraScreen     = "/views/ScreenCamera.fxml";
+    private String OverviewScreen   = "/views/ScreenOverview.fxml";
+    private String ProfileScreen    = "/views/ScreenProfile.fxml";
 //----------------------------instance--------------------
 
     public static ScreenPrimary instance;

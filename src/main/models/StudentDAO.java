@@ -1,8 +1,8 @@
-package main.models;
+package models;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import main.utils.DBbean;
+import utils.DBbean;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static main.utils.DBbean.isIdMark;
+import static utils.DBbean.isIdMark;
 
 public class StudentDAO {
 

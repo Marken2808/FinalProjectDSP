@@ -1,12 +1,12 @@
-package main.controllers;
+package controllers;
 
 import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
-import main.models.Student;
-import main.models.Teacher;
-import main.models.User;
+import models.Student;
+import models.Teacher;
+import models.User;
 
 import java.net.URL;
 import java.util.ResourceBundle;

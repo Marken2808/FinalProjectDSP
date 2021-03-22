@@ -1,4 +1,4 @@
-package main.controllers;
+package controllers;
 
 import com.jfoenix.controls.*;
 import javafx.animation.KeyFrame;
@@ -25,9 +25,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
-import main.models.*;
-import main.utils.OpenCV;
-import main.utils.UtilsOCV;
+import models.*;
+import utils.OpenCV;
+import utils.UtilsOCV;
 import org.opencv.core.Mat;
 import org.opencv.imgcodecs.Imgcodecs;
 
@@ -103,14 +103,14 @@ public class PopupCaptured implements Initializable {
                     handlePopup(
                             "Success",
                             "Face Inserted",
-                            "resources/images/icon/check-circle_green.png",
+                            "/images/icon/check-circle_green.png",
                             "OK"
                     );
                 } catch (SQLException e) {
                     handlePopup(
                             "Fail",
                             "Face Exist",
-                            "resources/images/icon/alert-circle_red.png",
+                            "/images/icon/alert-circle_red.png",
                             "Close"
                     );
                 }
@@ -126,7 +126,7 @@ public class PopupCaptured implements Initializable {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                String InforScreen = "/main/views/PopupInfor.fxml";
+                String InforScreen = "/views/PopupInfor.fxml";
                 ScreenPrimary.getInstance().displayPopup(InforScreen,true);
                 PopupInfor.getInstance().setDialog(title,content,img,type);
             }
@@ -149,11 +149,11 @@ public class PopupCaptured implements Initializable {
         if (type.equals("Success")){
             text.setText("Perfect, done");
             text.setStyle("-fx-text-fill: #06dd06");
-            pic.setImage(new Image("/resources/images/icon/check-circle_green.png"));
+            pic.setImage(new Image("/images/icon/check-circle_green.png"));
         } else if (type.equals("Fail")){
             text.setText("Please, provide all variable above");
             text.setStyle("-fx-text-fill: #f90606");
-            pic.setImage(new Image("/resources/images/icon/alert-circle_red.png"));
+            pic.setImage(new Image("/images/icon/alert-circle_red.png"));
         }
     }
     public boolean isFulfill() {
@@ -228,7 +228,7 @@ public class PopupCaptured implements Initializable {
         boxSet.setPrefWidth(50);
 
         JFXButton btnClear = new JFXButton();
-        ImageView img = new ImageView(new Image("resources/images/icon/x.png"));
+        ImageView img = new ImageView(new Image("/images/icon/x.png"));
         img.setFitWidth(15); img.setFitHeight(15);
         btnClear.setGraphic(img);
         btnClear.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
@@ -319,13 +319,13 @@ public class PopupCaptured implements Initializable {
             fieldName.setText(String.valueOf(callCV.namesMap.get(callCV.predictionID)));
             boxSet.setItems(observableList);
             boxSet.setValue(0);
-            imgPath = callCV.basePath +"images/test/0-new_0.jpg";
+            imgPath = callCV.resPath +"images/test/0-new_0.jpg";
         } else if(callCV.listRez.size()==0){
             imgPath = null;
         } else{
             for(int i=0; i<callCV.listRez.size(); i++){
 //                System.out.println(i);
-                imgPath = callCV.basePath +"images/test/0-new_"+i+".jpg";
+                imgPath = callCV.resPath +"images/test/0-new_"+i+".jpg";
             }
         }
 

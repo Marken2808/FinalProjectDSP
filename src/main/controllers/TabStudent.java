@@ -1,4 +1,4 @@
-package main.controllers;
+package controllers;
 
 import com.jfoenix.controls.*;
 import javafx.beans.binding.Bindings;
@@ -28,11 +28,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.util.Callback;
 import javafx.util.Duration;
-import main.models.Attendance;
-import main.models.AttendanceDAO;
-import main.models.Student;
-import main.models.StudentDAO;
-import main.utils.DBbean;
+import models.Attendance;
+import models.AttendanceDAO;
+import models.Student;
+import models.StudentDAO;
+import utils.DBbean;
 
 import javax.naming.Binding;
 import java.io.IOException;

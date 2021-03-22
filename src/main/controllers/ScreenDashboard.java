@@ -1,4 +1,4 @@
-package main.controllers;
+package controllers;
 
 import com.jfoenix.controls.JFXTabPane;
 import javafx.event.ActionEvent;
@@ -11,7 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.*;
-import main.utils.MyGraph;
+import utils.MyGraph;
 
 import java.io.IOException;
 import java.net.URL;
@@ -35,31 +35,13 @@ public class ScreenDashboard implements Initializable {
     @FXML
     private AnchorPane CalendarPane;
 
-
-
-
     private MyGraph mathsGraph;
     private MyGraph areaMathsGraph;
 
-//    public static Dashboard instance;
-//    public Dashboard(){
-//        instance = this;
-//    }
-//    public static Dashboard getInstance() {
-//        if(instance == null){
-//            instance = new Dashboard();
-//        }
-//        return instance;
-//    }
 
     public Node StudentView(){
         try {
-            AnchorPane studentTab = FXMLLoader.load(getClass().getResource("/main/views/TabStudent.fxml"));
-//            StudentPane.getChildren().addAll(studentTab);
-//            StudentPane.setTopAnchor(studentTab,0.0);
-//            StudentPane.setBottomAnchor(studentTab,0.0);
-//            StudentPane.setRightAnchor(studentTab,0.0);
-//            StudentPane.setLeftAnchor(studentTab,0.0);
+            AnchorPane studentTab = FXMLLoader.load(getClass().getResource("/views/TabStudent.fxml"));
             return studentTab;
         } catch (IOException e) {
             e.printStackTrace();
@@ -69,7 +51,7 @@ public class ScreenDashboard implements Initializable {
 
     public Node TeacherView(){
         try {
-            AnchorPane teacherTab = FXMLLoader.load(getClass().getResource("/main/views/TabTeacher.fxml"));
+            AnchorPane teacherTab = FXMLLoader.load(getClass().getResource("/views/TabTeacher.fxml"));
             return teacherTab;
         } catch (IOException e) {
             e.printStackTrace();
@@ -80,7 +62,7 @@ public class ScreenDashboard implements Initializable {
 
     public Node UserView(){
         try {
-            AnchorPane userTab = FXMLLoader.load(getClass().getResource("/main/views/TabUser.fxml"));
+            AnchorPane userTab = FXMLLoader.load(getClass().getResource("/views/TabUser.fxml"));
             return userTab;
         } catch (IOException e) {
             e.printStackTrace();
@@ -90,7 +72,7 @@ public class ScreenDashboard implements Initializable {
 
     public void CalendarView(){
         try {
-            AnchorPane calendarTab = FXMLLoader.load(getClass().getResource("/main/views/ComponentCalendar.fxml"));
+            AnchorPane calendarTab = FXMLLoader.load(getClass().getResource("/views/ComponentCalendar.fxml"));
             CalendarPane.getChildren().addAll(calendarTab);
             CalendarPane.setTopAnchor(calendarTab,0.0);
             CalendarPane.setBottomAnchor(calendarTab,0.0);

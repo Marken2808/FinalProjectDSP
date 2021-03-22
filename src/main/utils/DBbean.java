@@ -1,4 +1,4 @@
-package main.utils;
+package utils;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -6,10 +6,10 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.paint.Color;
-import main.models.Attendance;
-import main.models.Face;
-import main.models.Module;
-import main.models.Student;
+import models.Attendance;
+import models.Face;
+import models.Module;
+import models.Student;
 
 import java.awt.*;
 import java.io.File;

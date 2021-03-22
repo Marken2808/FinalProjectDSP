@@ -1,4 +1,4 @@
-package main.controllers;
+package controllers;
 
 import com.jfoenix.animation.alert.CenterTransition;
 import com.jfoenix.controls.JFXTextField;
@@ -10,8 +10,8 @@ import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import main.models.Attendance;
-import main.models.AttendanceDAO;
+import models.Attendance;
+import models.AttendanceDAO;
 
 import java.io.IOException;
 import java.net.URL;
@@ -111,7 +111,7 @@ public class ScreenOverview implements Initializable {
         areaChart.getData().add(dataChart());
 
         try {
-            AnchorPane calendarTab = FXMLLoader.load(getClass().getResource("/main/views/ComponentCalendar.fxml"));
+            AnchorPane calendarTab = FXMLLoader.load(getClass().getResource("/views/ComponentCalendar.fxml"));
             calendarPane.getChildren().add(calendarTab);
             calendarPane.setAlignment(Pos.CENTER);
         } catch (IOException e) {

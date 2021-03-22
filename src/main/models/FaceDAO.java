@@ -1,6 +1,6 @@
-package main.models;
+package models;
 
-import main.utils.DBbean;
+import utils.DBbean;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
