@@ -50,7 +50,8 @@ public class StudentDAO {
             pstmt = conn.prepareStatement(query);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()){
-                students.add(new Student(rs.getInt(1), rs.getString(2)));
+                students.add(
+                        new Student(rs.getInt(1), rs.getString(2), rs.getInt(3)));
             }
             System.out.println("student retrieved......");
             return students;

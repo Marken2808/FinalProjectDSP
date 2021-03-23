@@ -57,6 +57,19 @@ public class TeacherDAO {
         return null;
     }
 
+    public void update(Teacher teacher){
+        try {
+            String sql= "UPDATE `teacher` " +
+                    "SET tName  = '" + teacher.getTeacherName() + "' "+
+                    "WHERE tId = " + teacher.getTeacherId();
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.executeUpdate();
+            System.out.println("teacher updated......");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void insert(Teacher teacher){
         try {
             pstmt = conn.prepareStatement("INSERT INTO teacher (tName, t_uId) VALUES(?,?)");

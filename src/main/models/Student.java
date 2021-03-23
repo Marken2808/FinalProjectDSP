@@ -11,19 +11,27 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Student {
+public class Student extends User{
 
     private int studentId;
     private String studentName;
     private boolean studentMarked;
     private ArrayList<Attendance> studentLast5Days;
+    private int studentUserId;
 
     public Student() {
     }
 
-    public Student(int sid, String sname){
+    public Student(int sid, String sname){      //for add face student
         this.studentId = sid;
         this.studentName = sname;
+    }
+
+    public Student(int sid, String sname, int studentUserId){   //test with user table
+        super(studentUserId);
+        this.studentId = sid;
+        this.studentName = sname;
+        this.studentUserId = studentUserId;
     }
 
     public Student(int sid, String sname, boolean marked, ArrayList<Attendance> studentLast5Days) {

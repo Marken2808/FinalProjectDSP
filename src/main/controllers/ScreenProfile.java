@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
 import models.Student;
 import models.Teacher;
+import models.TeacherDAO;
 import models.User;
 
 import java.net.URL;
@@ -20,31 +21,33 @@ public class ScreenProfile implements Initializable {
 
     private int accessedID;
 
+    private boolean isTeacher = false;
+
     @FXML
     void onUpdate(MouseEvent event) {
-        System.out.println(accessedID);
+        if (isTeacher){
+            user.getTeacher().setTeacherName(fieldName.getText());
+            new TeacherDAO().update(user.getTeacher());
+        }
     }
+
+
 
     public String accessedName(){
         switch (user.getRole()){
             case "Teacher" :
-                accessedID = user.getTeacher().getTeacherId();
+                isTeacher = true;
                 return user.getTeacher().getTeacherName();
             case "Student" :
-                accessedID = user.getStudent().getStudentId();
                 return user.getStudent().getStudentName();
             case "Admin" :
                 return user.getRole();
         }
-
         return null;
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-
-        fieldName.setText( accessedName() );
-
+        fieldName.setText( accessedName().toUpperCase() );    //init
     }
 }

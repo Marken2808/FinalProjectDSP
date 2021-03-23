@@ -167,7 +167,7 @@ public class ScreenCamera implements Initializable {
 
 
         for (int key : map.keySet()) {
-            if (listValue.contains(map.get(key))) {
+            if (listValue.contains(map.get(key)) && key!=0) {
                 listKey.add(key);
             }
         }
