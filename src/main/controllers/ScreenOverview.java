@@ -1,17 +1,24 @@
 package controllers;
 
 import com.jfoenix.animation.alert.CenterTransition;
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import models.Attendance;
-import models.AttendanceDAO;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import models.*;
+import utils.CircleChart;
 
 import java.io.IOException;
 import java.net.URL;
@@ -27,8 +34,14 @@ public class ScreenOverview implements Initializable {
     private StackPane calendarPane;
 
     @FXML
+    private StackPane totalPane;
+
+    @FXML
     private AreaChart<?, ?> areaChart;
 
+    boolean isAbsent  = false;
+    int all = new StudentDAO().showStudentTable().size();
+    int total;
 
     public Map<LocalDate, Integer> dup(ArrayList<LocalDate> testDate) {
         Set<LocalDate> set = new HashSet<>();
@@ -43,6 +56,7 @@ public class ScreenOverview implements Initializable {
                 map.put(d,1);
             }
         }
+
         return map;
     }
 
@@ -56,36 +70,66 @@ public class ScreenOverview implements Initializable {
         return arrDays;
     }
 
-    public XYChart.Series dataChart(){
-        XYChart.Series present = new XYChart.Series();
-        present.setName("Total Attendance");
+    public XYChart.Series areaPresent(){
+        Map<String, XYChart.Series> presentMap = getData();
+        return presentMap.get("P");
+    }
 
+    public XYChart.Series areaAbsent(){
+        Map<String, XYChart.Series> absentMap = getData();
+        return absentMap.get("A");
+    }
+
+    public Map<String, XYChart.Series> getData(){
         ArrayList<Attendance> temp = new AttendanceDAO().retrieveAttendance();
-        ArrayList<LocalDate> arrDays = new ArrayList<>();
+        ArrayList<LocalDate> arrDaysPresent = new ArrayList<>();
+        ArrayList<LocalDate> arrDaysAbsent = new ArrayList<>();
+        Map<String, XYChart.Series> type = new HashMap<>();
+        XYChart.Series present = new XYChart.Series();
+        XYChart.Series absent = new XYChart.Series();
+
         for (int i = 0; i < temp.size(); i++) {
             if(temp.get(i).getAttStatus().equals("P")){
-                arrDays.add(temp.get(i).getAttDate().toLocalDate());
+                arrDaysPresent.add(temp.get(i).getAttDate().toLocalDate());
+            } else {
+                arrDaysAbsent.add(temp.get(i).getAttDate().toLocalDate());
             }
         }
 
-        for (int i=0; i<numOfDays(20).size(); i++){
-            int total = dup(arrDays).get(numOfDays(20).get(i));
-            present.getData().add(new XYChart.Data(numOfDays(20).get(i).toString(), total));
+        for (int i=0; i<numOfDays(20).size(); i++) {
+
+            if (arrDaysPresent.contains(numOfDays(20).get(i))) {
+                total = dup(arrDaysPresent).get(numOfDays(20).get(i));     //total Present
+                present.getData().add(new XYChart.Data(numOfDays(20).get(i).toString(), total));
+                type.put("P",present);
+            } else {                                                          //all off
+                present.getData().add(new XYChart.Data(numOfDays(20).get(i).toString(), 0));
+                type.put("P",present);
+            }
+
+            if (arrDaysAbsent.contains(numOfDays(20).get(i))) {
+                total = dup(arrDaysAbsent).get(numOfDays(20).get(i));     //total Present
+                absent.getData().add(new XYChart.Data(numOfDays(20).get(i).toString(), total));
+                type.put("A",absent);
+            } else {                                                          //all off
+                absent.getData().add(new XYChart.Data(numOfDays(20).get(i).toString(), 0));
+                type.put("A",absent);
+            }
         }
 
-        return present;
+        return type;
     }
 
-    public String getAlphaNumericString(int n)
+    public String getAlphaNumeric(int amount)
     {
 
         // chose a Character random from this String
         String s = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
         // create StringBuffer size of AlphaNumericString
-        StringBuilder strCode = new StringBuilder(n);
+        StringBuilder strCode = new StringBuilder(amount);
 
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < amount; i++) {
 
             int index = (int)(s.length()* Math.random());
 
@@ -98,18 +142,60 @@ public class ScreenOverview implements Initializable {
         return strCode.toString();
     }
 
-
-
+    @FXML
+    void onToggleAbsent(MouseEvent event) {
+        if (!isAbsent){
+            areaChart.getData().add(areaAbsent());
+            isAbsent = true;
+        } else {
+            areaChart.getData().remove(1);
+            isAbsent = false;
+        }
+    }
 
     @FXML
     void onGenerate(MouseEvent event) {
-        fieldCode.setText(getAlphaNumericString(6));
+        fieldCode.setText(getAlphaNumeric(6));
     }
+
+
+    public void setSemiCircleChart(){
+        StackPane stackPane = new StackPane();
+        JFXButton btnPane = new JFXButton();
+        VBox vBox = new VBox();
+
+        ObservableList<CircleChart.Data> dataList = FXCollections.observableArrayList(
+                new CircleChart.Data(total, "Present : "+total, Color.LIMEGREEN),
+                new CircleChart.Data(all-total, "Total", Color.LIGHTGRAY)
+        );
+
+        CircleChart chart = new CircleChart(180, dataList, 0, 0, 100,90,0);
+
+//        Label labelName = new Label(name);
+//        Label labelAchieve = new Label(achieve+"");
+
+//        vBox.getChildren().addAll(labelName, labelAchieve);
+        vBox.setAlignment(Pos.BOTTOM_CENTER);
+//        labelName.setFont(new Font(15));
+//        stackPane.setMargin(vBox,new Insets(0,0,0,0));
+        stackPane.getChildren().addAll(chart, vBox);
+        stackPane.setAlignment(Pos.BOTTOM_CENTER);
+        btnPane.setGraphic(stackPane);
+        totalPane.getChildren().add(btnPane);
+    }
+
+//    public void drawSemiCircleChart(){
+//
+//        Subject[] subjectData = new ModuleDAO().retrieveSubjectData(id);
+//
+//        for(Subject s: subjectData) {
+//            setSemiCircleChart(s.getSubjectName(), s.getSubjectMark());
+//        }
+//    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        areaChart.getData().add(dataChart());
-
+        areaChart.getData().add(areaPresent());
         try {
             AnchorPane calendarTab = FXMLLoader.load(getClass().getResource("/views/ComponentCalendar.fxml"));
             calendarPane.getChildren().add(calendarTab);
@@ -119,5 +205,7 @@ public class ScreenOverview implements Initializable {
         }
 
 
+        System.out.println(all);
+        setSemiCircleChart();
     }
 }
