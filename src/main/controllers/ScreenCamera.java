@@ -126,7 +126,7 @@ public class ScreenCamera implements Initializable {
             orderMax.add(iter.next());
         }
         Collections.sort(orderMax);
-        System.out.println("sortValue: " + orderMax);
+//        System.out.println("sortValue: " + orderMax);
 
         return orderMax;
     }
@@ -136,7 +136,7 @@ public class ScreenCamera implements Initializable {
         for(int i=0; i<total; i++){
             arrPos.add(orderMax.get(orderMax.size()-i-1));
         }
-        System.out.println("listMaxValue: " + arrPos);
+//        System.out.println("listMaxValue: " + arrPos);
 
         return arrPos;
     }
@@ -172,7 +172,7 @@ public class ScreenCamera implements Initializable {
             }
         }
 
-        System.out.println("listKey: "+listKey);
+//        System.out.println("listKey: "+listKey);
 
         return listKey;
     }
@@ -196,26 +196,26 @@ public class ScreenCamera implements Initializable {
                 Runnable frameGrabber = new Runnable() {
                     @Override
                     public void run() {
+                        currentFrame.setVisible(true);
                         // effectively grab and process a single frame
                         Mat frame = callCV.grabFrame();
                         // convert and show the frame
                         Image imageToShow = UtilsOCV.mat2Image(frame);
                         callCV.updateImageView(currentFrame, imageToShow);
-                        currentFrame.setVisible(true);
 
                         arrID.add(callCV.predictionID);
+                        while (arrID.size()==30){
 
-                        while (arrID.size()==50){
-
-                            System.out.println("got "+ callCV.facesArray.length + " face");
+//                            System.out.println("got "+ callCV.facesArray.length + " face");
                             for(int i: listKeyRecognise(arrID)){
                                 System.out.println("add studentID "+i+"'s attendance into db");
-                                new AttendanceDAO().insert(new Attendance("P", i));
+//                                new AttendanceDAO().insert(new Attendance("P", i));   //open if necessary
                             }
-                            break;
+                            arrID.clear();
                         }
                     }
                 };
+
 
 
                 callCV.timer = Executors.newSingleThreadScheduledExecutor();

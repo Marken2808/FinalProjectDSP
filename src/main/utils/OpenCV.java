@@ -152,9 +152,9 @@ public class OpenCV {
         if (this.absoluteFaceSize == 0)
         {
             int height = grayFrame.rows();
-            if (Math.round(height * 0.01f) > 0)
+            if (Math.round(height * 0.2f) > 0)
             {
-                this.absoluteFaceSize = Math.round(height * 0.01f);
+                this.absoluteFaceSize = Math.round(height * 0.2f);
             }
         }
         // detect faces
