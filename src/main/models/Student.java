@@ -1,15 +1,7 @@
 package models;
 
 
-import javafx.collections.ObservableList;
-import javafx.scene.Node;
-import javafx.scene.control.Label;
-
-import java.sql.Date;
-import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Student extends User{
 

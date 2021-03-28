@@ -7,11 +7,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import models.Teacher;
-import models.TeacherDAO;
 import models.User;
 import models.UserDAO;
-//import resources.mySQLconnection;
 
 import java.net.URL;
 import java.time.LocalDate;

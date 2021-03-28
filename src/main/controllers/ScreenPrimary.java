@@ -10,24 +10,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.chart.AreaChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import models.Attendance;
-import models.AttendanceDAO;
-import utils.MyGraph;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Date;
-import java.time.LocalDate;
-import java.util.*;
-import java.text.SimpleDateFormat;
+import java.util.ResourceBundle;
 
 
 public class ScreenPrimary implements Initializable {

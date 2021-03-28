@@ -4,8 +4,6 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
-import models.Student;
-import models.Teacher;
 import models.TeacherDAO;
 import models.User;
 

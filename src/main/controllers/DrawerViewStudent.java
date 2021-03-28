@@ -38,7 +38,7 @@ public class DrawerViewStudent implements Initializable {
     private StackPane doughnutPane;
 
     private int id = TabStudent.id;
-    String AttendanceScreen = "/main/views/ComponentAttendStats.fxml";
+    String AttendanceScreen = "/views/ComponentAttendStats.fxml";
 
     public void drawDoughnutChart(){
         StackPane stackPane = new StackPane();

@@ -1,7 +1,5 @@
 package models;
 
-import java.util.Arrays;
-
 public class Subject {
 
     private String subjectName;

@@ -1,23 +1,27 @@
 package controllers;
 
-import com.jfoenix.animation.alert.CenterTransition;
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import models.*;
+import models.Attendance;
+import models.AttendanceDAO;
+import models.StudentDAO;
 import utils.CircleChart;
 
 import java.io.IOException;
@@ -86,43 +90,37 @@ public class ScreenOverview implements Initializable {
         return absentMap.get("A");
     }
 
+    public XYChart.Series getTotal (ArrayList<LocalDate> arrDays){
+
+        XYChart.Series data = new XYChart.Series();
+
+        for (int i=0; i<numOfDays(20).size(); i++) {
+            if (arrDays.contains(numOfDays(20).get(i))) {
+                total = dup(arrDays).get(numOfDays(20).get(i));     //total Present
+                data.getData().add(new XYChart.Data(numOfDays(20).get(i).toString(), total));
+            } else {                                                          //all off
+                total = 0;
+                data.getData().add(new XYChart.Data(numOfDays(20).get(i).toString(), total));
+            }
+        }
+        return data;
+    }
+
     public Map<String, XYChart.Series> getData(){
-        ArrayList<Attendance> temp = new AttendanceDAO().retrieveAttendance();
+        ArrayList<Attendance> arrDB = new AttendanceDAO().retrieveAttendance();
         ArrayList<LocalDate> arrDaysPresent = new ArrayList<>();
         ArrayList<LocalDate> arrDaysAbsent = new ArrayList<>();
         Map<String, XYChart.Series> type = new HashMap<>();
-        XYChart.Series present = new XYChart.Series();
-        XYChart.Series absent = new XYChart.Series();
 
-        for (int i = 0; i < temp.size(); i++) {
-            if(temp.get(i).getAttStatus().equals("P")){
-                arrDaysPresent.add(temp.get(i).getAttDate().toLocalDate());
+        for (int i = 0; i < arrDB.size(); i++) {
+            if(arrDB.get(i).getAttStatus().equals("P")){
+                arrDaysPresent.add(arrDB.get(i).getAttDate().toLocalDate());
+                type.put("P",getTotal(arrDaysPresent));
             } else {
-                arrDaysAbsent.add(temp.get(i).getAttDate().toLocalDate());
+                arrDaysAbsent.add(arrDB.get(i).getAttDate().toLocalDate());
+                type.put("A",getTotal(arrDaysAbsent));
             }
         }
-
-        for (int i=0; i<numOfDays(20).size(); i++) {
-
-            if (arrDaysPresent.contains(numOfDays(20).get(i))) {
-                total = dup(arrDaysPresent).get(numOfDays(20).get(i));     //total Present
-                present.getData().add(new XYChart.Data(numOfDays(20).get(i).toString(), total));
-                type.put("P",present);
-            } else {                                                          //all off
-                present.getData().add(new XYChart.Data(numOfDays(20).get(i).toString(), 0));
-                type.put("P",present);
-            }
-
-            if (arrDaysAbsent.contains(numOfDays(20).get(i))) {
-                total = dup(arrDaysAbsent).get(numOfDays(20).get(i));     //total Present
-                absent.getData().add(new XYChart.Data(numOfDays(20).get(i).toString(), total));
-                type.put("A",absent);
-            } else {                                                          //all off
-                absent.getData().add(new XYChart.Data(numOfDays(20).get(i).toString(), 0));
-                type.put("A",absent);
-            }
-        }
-
         return type;
     }
 
@@ -167,37 +165,24 @@ public class ScreenOverview implements Initializable {
 
     public void setSemiCircleChart(){
         StackPane stackPane = new StackPane();
-        JFXButton btnPane = new JFXButton();
-        VBox vBox = new VBox();
 
         ObservableList<CircleChart.Data> dataList = FXCollections.observableArrayList(
-                new CircleChart.Data(total, "Present : "+total, Color.LIMEGREEN),
-                new CircleChart.Data(all-total, "Total", Color.LIGHTGRAY)
+                new CircleChart.Data(all-total, "Present : " + (all-total), Color.LIMEGREEN),
+                new CircleChart.Data(all, "Total: " + all, Color.LIGHTGRAY)
         );
 
         CircleChart chart = new CircleChart(180, dataList, 0, 0, 100,90,0);
 
-//        Label labelName = new Label(name);
-//        Label labelAchieve = new Label(achieve+"");
+        Label labelON = new Label((all-total)+"");
+        labelON.setGraphic(new ImageView(new Image("/images/icon/users.png")));
+        labelON.setContentDisplay(ContentDisplay.RIGHT);
+        labelON.setFont(new Font(30));
 
-//        vBox.getChildren().addAll(labelName, labelAchieve);
-        vBox.setAlignment(Pos.BOTTOM_CENTER);
-//        labelName.setFont(new Font(15));
-//        stackPane.setMargin(vBox,new Insets(0,0,0,0));
-        stackPane.getChildren().addAll(chart, vBox);
+        stackPane.getChildren().addAll(chart , labelON);
         stackPane.setAlignment(Pos.BOTTOM_CENTER);
-        btnPane.setGraphic(stackPane);
-        totalPane.getChildren().add(btnPane);
+        stackPane.setPadding(new Insets(10));
+        totalPane.getChildren().add(stackPane);
     }
-
-//    public void drawSemiCircleChart(){
-//
-//        Subject[] subjectData = new ModuleDAO().retrieveSubjectData(id);
-//
-//        for(Subject s: subjectData) {
-//            setSemiCircleChart(s.getSubjectName(), s.getSubjectMark());
-//        }
-//    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

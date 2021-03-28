@@ -1,11 +1,10 @@
 package models;
 
 import com.jfoenix.controls.JFXButton;
-import javafx.collections.ObservableList;
+import controllers.TabTeacher;
+import controllers.TabUser;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.SelectionMode;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -13,10 +12,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import controllers.TabTeacher;
-import controllers.TabUser;
 
-import java.awt.*;
 import java.sql.SQLException;
 
 public class User {

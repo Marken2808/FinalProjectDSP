@@ -1,47 +1,39 @@
 package controllers;
 
-import com.jfoenix.controls.*;
+import com.jfoenix.controls.JFXAutoCompletePopup;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDrawer;
+import com.jfoenix.controls.JFXTextField;
 import javafx.beans.binding.Bindings;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
-import javafx.event.EventTarget;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.Node;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.PickResult;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.util.Callback;
 import javafx.util.Duration;
 import models.Attendance;
-import models.AttendanceDAO;
 import models.Student;
 import models.StudentDAO;
 import utils.DBbean;
 
-import javax.naming.Binding;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 
 public class TabStudent implements Initializable {
@@ -88,8 +80,8 @@ public class TabStudent implements Initializable {
     FilteredList<Student> filterData;
 
     public static int id;
-    String DrawerViewStudent = "/main/views/DrawerViewStudent.fxml";
-    String DrawerControlStudent = "/main/views/DrawerControlStudent.fxml";
+    String DrawerViewStudent = "/views/DrawerViewStudent.fxml";
+    String DrawerControlStudent = "/views/DrawerControlStudent.fxml";
 
 
     @FXML

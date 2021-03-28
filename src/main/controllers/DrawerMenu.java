@@ -13,9 +13,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import models.Student;
-import models.Teacher;
-import models.TeacherDAO;
 import models.User;
 
 import java.io.IOException;

@@ -5,8 +5,8 @@ import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import utils.DBbean;
 import org.opencv.core.Core;
+import utils.DBbean;
 
 public class Main extends Application {
 

@@ -1,6 +1,5 @@
 package utils;
 
-import java.util.List;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.control.Tooltip;
@@ -8,6 +7,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Arc;
 import javafx.scene.shape.ArcType;
+
+import java.util.List;
 
 public class CircleChart extends Parent{ //TODO: this should extend Chart in the future
     private List<Data> dataList;

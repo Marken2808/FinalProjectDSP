@@ -1,27 +1,6 @@
 package utils;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
-import javafx.scene.paint.Color;
-import models.Attendance;
-import models.Face;
-import models.Module;
-import models.Student;
-
-import java.awt.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.sql.*;
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.*;
 
 public class DBbean {
 

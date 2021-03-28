@@ -6,11 +6,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.chart.*;
-import javafx.scene.control.Label;
+import javafx.scene.chart.AreaChart;
+import javafx.scene.chart.LineChart;
 import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
 import utils.MyGraph;
 
 import java.io.IOException;

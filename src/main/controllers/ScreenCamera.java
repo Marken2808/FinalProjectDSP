@@ -13,9 +13,9 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import models.Attendance;
 import models.AttendanceDAO;
+import org.opencv.core.Mat;
 import utils.OpenCV;
 import utils.UtilsOCV;
-import org.opencv.core.Mat;
 
 import java.io.File;
 import java.io.FileInputStream;

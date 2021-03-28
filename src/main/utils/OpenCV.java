@@ -2,7 +2,6 @@ package utils;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
 import org.opencv.core.*;
 import org.opencv.face.FaceRecognizer;
 import org.opencv.face.LBPHFaceRecognizer;
@@ -12,12 +11,14 @@ import org.opencv.objdetect.CascadeClassifier;
 import org.opencv.objdetect.Objdetect;
 import org.opencv.videoio.VideoCapture;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import static org.opencv.imgproc.Imgproc.*;
+import static org.opencv.imgproc.Imgproc.INTER_AREA;
 
 
 public class OpenCV {
