@@ -43,6 +43,12 @@ public class ScreenOverview implements Initializable {
     int all = new StudentDAO().showStudentTable().size();
     int total;
 
+    public void init(){
+        for (int i = 0; i <= all ; i++) {
+            new AttendanceDAO().insert(new Attendance("A", i));
+        }
+    }
+
     public Map<LocalDate, Integer> dup(ArrayList<LocalDate> testDate) {
         Set<LocalDate> set = new HashSet<>();
         Map<LocalDate, Integer> map = new HashMap<>();
@@ -195,6 +201,8 @@ public class ScreenOverview implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        init();
+
         areaChart.getData().add(areaPresent());
         try {
             AnchorPane calendarTab = FXMLLoader.load(getClass().getResource("/views/ComponentCalendar.fxml"));
@@ -204,8 +212,8 @@ public class ScreenOverview implements Initializable {
             e.printStackTrace();
         }
 
-
-        System.out.println(all);
         setSemiCircleChart();
+
+
     }
 }

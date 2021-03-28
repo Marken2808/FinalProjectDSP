@@ -87,6 +87,19 @@ public class AttendanceDAO {
         }
     }
 
+    public void update(Attendance attendance){
+        try {
+            String sql= "UPDATE `attendance` " +
+                    "SET aStatus  = '" + attendance.getAttStatus() + "' "+
+                    "WHERE a_sId = " + attendance.getStudentID();
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.executeUpdate();
+            System.out.println("attendance updated......");
+        } catch (SQLException e) {
+            System.out.println("attendance today already exist......");
+        }
+    }
+
     public ArrayList<Attendance> retrieveDate(int sid, ArrayList<LocalDate> days) {
 
         ArrayList<Attendance> test = new ArrayList<>();
