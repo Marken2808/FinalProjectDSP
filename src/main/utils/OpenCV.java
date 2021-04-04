@@ -50,7 +50,7 @@ public class OpenCV {
 
     // Names of the people from the training set
     public HashMap<Integer, String> namesMap = new HashMap<>();
-    public File[] imageFiles;
+    public File[] imageFiles = null;
     public Object[][] namesList;
     public int predictionID = 0;
     public File root = new File(datasetPath);
