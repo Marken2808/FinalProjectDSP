@@ -22,12 +22,10 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
-import models.Face;
-import models.Student;
-import models.User;
+
+import models.*;
 import org.opencv.imgcodecs.Imgcodecs;
-import utils.OpenCV;
-import utils.UtilsOCV;
+import utils.*;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
