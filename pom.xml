@@ -45,6 +45,21 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.testfx</groupId>
+            <artifactId>testfx-core</artifactId>
+            <version>4.0.16-alpha</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testfx</groupId>
+            <artifactId>testfx-junit</artifactId>
+            <version>4.0.15-alpha</version>
+            <scope>test</scope>
+        </dependency>
+
+
 
         <!--install:install-file -Dfile=D:\UWE\tempProject\JavaMaven\StudentManagement\lib\opencv-440.jar -DgroupId=org.opencv -DartifactId=opencv -Dpackaging=jar-->
 
