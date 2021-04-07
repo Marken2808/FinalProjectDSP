@@ -33,9 +33,6 @@ public class PopupSignIn implements Initializable {
     private JFXPasswordField fieldPassword;
 
     @FXML
-    private JFXToggleButton btnAuto;
-
-    @FXML
     private JFXButton btnSignIn;
 
     @FXML
@@ -45,9 +42,8 @@ public class PopupSignIn implements Initializable {
 
     public static User authUser;
 
-    @FXML
-    void autoFill(MouseEvent event) {
-//        authUser = new UserDAO().authenticate(new User("admin","admin"));
+
+    void setUp() {
         ScreenPrimary.dialog.close();
         ScreenPrimary.getInstance().header.setVisible(true);
         ScreenPrimary.getInstance().displayScreen("Overview","/views/ScreenOverview.fxml");
@@ -59,7 +55,7 @@ public class PopupSignIn implements Initializable {
         authUser = new UserDAO().authenticate(new User(fieldUsername.getText(), fieldPassword.getText()));
 
         if(authUser != null){
-            autoFill(event);
+            setUp();
             System.out.println("Successful");
             System.out.println("ID: "+authUser.getUserID());
 

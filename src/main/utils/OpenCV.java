@@ -35,13 +35,13 @@ public class OpenCV {
     public CascadeClassifier eyesCascade = new CascadeClassifier();
 
     public ArrayList<Mat> listRez;
-    public ArrayList<Mat> listCrop;
+//    public ArrayList<Mat> listCrop;
     public Rect[] facesArray;
 
     public String resPath      = System.getProperty("user.dir").concat("\\src\\resources\\");
     public String outputPath    = resPath + "images/output/";
     public String inputPath     = resPath + "images/input/";
-    public String testPath      = resPath + "images/test/";
+//    public String testPath      = resPath + "images/test/";
     public String datasetPath   = resPath + "images/dataset/";
     public String outImg;
     public String inImg;
@@ -162,42 +162,37 @@ public class OpenCV {
         this.faceCascade.detectMultiScale(grayFrame, faces, 1.3, 3, 0 | Objdetect.CASCADE_SCALE_IMAGE,
                 new Size(this.absoluteFaceSize, this.absoluteFaceSize), new Size());
 
-        this.listCrop = new ArrayList<>();
         this.listRez = new ArrayList<>();
         Mat resizeImage ;
         Mat croppedImage ;
         facesArray = faces.toArray();
         for (Rect face : facesArray) {
 
-            Mat org_frame = frame.clone();
+//            Mat org_frame = frame.clone();
 //            Point center = new Point(face.x + face.width / 2, face.y + face.height / 2);
             Imgproc.rectangle(frame, face.tl(), face.br(), new Scalar(0, 255, 0), 1);
-            Mat faceROI = grayFrame.submat(face);
+//            Mat faceROI = grayFrame.submat(face);
 
             // ------In each face, detect eyes--------------------
-            MatOfRect eyes = new MatOfRect();
-            this.eyesCascade.detectMultiScale(faceROI, eyes, 1.2, 2);
-
-            List<Rect> listOfEyes = eyes.toList();
-            for (Rect eye : listOfEyes) {
-                Point eyeCenter = new Point(face.x + eye.x + eye.width / 2, face.y + eye.y + eye.height / 2);
-                int radius = (int) Math.round((eye.width + eye.height) * 0.25);
-                Imgproc.circle(frame, eyeCenter, radius, new Scalar(255, 0, 0), 1);
-
-            }
+//            MatOfRect eyes = new MatOfRect();
+//            this.eyesCascade.detectMultiScale(faceROI, eyes, 1.2, 2);
+//            List<Rect> listOfEyes = eyes.toList();
+//            for (Rect eye : listOfEyes) {
+//                Point eyeCenter = new Point(face.x + eye.x + eye.width / 2, face.y + eye.y + eye.height / 2);
+//                int radius = (int) Math.round((eye.width + eye.height) * 0.25);
+//                Imgproc.circle(frame, eyeCenter, radius, new Scalar(255, 0, 0), 1);
+//
+//            }
 
 
             Rect rectCrop = new Rect(face.tl(), face.br());
-            croppedImage = new Mat(org_frame, rectCrop);
-            resizeImage = new Mat();
-
-            this.listCrop.add(croppedImage);         //for multi pics
-
+            croppedImage = new Mat(frame, rectCrop);
+//            resizeImage = new Mat();
 
             Imgproc.cvtColor(croppedImage, croppedImage, Imgproc.COLOR_BGR2GRAY);
             Imgproc.equalizeHist(croppedImage, croppedImage);
             Size size = new Size(150,150);
-            Imgproc.resize(croppedImage, resizeImage, size, 0,0, INTER_AREA);
+            Imgproc.resize(croppedImage, croppedImage, size, 0,0, INTER_AREA);
 
             double[] returnedResults = faceRecognition(croppedImage);
             predictionID = ((int) returnedResults[0]);
@@ -210,10 +205,10 @@ public class OpenCV {
                 name = "Unknown";
             }
 
-            this.listRez.add(resizeImage);
-            for(int i=0; i<this.listRez.size();i++){
-                Imgcodecs.imwrite( testPath+"0-new_"+i+".jpg", this.listRez.get(i));
-            }
+            this.listRez.add(croppedImage);
+//            for(int i=0; i<this.listRez.size();i++){
+//                Imgcodecs.imwrite( testPath+"0-new_"+i+".jpg", this.listRez.get(i));
+//            }
 
             String box_text = name + " : " + confidence + "%";
             double pos_x = face.x - 10;

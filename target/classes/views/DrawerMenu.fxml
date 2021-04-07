@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
 <VBox fx:id="drawerPane" alignment="CENTER" spacing="5.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DrawerMenu">
    <children>
       <ImageView fx:id="picAvatar" fitHeight="125.0" fitWidth="125.0" pickOnBounds="true" VBox.vgrow="ALWAYS">
@@ -16,92 +19,92 @@
             <Insets left="15.0" right="15.0" top="15.0" />
          </VBox.margin>
       </ImageView>
-      <VBox accessibleText="DrawerBox" alignment="TOP_CENTER" spacing="5.0" VBox.vgrow="ALWAYS">
+      <VBox accessibleText="DrawerBox" alignment="TOP_CENTER" cacheShape="false" centerShape="false" scaleShape="false" spacing="5.0" VBox.vgrow="ALWAYS">
          <children>
-            <JFXButton accessibleText="Profile" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="50.0" text="&lt;User&gt;">
+            <JFXButton accessibleText="Profile" alignment="CENTER" cacheShape="false" centerShape="false" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="50.0" scaleShape="false" text="&lt;User&gt;">
                <graphic>
-                  <StackPane>
+                  <StackPane cacheShape="false" centerShape="false">
                      <children>
                         <ImageView fitHeight="20.0" fitWidth="20.0" opacity="0.8" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER_LEFT">
                            <image>
                               <Image url="@../images/icon/user.png" />
                            </image>
                         </ImageView>
-                        <Label fx:id="labelName" alignment="CENTER" contentDisplay="CENTER" text="User" StackPane.alignment="CENTER">
+                        <Label fx:id="labelName" alignment="CENTER" cacheShape="false" centerShape="false" contentDisplay="CENTER" focusTraversable="false" scaleShape="false" text="User" StackPane.alignment="CENTER">
                            <font>
-                              <Font name="System Bold" size="18.0" />
+                              <Font name="Times New Roman Bold" size="16.0" />
                            </font>
                         </Label>
                      </children>
                   </StackPane>
                </graphic>
             </JFXButton>
-            <JFXButton fx:id="btnHome" accessibleText="Home" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" onMouseClicked="#isHomeClicked" prefHeight="50.0" text="&lt;Home&gt;">
+            <JFXButton fx:id="btnHome" accessibleText="Home" alignment="CENTER" cacheShape="false" centerShape="false" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" onMouseClicked="#isHomeClicked" prefHeight="50.0" scaleShape="false" text="&lt;Home&gt;">
                <graphic>
-                  <StackPane>
+                  <StackPane cacheShape="false" centerShape="false">
                      <children>
                         <ImageView fitHeight="20.0" fitWidth="20.0" opacity="0.8" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER_LEFT">
                            <image>
                               <Image url="@../images/icon/home.png" />
                            </image>
                         </ImageView>
-                        <Label text="Home" StackPane.alignment="CENTER">
+                        <Label cacheShape="false" centerShape="false" focusTraversable="false" scaleShape="false" text="Home" StackPane.alignment="CENTER">
                            <font>
-                              <Font size="14.0" />
+                              <Font name="Times New Roman" size="16.0" />
                            </font>
                         </Label>
                      </children>
                   </StackPane>
                </graphic>
             </JFXButton>
-            <JFXButton accessibleText="Settings" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="50.0" text="&lt;Settings&gt;">
+            <JFXButton accessibleText="Settings" alignment="CENTER" cacheShape="false" centerShape="false" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="50.0" scaleShape="false" text="&lt;Settings&gt;">
                <graphic>
-                  <StackPane>
+                  <StackPane cacheShape="false" centerShape="false">
                      <children>
                         <ImageView fitHeight="20.0" fitWidth="20.0" opacity="0.8" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER_LEFT">
                            <image>
                               <Image url="@../images/icon/settings.png" />
                            </image>
                         </ImageView>
-                        <Label text="Settings" StackPane.alignment="CENTER">
+                        <Label cacheShape="false" centerShape="false" focusTraversable="false" scaleShape="false" text="Settings" StackPane.alignment="CENTER">
                            <font>
-                              <Font size="14.0" />
+                              <Font name="Times New Roman" size="16.0" />
                            </font>
                         </Label>
                      </children>
                   </StackPane>
                </graphic>
             </JFXButton>
-            <JFXButton fx:id="btnCamera" accessibleText="Camera" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="50.0" text="&lt;Camera&gt;">
+            <JFXButton fx:id="btnCamera" accessibleText="Camera" alignment="CENTER" cacheShape="false" centerShape="false" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="50.0" scaleShape="false" text="&lt;Camera&gt;">
                <graphic>
-                  <StackPane>
+                  <StackPane cacheShape="false" centerShape="false">
                      <children>
                         <ImageView fitHeight="20.0" fitWidth="20.0" opacity="0.8" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER_LEFT">
                            <image>
                               <Image url="@../images/icon/camera.png" />
                            </image>
                         </ImageView>
-                        <Label text="Camera" StackPane.alignment="CENTER">
+                        <Label cacheShape="false" centerShape="false" focusTraversable="false" scaleShape="false" text="Camera" StackPane.alignment="CENTER">
                            <font>
-                              <Font size="14.0" />
+                              <Font name="Times New Roman" size="16.0" />
                            </font>
                         </Label>
                      </children>
                   </StackPane>
                </graphic>
             </JFXButton>
-            <JFXButton fx:id="btnDashboard" accessibleText="Dashboard" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="50.0" text="&lt;Dashboard&gt;">
+            <JFXButton fx:id="btnDashboard" accessibleText="Dashboard" alignment="CENTER" cacheShape="false" centerShape="false" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="50.0" scaleShape="false" text="&lt;Dashboard&gt;">
                <graphic>
-                  <StackPane>
+                  <StackPane cacheShape="false" centerShape="false">
                      <children>
                         <ImageView fitHeight="20.0" fitWidth="20.0" opacity="0.8" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER_LEFT">
                            <image>
                               <Image url="@../images/icon/activity.png" />
                            </image>
                         </ImageView>
-                        <Label text="Dashboard" StackPane.alignment="CENTER">
+                        <Label cacheShape="false" centerShape="false" focusTraversable="false" scaleShape="false" text="Dashboard" StackPane.alignment="CENTER">
                            <font>
-                              <Font size="14.0" />
+                              <Font name="Times New Roman" size="16.0" />
                            </font>
                         </Label>
                      </children>
@@ -110,18 +113,18 @@
             </JFXButton>
          </children>
       </VBox>
-      <JFXButton fx:id="btnSignOut" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" onMouseClicked="#makeLogOut" prefHeight="50.0" text="&lt; Log out&gt;" textAlignment="CENTER">
+      <JFXButton fx:id="btnSignOut" alignment="CENTER" buttonType="RAISED" cacheShape="false" centerShape="false" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" onMouseClicked="#makeLogOut" prefHeight="50.0" scaleShape="false" text="&lt; Log out&gt;" textAlignment="CENTER">
          <graphic>
-            <StackPane>
+            <StackPane cacheShape="false" centerShape="false" scaleShape="false">
                <children>
                   <ImageView fitHeight="20.0" fitWidth="20.0" opacity="0.8" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER_LEFT">
                      <image>
                         <Image url="@../images/icon/log-out.png" />
                      </image>
                   </ImageView>
-                  <Label text="Log out" StackPane.alignment="CENTER">
+                  <Label cacheShape="false" centerShape="false" focusTraversable="false" scaleShape="false" text="Log out" StackPane.alignment="CENTER">
                      <font>
-                        <Font size="14.0" />
+                        <Font name="Times New Roman" size="16.0" />
                      </font>
                   </Label>
                </children>

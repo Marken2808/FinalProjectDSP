@@ -79,6 +79,5 @@ public class PopupSignUp implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
     }
 }

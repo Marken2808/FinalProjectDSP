@@ -15,6 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -119,6 +120,7 @@ public class ScreenPrimary implements Initializable {
         try {
             StackPane screenPane = FXMLLoader.load(getClass().getResource(screen));
             labelTitle.setText(title);
+//            labelTitle.setFont(new Font("Times New Roman",20));
             mainStackPane.getChildren().add(screenPane);
         } catch (IOException e) {
             e.printStackTrace();

@@ -176,7 +176,7 @@ public class ScreenOverview implements Initializable {
         Label labelON = new Label((all-total)+"");
         labelON.setGraphic(new ImageView(new Image("/images/icon/users.png")));
         labelON.setContentDisplay(ContentDisplay.RIGHT);
-        labelON.setFont(new Font(30));
+        labelON.setFont(new Font("Times New Roman",36));
 
         stackPane.getChildren().addAll(chart , labelON);
         stackPane.setAlignment(Pos.BOTTOM_CENTER);

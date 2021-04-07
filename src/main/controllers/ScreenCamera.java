@@ -14,6 +14,7 @@ import javafx.stage.FileChooser;
 import models.Attendance;
 import models.AttendanceDAO;
 import org.opencv.core.Mat;
+import org.opencv.imgcodecs.Imgcodecs;
 import utils.OpenCV;
 import utils.UtilsOCV;
 
@@ -50,6 +51,7 @@ public class ScreenCamera implements Initializable {
     private OpenCV callCV = OpenCV.getInstance();
 
     private String CaptureScreen    = "/views/PopupCaptured.fxml";
+    public String testPath      = System.getProperty("user.dir").concat("\\src\\resources\\") + "images/test/";
 //----------------------------instance--------------------
 
     public static ScreenCamera instance;
@@ -71,6 +73,10 @@ public class ScreenCamera implements Initializable {
         // update the button content
         this.btnStart.setDisable(false);
         this.btnStart.setText("Continue");
+
+        for(int i=0; i<callCV.listRez.size();i++){
+            Imgcodecs.imwrite( testPath+"0-new_"+i+".jpg", callCV.listRez.get(i));
+        }
 
         ScreenPrimary.getInstance().displayPopup(CaptureScreen, true);
 
@@ -203,16 +209,16 @@ public class ScreenCamera implements Initializable {
                         Image imageToShow = UtilsOCV.mat2Image(frame);
                         callCV.updateImageView(currentFrame, imageToShow);
 
-                        arrID.add(callCV.predictionID);
-                        while (arrID.size()==30){
-
-//                            System.out.println("got "+ callCV.facesArray.length + " face");
-                            for(int i: listKeyRecognise(arrID)){
-                                System.out.println("add studentID "+i+"'s attendance into db");
-                                new AttendanceDAO().update(new Attendance("P", i));   //open if necessary
-                            }
-                            arrID.clear();
-                        }
+//                        arrID.add(callCV.predictionID);
+//                        while (arrID.size()==30){
+//
+////                            System.out.println("got "+ callCV.facesArray.length + " face");
+//                            for(int i: listKeyRecognise(arrID)){
+//                                System.out.println("add studentID "+i+"'s attendance into db");
+////                                new AttendanceDAO().update(new Attendance("P", i));   //open if necessary
+//                            }
+//                            arrID.clear();
+//                        }
                     }
                 };
 
