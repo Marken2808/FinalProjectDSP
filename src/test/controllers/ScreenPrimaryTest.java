@@ -9,6 +9,6 @@ class ScreenPrimaryTest extends TestFXRule {
 
     @Test
     void displayPopup() {
-        
+
     }
 }
