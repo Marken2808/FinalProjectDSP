@@ -158,7 +158,7 @@ public class ScreenCamera implements Initializable {
         }
 
 
-        System.out.println("Map init: "+map);
+//        System.out.println("Map init: "+map);
         Iterator<Integer> iter = map.values().iterator();
 
 
