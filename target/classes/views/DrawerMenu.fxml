@@ -32,7 +32,7 @@
                         </ImageView>
                         <Label fx:id="labelName" alignment="CENTER" cacheShape="false" centerShape="false" contentDisplay="CENTER" focusTraversable="false" scaleShape="false" text="User" StackPane.alignment="CENTER">
                            <font>
-                              <Font name="Times New Roman Bold" size="16.0" />
+                              <Font name="Times New Roman Bold" size="18.0" />
                            </font>
                         </Label>
                      </children>
@@ -113,7 +113,7 @@
             </JFXButton>
          </children>
       </VBox>
-      <JFXButton fx:id="btnSignOut" alignment="CENTER" buttonType="RAISED" cacheShape="false" centerShape="false" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" onMouseClicked="#makeLogOut" prefHeight="50.0" scaleShape="false" text="&lt; Log out&gt;" textAlignment="CENTER">
+      <JFXButton fx:id="btnSignOut" alignment="CENTER" buttonType="RAISED" cacheShape="false" centerShape="false" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" graphicTextGap="0.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" onMouseClicked="#makeLogOut" prefHeight="50.0" scaleShape="false" text="&lt; Log out&gt;" textAlignment="CENTER">
          <graphic>
             <StackPane cacheShape="false" centerShape="false" scaleShape="false">
                <children>

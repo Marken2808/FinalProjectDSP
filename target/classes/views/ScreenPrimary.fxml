@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXDrawer?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.ColorAdjust?>
@@ -51,9 +52,9 @@
       <JFXDrawer fx:id="drawerPane" cacheShape="false" centerShape="false" defaultDrawerSize="0.0" scaleShape="false" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0" />
       <HBox alignment="TOP_RIGHT" cacheShape="false" centerShape="false" scaleShape="false" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
          <children>
-            <JFXButton fx:id="btnRestore" alignment="CENTER" buttonType="RAISED" cacheShape="false" centerShape="false" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" graphicTextGap="0.0" onMouseClicked="#clickRestore" prefHeight="30.0" prefWidth="30.0" scaleShape="false" style="-fx-background-radius: 50; -fx-background-color: green; -fx-background-insets: 5;" text="Button">
+            <JFXButton fx:id="btnRestore" alignment="CENTER" buttonType="RAISED" cacheShape="false" centerShape="false" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" graphicTextGap="0.0" onMouseClicked="#clickRestore" prefHeight="30.0" prefWidth="30.0" scaleShape="false" style="-fx-background-radius: 50; -fx-background-color: green; -fx-background-insets: 8;" text="Button">
                <graphic>
-                  <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/icon/circle.png" />
                      </image>
@@ -65,10 +66,13 @@
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
             </JFXButton>
-            <JFXButton fx:id="btnMinimise" alignment="CENTER" buttonType="RAISED" cacheShape="false" centerShape="false" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" graphicTextGap="0.0" onMouseClicked="#clickMinimise" prefHeight="30.0" prefWidth="30.0" scaleShape="false" style="-fx-background-radius: 50; -fx-background-color: orange; -fx-background-insets: 5;">
+            <JFXButton fx:id="btnMinimise" alignment="CENTER" buttonType="RAISED" cacheShape="false" centerShape="false" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" graphicTextGap="0.0" onMouseClicked="#clickMinimise" prefHeight="30.0" prefWidth="30.0" scaleShape="false" style="-fx-background-radius: 50; -fx-background-color: orange; -fx-background-insets: 8;">
                <graphic>
-                  <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/icon/minus.png" />
                      </image>
@@ -80,10 +84,13 @@
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
             </JFXButton>
-            <JFXButton fx:id="btnClose" alignment="CENTER" buttonType="RAISED" cacheShape="false" centerShape="false" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" graphicTextGap="0.0" onMouseClicked="#clickClose" prefHeight="30.0" prefWidth="30.0" scaleShape="false" style="-fx-background-radius: 50; -fx-background-color: red; -fx-background-insets: 5;">
+            <JFXButton fx:id="btnClose" alignment="CENTER" buttonType="RAISED" cacheShape="false" centerShape="false" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" graphicTextGap="0.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#clickClose" prefHeight="30.0" prefWidth="30.0" scaleShape="false" style="-fx-background-radius: 50; -fx-background-color: red; -fx-background-insets: 8;">
                <graphic>
-                  <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/icon/x.png" />
                      </image>
@@ -95,6 +102,9 @@
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
             </JFXButton>
          </children>
       </HBox>

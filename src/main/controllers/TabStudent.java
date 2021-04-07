@@ -23,6 +23,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 import models.Attendance;
 import models.Student;
@@ -174,6 +175,7 @@ public class TabStudent implements Initializable {
                 if (!empty) {
                     setText(String.valueOf(param.getTableView().getItems().get(getIndex()).getStudentId()));
                     setAlignment(Pos.CENTER);
+                    setFont(Font.font("Times New Roman"));
                 }
             }
         });
@@ -186,7 +188,7 @@ public class TabStudent implements Initializable {
                 if (!empty) {
                     setText(param.getTableView().getItems().get(getIndex()).getStudentName().toUpperCase());
                     setAlignment(Pos.CENTER);
-//                    setFont(Font.font("Arial", FontWeight.NORMAL, 15));
+                    setFont(Font.font("Times New Roman"));
                 }
             }
         });
@@ -199,6 +201,7 @@ public class TabStudent implements Initializable {
                 if (!empty) {
                     setText(String.valueOf(param.getTableView().getItems().get(getIndex()).isStudentMarked()));
                     setAlignment(Pos.CENTER);
+                    setFont(Font.font("Times New Roman"));
                 }
             }
         });

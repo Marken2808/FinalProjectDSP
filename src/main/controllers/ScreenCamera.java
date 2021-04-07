@@ -209,23 +209,25 @@ public class ScreenCamera implements Initializable {
                         Image imageToShow = UtilsOCV.mat2Image(frame);
                         callCV.updateImageView(currentFrame, imageToShow);
 
-//                        arrID.add(callCV.predictionID);
-//                        while (arrID.size()==30){
-//
-////                            System.out.println("got "+ callCV.facesArray.length + " face");
-//                            for(int i: listKeyRecognise(arrID)){
-//                                System.out.println("add studentID "+i+"'s attendance into db");
-////                                new AttendanceDAO().update(new Attendance("P", i));   //open if necessary
-//                            }
-//                            arrID.clear();
-//                        }
+                        arrID.add(callCV.predictionID);
+                        while (arrID.size()==30){
+
+//                            System.out.println("got "+ callCV.facesArray.length + " face");
+                            for(int i: listKeyRecognise(arrID)){
+                                System.out.println("add studentID "+i+"'s attendance into db");
+
+//                                new AttendanceDAO().update(new Attendance("P", i));   //open if necessary
+                            }
+                            arrID.clear();
+
+                        }
                     }
                 };
 
 
 
                 callCV.timer = Executors.newSingleThreadScheduledExecutor();
-                callCV.timer.scheduleAtFixedRate(frameGrabber, 0, 33, TimeUnit.MILLISECONDS);
+                callCV.timer.scheduleAtFixedRate(frameGrabber, 0, 33, TimeUnit.NANOSECONDS);
 
                 // update the button content
                 this.btnStart.setDisable(true);
