@@ -56,12 +56,12 @@
                   </VBox>
                   <VBox cacheShape="false" centerShape="false" scaleShape="false" spacing="10.0">
                      <children>
-                        <StackPane cacheShape="false" centerShape="false" prefHeight="100.0" scaleShape="false" style="-fx-background-color: #d9d9d9;">
+                        <StackPane cacheShape="false" centerShape="false" prefHeight="100.0" scaleShape="false" style="-fx-background-color: #d9d9d9;" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
                            <children>
-                              <HBox alignment="CENTER" cacheShape="false" centerShape="false" scaleShape="false" StackPane.alignment="CENTER">
+                              <HBox alignment="CENTER" cacheShape="false" centerShape="false" scaleShape="false" spacing="5.0" StackPane.alignment="CENTER">
                                  <StackPane.margin>
                                     <Insets bottom="5.0" />
                                  </StackPane.margin>
@@ -97,7 +97,7 @@
                            </children>
                         </StackPane>
                         <StackPane fx:id="calendarPane" cacheShape="false" centerShape="false" scaleShape="false" style="-fx-background-color: white;" VBox.vgrow="ALWAYS" />
-                        <StackPane fx:id="totalPane" cacheShape="false" centerShape="false" scaleShape="false" style="-fx-background-color: white;" />
+                        <StackPane fx:id="totalPane" cacheShape="false" centerShape="false" scaleShape="false" style="-fx-background-color: white;" VBox.vgrow="ALWAYS" />
                      </children>
                   </VBox>
                </children>

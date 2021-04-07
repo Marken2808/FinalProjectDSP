@@ -67,6 +67,7 @@ public class ComponentCalendar implements Initializable{
         String showDay = value.split("\\ ")[0];
         Label text = new Label(showDay);
         text.setDisable(true);
+        text.setFont(new Font("Times New Roman",12));
 
         return text;
     }
@@ -74,7 +75,7 @@ public class ComponentCalendar implements Initializable{
     public Node displayCell_Ground (String value) {
         String showDay = value.split("\\ ")[0];
         Label text = new Label(showDay);
-        text.setFont(Font.font("System",FontWeight.BOLD,12));
+        text.setFont(Font.font("Times New Roman", FontWeight.BOLD,14));
 
         return text;
 
@@ -113,10 +114,10 @@ public class ComponentCalendar implements Initializable{
 
         String showDay = value.split("\\ ")[0];
         Label text = new Label(showDay);
-        text.setFont(new Font(15));
         text.setMaxWidth(MAX_VALUE);
         text.setMaxHeight(MAX_VALUE);
         text.setAlignment(Pos.CENTER);
+        text.setFont(new Font("Times New Roman", 15));
 
         text.borderProperty().bind(Bindings.when(text.hoverProperty())
                 .then(handleBorder(false)).otherwise(Border.EMPTY)
