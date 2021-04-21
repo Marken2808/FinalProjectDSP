@@ -1,12 +1,15 @@
 package controllers;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXSlider;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
+import javafx.scene.input.MouseDragEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -45,6 +48,17 @@ public class ScreenCamera implements Initializable {
 
     @FXML
     private JFXButton btnInsert;
+
+    @FXML
+    private JFXSlider scaleSlider;
+    public static JFXSlider scale;
+
+    @FXML
+    private JFXSlider neighbourSlider;
+
+    @FXML
+    private JFXSlider sizeSlider;
+
 
     private boolean cameraActive = false;
 
@@ -216,7 +230,7 @@ public class ScreenCamera implements Initializable {
                             for(int i: listKeyRecognise(arrID)){
                                 System.out.println("add studentID "+i+"'s attendance into db");
 
-//                                new AttendanceDAO().update(new Attendance("P", i));   //open if necessary
+                                new AttendanceDAO().update(new Attendance("P", i));   //open if necessary
                             }
                             arrID.clear();
 
@@ -227,7 +241,7 @@ public class ScreenCamera implements Initializable {
 
 
                 callCV.timer = Executors.newSingleThreadScheduledExecutor();
-                callCV.timer.scheduleAtFixedRate(frameGrabber, 0, 33, TimeUnit.NANOSECONDS);
+                callCV.timer.scheduleAtFixedRate(frameGrabber, 0, 33, TimeUnit.MILLISECONDS);
 
                 // update the button content
                 this.btnStart.setDisable(true);
@@ -265,6 +279,18 @@ public class ScreenCamera implements Initializable {
         this.currentFrame.setImage(null);   // add later
 
     }
+
+    @FXML
+    void onScaleReleased(MouseEvent event) {
+        System.out.println("Mouse Drag Released");
+        System.out.println(scaleSlider.getValue());
+        scale = scaleSlider;
+
+        System.out.println("Scale: " + scale.getValue());
+    }
+
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

@@ -1,5 +1,6 @@
 package utils;
 
+import controllers.ScreenCamera;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.opencv.core.*;
@@ -53,6 +54,9 @@ public class OpenCV {
     public File[] imageFiles = null;
     public Object[][] namesList;
     public int predictionID = 0;
+    public int sizes;
+    public double scales;
+    public int neighbours;
     public File root = new File(datasetPath);
     public FaceRecognizer faceRecognizer = LBPHFaceRecognizer.create();
 
@@ -159,8 +163,9 @@ public class OpenCV {
             }
         }
         // detect faces
-        this.faceCascade.detectMultiScale(grayFrame, faces, 1.3, 3, 0 | Objdetect.CASCADE_SCALE_IMAGE,
-                new Size(this.absoluteFaceSize, this.absoluteFaceSize), new Size());
+//        this.faceCascade.detectMultiScale(grayFrame, faces, 1.2, 3, 0 | Objdetect.CASCADE_SCALE_IMAGE,
+//                new Size(30,30));
+        this.faceCascade.detectMultiScale(grayFrame, faces, ScreenCamera.scale.getValue(), 5);
 
         this.listRez = new ArrayList<>();
         Mat resizeImage ;
