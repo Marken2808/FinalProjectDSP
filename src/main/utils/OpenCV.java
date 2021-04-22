@@ -29,7 +29,6 @@ public class OpenCV {
     public ScheduledExecutorService timer;
     // the OpenCV object that performs the video capture
     public VideoCapture capture;
-    public int absoluteFaceSize;
     //   face cascade classifier
     public CascadeClassifier faceCascade = new CascadeClassifier();
     //   eyes cascade classifier
@@ -40,23 +39,15 @@ public class OpenCV {
     public Rect[] facesArray;
 
     public String resPath      = System.getProperty("user.dir").concat("\\src\\resources\\");
-    public String outputPath    = resPath + "images/output/";
-    public String inputPath     = resPath + "images/input/";
-//    public String testPath      = resPath + "images/test/";
+    public String testPath      = resPath + "images/test/";
     public String datasetPath   = resPath + "images/dataset/";
-    public String outImg;
-    public String inImg;
     public String haarFace      = resPath + "haarcascades/haarcascade_frontalface_alt2.xml";
-    public String haarEyes      = resPath + "haarcascades/haarcascade_eye_tree_eyeglasses.xml";
 
     // Names of the people from the training set
     public HashMap<Integer, String> namesMap = new HashMap<>();
     public File[] imageFiles = null;
     public Object[][] namesList;
     public int predictionID = 0;
-    public int sizes;
-    public double scales;
-    public int neighbours;
     public File root = new File(datasetPath);
     public FaceRecognizer faceRecognizer = LBPHFaceRecognizer.create();
 
@@ -83,11 +74,7 @@ public class OpenCV {
     public void init() {
         this.capture = new VideoCapture();
         this.faceCascade.load(haarFace);
-        this.eyesCascade.load(haarEyes);
-        this.absoluteFaceSize = 0;
-
         trainModel();
-
     }
 
     /**
@@ -115,25 +102,15 @@ public class OpenCV {
         return frame;
     }
 
-    public Image detectImage (File file, ImageView currentFrame){
+    public Image detectImage (File file){
 
-        inImg = file.getPath();
-//        inImg = inputPath + file.getName();
-        outImg = outputPath + file.getName().replace(".jpg","_add.jpg");
+        String inImg = file.getPath();
 
         Mat src = Imgcodecs.imread(inImg);
-        Image imageBefore = UtilsOCV.mat2Image(src);
-        this.updateImageView(currentFrame, imageBefore);
-        this.faceCascade = new CascadeClassifier(haarFace);
-        this.eyesCascade = new CascadeClassifier(haarEyes);
-
         this.detectAndDisplay(src);
-        Imgcodecs.imwrite( outImg, src);
-        Image imageAfter = UtilsOCV.mat2Image(Imgcodecs.imread(outImg));
-        this.updateImageView(currentFrame, imageAfter );
 
-
-        return UtilsOCV.mat2Image(Imgcodecs.imread(outImg));
+        Image imageAfter = UtilsOCV.mat2Image(src);
+        return imageAfter;
     }
 
 
@@ -153,19 +130,16 @@ public class OpenCV {
         // equalize the frame histogram to improve the result
         Imgproc.equalizeHist(grayFrame, grayFrame);
 
-        // compute minimum face size (20% of the frame height, in our case)
-        if (this.absoluteFaceSize == 0)
-        {
-            int height = grayFrame.rows();
-            if (Math.round(height * 0.2f) > 0)
-            {
-                this.absoluteFaceSize = Math.round(height * 0.2f);
-            }
-        }
         // detect faces
-//        this.faceCascade.detectMultiScale(grayFrame, faces, 1.2, 3, 0 | Objdetect.CASCADE_SCALE_IMAGE,
-//                new Size(30,30));
-        this.faceCascade.detectMultiScale(grayFrame, faces, ScreenCamera.scale.getValue(), 5);
+        this.faceCascade.detectMultiScale(
+                grayFrame,
+                faces,
+                ScreenCamera.scales,
+                ScreenCamera.neighbours,
+                0 | Objdetect.CASCADE_SCALE_IMAGE,
+                new Size(ScreenCamera.sizes,ScreenCamera.sizes)
+        );
+//        this.faceCascade.detectMultiScale(grayFrame, faces, ScreenCamera.scales, ScreenCamera.neighbours);
 
         this.listRez = new ArrayList<>();
         Mat resizeImage ;

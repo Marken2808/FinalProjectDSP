@@ -51,14 +51,15 @@ public class ScreenCamera implements Initializable {
 
     @FXML
     private JFXSlider scaleSlider;
-    public static JFXSlider scale;
+    public static double scales = 1.2;
 
     @FXML
     private JFXSlider neighbourSlider;
+    public static int neighbours = 3;
 
     @FXML
     private JFXSlider sizeSlider;
-
+    public static int sizes = 30;
 
     private boolean cameraActive = false;
 
@@ -88,8 +89,12 @@ public class ScreenCamera implements Initializable {
         this.btnStart.setDisable(false);
         this.btnStart.setText("Continue");
 
-        for(int i=0; i<callCV.listRez.size();i++){
-            Imgcodecs.imwrite( testPath+"0-new_"+i+".jpg", callCV.listRez.get(i));
+        if(callCV.listRez.size()>1){
+            for(int i=0; i<callCV.listRez.size();i++){
+                Imgcodecs.imwrite( testPath+"Image_"+(i+1)+".jpg", callCV.listRez.get(i));
+            }
+        } else {
+            Imgcodecs.imwrite( testPath+"Image_0.jpg", callCV.listRez.get(0));
         }
 
         ScreenPrimary.getInstance().displayPopup(CaptureScreen, true);
@@ -114,8 +119,7 @@ public class ScreenCamera implements Initializable {
         File selectedFile = event.getDragboard().getFiles().get(0);
         currentFrame.setImage(new Image(new FileInputStream(selectedFile)));
         event.consume();
-
-        callCV.detectImage(selectedFile, currentFrame);
+        callCV.updateImageView(currentFrame, callCV.detectImage(selectedFile));
 
 //        System.out.println(test);
         this.btnInsert.setText("Insert Image");
@@ -132,7 +136,7 @@ public class ScreenCamera implements Initializable {
         FileChooser fileChooser = new FileChooser();
         File selectedFile = fileChooser.showOpenDialog(null);
         if (selectedFile != null){
-            callCV.detectImage(selectedFile, currentFrame);
+            callCV.updateImageView(currentFrame, callCV.detectImage(selectedFile));
             this.btnShot.setDisable(false);
             this.btnShot.setText("Save new");
         }
@@ -282,13 +286,21 @@ public class ScreenCamera implements Initializable {
 
     @FXML
     void onScaleReleased(MouseEvent event) {
-        System.out.println("Mouse Drag Released");
-        System.out.println(scaleSlider.getValue());
-        scale = scaleSlider;
-
-        System.out.println("Scale: " + scale.getValue());
+        scales = scaleSlider.getValue();
+        System.out.println("Scale: " + scales);
     }
 
+    @FXML
+    void onNeighbourReleased(MouseEvent event) {
+        neighbours = (int) neighbourSlider.getValue();
+        System.out.println("Neighbour: " + neighbours);
+    }
+
+    @FXML
+    void onSizeReleased(MouseEvent event) {
+        sizes = (int) sizeSlider.getValue();
+        System.out.println("Size: " + sizes);
+    }
 
 
 

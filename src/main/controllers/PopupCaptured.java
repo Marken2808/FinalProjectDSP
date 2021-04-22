@@ -7,6 +7,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -33,8 +34,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class PopupCaptured implements Initializable {
 
@@ -42,11 +42,12 @@ public class PopupCaptured implements Initializable {
     private ImageView captImg;
 
     @FXML
-    private JFXComboBox<?> comboPic;
+    private JFXComboBox<String> comboPic;
 
     @FXML
     private VBox boxData;
 
+    private Map<String, String> choice = new HashMap<>();
 
     JFXComboBox boxId = new JFXComboBox();
 
@@ -258,7 +259,7 @@ public class PopupCaptured implements Initializable {
         return detailsBox;
     }
 
-    public void displaySubTreeView() {
+    public void display_SubTreeView() {
 
         JFXTextField username = new JFXTextField();
         username.setPromptText("USERNAME");
@@ -303,28 +304,46 @@ public class PopupCaptured implements Initializable {
 
     }
 
+    @FXML
+    void onSelectCombo(ActionEvent event) throws FileNotFoundException {
+        System.out.println(comboPic.getSelectionModel().getSelectedItem());
+        imgPath = choice.get(comboPic.getSelectionModel().getSelectedItem());
 
-    ObservableList<Integer> observableList = FXCollections.observableList(getListSet(callCV.predictionID));
+        if(imgPath!=null) {
+            captImg.setImage(new Image(new FileInputStream(imgPath)));
+        }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    }
 
-        if(callCV.listRez.size()==1){
-            comboPic.setPromptText("This Image");
-            comboPic.setDisable(true);
-            boxId.setValue(callCV.predictionID);
-            fieldName.setText(String.valueOf(callCV.namesMap.get(callCV.predictionID)));
-            boxSet.setItems(observableList);
-            boxSet.setValue(0);
-            imgPath = callCV.resPath +"images/test/0-new_0.jpg";
-        } else if(callCV.listRez.size()==0){
+    public void display_ImageInfoView(){
+        String imgName;
+
+        if (callCV.listRez.isEmpty()){
             imgPath = null;
-        } else{
-            for(int i=0; i<callCV.listRez.size(); i++){
-//                System.out.println(i);
-                imgPath = callCV.resPath +"images/test/0-new_"+i+".jpg";
+        } else {
+            if (callCV.listRez.size() == 1) {
+                imgName = "Image_0";
+
+                imgPath = callCV.resPath +"images/test/"+imgName+".jpg";
+                choice.put(imgName,imgPath);
+                comboPic.setDisable(true);
+                comboPic.setPromptText(imgName);
+
+                boxId.setValue(callCV.predictionID);
+                fieldName.setText(String.valueOf(callCV.namesMap.get(callCV.predictionID)));
+                boxSet.setItems(observableList);
+                boxSet.setValue(0);
+            } else {
+                for(int i=0; i<callCV.listRez.size(); i++){
+                    imgName = "Image_"+(i+1) ;
+                    imgPath = callCV.resPath +"images/test/"+imgName+".jpg";
+                    choice.put(imgName, imgPath);
+                    comboPic.setPromptText(imgName);
+                }
             }
         }
+
+        comboPic.setItems(FXCollections.observableArrayList(choice.keySet()));
 
         if(imgPath!=null) {
             try {
@@ -334,9 +353,19 @@ public class PopupCaptured implements Initializable {
             }
         }
 
+    }
+
+    ObservableList<Integer> observableList = FXCollections.observableList(getListSet(callCV.predictionID));
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+
+
+        display_ImageInfoView();
         isFulfill();
         hboxInfor.setVisible(false);
-        displaySubTreeView();
+        display_SubTreeView();
 
 
     }

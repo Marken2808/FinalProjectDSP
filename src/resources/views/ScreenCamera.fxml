@@ -28,8 +28,8 @@
                   <HBox alignment="CENTER" spacing="10.0">
                      <children>
                         <JFXSlider fx:id="scaleSlider" blockIncrement="0.1" majorTickUnit="0.05" max="2.0" min="1.0" minorTickCount="0" onMouseReleased="#onScaleReleased" showTickLabels="true" snapToTicks="true" value="1.2" />
-                        <JFXSlider fx:id="neighbourSlider" />
-                        <JFXSlider fx:id="sizeSlider" />
+                        <JFXSlider fx:id="neighbourSlider" blockIncrement="1.0" majorTickUnit="1.0" max="8.0" min="2.0" minorTickCount="0" onMouseReleased="#onNeighbourReleased" showTickLabels="true" snapToTicks="true" value="3.0" />
+                        <JFXSlider fx:id="sizeSlider" blockIncrement="5.0" majorTickUnit="20.0" min="20.0" minorTickCount="0" onMouseReleased="#onSizeReleased" showTickLabels="true" snapToTicks="true" value="30.0" />
                      </children>
                   </HBox>
                   <HBox fx:id="boxFooter" alignment="CENTER" cacheShape="false" centerShape="false" prefHeight="40.0" scaleShape="false" spacing="100.0" style="-fx-background-color: #404040;">
