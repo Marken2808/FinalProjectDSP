@@ -137,9 +137,9 @@ public class OpenCV {
                 ScreenCamera.scales,
                 ScreenCamera.neighbours,
                 0 | Objdetect.CASCADE_SCALE_IMAGE,
-                new Size(ScreenCamera.sizes,ScreenCamera.sizes)
+                new Size(ScreenCamera.sizes,ScreenCamera.sizes),
+                new Size()
         );
-//        this.faceCascade.detectMultiScale(grayFrame, faces, ScreenCamera.scales, ScreenCamera.neighbours);
 
         this.listRez = new ArrayList<>();
         Mat resizeImage ;
@@ -148,21 +148,7 @@ public class OpenCV {
         for (Rect face : facesArray) {
 
 //            Mat org_frame = frame.clone();
-//            Point center = new Point(face.x + face.width / 2, face.y + face.height / 2);
             Imgproc.rectangle(frame, face.tl(), face.br(), new Scalar(0, 255, 0), 1);
-//            Mat faceROI = grayFrame.submat(face);
-
-            // ------In each face, detect eyes--------------------
-//            MatOfRect eyes = new MatOfRect();
-//            this.eyesCascade.detectMultiScale(faceROI, eyes, 1.2, 2);
-//            List<Rect> listOfEyes = eyes.toList();
-//            for (Rect eye : listOfEyes) {
-//                Point eyeCenter = new Point(face.x + eye.x + eye.width / 2, face.y + eye.y + eye.height / 2);
-//                int radius = (int) Math.round((eye.width + eye.height) * 0.25);
-//                Imgproc.circle(frame, eyeCenter, radius, new Scalar(255, 0, 0), 1);
-//
-//            }
-
 
             Rect rectCrop = new Rect(face.tl(), face.br());
             croppedImage = new Mat(frame, rectCrop);
@@ -185,16 +171,14 @@ public class OpenCV {
             }
 
             this.listRez.add(croppedImage);
-//            for(int i=0; i<this.listRez.size();i++){
-//                Imgcodecs.imwrite( testPath+"0-new_"+i+".jpg", this.listRez.get(i));
-//            }
 
             String box_text = name + " : " + confidence + "%";
             double pos_x = face.x - 10;
             double pos_y = face.y - 10;
             // And now put it into the image:
             Imgproc.putText(frame, box_text, new Point(pos_x, pos_y),
-                    Imgproc.FONT_HERSHEY_COMPLEX_SMALL, 1.5, new Scalar(0, 255, 0, 2.0),2);
+                    Imgproc.FONT_HERSHEY_TRIPLEX, 1, new Scalar(0, 255, 0),1);
+//            FONT_HERSHEY_COMPLEX_SMALL
         }
     }
 

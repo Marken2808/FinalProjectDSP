@@ -2,6 +2,7 @@ package controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSlider;
+import com.jfoenix.controls.JFXToggleButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -39,6 +40,12 @@ public class ScreenCamera implements Initializable {
 
     @FXML
     private HBox boxFooter;
+
+    @FXML
+    private HBox controlPanel;
+
+    @FXML
+    private JFXToggleButton toggleControlPanel;
 
     @FXML
     private JFXButton btnStart;
@@ -302,7 +309,25 @@ public class ScreenCamera implements Initializable {
         System.out.println("Size: " + sizes);
     }
 
+    @FXML
+    void onResetButton(MouseEvent event) {
+        scaleSlider.setValue(1.2);
+        neighbourSlider.setValue(3);
+        sizeSlider.setValue(30);
 
+        onScaleReleased(event);
+        onNeighbourReleased(event);
+        onSizeReleased(event);
+    }
+
+    @FXML
+    void onToggleAction(ActionEvent event) {
+        if (toggleControlPanel.isSelected()){
+            controlPanel.setVisible(true);
+        } else {
+            controlPanel.setVisible(false);
+        }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

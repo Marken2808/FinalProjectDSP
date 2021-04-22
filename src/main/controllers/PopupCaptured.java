@@ -20,6 +20,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
@@ -47,18 +48,6 @@ public class PopupCaptured implements Initializable {
     @FXML
     private VBox boxData;
 
-    private Map<String, String> choice = new HashMap<>();
-
-    JFXComboBox boxId = new JFXComboBox();
-
-    JFXTextField fieldName = new JFXTextField();
-
-    JFXComboBox boxSet = new JFXComboBox();
-
-    JFXTextField fieldPhone = new JFXTextField();
-
-    JFXDatePicker fieldDob = new JFXDatePicker();
-
     @FXML
     private JFXButton btnSubmit;
 
@@ -72,7 +61,17 @@ public class PopupCaptured implements Initializable {
     private ImageView picInfor;
 
     private JFXTreeView<?> treeviewSub = new JFXTreeView();
+    private Map<String, String> choice = new HashMap<>();
 
+    JFXComboBox boxId = new JFXComboBox();
+
+    JFXTextField fieldName = new JFXTextField();
+
+    JFXComboBox boxSet = new JFXComboBox();
+
+    JFXTextField fieldPhone = new JFXTextField();
+
+    JFXDatePicker fieldDob = new JFXDatePicker();
     String imgPath;
     OpenCV callCV = OpenCV.getInstance();
     StringBuilder sb = new StringBuilder();
@@ -354,6 +353,8 @@ public class PopupCaptured implements Initializable {
         }
 
     }
+
+
 
     ObservableList<Integer> observableList = FXCollections.observableList(getListSet(callCV.predictionID));
 
