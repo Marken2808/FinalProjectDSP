@@ -9,7 +9,6 @@ import org.opencv.face.LBPHFaceRecognizer;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
-import org.opencv.objdetect.Objdetect;
 import org.opencv.videoio.VideoCapture;
 
 import java.io.File;
@@ -136,9 +135,8 @@ public class OpenCV {
                 faces,
                 ScreenCamera.scales,
                 ScreenCamera.neighbours,
-                0 | Objdetect.CASCADE_SCALE_IMAGE,
-                new Size(ScreenCamera.sizes,ScreenCamera.sizes),
-                new Size()
+                0,
+                new Size(ScreenCamera.sizes,ScreenCamera.sizes)
         );
 
         this.listRez = new ArrayList<>();

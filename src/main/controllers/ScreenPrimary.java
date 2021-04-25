@@ -15,14 +15,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import utils.OpenCV;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
 import java.util.ResourceBundle;
 
 
@@ -173,9 +171,12 @@ public class ScreenPrimary implements Initializable {
         File outDir = new File(OpenCV.getInstance().testPath);
         for(File file : outDir.listFiles()){
 
-            System.gc();
-            Thread.sleep(100);
-            file.delete();
+            if( !file.getPath().contains("Image_0.jpg")){
+                System.gc();
+                Thread.sleep(100);
+                file.delete();
+            }
+
 
         }
         System.out.println("Tidy works");
