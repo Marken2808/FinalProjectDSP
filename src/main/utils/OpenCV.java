@@ -12,6 +12,8 @@ import org.opencv.objdetect.CascadeClassifier;
 import org.opencv.videoio.VideoCapture;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +48,7 @@ public class OpenCV {
     public HashMap<Integer, String> namesMap = new HashMap<>();
     public File[] imageFiles = null;
     public Object[][] namesList;
-    public int predictionID = 0;
+    public int predictionID;
     public File root = new File(datasetPath);
     public FaceRecognizer faceRecognizer = LBPHFaceRecognizer.create();
 
@@ -159,9 +161,12 @@ public class OpenCV {
 
             double[] returnedResults = faceRecognition(croppedImage);
             predictionID = ((int) returnedResults[0]);
+
             double confidence = returnedResults[1];
             String name;
-//            System.out.println("PREDICTED LABEL IS: " + predictionID);
+
+            System.out.println("PREDICTED LABEL IS: " + predictionID);
+
             if (namesMap.containsKey(predictionID)) {
                 name = namesMap.get(predictionID);
             } else {
@@ -192,7 +197,7 @@ public class OpenCV {
         int set = 0;
         String name = null;
         // Read the data from the training set
-        List<Mat> images = new ArrayList<Mat>();
+        List<Mat> images = new ArrayList<>();
         Mat labels = new Mat(imageFiles.length,1,CvType.CV_32SC1);
         if (imageFiles != null) {
             for (File image : imageFiles) {
@@ -210,7 +215,6 @@ public class OpenCV {
 
 
                 // add id,name,set into array[][] nameList
-
                 namesList[counter][0] = id;
                 namesList[counter][1] = name;
                 namesList[counter][2] = set;
@@ -218,6 +222,7 @@ public class OpenCV {
                 // add id,name into Hashmap nameNap
                 namesMap.put(id, name);
 
+                System.out.println("ID: "+id);
                 // Add training set images to images Mat
                 images.add(img);
 
@@ -229,6 +234,9 @@ public class OpenCV {
             faceRecognizer.save("traineddata.json");
         }
 
+        System.out.println("rows: " + labels.rows());
+        System.out.println("cols: " + labels.cols());
+        System.out.println("data: " + labels.type());
 
     }
 

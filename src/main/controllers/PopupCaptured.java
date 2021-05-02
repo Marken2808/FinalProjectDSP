@@ -74,6 +74,11 @@ public class PopupCaptured implements Initializable {
     JFXTextField fieldPhone = new JFXTextField();
 
     JFXDatePicker fieldDob = new JFXDatePicker();
+
+    JFXTextField username = new JFXTextField();
+
+    JFXTextField password = new JFXTextField();
+
     String imgPath;
     OpenCV callCV = OpenCV.getInstance();
     StringBuilder sb = new StringBuilder();
@@ -170,25 +175,50 @@ public class PopupCaptured implements Initializable {
 
     public void clear(){
         sb.setLength(0);
-        boxId.setValue("");
-        fieldName.setText("");
-        boxSet.setValue("");
+        boxId.setValue(null);
+        fieldName.setText(null);
+        boxSet.setValue(null);
         isFulfill();
     }
 
-    @FXML
-    void chooseID(KeyEvent keyEvent) {
+//    public boolean isDigit(String string) {
+//
+//        for (char c : string.toCharArray()) {
+//            if (!Character.isDigit(c)) {
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
 
-        sb.append(keyEvent.getText());
-        sb.insert(0,0);
+    public void chooseID(KeyEvent keyEvent) {
 
-        if(keyEvent.getCode().equals(KeyCode.BACK_SPACE) || keyEvent.getCode().equals(KeyCode.DELETE)){
-            sb.deleteCharAt(sb.length()-1);
+        String input = keyEvent.getText();
+
+        sb.append(input);
+
+        try {
+            if (keyEvent.getCode().equals(KeyCode.BACK_SPACE) || keyEvent.getCode().equals(KeyCode.DELETE)) {
+                sb.setLength(sb.length() - 1);
+                if (sb.toString().isEmpty()){
+                    sb.append(0);
+                }
+            }
+
+            System.out.println(sb.toString());
+
+            int toIntID = Integer.parseInt(sb.toString().replaceAll("\\s+", ""));
+            ArrayList<Integer> toListSet = getListSet(toIntID);
+
+            fieldName.setText(getListName(toIntID));
+            boxSet.setItems(FXCollections.observableList(toListSet));
+            boxSet.setValue(toListSet.get(toListSet.size() - 1) + 1);
+
+        } catch (NumberFormatException | IndexOutOfBoundsException e) {
+            fieldName.setText(null);
+            boxSet.setValue(null);
         }
-//        System.out.println(sb);
-        fieldName.setText(getListName(Integer.parseInt(String.valueOf(sb))));
-        boxSet.setItems(FXCollections.observableList(getListSet(Integer.parseInt(String.valueOf(sb)))));
-        sb.deleteCharAt(0);
+
     }
 
     public ArrayList<Integer> getListSet(int id){
@@ -216,6 +246,8 @@ public class PopupCaptured implements Initializable {
         boxId.setLabelFloat(true);
         boxId.setEditable(true);
         boxId.setPrefWidth(70);
+        sb.append(boxId.getValue());
+        boxId.setOnKeyReleased(e->{ chooseID(e); });
 
         fieldName.setLabelFloat(true);
         fieldName.setPromptText("Name");
@@ -236,57 +268,67 @@ public class PopupCaptured implements Initializable {
         HBox mainBox = new HBox();
         mainBox.getChildren().addAll(boxId, fieldName, boxSet, btnClear);
         mainBox.setSpacing(5);
-        mainBox.setPadding(new Insets(5,0,5,0));
-        mainBox.setAlignment(Pos.BOTTOM_LEFT);
+//        mainBox.setAlignment(Pos.BOTTOM_CENTER);
+        mainBox.setPadding(new Insets(6,0,0,0));
 
         return mainBox;
     }
 
-    public Node display_detailsView() {
+    public Node display_detailView() {
         fieldPhone.setPromptText("Phone");
         fieldPhone.setLabelFloat(true);
         fieldPhone.setEditable(true);
         fieldPhone.setAlignment(Pos.CENTER);
 
         fieldDob.setPromptText("Birthday");
-        fieldDob.setPrefWidth(160);
+        fieldDob.setEditable(false);
+        fieldDob.setPrefWidth(150);
 
         HBox detailsBox = new HBox();
         detailsBox.getChildren().addAll(fieldPhone, fieldDob);
         detailsBox.setSpacing(5);
-        detailsBox.setPadding(new Insets(5,0,5,0));
-        detailsBox.setAlignment(Pos.BOTTOM_LEFT);
+        detailsBox.setAlignment(Pos.BOTTOM_CENTER);
+//        detailsBox.setPadding(new Insets(5,0,5,0));
 
         return detailsBox;
     }
 
-    public void display_SubTreeView() {
+    public Node display_accountView() {
 
-        JFXTextField username = new JFXTextField();
-        username.setPromptText("USERNAME");
+        username.setPromptText("Username");
         username.setLabelFloat(true);
         username.setEditable(true);
+        username.setAlignment(Pos.CENTER);
 
-        JFXTextField password = new JFXTextField();
         password.setPromptText("Password");
         password.setLabelFloat(true);
         password.setEditable(true);
-        
+        password.setAlignment(Pos.CENTER);
+
         HBox accountBox = new HBox();
-        accountBox.getChildren().addAll(username,password);
+        accountBox.getChildren().addAll(username, password);
         accountBox.setSpacing(10);
+//        accountBox.setAlignment(Pos.BOTTOM_CENTER);
+        accountBox.setPadding(new Insets(6,0,0,0));
+
+        return accountBox;
+    }
+
+    public void display_SubTreeView() {
 
 
-        TreeItem main = new TreeItem("Main");
+
+
+        TreeItem main = new TreeItem("");
         main.getChildren().addAll(new TreeItem(display_mainView()));
         main.setExpanded(true);
 
-        TreeItem sub = new TreeItem("Sub");
-        sub.getChildren().addAll(new TreeItem(display_detailsView()));
+        TreeItem sub = new TreeItem("Detail");
+        sub.getChildren().addAll(new TreeItem(display_detailView()));
         sub.setExpanded(false);
 
         TreeItem acc = new TreeItem("Account");
-        acc.getChildren().addAll(new TreeItem(accountBox));
+        acc.getChildren().addAll(new TreeItem(display_accountView()));
         acc.setExpanded(false);
 
         TreeItem rootItem = new TreeItem();

@@ -175,7 +175,8 @@ public class TabStudent implements Initializable {
                 if (!empty) {
                     setText(String.valueOf(param.getTableView().getItems().get(getIndex()).getStudentId()));
                     setAlignment(Pos.CENTER);
-                    setFont(Font.font("Times New Roman"));
+                    setFont(new Font("Times New Roman", 16));
+
                 }
             }
         });
@@ -188,7 +189,7 @@ public class TabStudent implements Initializable {
                 if (!empty) {
                     setText(param.getTableView().getItems().get(getIndex()).getStudentName().toUpperCase());
                     setAlignment(Pos.CENTER);
-                    setFont(Font.font("Times New Roman"));
+                    setFont(new Font("Times New Roman", 14));
                 }
             }
         });
@@ -201,7 +202,7 @@ public class TabStudent implements Initializable {
                 if (!empty) {
                     setText(String.valueOf(param.getTableView().getItems().get(getIndex()).isStudentMarked()));
                     setAlignment(Pos.CENTER);
-                    setFont(Font.font("Times New Roman"));
+                    setFont(new Font("Times New Roman", 16));
                 }
             }
         });
