@@ -14,6 +14,10 @@ public class Student extends User{
     public Student() {
     }
 
+    public Student(int sid) {
+        this.studentId = sid;
+    }
+
     public Student(int sid, String sname){      //for add face student
         this.studentId = sid;
         this.studentName = sname;

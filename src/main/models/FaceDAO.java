@@ -1,11 +1,14 @@
 package models;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import utils.DBbean;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.io.*;
+import java.sql.*;
 import java.util.ArrayList;
+
+import static utils.DBbean.isIdMark;
 
 public class FaceDAO {
 
@@ -17,14 +20,40 @@ public class FaceDAO {
         this.pstmt = DBbean.getPreparedStatement();
     }
 
-    public ArrayList<Face> retrieveFace(){
+    public ArrayList<Face> retrieveFace() {
+
+
+        ArrayList<Face> faces = new ArrayList<>();
+        try {
+            pstmt = conn.prepareStatement("Select * from face");
+            ResultSet rs = pstmt.executeQuery();
+
+            byte[] b ;
+            while (rs.next()){
+                faces.add(new Face(rs.getBinaryStream(2),  rs.getInt(3), new Student(rs.getInt(4))));
+
+                Student student = new StudentDAO().retrieveStudentByID(rs.getInt(4));
+//                FileOutputStream fs = new FileOutputStream("D:\\UWE\\Year_3\\DSP\\FinalProject\\StudentManagement\\src\\resources\\images\\dataset\\"
+//                        +rs.getInt(4)+"-"+student.getStudentName()+"_"+rs.getInt(3)+".jpg");
+                FileOutputStream fs = new FileOutputStream("src/resources/images/dataset/"
+                                        +rs.getInt(4)+"-"+student.getStudentName()+"_"+rs.getInt(3)+".jpg");
+
+                b = rs.getBlob(2).getBytes(1, (int)rs.getBlob(2).length());
+
+                fs.write(b);
+            }
+            System.out.println("Face retrieved done");
+            return faces;
+
+        } catch (SQLException | IOException e) {}
+
         return null;
     }
 
-    public void insert(Face face) throws SQLException {
+        public void insert(Face face) throws SQLException, FileNotFoundException {
 
         pstmt = conn.prepareStatement("INSERT INTO face (fData, fSet, f_sId) VALUES(?,?,?)");
-        pstmt.setString(1, face.getFaceData());
+        pstmt.setBinaryStream(1, face.getFaceData());
         pstmt.setInt(2, face.getFaceSet());
         pstmt.setInt(3, face.getStudent().getStudentId());
 

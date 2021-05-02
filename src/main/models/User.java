@@ -13,6 +13,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 
 public class User {
@@ -189,17 +190,17 @@ public class User {
     }
 
     //    ------------------------------------------------
-    public void insertTeacherData(){
-
-    }
-
-    public void insertStudentData(Student student, Face face) throws SQLException {
-
-        new StudentDAO().insert(student);
-        new FaceDAO().insert(face);
-        new ModuleDAO().insert(student);
-        //temp
-//        new AttendanceDAO().insert(new Attendance("P",student.getStudentId()));
-    }
+//    public void insertTeacherData(){
+//
+//    }
+//
+//    public void insertStudentData(Student student, Face face) throws SQLException, FileNotFoundException {
+//
+//        new StudentDAO().insert(student);
+//        new FaceDAO().insert(face);
+//        new ModuleDAO().insert(student);
+//        //temp
+////        new AttendanceDAO().insert(new Attendance("P",student.getStudentId()));
+//    }
 
 }

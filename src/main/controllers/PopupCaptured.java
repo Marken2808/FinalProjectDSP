@@ -23,9 +23,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
-import models.Face;
-import models.Student;
-import models.User;
+import models.*;
 import org.opencv.imgcodecs.Imgcodecs;
 import utils.OpenCV;
 import utils.UtilsOCV;
@@ -93,24 +91,26 @@ public class PopupCaptured implements Initializable {
                 String name = fieldName.getText();
                 int set = Integer.parseInt(String.valueOf(boxSet.getValue()));
                 Student student = new Student(id,name);
-                Face face = new Face(imgPath,set,student);
-
-                Imgcodecs.imwrite(
-                    callCV.datasetPath + id + "-" + name + "_" + set + ".jpg",
-                    UtilsOCV.bufferedImageToMat(
-                            SwingFXUtils.fromFXImage(this.captImg.getImage(), null)
-                    )
-                );
 
                 try {
-                    new User().insertStudentData(student, face);
+
+                    Face face = new Face(new FileInputStream(imgPath),set,student);
+                    new UserDAO().insertStudentData(student, face);
+
                     handlePopup(
                             "Success",
                             "Face Inserted",
                             "/images/icon/check-circle_green.png",
                             "OK"
                     );
-                } catch (SQLException e) {
+                    Imgcodecs.imwrite(
+                            callCV.datasetPath + id + "-" + name + "_" + set + ".jpg",
+                            UtilsOCV.bufferedImageToMat(
+                                    SwingFXUtils.fromFXImage(this.captImg.getImage(), null)
+                            )
+                    );
+                }
+                catch (SQLException | FileNotFoundException e) {
                     handlePopup(
                             "Fail",
                             "Face Exist",
@@ -118,7 +118,6 @@ public class PopupCaptured implements Initializable {
                             "Close"
                     );
                 }
-
                 ScreenPrimary.dialog.close();
             }
         }));
@@ -138,13 +137,13 @@ public class PopupCaptured implements Initializable {
     }
 
     public boolean isEmpty(Object obj){
-
-//        if empty is false, else true;
-        if (obj instanceof JFXComboBox){
-            return (((JFXComboBox) obj).getValue().equals("")? true: false);
-        } else if( obj instanceof JFXTextField){
-            return (((JFXTextField) obj).getText().equals("")? true: false);
-        }
+        try {
+            if (obj instanceof JFXComboBox) {
+                return (((JFXComboBox) obj).getValue().toString().isEmpty() ? true : false);
+            } else if (obj instanceof JFXTextField) {
+                return (((JFXTextField) obj).getText().isEmpty() ? true : false);
+            }
+        } catch (NullPointerException e) {}
         return true;
     }
 
@@ -180,16 +179,6 @@ public class PopupCaptured implements Initializable {
         boxSet.setValue(null);
         isFulfill();
     }
-
-//    public boolean isDigit(String string) {
-//
-//        for (char c : string.toCharArray()) {
-//            if (!Character.isDigit(c)) {
-//                return false;
-//            }
-//        }
-//        return true;
-//    }
 
     public void chooseID(KeyEvent keyEvent) {
 
@@ -367,7 +356,7 @@ public class PopupCaptured implements Initializable {
             if (callCV.listRez.size() == 1) {
                 imgName = "Image_0";
 
-                imgPath = callCV.resPath +"images/test/"+imgName+".jpg";
+                imgPath = "src/resources/images/test/"+imgName+".jpg";
                 choice.put(imgName,imgPath);
                 comboPic.setDisable(true);
                 comboPic.setPromptText(imgName);
@@ -375,11 +364,12 @@ public class PopupCaptured implements Initializable {
                 boxId.setValue(callCV.predictionID);
                 fieldName.setText(String.valueOf(callCV.namesMap.get(callCV.predictionID)));
                 boxSet.setItems(observableList);
-                boxSet.setValue(0);
+                boxSet.setValue(observableList.get(observableList.size()-1) +1 );
+
             } else {
                 for(int i=0; i<callCV.listRez.size(); i++){
                     imgName = "Image_"+(i+1) ;
-                    imgPath = callCV.resPath +"images/test/"+imgName+".jpg";
+                    imgPath = "src/resources/images/test/"+imgName+".jpg";
                     choice.put(imgName, imgPath);
                     comboPic.setPromptText(imgName);
                 }

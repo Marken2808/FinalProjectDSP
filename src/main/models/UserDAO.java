@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import utils.DBbean;
 
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -147,7 +148,7 @@ public class UserDAO {
 
     }
 
-    public void insertStudentData(Student student, Face face) throws SQLException {
+    public void insertStudentData(Student student, Face face) throws SQLException, FileNotFoundException {
 
         new StudentDAO().insert(student);
         new FaceDAO().insert(face);
