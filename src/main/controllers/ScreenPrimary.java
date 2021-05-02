@@ -168,17 +168,20 @@ public class ScreenPrimary implements Initializable {
         ScreenCamera.getInstance().isCameraActive();
         ((Stage) btnClose.getScene().getWindow()).close();
 
-        File outDir = new File(OpenCV.getInstance().testPath);
-        for(File file : outDir.listFiles()){
-
+        File testClose = new File(OpenCV.getInstance().testPath);
+        for(File file : testClose.listFiles()){
             if( !file.getPath().contains("Image_0.jpg")){
                 System.gc();
                 Thread.sleep(100);
                 file.delete();
             }
-
-
         }
+
+        File datasetClose = new File(OpenCV.getInstance().datasetPath);
+        for (File file : datasetClose.listFiles()){
+            file.delete();
+        }
+
         System.out.println("Tidy works");
     }
 

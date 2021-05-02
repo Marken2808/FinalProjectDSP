@@ -28,19 +28,16 @@ public class FaceDAO {
             pstmt = conn.prepareStatement("Select * from face");
             ResultSet rs = pstmt.executeQuery();
 
-            byte[] b ;
+            byte[] toLocalPath ;
             while (rs.next()){
-                faces.add(new Face(rs.getBinaryStream(2),  rs.getInt(3), new Student(rs.getInt(4))));
 
                 Student student = new StudentDAO().retrieveStudentByID(rs.getInt(4));
-//                FileOutputStream fs = new FileOutputStream("D:\\UWE\\Year_3\\DSP\\FinalProject\\StudentManagement\\src\\resources\\images\\dataset\\"
-//                        +rs.getInt(4)+"-"+student.getStudentName()+"_"+rs.getInt(3)+".jpg");
+                faces.add(new Face(rs.getBinaryStream(2),  rs.getInt(3), student));
+
                 FileOutputStream fs = new FileOutputStream("src/resources/images/dataset/"
-                                        +rs.getInt(4)+"-"+student.getStudentName()+"_"+rs.getInt(3)+".jpg");
-
-                b = rs.getBlob(2).getBytes(1, (int)rs.getBlob(2).length());
-
-                fs.write(b);
+                        +rs.getInt(4)+"-"+student.getStudentName()+"_"+rs.getInt(3)+".jpg");
+                toLocalPath = rs.getBlob(2).getBytes(1, (int)rs.getBlob(2).length());
+                fs.write(toLocalPath);
             }
             System.out.println("Face retrieved done");
             return faces;
@@ -50,7 +47,7 @@ public class FaceDAO {
         return null;
     }
 
-        public void insert(Face face) throws SQLException, FileNotFoundException {
+        public void insert(Face face) throws SQLException {
 
         pstmt = conn.prepareStatement("INSERT INTO face (fData, fSet, f_sId) VALUES(?,?,?)");
         pstmt.setBinaryStream(1, face.getFaceData());

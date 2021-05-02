@@ -8,10 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import models.Teacher;
-import models.TeacherDAO;
-import models.User;
-import models.UserDAO;
+import models.*;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -64,6 +61,8 @@ public class PopupSignIn implements Initializable {
                     authUser.setTeacher(imTeacher);
                     break;
                 case "Student" :
+                    Student imStudent = new StudentDAO().retrieve(authUser.getUserID());
+                    authUser.setStudent(imStudent);
                     break;
                 case "Admin" :
                     authUser.setRole("Admin");

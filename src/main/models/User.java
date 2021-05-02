@@ -1,6 +1,7 @@
 package models;
 
 import com.jfoenix.controls.JFXButton;
+import controllers.TabStudent;
 import controllers.TabTeacher;
 import controllers.TabUser;
 import javafx.geometry.Insets;
@@ -84,6 +85,11 @@ public class User {
                         TabTeacher.updateTable();
                         break;
                     case "Student":
+                        Student student = new Student();
+                        student.setUserID(user.getUserID());
+//                        ->SQL
+                        new StudentDAO().insert(student);
+                        TabStudent.updateTable();
                         break;
                 }
             }

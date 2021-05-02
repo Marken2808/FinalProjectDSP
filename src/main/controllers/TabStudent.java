@@ -25,9 +25,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
-import models.Attendance;
-import models.Student;
-import models.StudentDAO;
+import models.*;
 import utils.DBbean;
 
 import java.io.IOException;
@@ -54,6 +52,8 @@ public class TabStudent implements Initializable {
     @FXML
     private TableView<Student> tableSTUDENT;
 
+    public static TableView<Student> tableStudentClone;
+
     @FXML
     private TableColumn<Student, Integer> colSID;
 
@@ -77,8 +77,8 @@ public class TabStudent implements Initializable {
         return instance;
     }
 
-    ObservableList<Student> studentLists = FXCollections.observableArrayList();
-    FilteredList<Student> filterData;
+    public static ObservableList<Student> studentLists = FXCollections.observableArrayList();
+    public static FilteredList<Student> filterData;
 
     public static int id;
     String DrawerViewStudent = "/views/DrawerViewStudent.fxml";
@@ -111,14 +111,19 @@ public class TabStudent implements Initializable {
         }
     }
 
-    public void updateTable(){
+    public static void updateTable(){
+
+//        tableTeacherClone.refresh();
+//        teacherLists = new TeacherDAO().showTeacherTable();
+//        tableTeacherClone.setItems(teacherLists);
+
         // refresh
-        tableSTUDENT.refresh();
+        tableStudentClone.refresh();
         studentLists = new StudentDAO().showStudentTable();
-        tableSTUDENT.setItems(studentLists);
+        tableStudentClone.setItems(studentLists);
 
         filterData = new FilteredList<>(studentLists, e-> true);
-        tableSTUDENT.setItems(filterData);
+        tableStudentClone.setItems(filterData);
     }
 
     public void isDrawerClick(boolean check) {
@@ -305,6 +310,8 @@ public class TabStudent implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        tableStudentClone = tableSTUDENT;
 
         callbackCell_StudentID();
         callbackCell_StudentName();

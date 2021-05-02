@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.AnchorPane;
+import models.User;
 
 import java.io.IOException;
 import java.net.URL;
@@ -19,6 +20,8 @@ public class ScreenDashboard implements Initializable {
     @FXML
     private JFXTabPane DashboardTab = new JFXTabPane();
 
+
+    private User user = PopupSignIn.authUser;
 
     public Node StudentView(){
         try {
@@ -51,34 +54,23 @@ public class ScreenDashboard implements Initializable {
         return null;
     }
 
-//    public void CalendarView(){
-//        try {
-//            AnchorPane calendarTab = FXMLLoader.load(getClass().getResource("/views/ComponentCalendar.fxml"));
-//            CalendarPane.getChildren().addAll(calendarTab);
-//            CalendarPane.setTopAnchor(calendarTab,0.0);
-//            CalendarPane.setBottomAnchor(calendarTab,0.0);
-//            CalendarPane.setRightAnchor(calendarTab,0.0);
-//            CalendarPane.setLeftAnchor(calendarTab,0.0);
-////            return CalendarPane;
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-////        return null;
-//    }
-
-//    -------------------------
-
     @Override
     public void initialize(final URL url, final ResourceBundle rb) {
 
         Tab studentTab = new Tab("Student", StudentView());
         Tab teacherTab = new Tab("Teacher", TeacherView());
         Tab userTab    = new Tab("User", UserView());
-        DashboardTab.getTabs().addAll(studentTab, teacherTab, userTab);
+//        DashboardTab.getTabs().addAll(studentTab, teacherTab, userTab);
 
-//        -----------------
-//        CalendarView();
-//        -----------------
+        switch (user.getRole()){
+            case "Teacher" :
+                DashboardTab.getTabs().addAll(studentTab);
+            case "Student" :
+                break;
+            case "Admin" :
+                DashboardTab.getTabs().addAll(studentTab, teacherTab, userTab);
+                break;
+        }
 
 
     }

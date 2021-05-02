@@ -33,7 +33,7 @@ public class AttendanceDAO {
                 );
 //                System.out.println(rs.getDate(1) + " - " + rs.getString(2) + " - "+ rs.getInt(3));
             }
-            System.out.println("accessed successfully");
+//            System.out.println("accessed successfully");
             return test;
         } catch (SQLException throwables) {
             System.out.println("cannot access student table");
@@ -80,9 +80,9 @@ public class AttendanceDAO {
 
             //Executing the statement
             pstmt.execute();
-            System.out.println("attendance inserted......");
+//            System.out.println("attendance inserted......");
         } catch (SQLException e) {
-            System.out.println("attendance today already exist......");
+//            System.out.println("attendance today already exist......");
 
         }
     }

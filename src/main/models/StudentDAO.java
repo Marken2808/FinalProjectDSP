@@ -53,18 +53,33 @@ public class StudentDAO {
                 students.add(
                         new Student(rs.getInt(1), rs.getString(2), rs.getInt(3)));
             }
-            System.out.println("student retrieved......");
+//            System.out.println("student retrieved......");
             return students;
 
-        } catch (SQLException e) {
-            System.out.println("error......");
-        }
+        } catch (SQLException e) {}
         return null;
     }
 
     public Student retrieveStudentByID(int sid){
         ArrayList<Student> test = select("Select * from Student where sid = "+sid);
         return test.get(0);
+    }
+
+    public Student retrieve(int userID) {
+        try {
+            pstmt = conn.prepareStatement("SELECT * FROM student WHERE s_uId = " + userID);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                return  new Student(
+                        rs.getInt("sId"),
+                        rs.getString("sName"),
+                        rs.getInt("s_uId")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void insert(Student student) {
