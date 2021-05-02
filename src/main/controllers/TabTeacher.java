@@ -11,6 +11,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.text.Font;
 import models.Teacher;
 import models.TeacherDAO;
 import models.User;
@@ -43,6 +44,7 @@ public class TabTeacher implements Initializable {
                 if (!empty) {
                     setText(String.valueOf(param.getTableView().getItems().get(getIndex()).getTeacherId()));
                     setAlignment(Pos.CENTER);
+                    setFont(Font.font("Times New Roman"));
                 }
             }
         });

@@ -7,6 +7,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -34,6 +35,8 @@ import java.io.FileNotFoundException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class PopupCaptured implements Initializable {
@@ -42,21 +45,10 @@ public class PopupCaptured implements Initializable {
     private ImageView captImg;
 
     @FXML
-    private JFXComboBox<?> comboPic;
+    private JFXComboBox<String> comboPic;
 
     @FXML
     private VBox boxData;
-
-
-    JFXComboBox boxId = new JFXComboBox();
-
-    JFXTextField fieldName = new JFXTextField();
-
-    JFXComboBox boxSet = new JFXComboBox();
-
-    JFXTextField fieldPhone = new JFXTextField();
-
-    JFXDatePicker fieldDob = new JFXDatePicker();
 
     @FXML
     private JFXButton btnSubmit;
@@ -71,6 +63,21 @@ public class PopupCaptured implements Initializable {
     private ImageView picInfor;
 
     private JFXTreeView<?> treeviewSub = new JFXTreeView();
+    private Map<String, String> choice = new HashMap<>();
+
+    JFXComboBox boxId = new JFXComboBox();
+
+    JFXTextField fieldName = new JFXTextField();
+
+    JFXComboBox boxSet = new JFXComboBox();
+
+    JFXTextField fieldPhone = new JFXTextField();
+
+    JFXDatePicker fieldDob = new JFXDatePicker();
+
+    JFXTextField username = new JFXTextField();
+
+    JFXTextField password = new JFXTextField();
 
     String imgPath;
     OpenCV callCV = OpenCV.getInstance();
@@ -168,25 +175,50 @@ public class PopupCaptured implements Initializable {
 
     public void clear(){
         sb.setLength(0);
-        boxId.setValue("");
-        fieldName.setText("");
-        boxSet.setValue("");
+        boxId.setValue(null);
+        fieldName.setText(null);
+        boxSet.setValue(null);
         isFulfill();
     }
 
-    @FXML
-    void chooseID(KeyEvent keyEvent) {
+//    public boolean isDigit(String string) {
+//
+//        for (char c : string.toCharArray()) {
+//            if (!Character.isDigit(c)) {
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
 
-        sb.append(keyEvent.getText());
-        sb.insert(0,0);
+    public void chooseID(KeyEvent keyEvent) {
 
-        if(keyEvent.getCode().equals(KeyCode.BACK_SPACE) || keyEvent.getCode().equals(KeyCode.DELETE)){
-            sb.deleteCharAt(sb.length()-1);
+        String input = keyEvent.getText();
+
+        sb.append(input);
+
+        try {
+            if (keyEvent.getCode().equals(KeyCode.BACK_SPACE) || keyEvent.getCode().equals(KeyCode.DELETE)) {
+                sb.setLength(sb.length() - 1);
+                if (sb.toString().isEmpty()){
+                    sb.append(0);
+                }
+            }
+
+            System.out.println(sb.toString());
+
+            int toIntID = Integer.parseInt(sb.toString().replaceAll("\\s+", ""));
+            ArrayList<Integer> toListSet = getListSet(toIntID);
+
+            fieldName.setText(getListName(toIntID));
+            boxSet.setItems(FXCollections.observableList(toListSet));
+            boxSet.setValue(toListSet.get(toListSet.size() - 1) + 1);
+
+        } catch (NumberFormatException | IndexOutOfBoundsException e) {
+            fieldName.setText(null);
+            boxSet.setValue(null);
         }
-//        System.out.println(sb);
-        fieldName.setText(getListName(Integer.parseInt(String.valueOf(sb))));
-        boxSet.setItems(FXCollections.observableList(getListSet(Integer.parseInt(String.valueOf(sb)))));
-        sb.deleteCharAt(0);
+
     }
 
     public ArrayList<Integer> getListSet(int id){
@@ -214,6 +246,8 @@ public class PopupCaptured implements Initializable {
         boxId.setLabelFloat(true);
         boxId.setEditable(true);
         boxId.setPrefWidth(70);
+        sb.append(boxId.getValue());
+        boxId.setOnKeyReleased(e->{ chooseID(e); });
 
         fieldName.setLabelFloat(true);
         fieldName.setPromptText("Name");
@@ -234,57 +268,67 @@ public class PopupCaptured implements Initializable {
         HBox mainBox = new HBox();
         mainBox.getChildren().addAll(boxId, fieldName, boxSet, btnClear);
         mainBox.setSpacing(5);
-        mainBox.setPadding(new Insets(5,0,5,0));
-        mainBox.setAlignment(Pos.BOTTOM_LEFT);
+//        mainBox.setAlignment(Pos.BOTTOM_CENTER);
+        mainBox.setPadding(new Insets(6,0,0,0));
 
         return mainBox;
     }
 
-    public Node display_detailsView() {
+    public Node display_detailView() {
         fieldPhone.setPromptText("Phone");
         fieldPhone.setLabelFloat(true);
         fieldPhone.setEditable(true);
         fieldPhone.setAlignment(Pos.CENTER);
 
         fieldDob.setPromptText("Birthday");
-        fieldDob.setPrefWidth(160);
+        fieldDob.setEditable(false);
+        fieldDob.setPrefWidth(150);
 
         HBox detailsBox = new HBox();
         detailsBox.getChildren().addAll(fieldPhone, fieldDob);
         detailsBox.setSpacing(5);
-        detailsBox.setPadding(new Insets(5,0,5,0));
-        detailsBox.setAlignment(Pos.BOTTOM_LEFT);
+        detailsBox.setAlignment(Pos.BOTTOM_CENTER);
+//        detailsBox.setPadding(new Insets(5,0,5,0));
 
         return detailsBox;
     }
 
-    public void displaySubTreeView() {
+    public Node display_accountView() {
 
-        JFXTextField username = new JFXTextField();
-        username.setPromptText("USERNAME");
+        username.setPromptText("Username");
         username.setLabelFloat(true);
         username.setEditable(true);
+        username.setAlignment(Pos.CENTER);
 
-        JFXTextField password = new JFXTextField();
         password.setPromptText("Password");
         password.setLabelFloat(true);
         password.setEditable(true);
-        
+        password.setAlignment(Pos.CENTER);
+
         HBox accountBox = new HBox();
-        accountBox.getChildren().addAll(username,password);
+        accountBox.getChildren().addAll(username, password);
         accountBox.setSpacing(10);
+//        accountBox.setAlignment(Pos.BOTTOM_CENTER);
+        accountBox.setPadding(new Insets(6,0,0,0));
+
+        return accountBox;
+    }
+
+    public void display_SubTreeView() {
 
 
-        TreeItem main = new TreeItem("Main");
+
+
+        TreeItem main = new TreeItem("");
         main.getChildren().addAll(new TreeItem(display_mainView()));
         main.setExpanded(true);
 
-        TreeItem sub = new TreeItem("Sub");
-        sub.getChildren().addAll(new TreeItem(display_detailsView()));
+        TreeItem sub = new TreeItem("Detail");
+        sub.getChildren().addAll(new TreeItem(display_detailView()));
         sub.setExpanded(false);
 
         TreeItem acc = new TreeItem("Account");
-        acc.getChildren().addAll(new TreeItem(accountBox));
+        acc.getChildren().addAll(new TreeItem(display_accountView()));
         acc.setExpanded(false);
 
         TreeItem rootItem = new TreeItem();
@@ -303,28 +347,46 @@ public class PopupCaptured implements Initializable {
 
     }
 
+    @FXML
+    void onSelectCombo(ActionEvent event) throws FileNotFoundException {
+        System.out.println(comboPic.getSelectionModel().getSelectedItem());
+        imgPath = choice.get(comboPic.getSelectionModel().getSelectedItem());
 
-    ObservableList<Integer> observableList = FXCollections.observableList(getListSet(callCV.predictionID));
+        if(imgPath!=null) {
+            captImg.setImage(new Image(new FileInputStream(imgPath)));
+        }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    }
 
-        if(callCV.listRez.size()==1){
-            comboPic.setPromptText("This Image");
-            comboPic.setDisable(true);
-            boxId.setValue(callCV.predictionID);
-            fieldName.setText(String.valueOf(callCV.namesMap.get(callCV.predictionID)));
-            boxSet.setItems(observableList);
-            boxSet.setValue(0);
-            imgPath = callCV.resPath +"images/test/0-new_0.jpg";
-        } else if(callCV.listRez.size()==0){
+    public void display_ImageInfoView(){
+        String imgName;
+
+        if (callCV.listRez.isEmpty()){
             imgPath = null;
-        } else{
-            for(int i=0; i<callCV.listRez.size(); i++){
-//                System.out.println(i);
-                imgPath = callCV.resPath +"images/test/0-new_"+i+".jpg";
+        } else {
+            if (callCV.listRez.size() == 1) {
+                imgName = "Image_0";
+
+                imgPath = callCV.resPath +"images/test/"+imgName+".jpg";
+                choice.put(imgName,imgPath);
+                comboPic.setDisable(true);
+                comboPic.setPromptText(imgName);
+
+                boxId.setValue(callCV.predictionID);
+                fieldName.setText(String.valueOf(callCV.namesMap.get(callCV.predictionID)));
+                boxSet.setItems(observableList);
+                boxSet.setValue(0);
+            } else {
+                for(int i=0; i<callCV.listRez.size(); i++){
+                    imgName = "Image_"+(i+1) ;
+                    imgPath = callCV.resPath +"images/test/"+imgName+".jpg";
+                    choice.put(imgName, imgPath);
+                    comboPic.setPromptText(imgName);
+                }
             }
         }
+
+        comboPic.setItems(FXCollections.observableArrayList(choice.keySet()));
 
         if(imgPath!=null) {
             try {
@@ -334,9 +396,21 @@ public class PopupCaptured implements Initializable {
             }
         }
 
+    }
+
+
+
+    ObservableList<Integer> observableList = FXCollections.observableList(getListSet(callCV.predictionID));
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+
+
+        display_ImageInfoView();
         isFulfill();
         hboxInfor.setVisible(false);
-        displaySubTreeView();
+        display_SubTreeView();
 
 
     }

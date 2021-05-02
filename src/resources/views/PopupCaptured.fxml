@@ -23,7 +23,7 @@
             <ImageView fx:id="captImg" fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" />
             <HBox alignment="BOTTOM_CENTER" prefHeight="40.0">
                <children>
-                  <JFXComboBox fx:id="comboPic" labelFloat="true" promptText="Pic">
+                  <JFXComboBox fx:id="comboPic" onAction="#onSelectCombo">
                      <cursor>
                         <Cursor fx:constant="CLOSED_HAND" />
                      </cursor>

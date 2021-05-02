@@ -1,12 +1,15 @@
 package controllers;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXSlider;
+import com.jfoenix.controls.JFXToggleButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -14,6 +17,7 @@ import javafx.stage.FileChooser;
 import models.Attendance;
 import models.AttendanceDAO;
 import org.opencv.core.Mat;
+import org.opencv.imgcodecs.Imgcodecs;
 import utils.OpenCV;
 import utils.UtilsOCV;
 
@@ -37,6 +41,12 @@ public class ScreenCamera implements Initializable {
     private HBox boxFooter;
 
     @FXML
+    private HBox controlPanel;
+
+    @FXML
+    private JFXToggleButton toggleControlPanel;
+
+    @FXML
     private JFXButton btnStart;
 
     @FXML
@@ -45,11 +55,24 @@ public class ScreenCamera implements Initializable {
     @FXML
     private JFXButton btnInsert;
 
+    @FXML
+    private JFXSlider scaleSlider;
+    public static double scales = 1.2;
+
+    @FXML
+    private JFXSlider neighbourSlider;
+    public static int neighbours = 3;
+
+    @FXML
+    private JFXSlider sizeSlider;
+    public static int sizes = 30;
+
     private boolean cameraActive = false;
 
     private OpenCV callCV = OpenCV.getInstance();
 
     private String CaptureScreen    = "/views/PopupCaptured.fxml";
+    public String testPath      = System.getProperty("user.dir").concat("\\src\\resources\\") + "images/test/";
 //----------------------------instance--------------------
 
     public static ScreenCamera instance;
@@ -71,6 +94,14 @@ public class ScreenCamera implements Initializable {
         // update the button content
         this.btnStart.setDisable(false);
         this.btnStart.setText("Continue");
+
+        if(callCV.listRez.size()>1){
+            for(int i=0; i<callCV.listRez.size();i++){
+                Imgcodecs.imwrite( testPath+"Image_"+(i+1)+".jpg", callCV.listRez.get(i));
+            }
+        } else {
+            Imgcodecs.imwrite( testPath+"Image_0.jpg", callCV.listRez.get(0));
+        }
 
         ScreenPrimary.getInstance().displayPopup(CaptureScreen, true);
 
@@ -94,8 +125,7 @@ public class ScreenCamera implements Initializable {
         File selectedFile = event.getDragboard().getFiles().get(0);
         currentFrame.setImage(new Image(new FileInputStream(selectedFile)));
         event.consume();
-
-        callCV.detectImage(selectedFile, currentFrame);
+        callCV.updateImageView(currentFrame, callCV.detectImage(selectedFile));
 
 //        System.out.println(test);
         this.btnInsert.setText("Insert Image");
@@ -112,7 +142,7 @@ public class ScreenCamera implements Initializable {
         FileChooser fileChooser = new FileChooser();
         File selectedFile = fileChooser.showOpenDialog(null);
         if (selectedFile != null){
-            callCV.detectImage(selectedFile, currentFrame);
+            callCV.updateImageView(currentFrame, callCV.detectImage(selectedFile));
             this.btnShot.setDisable(false);
             this.btnShot.setText("Save new");
         }
@@ -209,9 +239,11 @@ public class ScreenCamera implements Initializable {
 //                            System.out.println("got "+ callCV.facesArray.length + " face");
                             for(int i: listKeyRecognise(arrID)){
                                 System.out.println("add studentID "+i+"'s attendance into db");
+
                                 new AttendanceDAO().update(new Attendance("P", i));   //open if necessary
                             }
                             arrID.clear();
+
                         }
                     }
                 };
@@ -256,6 +288,44 @@ public class ScreenCamera implements Initializable {
         this.btnStart.setDisable(false);
         this.currentFrame.setImage(null);   // add later
 
+    }
+
+    @FXML
+    void onScaleReleased(MouseEvent event) {
+        scales = scaleSlider.getValue();
+        System.out.println("Scale: " + scales);
+    }
+
+    @FXML
+    void onNeighbourReleased(MouseEvent event) {
+        neighbours = (int) neighbourSlider.getValue();
+        System.out.println("Neighbour: " + neighbours);
+    }
+
+    @FXML
+    void onSizeReleased(MouseEvent event) {
+        sizes = (int) sizeSlider.getValue();
+        System.out.println("Size: " + sizes);
+    }
+
+    @FXML
+    void onResetButton(MouseEvent event) {
+        scaleSlider.setValue(1.2);
+        neighbourSlider.setValue(3);
+        sizeSlider.setValue(30);
+
+        onScaleReleased(event);
+        onNeighbourReleased(event);
+        onSizeReleased(event);
+    }
+
+    @FXML
+    void onToggleAction(ActionEvent event) {
+        if (toggleControlPanel.isSelected()){
+            controlPanel.setVisible(true);
+        } else {
+            controlPanel.setVisible(false);
+        }
     }
 
     @Override

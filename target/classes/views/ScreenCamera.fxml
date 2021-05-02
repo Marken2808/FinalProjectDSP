@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<StackPane fx:id="stackPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ScreenCamera">
+<?import javafx.scene.text.Font?>
+<StackPane fx:id="stackPane" cacheShape="false" centerShape="false" scaleShape="false" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ScreenCamera">
    <children>
-      <AnchorPane StackPane.alignment="CENTER">
+      <AnchorPane cacheShape="false" centerShape="false" scaleShape="false" StackPane.alignment="CENTER">
          <children>
-            <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <StackPane cacheShape="false" centerShape="false" scaleShape="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <ImageView fx:id="currentFrame" onDragDropped="#dropImage" onDragOver="#dragImage" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
                      <cursor>
@@ -17,13 +19,70 @@
                   </ImageView>
                </children>
             </StackPane>
-            <HBox fx:id="boxFooter" alignment="CENTER" prefHeight="40.0" spacing="100.0" style="-fx-background-color: #404040;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <VBox alignment="CENTER" cacheShape="false" centerShape="false" layoutX="-15.0" layoutY="-3.8888888359069824" scaleShape="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
-                  <JFXButton fx:id="btnStart" buttonType="RAISED" onAction="#startCamera" style="-fx-background-color: white;" text="Start Camera" />
-                  <JFXButton fx:id="btnShot" buttonType="RAISED" disable="true" onAction="#takeShot" style="-fx-background-color: white;" text="Shot" />
-                  <JFXButton fx:id="btnInsert" buttonType="RAISED" onAction="#insertImage" style="-fx-background-color: white;" text="Insert Image" />
+                  <HBox fx:id="controlPanel" alignment="CENTER" cacheShape="false" centerShape="false" scaleShape="false" spacing="10.0" style="-fx-background-color: #f2f2f2;" visible="false">
+                     <children>
+                        <JFXButton alignment="CENTER" cacheShape="false" centerShape="false" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="30.0" scaleShape="false" style="-fx-background-radius: 20;">
+                           <graphic>
+                              <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/icon/info.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                        <VBox alignment="CENTER">
+                           <children>
+                              <Label text="Scale Factor" />
+                              <JFXSlider fx:id="scaleSlider" blockIncrement="0.1" majorTickUnit="0.05" max="2.0" min="1.0" minorTickCount="0" onMouseReleased="#onScaleReleased" showTickLabels="true" snapToTicks="true" value="1.2" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER">
+                           <children>
+                              <Label text="Min Neighbour" />
+                              <JFXSlider fx:id="neighbourSlider" blockIncrement="1.0" majorTickUnit="1.0" max="8.0" min="2.0" minorTickCount="0" onMouseReleased="#onNeighbourReleased" showTickLabels="true" snapToTicks="true" value="3.0" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER">
+                           <children>
+                              <Label text="Min Size" />
+                              <JFXSlider fx:id="sizeSlider" majorTickUnit="20.0" min="20.0" minorTickCount="0" onMouseReleased="#onSizeReleased" showTickLabels="true" value="30.0" />
+                           </children>
+                        </VBox>
+                        <JFXButton alignment="CENTER" cacheShape="false" centerShape="false" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onResetButton" prefHeight="30.0" prefWidth="30.0" scaleShape="false" style="-fx-background-radius: 20;">
+                           <graphic>
+                              <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/icon/rotate-ccw.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                     </children>
+                  </HBox>
+                  <HBox fx:id="boxFooter" alignment="CENTER" cacheShape="false" centerShape="false" prefHeight="40.0" scaleShape="false" spacing="100.0" style="-fx-background-color: #404040;">
+                     <children>
+                        <JFXButton fx:id="btnStart" buttonType="RAISED" cacheShape="false" centerShape="false" focusTraversable="false" onAction="#startCamera" scaleShape="false" style="-fx-background-color: white;" text="Start Camera">
+                           <font>
+                              <Font name="Times New Roman" size="14.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton fx:id="btnShot" buttonType="RAISED" cacheShape="false" centerShape="false" disable="true" focusTraversable="false" onAction="#takeShot" scaleShape="false" style="-fx-background-color: white;" text="Shot">
+                           <font>
+                              <Font name="Times New Roman" size="14.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton fx:id="btnInsert" buttonType="RAISED" cacheShape="false" centerShape="false" focusTraversable="false" onAction="#insertImage" scaleShape="false" style="-fx-background-color: white;" text="Insert Image">
+                           <font>
+                              <Font name="Times New Roman" size="14.0" />
+                           </font>
+                        </JFXButton>
+                     </children>
+                  </HBox>
                </children>
-            </HBox>
+            </VBox>
+            <JFXToggleButton fx:id="toggleControlPanel" cacheShape="false" centerShape="false" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" graphicTextGap="0.0" onAction="#onToggleAction" scaleShape="false" size="6.0" toggleColor="#11ad11" toggleLineColor="#afd1af" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="10.0" />
          </children>
       </AnchorPane>
    </children>

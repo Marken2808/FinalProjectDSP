@@ -16,7 +16,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import utils.OpenCV;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -119,6 +121,7 @@ public class ScreenPrimary implements Initializable {
         try {
             StackPane screenPane = FXMLLoader.load(getClass().getResource(screen));
             labelTitle.setText(title);
+//            labelTitle.setFont(new Font("Times New Roman",20));
             mainStackPane.getChildren().add(screenPane);
         } catch (IOException e) {
             e.printStackTrace();
@@ -146,7 +149,7 @@ public class ScreenPrimary implements Initializable {
                             displayScreen("Overview", OverviewScreen);
                             break;
                         case "Settings":
-                            System.out.println("go to settings");
+                            System.out.println("Setting in developing");
                             break;
                         case "Camera":
                             displayScreen("Live Camera", CameraScreen);
@@ -161,9 +164,22 @@ public class ScreenPrimary implements Initializable {
     }
 
     @FXML
-    void clickClose(MouseEvent event) {
+    void clickClose(MouseEvent event) throws InterruptedException {
         ScreenCamera.getInstance().isCameraActive();
         ((Stage) btnClose.getScene().getWindow()).close();
+
+        File outDir = new File(OpenCV.getInstance().testPath);
+        for(File file : outDir.listFiles()){
+
+            if( !file.getPath().contains("Image_0.jpg")){
+                System.gc();
+                Thread.sleep(100);
+                file.delete();
+            }
+
+
+        }
+        System.out.println("Tidy works");
     }
 
     @FXML

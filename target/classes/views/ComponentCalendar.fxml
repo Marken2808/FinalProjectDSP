@@ -7,13 +7,13 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ComponentCalendar">
+<AnchorPane cacheShape="false" centerShape="false" scaleShape="false" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ComponentCalendar">
    <children>
-      <VBox alignment="CENTER" style="-fx-background-color: #e6e6e6;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="CENTER" cacheShape="false" centerShape="false" scaleShape="false" style="-fx-background-color: #e6e6e6;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox alignment="CENTER" style="-fx-background-color: #cccccc;">
+            <HBox alignment="CENTER" cacheShape="false" centerShape="false" scaleShape="false" style="-fx-background-color: #cccccc;">
                <children>
-                  <JFXButton fx:id="btPrev" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" onAction="#previous" style="-fx-background-radius: 100;" text="Previous" HBox.hgrow="ALWAYS">
+                  <JFXButton fx:id="btPrev" alignment="CENTER" buttonType="RAISED" cacheShape="false" centerShape="false" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" graphicTextGap="0.0" onAction="#previous" scaleShape="false" style="-fx-background-radius: 100;" text="Previous" HBox.hgrow="ALWAYS">
                      <graphic>
                         <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -22,12 +22,12 @@
                         </ImageView>
                      </graphic>
                   </JFXButton>
-                  <Label fx:id="labelTitle" alignment="CENTER" prefWidth="150.0" text="Text">
+                  <Label fx:id="labelTitle" alignment="CENTER" cacheShape="false" centerShape="false" focusTraversable="false" prefWidth="150.0" scaleShape="false" text="Text">
                      <font>
-                        <Font name="System Bold" size="16.0" />
+                        <Font name="Times New Roman Bold" size="18.0" />
                      </font>
                   </Label>
-                  <JFXButton fx:id="btNext" alignment="CENTER" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" onAction="#next" style="-fx-background-radius: 50;" text="Next" HBox.hgrow="ALWAYS">
+                  <JFXButton fx:id="btNext" alignment="CENTER" buttonType="RAISED" cacheShape="false" centerShape="false" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" graphicTextGap="0.0" onAction="#next" scaleShape="false" style="-fx-background-radius: 50;" text="Next" HBox.hgrow="ALWAYS">
                      <graphic>
                         <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -37,8 +37,11 @@
                      </graphic>
                   </JFXButton>
                </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
             </HBox>
-            <GridPane fx:id="gpBody" alignment="CENTER" hgap="5.0" onMouseClicked="#testGrid" style="-fx-background-color: white;" vgap="2.0" VBox.vgrow="ALWAYS">
+            <GridPane fx:id="gpBody" alignment="CENTER" cacheShape="false" centerShape="false" hgap="5.0" onMouseClicked="#testGrid" scaleShape="false" style="-fx-background-color: white;" vgap="2.0" VBox.vgrow="ALWAYS">
                <columnConstraints>
                   <ColumnConstraints halignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="32.0" />
                   <ColumnConstraints halignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="32.0" />

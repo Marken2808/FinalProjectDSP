@@ -1,5 +1,6 @@
 package utils;
 
+import controllers.ScreenCamera;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.opencv.core.*;
@@ -8,10 +9,11 @@ import org.opencv.face.LBPHFaceRecognizer;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
-import org.opencv.objdetect.Objdetect;
 import org.opencv.videoio.VideoCapture;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,31 +30,25 @@ public class OpenCV {
     public ScheduledExecutorService timer;
     // the OpenCV object that performs the video capture
     public VideoCapture capture;
-    public int absoluteFaceSize;
     //   face cascade classifier
     public CascadeClassifier faceCascade = new CascadeClassifier();
     //   eyes cascade classifier
     public CascadeClassifier eyesCascade = new CascadeClassifier();
 
     public ArrayList<Mat> listRez;
-    public ArrayList<Mat> listCrop;
+//    public ArrayList<Mat> listCrop;
     public Rect[] facesArray;
 
     public String resPath      = System.getProperty("user.dir").concat("\\src\\resources\\");
-    public String outputPath    = resPath + "images/output/";
-    public String inputPath     = resPath + "images/input/";
     public String testPath      = resPath + "images/test/";
     public String datasetPath   = resPath + "images/dataset/";
-    public String outImg;
-    public String inImg;
     public String haarFace      = resPath + "haarcascades/haarcascade_frontalface_alt2.xml";
-    public String haarEyes      = resPath + "haarcascades/haarcascade_eye_tree_eyeglasses.xml";
 
     // Names of the people from the training set
     public HashMap<Integer, String> namesMap = new HashMap<>();
     public File[] imageFiles = null;
     public Object[][] namesList;
-    public int predictionID = 0;
+    public int predictionID;
     public File root = new File(datasetPath);
     public FaceRecognizer faceRecognizer = LBPHFaceRecognizer.create();
 
@@ -79,11 +75,7 @@ public class OpenCV {
     public void init() {
         this.capture = new VideoCapture();
         this.faceCascade.load(haarFace);
-        this.eyesCascade.load(haarEyes);
-        this.absoluteFaceSize = 0;
-
         trainModel();
-
     }
 
     /**
@@ -111,25 +103,15 @@ public class OpenCV {
         return frame;
     }
 
-    public Image detectImage (File file, ImageView currentFrame){
+    public Image detectImage (File file){
 
-        inImg = file.getPath();
-//        inImg = inputPath + file.getName();
-        outImg = outputPath + file.getName().replace(".jpg","_add.jpg");
+        String inImg = file.getPath();
 
         Mat src = Imgcodecs.imread(inImg);
-        Image imageBefore = UtilsOCV.mat2Image(src);
-        this.updateImageView(currentFrame, imageBefore);
-        this.faceCascade = new CascadeClassifier(haarFace);
-        this.eyesCascade = new CascadeClassifier(haarEyes);
-
         this.detectAndDisplay(src);
-        Imgcodecs.imwrite( outImg, src);
-        Image imageAfter = UtilsOCV.mat2Image(Imgcodecs.imread(outImg));
-        this.updateImageView(currentFrame, imageAfter );
 
-
-        return UtilsOCV.mat2Image(Imgcodecs.imread(outImg));
+        Image imageAfter = UtilsOCV.mat2Image(src);
+        return imageAfter;
     }
 
 
@@ -149,78 +131,57 @@ public class OpenCV {
         // equalize the frame histogram to improve the result
         Imgproc.equalizeHist(grayFrame, grayFrame);
 
-        // compute minimum face size (20% of the frame height, in our case)
-        if (this.absoluteFaceSize == 0)
-        {
-            int height = grayFrame.rows();
-            if (Math.round(height * 0.2f) > 0)
-            {
-                this.absoluteFaceSize = Math.round(height * 0.2f);
-            }
-        }
         // detect faces
-        this.faceCascade.detectMultiScale(grayFrame, faces, 1.3, 3, 0 | Objdetect.CASCADE_SCALE_IMAGE,
-                new Size(this.absoluteFaceSize, this.absoluteFaceSize), new Size());
+        this.faceCascade.detectMultiScale(
+                grayFrame,
+                faces,
+                ScreenCamera.scales,
+                ScreenCamera.neighbours,
+                0,
+                new Size(ScreenCamera.sizes,ScreenCamera.sizes)
+        );
 
-        this.listCrop = new ArrayList<>();
         this.listRez = new ArrayList<>();
         Mat resizeImage ;
         Mat croppedImage ;
         facesArray = faces.toArray();
         for (Rect face : facesArray) {
 
-            Mat org_frame = frame.clone();
-//            Point center = new Point(face.x + face.width / 2, face.y + face.height / 2);
+//            Mat org_frame = frame.clone();
             Imgproc.rectangle(frame, face.tl(), face.br(), new Scalar(0, 255, 0), 1);
-            Mat faceROI = grayFrame.submat(face);
-
-            // ------In each face, detect eyes--------------------
-            MatOfRect eyes = new MatOfRect();
-            this.eyesCascade.detectMultiScale(faceROI, eyes, 1.2, 2);
-
-            List<Rect> listOfEyes = eyes.toList();
-            for (Rect eye : listOfEyes) {
-                Point eyeCenter = new Point(face.x + eye.x + eye.width / 2, face.y + eye.y + eye.height / 2);
-                int radius = (int) Math.round((eye.width + eye.height) * 0.25);
-                Imgproc.circle(frame, eyeCenter, radius, new Scalar(255, 0, 0), 1);
-
-            }
-
 
             Rect rectCrop = new Rect(face.tl(), face.br());
-            croppedImage = new Mat(org_frame, rectCrop);
-            resizeImage = new Mat();
-
-            this.listCrop.add(croppedImage);         //for multi pics
-
+            croppedImage = new Mat(frame, rectCrop);
+//            resizeImage = new Mat();
 
             Imgproc.cvtColor(croppedImage, croppedImage, Imgproc.COLOR_BGR2GRAY);
             Imgproc.equalizeHist(croppedImage, croppedImage);
             Size size = new Size(150,150);
-            Imgproc.resize(croppedImage, resizeImage, size, 0,0, INTER_AREA);
+            Imgproc.resize(croppedImage, croppedImage, size, 0,0, INTER_AREA);
 
             double[] returnedResults = faceRecognition(croppedImage);
             predictionID = ((int) returnedResults[0]);
+
             double confidence = returnedResults[1];
             String name;
-//            System.out.println("PREDICTED LABEL IS: " + predictionID);
+
+            System.out.println("PREDICTED LABEL IS: " + predictionID);
+
             if (namesMap.containsKey(predictionID)) {
                 name = namesMap.get(predictionID);
             } else {
                 name = "Unknown";
             }
 
-            this.listRez.add(resizeImage);
-            for(int i=0; i<this.listRez.size();i++){
-                Imgcodecs.imwrite( testPath+"0-new_"+i+".jpg", this.listRez.get(i));
-            }
+            this.listRez.add(croppedImage);
 
             String box_text = name + " : " + confidence + "%";
             double pos_x = face.x - 10;
             double pos_y = face.y - 10;
             // And now put it into the image:
             Imgproc.putText(frame, box_text, new Point(pos_x, pos_y),
-                    Imgproc.FONT_HERSHEY_COMPLEX_SMALL, 1.5, new Scalar(0, 255, 0, 2.0),2);
+                    Imgproc.FONT_HERSHEY_TRIPLEX, 1, new Scalar(0, 255, 0),1);
+//            FONT_HERSHEY_COMPLEX_SMALL
         }
     }
 
@@ -236,7 +197,7 @@ public class OpenCV {
         int set = 0;
         String name = null;
         // Read the data from the training set
-        List<Mat> images = new ArrayList<Mat>();
+        List<Mat> images = new ArrayList<>();
         Mat labels = new Mat(imageFiles.length,1,CvType.CV_32SC1);
         if (imageFiles != null) {
             for (File image : imageFiles) {
@@ -254,7 +215,6 @@ public class OpenCV {
 
 
                 // add id,name,set into array[][] nameList
-
                 namesList[counter][0] = id;
                 namesList[counter][1] = name;
                 namesList[counter][2] = set;
@@ -262,6 +222,7 @@ public class OpenCV {
                 // add id,name into Hashmap nameNap
                 namesMap.put(id, name);
 
+                System.out.println("ID: "+id);
                 // Add training set images to images Mat
                 images.add(img);
 
@@ -273,6 +234,9 @@ public class OpenCV {
             faceRecognizer.save("traineddata.json");
         }
 
+        System.out.println("rows: " + labels.rows());
+        System.out.println("cols: " + labels.cols());
+        System.out.println("data: " + labels.type());
 
     }
 
