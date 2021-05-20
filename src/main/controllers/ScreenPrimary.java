@@ -16,6 +16,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import models.*;
 import utils.OpenCV;
 
 import java.io.File;
@@ -32,8 +33,12 @@ public class ScreenPrimary implements Initializable {
     @FXML
     public StackPane mainStackPane;
 
+    public static StackPane mainStackPaneClone;
+
     @FXML
     public StackPane header;
+
+    public static StackPane headerClone;
 
     @FXML
     private JFXButton btnRestore;
@@ -47,38 +52,40 @@ public class ScreenPrimary implements Initializable {
     @FXML
     private Label labelTitle;
 
+    private static Label labelTitleClone;
+
     @FXML
     private JFXDrawer drawerPane;
 
     public static JFXDialog dialog;
 
-    private String SignInPopup      = "/views/PopupSignIn.fxml";
-    private String DrawerMenu       = "/views/DrawerMenu.fxml";
-    private String DashboardScreen  = "/views/ScreenDashboard.fxml";
-    private String CameraScreen     = "/views/ScreenCamera.fxml";
-    private String OverviewScreen   = "/views/ScreenOverview.fxml";
-    private String ProfileScreen    = "/views/ScreenProfile.fxml";
+    private static String SignInPopup      = "/views/PopupSignIn.fxml";
+    private static String DrawerMenu       = "/views/DrawerMenu.fxml";
+    private static String DashboardScreen  = "/views/ScreenDashboard.fxml";
+    private static String CameraScreen     = "/views/ScreenCamera.fxml";
+    private static String OverviewScreen   = "/views/ScreenOverview.fxml";
+    private static String ProfileScreen    = "/views/ScreenProfile.fxml";
 //----------------------------instance--------------------
 
-    public static ScreenPrimary instance;
-    public ScreenPrimary(){
-        instance = this;
-    }
-    public static ScreenPrimary getInstance() {
-        if(instance == null){
-            instance = new ScreenPrimary();
-        }
-        return instance;
-    }
+//    public static ScreenPrimary instance;
+//    public ScreenPrimary(){
+//        instance = this;
+//    }
+//    public static ScreenPrimary getInstance() {
+//        if(instance == null){
+//            instance = new ScreenPrimary();
+//        }
+//        return instance;
+//    }
 //---------------------------------------------------------
 
-    public void displayPopup(String screen, boolean canClose){
+    public static void displayPopup(String screen, boolean canClose){
         try {
             FXMLLoader loader = new FXMLLoader(ScreenPrimary.class.getResource(screen));
             Parent Root = loader.load();
             JFXDialogLayout content = new JFXDialogLayout();
             content.setBody(Root);
-            dialog = new JFXDialog(mainStackPane, content , JFXDialog.DialogTransition.CENTER);
+            dialog = new JFXDialog(mainStackPaneClone, content , JFXDialog.DialogTransition.CENTER);
             dialog.setOverlayClose(canClose);
             dialog.show();
         } catch (IOException e) {
@@ -116,22 +123,58 @@ public class ScreenPrimary implements Initializable {
         }
     }
 
-    public void displayScreen(String title, String screen){
-        mainStackPane.getChildren().clear();
-        try {
-            StackPane screenPane = FXMLLoader.load(getClass().getResource(screen));
-            labelTitle.setText(title);
+    public static void displayScreen(String title, String screen, boolean isAllow){
+        if(isAllow) {
+            mainStackPaneClone.getChildren().clear();
+            try {
+                StackPane screenPane = FXMLLoader.load(ScreenPrimary.class.getResource(screen));
+                labelTitleClone.setText(title);
 //            labelTitle.setFont(new Font("Times New Roman",20));
-            mainStackPane.getChildren().add(screenPane);
-        } catch (IOException e) {
-            e.printStackTrace();
+                mainStackPaneClone.getChildren().add(screenPane);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            mainStackPaneClone.getChildren().clear();
         }
     }
 
-    public void displaySignIn(){
-        header.setVisible(false);
+    public static boolean check (String role, boolean isRequired) {
+
+        if (role.equals("Student") && isRequired){
+            System.out.println("Sorry, Student in developing. Cannot access!");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+//    --------------------------------------------
+    public static void displaySignIn(){
+        headerClone.setVisible(false);
         displayPopup(SignInPopup,false);
     }
+
+    public static void displayProfile() {
+        displayScreen("Profile", ProfileScreen, check(PopupSignIn.userData().getRole(), false));
+    }
+
+    public static void displayOverview() {
+        displayScreen("Overview", OverviewScreen, check(PopupSignIn.userData().getRole(), true));
+    }
+
+    public static void displaySettings() {
+
+    }
+
+    public static void displayCamera() {
+        displayScreen("Live Camera", CameraScreen, check(PopupSignIn.userData().getRole(), true));
+    }
+
+    public static void displayDashboard() {
+        displayScreen("Dashboard", DashboardScreen, check(PopupSignIn.userData().getRole(), true));
+    }
+//    -------------------------------------------------
 
     public void showElements(VBox menuLeft) {
 
@@ -143,24 +186,27 @@ public class ScreenPrimary implements Initializable {
                 node.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
                     switch (node.getAccessibleText()) {
                         case "Profile" :
-                            displayScreen("Profile", ProfileScreen);
+                            displayProfile();
                             break;
                         case "Home":
-                            displayScreen("Overview", OverviewScreen);
+                            displayOverview();
                             break;
                         case "Settings":
                             System.out.println("Setting in developing");
                             break;
                         case "Camera":
-                            displayScreen("Live Camera", CameraScreen);
+                            displayCamera();
                             break;
                         case "Dashboard":
-                            displayScreen("Dashboard", DashboardScreen);
+                            displayDashboard();
                             break;
                     }
+
                 });
             }
         }
+
+
     }
 
     @FXML
@@ -200,10 +246,34 @@ public class ScreenPrimary implements Initializable {
         }
     }
 
+//    public static User userData() {
+//
+//        User authUser = PopupSignIn.authUser();
+//
+//        switch (authUser.getRole()){
+//            case "Teacher" :
+//                Teacher imTeacher = new TeacherDAO().retrieve(authUser.getUserID());
+//                authUser.setTeacher(imTeacher);
+//                break;
+//            case "Student" :
+//                Student imStudent = new StudentDAO().retrieve(authUser.getUserID());
+//                authUser.setStudent(imStudent);
+//                break;
+//            case "Admin" :
+//                authUser.setRole("Admin");
+//                break;
+//        }
+//        return authUser;
+//    }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        mainStackPaneClone = mainStackPane;
+        headerClone = header;
+        labelTitleClone = labelTitle;
         displaySignIn();
+
 
     }
 

@@ -103,7 +103,7 @@ public class ScreenCamera implements Initializable {
             Imgcodecs.imwrite( testPath+"Image_0.jpg", callCV.listRez.get(0));
         }
 
-        ScreenPrimary.getInstance().displayPopup(CaptureScreen, true);
+        ScreenPrimary.displayPopup(CaptureScreen, true);
 
     }
 
@@ -332,8 +332,8 @@ public class ScreenCamera implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         callCV.init();
-        currentFrame.fitWidthProperty().bind(ScreenPrimary.getInstance().mainStackPane.widthProperty());
-        currentFrame.fitHeightProperty().bind(ScreenPrimary.getInstance().mainStackPane.heightProperty());
+        currentFrame.fitWidthProperty().bind(ScreenPrimary.mainStackPaneClone.widthProperty());
+        currentFrame.fitHeightProperty().bind(ScreenPrimary.mainStackPaneClone.heightProperty());
 
     }
 }

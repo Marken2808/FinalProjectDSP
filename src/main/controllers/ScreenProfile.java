@@ -15,9 +15,7 @@ public class ScreenProfile implements Initializable {
     @FXML
     private JFXTextField fieldName;
 
-    private User user = PopupSignIn.authUser;
-
-    private int accessedID;
+    private User user = PopupSignIn.userData();
 
     private boolean isTeacher = false;
 
@@ -28,8 +26,6 @@ public class ScreenProfile implements Initializable {
             new TeacherDAO().update(user.getTeacher());
         }
     }
-
-
 
     public String accessedName(){
         switch (user.getRole()){

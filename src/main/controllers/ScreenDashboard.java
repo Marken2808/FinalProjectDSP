@@ -21,7 +21,7 @@ public class ScreenDashboard implements Initializable {
     private JFXTabPane DashboardTab = new JFXTabPane();
 
 
-    private User user = PopupSignIn.authUser;
+    private User user = PopupSignIn.userData();
 
     public Node StudentView(){
         try {
@@ -65,6 +65,7 @@ public class ScreenDashboard implements Initializable {
         switch (user.getRole()){
             case "Teacher" :
                 DashboardTab.getTabs().addAll(studentTab);
+                break;
             case "Student" :
                 break;
             case "Admin" :

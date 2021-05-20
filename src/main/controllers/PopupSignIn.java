@@ -19,6 +19,8 @@ public class PopupSignIn implements Initializable {
     @FXML
     private JFXTextField fieldUsername;
 
+    public static JFXTextField fieldUsernameClone;
+
     @FXML
     private Label textInfor;
 
@@ -28,6 +30,8 @@ public class PopupSignIn implements Initializable {
     @FXML
     private JFXPasswordField fieldPassword;
 
+    public static JFXPasswordField fieldPasswordClone;
+
     @FXML
     private JFXButton btnSignIn;
 
@@ -36,50 +40,54 @@ public class PopupSignIn implements Initializable {
 
     private String SignUpScreen     = "/views/PopupSignUp.fxml";
 
-    public static User authUser;
-
+    private static User authUser;
 
     void setUp() {
         ScreenPrimary.dialog.close();
-        ScreenPrimary.getInstance().header.setVisible(true);
-        ScreenPrimary.getInstance().displayScreen("Overview","/views/ScreenOverview.fxml");
+        ScreenPrimary.headerClone.setVisible(true);
+        ScreenPrimary.displayOverview();
+    }
+
+//    public static User getAuthUser(){
+//        return new UserDAO().authenticate( new User(fieldUsernameClone.getText(), fieldPasswordClone.getText()));
+//    }
+
+    public static User userData() {
+
+        authUser = new UserDAO().authenticate( new User(fieldUsernameClone.getText(), fieldPasswordClone.getText()));
+
+        switch (authUser.getRole()){
+            case "Teacher" :
+                Teacher imTeacher = new TeacherDAO().retrieve(authUser.getUserID());
+                authUser.setTeacher(imTeacher);
+                break;
+            case "Student" :
+                Student imStudent = new StudentDAO().retrieve(authUser.getUserID());
+                authUser.setStudent(imStudent);
+                break;
+            case "Admin" :
+                authUser.setRole("Admin");
+                break;
+        }
+        return authUser;
     }
 
     @FXML
     void onLogin(MouseEvent event) {
-//
-        authUser = new UserDAO().authenticate(new User(fieldUsername.getText(), fieldPassword.getText()));
 
-        if(authUser != null){
+        if(userData() != null){
             setUp();
             System.out.println("Successful");
-            System.out.println("ID: "+authUser.getUserID());
-
-            switch (authUser.getRole()){
-                case "Teacher" :
-                    Teacher imTeacher = new TeacherDAO().retrieve(authUser.getUserID());
-                    authUser.setTeacher(imTeacher);
-                    break;
-                case "Student" :
-                    Student imStudent = new StudentDAO().retrieve(authUser.getUserID());
-                    authUser.setStudent(imStudent);
-                    break;
-                case "Admin" :
-                    authUser.setRole("Admin");
-                    break;
-
-            }
+            System.out.println("Us: "+userData().getUsername()+" - ID: "+userData().getUserID()+" - role: "+userData().getRole());
         } else {
             System.out.println("Fail");
         }
-
-
     }
 
     @FXML
     void onRegister(MouseEvent event) {
         ScreenPrimary.dialog.close();
-        ScreenPrimary.getInstance().displayPopup(SignUpScreen,false);
+        ScreenPrimary.displayPopup(SignUpScreen,false);
     }
 
 
@@ -92,6 +100,10 @@ public class PopupSignIn implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        fieldPasswordClone = fieldPassword;
+        fieldUsernameClone = fieldUsername;
+
 
 
 

@@ -65,7 +65,7 @@ public class PopupSignUp implements Initializable {
     @FXML
     void goBack(ActionEvent event) {
         ScreenPrimary.dialog.close();
-        ScreenPrimary.getInstance().displaySignIn();
+        ScreenPrimary.displaySignIn();
     }
 
     @FXML
