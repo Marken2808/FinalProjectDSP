@@ -57,9 +57,19 @@ public class ModuleDAO {
     }
 
     public void insert(Student student){
+
         try {
-            pstmt = conn.prepareStatement("INSERT INTO `module` (m_sId) VALUES(?)");
-            pstmt.setInt(1, student.getStudentId());
+            pstmt = conn.prepareStatement("INSERT INTO `module` " +
+                    "(mMath, mPhysics, mChemistry, mEnglish, mHistory, mBiology, mGeography, m_sId)" +
+                    "VALUES (?,?,?,?,?,?,?,?)");
+            pstmt.setDouble(1,0);
+            pstmt.setDouble(2,0);
+            pstmt.setDouble(3,0);
+            pstmt.setDouble(4,0);
+            pstmt.setDouble(5,0);
+            pstmt.setDouble(6,0);
+            pstmt.setDouble(7,0);
+            pstmt.setInt(8, student.getStudentId());
             //Executing the statement
             pstmt.execute();
             System.out.println("module inserted......");

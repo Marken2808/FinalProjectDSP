@@ -45,26 +45,7 @@ public class UserDAO {
         return userLists;
     }
 
-//    public void retrieveUserByID(int uid){
-//
-//        try {
-//            pstmt = conn.prepareStatement("Select * from User where uId = " + uid);
-//            ResultSet rs = pstmt.executeQuery();
-//            while (rs.next()){
-//                new User(
-//                    rs.getInt("uId"),
-//                    rs.getString("uUsername"),
-//                    rs.getString("uPassword"),
-//                    rs.getString("uStatus"),
-//                    rs.getString("uRole")
-//                );
-//
-//            }
-//            System.out.println("accessed successfully");
-//        } catch (SQLException throwables) {
-//            System.out.println("cannot access user table");
-//        }
-//    }
+
 
     public static User authenticate (User user) {
 
@@ -144,17 +125,29 @@ public class UserDAO {
 
 
 //    -----------------------------------
-    public void insertTeacherData(){
+    public void insertTeacherData(Teacher teacher){
+        new TeacherDAO().insert(teacher);
+    }
+
+    public void insertStudentWithFace(Student student, Face face) throws SQLException {
+
+//        System.out.println(student.getStudentId());
+//        System.out.println(face.getFaceID());
+//        System.out.println(face.getFaceSet());
+//        insertStudentData(student);
+
+        new FaceDAO().insert(face);
 
     }
 
-    public void insertStudentData(Student student, Face face) throws SQLException, FileNotFoundException {
+    public void insertStudentData(Student student) {
 
         new StudentDAO().insert(student);
-        new FaceDAO().insert(face);
-        new ModuleDAO().insert(student);
-        //temp
-//        new AttendanceDAO().insert(new Attendance("P",student.getStudentId()));
+
+        Student studentDB = new StudentDAO().retrieve(student.getUserID());
+        new ModuleDAO().insert(studentDB);
+
+        new AttendanceDAO().insert(new Attendance("A",studentDB.getStudentId()));
     }
 
 }

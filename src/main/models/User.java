@@ -81,18 +81,15 @@ public class User {
                         Teacher teacher = new Teacher();
                         teacher.setUserID(user.getUserID());
 //                        ->SQL
-                        new TeacherDAO().insert(teacher);
+                        new UserDAO().insertTeacherData(teacher);
                         TabTeacher.updateTable();
                         break;
                     case "Student":
                         Student student = new Student();
                         student.setUserID(user.getUserID());
-
-                        System.out.println(user.getUserID());
 //                        ->SQL
-                        new StudentDAO().insert(student);
+                        new UserDAO().insertStudentData(student);
                         TabStudent.updateTable();
-                        System.out.println("Student inserted studentTab");
                         break;
                 }
             }

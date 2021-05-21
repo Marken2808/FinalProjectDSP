@@ -61,9 +61,15 @@ public class StudentDAO {
     }
 
     public Student retrieveStudentByID(int sid){
-        ArrayList<Student> test = select("Select * from Student where sid = "+sid);
+        ArrayList<Student> test = select("Select * from Student where sId = "+sid);
         return test.get(0);
     }
+
+//    public Student retrieveStudentByUserID(int uid){
+//        ArrayList<Student> test = select("Select * from student where s_uId = "+uid);
+//        System.out.println(test);
+//        return test.get(0);
+//    }
 
     public Student retrieve(int userID) {
         try {

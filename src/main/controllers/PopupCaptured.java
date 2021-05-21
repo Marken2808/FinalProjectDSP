@@ -95,7 +95,7 @@ public class PopupCaptured implements Initializable {
                 try {
 
                     Face face = new Face(new FileInputStream(imgPath),set,student);
-                    new UserDAO().insertStudentData(student, face);
+                    new UserDAO().insertStudentWithFace(student, face);
 
                     handlePopup(
                             "Success",
