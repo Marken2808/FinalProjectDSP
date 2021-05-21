@@ -87,9 +87,12 @@ public class User {
                     case "Student":
                         Student student = new Student();
                         student.setUserID(user.getUserID());
+
+                        System.out.println(user.getUserID());
 //                        ->SQL
                         new StudentDAO().insert(student);
                         TabStudent.updateTable();
+                        System.out.println("Student inserted studentTab");
                         break;
                 }
             }

@@ -115,8 +115,8 @@ public class DrawerControlStudent implements Initializable {
 
         btnUpdate.setMaxWidth(MAX_VALUE);
         btnUpdate.setOnMouseClicked(event -> {
-            new StudentDAO().update(id, map);
-            new ModuleDAO().update(id, map);
+            new StudentDAO().updateSelected(id, map);
+            new ModuleDAO().updateSelected(id, map);
 
             refresh();
             TabStudent.getInstance().updateTable();

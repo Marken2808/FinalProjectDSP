@@ -75,9 +75,9 @@ public class DrawerMenu implements Initializable {
     public String accessedName(){
         switch (user.getRole()){
             case "Teacher" :
-                return user.getTeacher().getTeacherName();
+                return user.getTeacher().getTeacherName().toUpperCase();
             case "Student" :
-                return user.getStudent().getStudentName();
+                return user.getStudent().getStudentName().toUpperCase();
             case "Admin" :
                 return user.getRole();
         }

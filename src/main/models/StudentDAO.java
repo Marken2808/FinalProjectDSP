@@ -85,9 +85,10 @@ public class StudentDAO {
     public void insert(Student student) {
 
         try {
-            pstmt = conn.prepareStatement("INSERT INTO student (sId,sName) VALUES(?,?)");
-            pstmt.setInt(1, student.getStudentId());
-            pstmt.setString(2, student.getStudentName().toUpperCase());
+            pstmt = conn.prepareStatement("INSERT INTO student (sId, s_uId) VALUES(?, ?)");
+            pstmt.setInt(1, 0);
+//            pstmt.setString(2, student.getStudentName());
+            pstmt.setInt(2, student.getUserID());
             //Executing the statement
             pstmt.execute();
             System.out.println("student inserted......");
@@ -97,9 +98,23 @@ public class StudentDAO {
 
     }
 
-    public void update(int sid, HashMap<String, Object> map){
+    // update if selected student
+    public void updateSelected(int sid, HashMap<String, Object> map){
         try {
-            String sql = "UPDATE student SET sname = '" + map.get("Student Name") + "' WHERE sid = " + sid;
+            String sql = "UPDATE student SET sname = '" + map.get("Student Name").toString().toUpperCase() + "' WHERE sid = " + sid;
+            PreparedStatement pst = conn.prepareStatement(sql);
+
+            pst.executeUpdate();
+            System.out.println("student updated......");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // update when you are student
+    public void update(Student student){
+        try {
+            String sql = "UPDATE student SET sname = '" + student.getStudentName() + "' WHERE sid = " + student.getStudentId();
             PreparedStatement pst = conn.prepareStatement(sql);
 
             pst.executeUpdate();

@@ -68,7 +68,7 @@ public class ModuleDAO {
         }
     }
 
-    public void update(int sid, HashMap<String, Object> map){
+    public void updateSelected(int sid, HashMap<String, Object> map){
         try {
 
             String sql= "UPDATE `module` " +
