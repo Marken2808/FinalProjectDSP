@@ -195,18 +195,4 @@ public class User {
         this.student = student;
     }
 
-    //    ------------------------------------------------
-//    public void insertTeacherData(){
-//
-//    }
-//
-//    public void insertStudentData(Student student, Face face) throws SQLException, FileNotFoundException {
-//
-//        new StudentDAO().insert(student);
-//        new FaceDAO().insert(face);
-//        new ModuleDAO().insert(student);
-//        //temp
-////        new AttendanceDAO().insert(new Attendance("P",student.getStudentId()));
-//    }
-
 }

@@ -21,6 +21,16 @@ class UserTest {
         testUser.setRole("ADMIN");
     }
 
+    @AfterEach
+    void tearDown() {
+        System.out.println("~~~ End Test ~~~");
+    }
+
+    @AfterAll
+    static void afterAll() {
+        System.out.println("*** After All ***");
+    }
+
     @Test
     void getUsername() {
         String testUsername = "admin";
@@ -55,16 +65,6 @@ class UserTest {
         String testRole = "ADMIN";
         Assertions.assertEquals(testUser.getRole(),testRole);
         System.out.println("Testing with '" + testRole + "' PASSED");
-    }
-
-    @AfterEach
-    void tearDown() {
-        System.out.println("~~~ End Test ~~~");
-    }
-
-    @AfterAll
-    static void afterAll() {
-        System.out.println("*** After All ***");
     }
 
 

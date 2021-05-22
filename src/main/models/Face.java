@@ -7,14 +7,7 @@ public class Face{
     private int faceID;
     private InputStream faceData;
     private int faceSet;
-    private int studentID;
     private Student student;
-
-    public Face(InputStream faceData, int faceSet, int studentID) {
-        this.faceData = faceData;
-        this.faceSet = faceSet;
-        this.studentID = studentID;
-    }
 
     public Face(InputStream faceData, int faceSet, Student student) {
         this.faceData = faceData;
@@ -34,17 +27,17 @@ public class Face{
         return faceData;
     }
 
-    public void setFaceData(InputStream  faceData) {
-        this.faceData = faceData;
-    }
+//    public void setFaceData(InputStream  faceData) {
+//        this.faceData = faceData;
+//    }
 
     public int getFaceSet() {
         return faceSet;
     }
 
-    public void setFaceSet(int faceSet) {
-        this.faceSet = faceSet;
-    }
+//    public void setFaceSet(int faceSet) {
+//        this.faceSet = faceSet;
+//    }
 
     public Student getStudent() {
         return student;
