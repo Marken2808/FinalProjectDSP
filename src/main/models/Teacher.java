@@ -17,8 +17,6 @@ public class Teacher extends User{
         this.teacherUserId = teacherUserId;
     }
 
-
-
     public int getTeacherId() {
         return teacherId;
     }
@@ -35,13 +33,13 @@ public class Teacher extends User{
         this.teacherName = teacherName;
     }
 
-//    public int getTeacherUserId() {
-//        return teacherUserId;
-//    }
-//
-//    public void setTeacherUserId(int teacherUserId) {
-//        this.teacherUserId = teacherUserId;
-//    }
+    public int getTeacherUserId() {
+        return teacherUserId;
+    }
+
+    public void setTeacherUserId(int teacherUserId) {
+        this.teacherUserId = teacherUserId;
+    }
 
 
 
