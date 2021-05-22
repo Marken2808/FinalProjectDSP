@@ -95,11 +95,11 @@ public class PopupCaptured implements Initializable {
                 try {
 
                     Face face = new Face(new FileInputStream(imgPath),set,student);
-                    new UserDAO().insertStudentWithFace(student, face);
+                    new FaceDAO().insert(face);
 
                     handlePopup(
                             "Success",
-                            "Face Inserted",
+                            "Face Inserted Successfully",
                             "/images/icon/check-circle_green.png",
                             "OK"
                     );
@@ -113,7 +113,7 @@ public class PopupCaptured implements Initializable {
                 catch (SQLException | FileNotFoundException e) {
                     handlePopup(
                             "Fail",
-                            "Face Exist",
+                            "Face Exist or Unregister User",
                             "/images/icon/alert-circle_red.png",
                             "Close"
                     );
@@ -353,12 +353,10 @@ public class PopupCaptured implements Initializable {
         if (callCV.listRez.isEmpty()){
             imgPath = null;
         } else {
-            if (callCV.listRez.size() == 1) {
-                imgName = "Image_0";
-
+            for(int i=0; i<callCV.listRez.size(); i++){
+                imgName = "Image_"+(i) ;
                 imgPath = "src/resources/images/test/"+imgName+".jpg";
-                choice.put(imgName,imgPath);
-                comboPic.setDisable(true);
+                choice.put(imgName, imgPath);
                 comboPic.setPromptText(imgName);
 
                 boxId.setValue(callCV.predictionID);
@@ -366,14 +364,28 @@ public class PopupCaptured implements Initializable {
                 boxSet.setItems(observableList);
                 boxSet.setValue(observableList.get(observableList.size()-1) +1 );
 
-            } else {
-                for(int i=0; i<callCV.listRez.size(); i++){
-                    imgName = "Image_"+(i+1) ;
-                    imgPath = "src/resources/images/test/"+imgName+".jpg";
-                    choice.put(imgName, imgPath);
-                    comboPic.setPromptText(imgName);
-                }
             }
+//            if (callCV.listRez.size() == 1) {
+//                imgName = "Image_0";
+//
+//                imgPath = "src/resources/images/test/"+imgName+".jpg";
+//                choice.put(imgName,imgPath);
+//                comboPic.setDisable(true);
+//                comboPic.setPromptText(imgName);
+//
+//                boxId.setValue(callCV.predictionID);
+//                fieldName.setText(String.valueOf(callCV.namesMap.get(callCV.predictionID)));
+//                boxSet.setItems(observableList);
+//                boxSet.setValue(observableList.get(observableList.size()-1) +1 );
+//
+//            } else {
+//                for(int i=0; i<callCV.listRez.size(); i++){
+//                    imgName = "Image_"+(i+1) ;
+//                    imgPath = "src/resources/images/test/"+imgName+".jpg";
+//                    choice.put(imgName, imgPath);
+//                    comboPic.setPromptText(imgName);
+//                }
+//            }
         }
 
         comboPic.setItems(FXCollections.observableArrayList(choice.keySet()));

@@ -30,11 +30,12 @@ public class Student extends User{
         this.studentUserId = studentUserId;
     }
 
-    public Student(int sid, String sname, boolean marked, ArrayList<Attendance> studentLast5Days) {
+    public Student(int sid, String sname, boolean marked, ArrayList<Attendance> studentLast5Days, int uid) {
         this.studentId = sid;
         this.studentName = sname;
         this.studentMarked = marked;
         this.studentLast5Days = studentLast5Days;
+        this.studentUserId = uid;
     }
 
     public int getStudentId() {
@@ -70,6 +71,13 @@ public class Student extends User{
 //    }
 
 
+    public int getStudentUserId() {
+        return studentUserId;
+    }
+
+    public void setStudentUserId(int studentUserId) {
+        this.studentUserId = studentUserId;
+    }
 
     @Override
     public String toString() {

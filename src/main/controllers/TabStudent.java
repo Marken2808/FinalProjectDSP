@@ -58,6 +58,9 @@ public class TabStudent implements Initializable {
     private TableColumn<Student, Integer> colSID;
 
     @FXML
+    private TableColumn<Student, Integer> colUID;
+
+    @FXML
     private TableColumn<Student, String> colSNAME;
 
     @FXML
@@ -181,7 +184,19 @@ public class TabStudent implements Initializable {
                     setText(String.valueOf(param.getTableView().getItems().get(getIndex()).getStudentId()));
                     setAlignment(Pos.CENTER);
                     setFont(new Font("Times New Roman", 16));
+                }
+            }
+        });
+    }
 
+    public void callbackCell_UserID(){
+        colUID.setCellFactory(param -> new TableCell<>() {
+            @Override
+            protected void updateItem(Integer item, boolean empty) {
+                if (!empty) {
+                    setText(String.valueOf(param.getTableView().getItems().get(getIndex()).getStudentUserId()));
+                    setAlignment(Pos.CENTER);
+                    setFont(new Font("Times New Roman", 16));
                 }
             }
         });
@@ -317,6 +332,7 @@ public class TabStudent implements Initializable {
         callbackCell_StudentName();
         callbackCell_StudentMarked();
         callbackCell_Last5Days();
+        callbackCell_UserID();
 
         updateTable();
 

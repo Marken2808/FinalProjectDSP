@@ -223,10 +223,10 @@ public class ScreenPrimary implements Initializable {
             }
         }
 
-//        File datasetClose = new File(OpenCV.getInstance().datasetPath);
-//        for (File file : datasetClose.listFiles()){
-//            file.delete();
-//        } datasetpath----------
+        File datasetClose = new File(OpenCV.getInstance().datasetPath);
+        for (File file : datasetClose.listFiles()){
+            file.delete();
+        }
 
         System.out.println("Tidy works");
     }

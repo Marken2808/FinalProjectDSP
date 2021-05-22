@@ -49,6 +49,10 @@ public class FaceDAO {
 
     public void insert(Face face) throws SQLException {
 
+        System.out.println("face student id "+face.getStudent().getStudentId());
+        System.out.println("face data "+face.getFaceData());
+        System.out.println("face set "+face.getFaceSet());
+
         pstmt = conn.prepareStatement("INSERT INTO face (fData, fSet, f_sId) VALUES(?,?,?)");
         pstmt.setBinaryStream(1, face.getFaceData());
         pstmt.setInt(2, face.getFaceSet());

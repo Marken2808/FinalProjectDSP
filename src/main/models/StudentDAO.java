@@ -33,7 +33,8 @@ public class StudentDAO {
                         rs.getInt("sId"),
                         rs.getString("sName"),
                         isIdMark(rs.getInt("sId")),
-                        new Attendance().getLast5days(rs.getInt("sId"))
+                        new Attendance().getLast5days(rs.getInt("sId")),
+                        rs.getInt("s_uId")
                 ));
             }
 //            System.out.println("accessed successfully");
@@ -64,12 +65,6 @@ public class StudentDAO {
         ArrayList<Student> test = select("Select * from Student where sId = "+sid);
         return test.get(0);
     }
-
-//    public Student retrieveStudentByUserID(int uid){
-//        ArrayList<Student> test = select("Select * from student where s_uId = "+uid);
-//        System.out.println(test);
-//        return test.get(0);
-//    }
 
     public Student retrieve(int userID) {
         try {

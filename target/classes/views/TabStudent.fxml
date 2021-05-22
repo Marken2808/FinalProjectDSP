@@ -3,12 +3,15 @@
 <?import com.jfoenix.controls.JFXDrawer?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
+
 <AnchorPane fx:id="anchorPane" nodeOrientation="LEFT_TO_RIGHT" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TabStudent">
    <children>
       <TableView fx:id="tableSTUDENT" cacheShape="false" centerShape="false" editable="true" focusTraversable="false" onMouseClicked="#clickOnTable" onMouseMoved="#testMove" scaleShape="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -17,6 +20,7 @@
           <TableColumn fx:id="colSNAME" maxWidth="1.7976931348623157E308" minWidth="-1.0" text="Student Name" />
             <TableColumn fx:id="colMarked" maxWidth="1.7976931348623157E308" minWidth="-1.0" text="Marked All" />
             <TableColumn fx:id="colLast5Days" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="160.0" text="Last 5 days" />
+            <TableColumn fx:id="colUID" maxWidth="1.7976931348623157E308" minWidth="-1.0" text="User ID" />
         </columns>
          <cursor>
             <Cursor fx:constant="DEFAULT" />

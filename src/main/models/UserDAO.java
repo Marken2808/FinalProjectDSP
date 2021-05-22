@@ -129,17 +129,6 @@ public class UserDAO {
         new TeacherDAO().insert(teacher);
     }
 
-    public void insertStudentWithFace(Student student, Face face) throws SQLException {
-
-//        System.out.println(student.getStudentId());
-//        System.out.println(face.getFaceID());
-//        System.out.println(face.getFaceSet());
-//        insertStudentData(student);
-
-        new FaceDAO().insert(face);
-
-    }
-
     public void insertStudentData(Student student) {
 
         new StudentDAO().insert(student);

@@ -13,6 +13,7 @@ import org.opencv.face.LBPHFaceRecognizer;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
+import org.opencv.objdetect.Objdetect;
 import org.opencv.videoio.VideoCapture;
 
 import java.awt.image.DataBufferByte;
@@ -41,10 +42,8 @@ public class OpenCV {
     public VideoCapture capture;
     //   face cascade classifier
     public CascadeClassifier faceCascade = new CascadeClassifier();
-    //   eyes cascade classifier
-    public CascadeClassifier eyesCascade = new CascadeClassifier();
 
-    public ArrayList<Mat> listRez;
+    public static ArrayList<Mat> listRez;
 //    public ArrayList<Mat> listCrop;
     public Rect[] facesArray;
 
@@ -145,7 +144,7 @@ public class OpenCV {
                 faces,
                 ScreenCamera.scales,
                 ScreenCamera.neighbours,
-                0,
+                0 | Objdetect.CASCADE_SCALE_IMAGE,
                 new Size(ScreenCamera.sizes,ScreenCamera.sizes)
         );
 
@@ -181,7 +180,6 @@ public class OpenCV {
                 name = "Unknown";
             }
 
-            this.listRez.add(croppedImage);
 
             String box_text = name + " : " + confidence + "%";
             double pos_x = face.x - 10;
@@ -190,6 +188,8 @@ public class OpenCV {
             Imgproc.putText(frame, box_text, new Point(pos_x, pos_y),
                     Imgproc.FONT_HERSHEY_TRIPLEX, 1, new Scalar(0, 255, 0),1);
 //            FONT_HERSHEY_COMPLEX_SMALL
+
+            this.listRez.add(croppedImage);
         }
     }
 
@@ -198,7 +198,6 @@ public class OpenCV {
         new FaceDAO().retrieveFace();
 
         FaceRecognizer faceRecognizer = LBPHFaceRecognizer.create();
-
         imageFiles = root.listFiles(File::isFile);
         namesList = new Object[imageFiles.length][3];
         int counter = 0;
@@ -254,10 +253,8 @@ public class OpenCV {
     public double[] faceRecognition(Mat currentFace) {
 
         // predict the label
-
         int[] predLabel = new int[1];
         double[] confidence = new double[1];
-
 
         faceRecognizer.read("traineddata.json");
         faceRecognizer.predict(currentFace,predLabel,confidence);
@@ -277,7 +274,7 @@ public class OpenCV {
             {
                 // stop the timer
                 this.timer.shutdown();
-                this.timer.awaitTermination(33, TimeUnit.MILLISECONDS);
+                this.timer.awaitTermination(1, TimeUnit.MILLISECONDS);
             }
             catch (InterruptedException e)
             {
