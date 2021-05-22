@@ -1,9 +1,11 @@
 package controllers;
 
 import com.jfoenix.controls.JFXButton;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -42,7 +44,7 @@ public class DrawerMenu implements Initializable {
     @FXML
     private JFXButton btnSignOut;
 
-    private User user = PopupSignIn.authUser;
+    private static User user;
 
     @FXML
     void isHomeClicked(MouseEvent event) {
@@ -67,22 +69,37 @@ public class DrawerMenu implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     public String accessedName(){
         switch (user.getRole()){
             case "Teacher" :
-                return user.getTeacher().getTeacherName();
+                return user.getTeacher().getTeacherName().toUpperCase();
             case "Student" :
-                return user.getStudent().getStudentName();
+                return user.getStudent().getStudentName().toUpperCase();
             case "Admin" :
                 return user.getRole();
         }
         return null;
     }
 
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        user = PopupSignIn.userData();
         labelName.setText(accessedName());
+
+        ObservableList<Node> DrawerBoxes = ((VBox) drawerPane.getChildren().get(1)).getChildren();
+
+        for (Node node : DrawerBoxes) {
+            if (!node.getAccessibleText().equals("Profile") &&  (user.getRole().equals("Student"))) {
+                node.setVisible(false);
+            } else {
+                node.setVisible(true);
+            }
+        }
     }
 }

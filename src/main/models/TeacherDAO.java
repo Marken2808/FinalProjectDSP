@@ -72,8 +72,6 @@ public class TeacherDAO {
             pstmt = conn.prepareStatement("INSERT INTO teacher (tName, t_uId) VALUES(?,?)");
             pstmt.setString(1,"Default");
             pstmt.setInt(2, teacher.getUserID());
-
-            System.out.println("-> "+teacher.getUserID());
             //Executing the statement
             pstmt.execute();
             System.out.println("teacher inserted......");

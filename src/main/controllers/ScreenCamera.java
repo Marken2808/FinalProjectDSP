@@ -88,23 +88,24 @@ public class ScreenCamera implements Initializable {
     //---------------------------------------------------------
 
     @FXML
-    void takeShot(ActionEvent event) {
+    void takeShot(ActionEvent event) throws InterruptedException {
 
+        Thread.sleep(200);
         callCV.stopAcquisition();
+
         // update the button content
         this.btnStart.setDisable(false);
         this.btnStart.setText("Continue");
 
-        if(callCV.listRez.size()>1){
-            for(int i=0; i<callCV.listRez.size();i++){
-                Imgcodecs.imwrite( testPath+"Image_"+(i+1)+".jpg", callCV.listRez.get(i));
+        if (!callCV.listRez.isEmpty()) {
+            System.out.println("Camera: "+this.callCV.listRez);
+            for (int i = 0; i < callCV.listRez.size(); i++) {
+                Imgcodecs.imwrite(testPath + "Image_" + (i) + ".jpg", callCV.listRez.get(i));
             }
+            ScreenPrimary.displayPopup(CaptureScreen, true);
         } else {
-            Imgcodecs.imwrite( testPath+"Image_0.jpg", callCV.listRez.get(0));
+            System.out.println("Please capture again!");
         }
-
-        ScreenPrimary.getInstance().displayPopup(CaptureScreen, true);
-
     }
 
     @FXML
@@ -234,7 +235,7 @@ public class ScreenCamera implements Initializable {
                         callCV.updateImageView(currentFrame, imageToShow);
 
                         arrID.add(callCV.predictionID);
-                        while (arrID.size()==30){
+                        while (arrID.size()==20){
 
 //                            System.out.println("got "+ callCV.facesArray.length + " face");
                             for(int i: listKeyRecognise(arrID)){
@@ -332,8 +333,8 @@ public class ScreenCamera implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         callCV.init();
-        currentFrame.fitWidthProperty().bind(ScreenPrimary.getInstance().mainStackPane.widthProperty());
-        currentFrame.fitHeightProperty().bind(ScreenPrimary.getInstance().mainStackPane.heightProperty());
+        currentFrame.fitWidthProperty().bind(ScreenPrimary.mainStackPaneClone.widthProperty());
+        currentFrame.fitHeightProperty().bind(ScreenPrimary.mainStackPaneClone.heightProperty());
 
     }
 }

@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import utils.DBbean;
 
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -44,26 +45,7 @@ public class UserDAO {
         return userLists;
     }
 
-//    public void retrieveUserByID(int uid){
-//
-//        try {
-//            pstmt = conn.prepareStatement("Select * from User where uId = " + uid);
-//            ResultSet rs = pstmt.executeQuery();
-//            while (rs.next()){
-//                new User(
-//                    rs.getInt("uId"),
-//                    rs.getString("uUsername"),
-//                    rs.getString("uPassword"),
-//                    rs.getString("uStatus"),
-//                    rs.getString("uRole")
-//                );
-//
-//            }
-//            System.out.println("accessed successfully");
-//        } catch (SQLException throwables) {
-//            System.out.println("cannot access user table");
-//        }
-//    }
+
 
     public static User authenticate (User user) {
 
@@ -143,17 +125,18 @@ public class UserDAO {
 
 
 //    -----------------------------------
-    public void insertTeacherData(){
-
+    public void insertTeacherData(Teacher teacher){
+        new TeacherDAO().insert(teacher);
     }
 
-    public void insertStudentData(Student student, Face face) throws SQLException {
+    public void insertStudentData(Student student) {
 
         new StudentDAO().insert(student);
-        new FaceDAO().insert(face);
-        new ModuleDAO().insert(student);
-        //temp
-//        new AttendanceDAO().insert(new Attendance("P",student.getStudentId()));
+
+        Student studentDB = new StudentDAO().retrieve(student.getUserID());
+        new ModuleDAO().insert(studentDB);
+
+        new AttendanceDAO().insert(new Attendance("A",studentDB.getStudentId()));
     }
 
 }

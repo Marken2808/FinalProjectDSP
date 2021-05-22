@@ -3,15 +3,24 @@ package utils;
 import controllers.ScreenCamera;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import models.FaceDAO;
+import models.Student;
+import models.StudentDAO;
 import org.opencv.core.*;
+import org.opencv.face.Face;
 import org.opencv.face.FaceRecognizer;
 import org.opencv.face.LBPHFaceRecognizer;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
+import org.opencv.objdetect.Objdetect;
 import org.opencv.videoio.VideoCapture;
 
+import java.awt.image.DataBufferByte;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -20,6 +29,7 @@ import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static org.opencv.imgcodecs.Imgcodecs.IMREAD_UNCHANGED;
 import static org.opencv.imgproc.Imgproc.INTER_AREA;
 
 
@@ -32,17 +42,14 @@ public class OpenCV {
     public VideoCapture capture;
     //   face cascade classifier
     public CascadeClassifier faceCascade = new CascadeClassifier();
-    //   eyes cascade classifier
-    public CascadeClassifier eyesCascade = new CascadeClassifier();
 
-    public ArrayList<Mat> listRez;
+    public static ArrayList<Mat> listRez;
 //    public ArrayList<Mat> listCrop;
     public Rect[] facesArray;
 
-    public String resPath      = System.getProperty("user.dir").concat("\\src\\resources\\");
-    public String testPath      = resPath + "images/test/";
-    public String datasetPath   = resPath + "images/dataset/";
-    public String haarFace      = resPath + "haarcascades/haarcascade_frontalface_alt2.xml";
+    public String testPath      = "src/resources/images/test/";
+    public String datasetPath   = "src/resources/images/dataset/";
+    public String haarFace      = "src/resources/haarcascades/haarcascade_frontalface_alt.xml";
 
     // Names of the people from the training set
     public HashMap<Integer, String> namesMap = new HashMap<>();
@@ -137,7 +144,7 @@ public class OpenCV {
                 faces,
                 ScreenCamera.scales,
                 ScreenCamera.neighbours,
-                0,
+                0 | Objdetect.CASCADE_SCALE_IMAGE,
                 new Size(ScreenCamera.sizes,ScreenCamera.sizes)
         );
 
@@ -165,7 +172,7 @@ public class OpenCV {
             double confidence = returnedResults[1];
             String name;
 
-            System.out.println("PREDICTED LABEL IS: " + predictionID);
+//            System.out.println("PREDICTED LABEL IS: " + predictionID);
 
             if (namesMap.containsKey(predictionID)) {
                 name = namesMap.get(predictionID);
@@ -173,7 +180,6 @@ public class OpenCV {
                 name = "Unknown";
             }
 
-            this.listRez.add(croppedImage);
 
             String box_text = name + " : " + confidence + "%";
             double pos_x = face.x - 10;
@@ -182,14 +188,16 @@ public class OpenCV {
             Imgproc.putText(frame, box_text, new Point(pos_x, pos_y),
                     Imgproc.FONT_HERSHEY_TRIPLEX, 1, new Scalar(0, 255, 0),1);
 //            FONT_HERSHEY_COMPLEX_SMALL
+
+            this.listRez.add(croppedImage);
         }
     }
 
     public void trainModel () {
 
+        new FaceDAO().retrieveFace();
 
         FaceRecognizer faceRecognizer = LBPHFaceRecognizer.create();
-
         imageFiles = root.listFiles(File::isFile);
         namesList = new Object[imageFiles.length][3];
         int counter = 0;
@@ -199,6 +207,8 @@ public class OpenCV {
         // Read the data from the training set
         List<Mat> images = new ArrayList<>();
         Mat labels = new Mat(imageFiles.length,1,CvType.CV_32SC1);
+
+
         if (imageFiles != null) {
             for (File image : imageFiles) {
                 // Parse the training set folder files
@@ -222,7 +232,7 @@ public class OpenCV {
                 // add id,name into Hashmap nameNap
                 namesMap.put(id, name);
 
-                System.out.println("ID: "+id);
+//                System.out.println("ID: "+id);
                 // Add training set images to images Mat
                 images.add(img);
 
@@ -234,19 +244,17 @@ public class OpenCV {
             faceRecognizer.save("traineddata.json");
         }
 
-        System.out.println("rows: " + labels.rows());
-        System.out.println("cols: " + labels.cols());
-        System.out.println("data: " + labels.type());
+//        System.out.println("rows: " + labels.rows());
+//        System.out.println("cols: " + labels.cols());
+//        System.out.println("data: " + labels.type());
 
     }
 
     public double[] faceRecognition(Mat currentFace) {
 
         // predict the label
-
         int[] predLabel = new int[1];
         double[] confidence = new double[1];
-
 
         faceRecognizer.read("traineddata.json");
         faceRecognizer.predict(currentFace,predLabel,confidence);
@@ -266,7 +274,7 @@ public class OpenCV {
             {
                 // stop the timer
                 this.timer.shutdown();
-                this.timer.awaitTermination(33, TimeUnit.MILLISECONDS);
+                this.timer.awaitTermination(1, TimeUnit.MILLISECONDS);
             }
             catch (InterruptedException e)
             {

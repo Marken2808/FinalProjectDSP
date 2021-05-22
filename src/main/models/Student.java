@@ -14,6 +14,10 @@ public class Student extends User{
     public Student() {
     }
 
+    public Student(int sid) {
+        this.studentId = sid;
+    }
+
     public Student(int sid, String sname){      //for add face student
         this.studentId = sid;
         this.studentName = sname;
@@ -26,28 +30,29 @@ public class Student extends User{
         this.studentUserId = studentUserId;
     }
 
-    public Student(int sid, String sname, boolean marked, ArrayList<Attendance> studentLast5Days) {
+    public Student(int sid, String sname, boolean marked, ArrayList<Attendance> studentLast5Days, int uid) {
         this.studentId = sid;
         this.studentName = sname;
         this.studentMarked = marked;
         this.studentLast5Days = studentLast5Days;
+        this.studentUserId = uid;
     }
 
     public int getStudentId() {
         return studentId;
     }
 
-//    public void setStudentId(int studentId) {
-//        this.studentId = studentId;
-//    }
+    public void setStudentId(int studentId) {
+        this.studentId = studentId;
+    }
 
     public String getStudentName() {
         return studentName;
     }
 
-//    public void setStudentName(String studentName) {
-//        this.studentName = studentName;
-//    }
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
 
     public boolean isStudentMarked() {
         return studentMarked;
@@ -66,6 +71,13 @@ public class Student extends User{
 //    }
 
 
+    public int getStudentUserId() {
+        return studentUserId;
+    }
+
+    public void setStudentUserId(int studentUserId) {
+        this.studentUserId = studentUserId;
+    }
 
     @Override
     public String toString() {

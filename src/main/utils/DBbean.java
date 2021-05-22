@@ -9,7 +9,7 @@ public class DBbean {
 
     public static Connection getConnection() {
 //        jdbc:mysql://localhost:3306/schoolmana?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
-        String mysqlUrl = "jdbc:mysql://localhost:3306/schoolmana?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+        String mysqlUrl = "jdbc:mysql://localhost:3306/studentmanagement?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
         try {
             DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
             conn = DriverManager.getConnection(mysqlUrl, "root", "123456");

@@ -1,14 +1,22 @@
 package models;
 
+import java.io.InputStream;
+
 public class Face{
 
     private int faceID;
-    private String faceData;
+    private InputStream faceData;
     private int faceSet;
+    private int studentID;
     private Student student;
 
+    public Face(InputStream faceData, int faceSet, int studentID) {
+        this.faceData = faceData;
+        this.faceSet = faceSet;
+        this.studentID = studentID;
+    }
 
-    public Face(String faceData, int faceSet, Student student) {
+    public Face(InputStream faceData, int faceSet, Student student) {
         this.faceData = faceData;
         this.faceSet = faceSet;
         this.student = student;
@@ -22,11 +30,11 @@ public class Face{
         this.faceID = faceID;
     }
 
-    public String getFaceData() {
+    public InputStream  getFaceData() {
         return faceData;
     }
 
-    public void setFaceData(String faceData) {
+    public void setFaceData(InputStream  faceData) {
         this.faceData = faceData;
     }
 
@@ -45,4 +53,6 @@ public class Face{
     public void setStudent(Student student) {
         this.student = student;
     }
+
+
 }

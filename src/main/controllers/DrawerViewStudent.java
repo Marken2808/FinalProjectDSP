@@ -90,7 +90,7 @@ public class DrawerViewStudent implements Initializable {
             Platform.runLater(() -> {
                 System.out.println("Clicked: "+ name);
 
-                ScreenPrimary.getInstance().displayPopup(AttendanceScreen, true);
+                ScreenPrimary.displayPopup(AttendanceScreen, true);
             });
         });
     }

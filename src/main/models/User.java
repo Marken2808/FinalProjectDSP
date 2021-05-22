@@ -1,6 +1,7 @@
 package models;
 
 import com.jfoenix.controls.JFXButton;
+import controllers.TabStudent;
 import controllers.TabTeacher;
 import controllers.TabUser;
 import javafx.geometry.Insets;
@@ -13,6 +14,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 
 public class User {
@@ -79,10 +81,15 @@ public class User {
                         Teacher teacher = new Teacher();
                         teacher.setUserID(user.getUserID());
 //                        ->SQL
-                        new TeacherDAO().insert(teacher);
+                        new UserDAO().insertTeacherData(teacher);
                         TabTeacher.updateTable();
                         break;
                     case "Student":
+                        Student student = new Student();
+                        student.setUserID(user.getUserID());
+//                        ->SQL
+                        new UserDAO().insertStudentData(student);
+                        TabStudent.updateTable();
                         break;
                 }
             }
@@ -189,17 +196,17 @@ public class User {
     }
 
     //    ------------------------------------------------
-    public void insertTeacherData(){
-
-    }
-
-    public void insertStudentData(Student student, Face face) throws SQLException {
-
-        new StudentDAO().insert(student);
-        new FaceDAO().insert(face);
-        new ModuleDAO().insert(student);
-        //temp
-//        new AttendanceDAO().insert(new Attendance("P",student.getStudentId()));
-    }
+//    public void insertTeacherData(){
+//
+//    }
+//
+//    public void insertStudentData(Student student, Face face) throws SQLException, FileNotFoundException {
+//
+//        new StudentDAO().insert(student);
+//        new FaceDAO().insert(face);
+//        new ModuleDAO().insert(student);
+//        //temp
+////        new AttendanceDAO().insert(new Attendance("P",student.getStudentId()));
+//    }
 
 }
