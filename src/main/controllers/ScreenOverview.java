@@ -21,6 +21,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import models.Attendance;
 import models.AttendanceDAO;
+import models.Student;
 import models.StudentDAO;
 import utils.CircleChart;
 
@@ -44,12 +45,13 @@ public class ScreenOverview implements Initializable {
     private AreaChart<?, ?> areaChart;
 
     boolean isAbsent  = false;
-    int all = new StudentDAO().showStudentTable().size();
+    ObservableList<Student> studentTemp = new StudentDAO().showStudentTable();
+    int all = studentTemp.size();
     int total;
 
     public void init(){
-        for (int i = 0; i <= all ; i++) {
-            new AttendanceDAO().insert(new Attendance("A", i));
+        for (int i = 0; i < studentTemp.size() ; i++) {
+            new AttendanceDAO().insert(new Attendance("A", studentTemp.get(i).getStudentId()));
         }
     }
 

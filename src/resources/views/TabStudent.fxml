@@ -12,9 +12,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" nodeOrientation="LEFT_TO_RIGHT" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TabStudent">
+<AnchorPane fx:id="anchorPane" cacheShape="false" centerShape="false" nodeOrientation="LEFT_TO_RIGHT" scaleShape="false" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TabStudent">
    <children>
-      <TableView fx:id="tableSTUDENT" cacheShape="false" centerShape="false" editable="true" focusTraversable="false" onMouseClicked="#clickOnTable" onMouseMoved="#testMove" scaleShape="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <TableView fx:id="tableSTUDENT" editable="true" onMouseClicked="#clickOnTable" onMouseMoved="#testMove" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columns>
             <TableColumn fx:id="colSID" maxWidth="1.7976931348623157E308" minWidth="-1.0" text="Student ID" />
           <TableColumn fx:id="colSNAME" maxWidth="1.7976931348623157E308" minWidth="-1.0" text="Student Name" />
