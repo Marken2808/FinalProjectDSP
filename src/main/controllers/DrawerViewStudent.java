@@ -34,33 +34,31 @@ public class DrawerViewStudent implements Initializable {
     @FXML
     private JFXMasonryPane semiPane;
 
-    @FXML
-    private StackPane doughnutPane;
+//    @FXML
+//    private StackPane doughnutPane;
 
     private int id = TabStudent.id;
     String AttendanceScreen = "/views/ComponentAttendStats.fxml";
 
-    public void drawDoughnutChart(){
-        StackPane stackPane = new StackPane();
-        ObservableList<CircleChart.Data> dataList = FXCollections.observableArrayList(
-                new CircleChart.Data(7, "MATH", Color.LIMEGREEN),
-                new CircleChart.Data(4, "PHYSICS", Color.LIGHTBLUE),
-                new CircleChart.Data(4, "CHEMISTRY", Color.BISQUE),
-                new CircleChart.Data(8, "ENGLISH", Color.LIGHTPINK),
-                new CircleChart.Data(5, "HISTORY", Color.LAVENDER),
-                new CircleChart.Data(6, "BIOLOGY", Color.HONEYDEW),
-                new CircleChart.Data(3, "GEOGRAPHY", Color.TOMATO)
-
-
-        );
-
-        CircleChart chart = new CircleChart(360, dataList, 100, 100, 100,70,2);
-
-        Label label = new Label("Student\nOverall");
-        label.setFont(new Font(20));
-        stackPane.getChildren().addAll(chart, label);
-        doughnutPane.getChildren().add(stackPane);
-    }
+//    public void drawDoughnutChart(){
+//        StackPane stackPane = new StackPane();
+//        ObservableList<CircleChart.Data> dataList = FXCollections.observableArrayList(
+//                new CircleChart.Data(7, "MATH", Color.LIMEGREEN),
+//                new CircleChart.Data(4, "PHYSICS", Color.LIGHTBLUE),
+//                new CircleChart.Data(4, "CHEMISTRY", Color.BISQUE),
+//                new CircleChart.Data(8, "ENGLISH", Color.LIGHTPINK),
+//                new CircleChart.Data(5, "HISTORY", Color.LAVENDER),
+//                new CircleChart.Data(6, "BIOLOGY", Color.HONEYDEW),
+//                new CircleChart.Data(3, "GEOGRAPHY", Color.TOMATO)
+//        );
+//
+//        CircleChart chart = new CircleChart(360, dataList, 100, 100, 100,70,2);
+//
+//        Label label = new Label("Student\nOverall");
+//        label.setFont(new Font(20));
+//        stackPane.getChildren().addAll(chart, label);
+//        doughnutPane.getChildren().add(stackPane);
+//    }
 
     public void setSemiCircleChart(String name, double achieve){
         StackPane stackPane = new StackPane();
@@ -108,7 +106,7 @@ public class DrawerViewStudent implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         drawSemiCircleChart();
-        drawDoughnutChart();
+//        drawDoughnutChart();
 
     }
 }
